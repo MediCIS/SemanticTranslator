@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.springframework</groupId>
+    <artifactId>semanticTranslator</artifactId>
+    <version>0.4.1</version>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.0.RELEASE</version>
+    </parent>
+    <dependencies>
+	    <dependency>
+		    <groupId>com.amazonaws</groupId>
+		    <artifactId>aws-java-sdk-s3</artifactId>
+		    <version>1.11.364</version>
+		</dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <scope>test</scope>
+        </dependency>
+        
+		<dependency>
+		    <groupId>org.apache.jena</groupId>
+		    <artifactId>apache-jena-libs</artifactId>
+		    <version>3.7.0</version>
+		    <type>pom</type>
+		</dependency>
+        
+        <dependency>
+			<groupId>com.pixelmed.dicom</groupId>
+			<artifactId>pixelmed</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+		</dependency> 
+	
+		<dependency>
+  			<groupId>com.complexible.stardog.jena</groupId>
+  			<artifactId>stardog-jena</artifactId>
+  			<version>5.3.1</version>
+  			<type>jar</type>
+		</dependency>
+		
+		<dependency>
+  			<groupId>com.complexible.stardog</groupId>
+  			<artifactId>client-http</artifactId>
+  			<version>5.3.1</version>
+  			<type>pom</type>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.eclipse.jetty</groupId>
+		    <artifactId>jetty-webapp</artifactId>
+		    <version>9.4.9.v20180320</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>3.17</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>3.17</version>
+		</dependency>
+
+    </dependencies>
+    <properties>
+        <java.version>1.8</java.version>
+        <local.repository.folder>${pom.basedir}/libs/</local.repository.folder>  
+    </properties>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!--
+                If we e.g. execute on JDK 1.7, we should compile for Java 7 to get
+                the same (or higher) JAXB API version as used during the xjc execution.
+                -->
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.3.1</version>
+                <executions>
+                    <execution>
+                        <id>xjc-schema</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Use all XSDs under the west directory for sources here. -->
+                            <sources>
+                                <source>src/main/resources/xsd/</source>
+                            </sources>
+                            <!-- Package name of the generated sources. -->
+                            <packageName>repository</packageName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </repository>
+	        <repository>
+	        <id>local-maven-repository</id>
+	        <url>file://${local.repository.folder}</url>
+	        <releases>
+	            <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>true</enabled>
+	        </snapshots>
+   		</repository>
+        <repository>
+     		<id>stardog-public</id>
+     		<url>http://maven.stardog.com</url>
+   		</repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>spring-releases</id>
+            <url>https://repo.spring.io/libs-release</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>

@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<xs:schema 
+    targetNamespace="https://www.irdbb-medirad.com"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:irdbb="https://www.irdbb-medirad.com">
+
+    <xs:element name="DicomFileSetDescriptor">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="ReferencedClinicalStudy" type="irdbb:ClinicalStudyType"/>
+                <xs:element name="PatientDescriptor" type="irdbb:PatientDescriptorType"/>
+                <xs:element name="DICOMStudy" type="irdbb:DICOMStudyType" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="ClinicalStudyType">
+        <xs:sequence>
+            <xs:element name="ClinicalStudyID" type="xs:string"/>
+            <xs:element name="ClinicalStudyTitle" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PatientDescriptorType">
+        <xs:sequence>
+            <xs:element name="PatientID-00100020" type="xs:string"/>
+            <xs:element name="PatientBirthDate-00100030" type="xs:string"/>
+            <xs:element name="PatientSex-00100040" type="xs:string"/>
+            <xs:element name="PatientAge-00101010" type="xs:string"/>
+            <xs:element name="PatientSize-00101020" type="xs:string"/>
+            <xs:element name="PatientWeight-00101030" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DICOMStudyDescriptorType">
+        <xs:sequence>
+            <xs:element name="StudyInstanceUID-0020000d" type="xs:string"/>
+            <xs:element name="StudyDate-00080020" type="xs:string"/>
+            <xs:element name="StudyTime-00080030" type="xs:string"/>
+            <xs:element name="BodyPartExamined-00180015" type="xs:string"/>
+            <xs:element name="StudyDescription-00081030" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DICOMSeriesDescriptorType">
+        <xs:sequence>
+            <xs:element name="SeriesNumber-00200011" type="xs:string"/>
+            <xs:element name="SeriesInstanceUID-0020000e" type="xs:string"/>
+            <xs:element name="SeriesDate-00080021" type="xs:string"/>
+            <xs:element name="SeriesTime-00080031" type="xs:string"/>
+            <xs:element name="Modality-00080060" type="xs:string"/>
+            <xs:element name="Manufacturer-00080070" type="xs:string"/>
+            <xs:element name="ManufacturersModelName-00081090" type="xs:string"/>
+            <xs:element name="InstitutionName-00080080" type="xs:string"/>
+            <xs:element name="ProtocolName-00181030" type="xs:string"/>
+            <xs:element name="SeriesDescription-0008103e" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DICOMStudyType">
+        <xs:sequence>
+            <xs:element name="DICOMStudyDescriptor" type="irdbb:DICOMStudyDescriptorType"/>
+            <xs:element name="DICOMSeries"  type="irdbb:DICOMSeriesType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DICOMSeriesType">
+        <xs:sequence>
+            <xs:element name="DICOMSeriesDescriptor" type="irdbb:DICOMSeriesDescriptorType"/>
+            <xs:element name="DICOMSOPInstanceDescriptor" type="irdbb:DICOMSOPInstanceDescriptorType" maxOccurs="unbounded" />
+            <xs:element name="DICOMSOPInstance" type="irdbb:DICOMSOPInstanceType" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="DICOMSOPInstanceType">
+        <xs:sequence>
+            <xs:element name="DICOMSOPInstanceUID" type="xs:string"/>
+            <xs:element name="DICOMSOPClassUID" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+        
+    <xs:complexType name="StructuredReportDescriptorType">
+        <xs:sequence>
+            <xs:element name="ContentTemplateSequence-0040a504" type="irdbb:DICOMCodeSequenceType" minOccurs="0" />
+            <xs:element name="ConceptNameCodeSequence-0040a043" type="irdbb:DICOMCodeSequenceType" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DICOMSOPInstanceDescriptorType">
+        <xs:choice>
+            <xs:element name="CTImageAcquisitionDescriptor" type="irdbb:CTImageAcquisitionDescriptorType"/>
+            <xs:element name="NMImageAcquisitionDescriptor" type="irdbb:NMImageAcquisitionDescriptorType"/>
+            <xs:element name="PETImageAcquisitionDescriptor" type="irdbb:PETImageAcquisitionDescriptorType"/>
+            <xs:element name="StructuredReportDescriptor" type="irdbb:StructuredReportDescriptorType"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType name="CTImageAcquisitionDescriptorType">
+        <xs:sequence>
+            <xs:element name="FrameOfReferenceUID-00200052" type="xs:string"/>
+            <xs:element name="ImageType-00080008" type="xs:string" minOccurs="0" />
+            <xs:element name="AcquisitionDate-00080022" type="xs:string" minOccurs="0" />
+            <xs:element name="AcquisitionTime-00080032" type="xs:string" minOccurs="0" />
+            <xs:element name="AcquisitionType-00189302" type="xs:string" minOccurs="0" />
+            <xs:element name="RevolutionTime-00189305" type="xs:string" minOccurs="0" />
+            <xs:element name="TotalCollimationWidth-00189307" type="xs:string" minOccurs="0" />
+            <xs:element name="GantryDetectorTilt-00181120" type="xs:string" minOccurs="0" />
+            <xs:element name="TableFeedPerRotation-00189310" type="xs:string" minOccurs="0" />
+            <xs:element name="SpiralPitchFactor-00189311" type="xs:string" minOccurs="0" />
+            <xs:element name="KVP-00180060" type="xs:string" minOccurs="0" />
+            <xs:element name="ExposureTime-00181150" type="xs:string" minOccurs="0" />
+            <xs:element name="XRayTubeCurrent-00181151" type="xs:string" minOccurs="0" />
+            <xs:element name="ExposureInMicroAs-00181153" type="xs:string" minOccurs="0" />
+            <xs:element name="FilterType-00181160" type="xs:string" minOccurs="0" />
+            <xs:element name="FocalSpots-00181190" type="xs:string" minOccurs="0" />
+            <xs:element name="ExposureModulationType-00189323" type="xs:string" minOccurs="0" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="NMImageAcquisitionDescriptorType">
+        <xs:sequence>
+            <xs:element name="FrameOfReferenceUID-00200052" type="xs:string" minOccurs="0"/>
+            <xs:element name="ImageType-00080008" type="xs:string" minOccurs="0" />
+            <xs:element name="AcquisitionDate-00080022" type="xs:string" minOccurs="0" />
+            <xs:element name="AcquisitionTime-00080032" type="xs:string" minOccurs="0" />
+            <xs:element name="EnergyWindowInformationSequence-00540012" type="irdbb:EnergyWindowType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="RadiopharmaceuticalInformationSequence-00540016" type="irdbb:RadiopharmaceuticalType" minOccurs="0"/>
+            <xs:element name="ReconstructionMethod-00541103" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="EnergyWindowType">
+        <xs:sequence>
+            <xs:element name="EnergyWindowName-00540018" type="xs:string"/>
+            <xs:element name="EnergyWindowLowerLimit-00540014" type="xs:string"/>
+            <xs:element name="EnergyWindowUpperLimit-00540015" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="RadiopharmaceuticalType">
+        <xs:sequence>
+            <xs:element name="Radiopharmaceutical-00180031" type="xs:string"/>
+            <xs:element name="RadiopharmaceuticalCodeSequence-00540304" type="irdbb:DICOMCodeSequenceType"/>
+            <xs:element name="RadionuclideCodeSequence-005400300" type="irdbb:DICOMCodeSequenceType"/>
+            <xs:element name="RadiopharmaceuticalVolume-00181071" type="xs:string"/>
+            <xs:element name="RadiopharmaceuticalStartTime-00181072" type="xs:string"/>
+            <xs:element name="RadiopharmaceuticalStopTime-00181073" type="xs:string"/>
+            <xs:element name="RadionuclideTotalDose-00181074" type="xs:string"/>
+            <xs:element name="RadiopharmaceuticalAdministrationEventUID-00083012" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="DICOMCodeSequenceType">
+        <xs:sequence>
+            <xs:element name="CodingSchemeDesignator-00080102" type="xs:string"/>
+            <xs:element name="CodeValue-00080100" type="xs:string"/>
+            <xs:element name="CodeMeaning-00080104" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PETImageAcquisitionDescriptorType">
+        <xs:sequence>
+            <xs:element name="FrameOfReferenceUID-00200052" type="xs:string" minOccurs="0" />
+            <xs:element name="ImageType-00080008" type="xs:string" minOccurs="0" />
+            <xs:element name="AcquisitionDate-00080022" type="xs:string" minOccurs="0" />
+            <xs:element name="AcquisitionTime-00080032" type="xs:string" minOccurs="0" />
+            <xs:element name="EnergyWindowInformationSequence-00540012" type="irdbb:EnergyWindowType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="RadiopharmaceuticalInformationSequence-00540016" type="irdbb:RadiopharmaceuticalType" minOccurs="0"/>
+            <xs:element name="ReconstructionMethod-00541103" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema> 
