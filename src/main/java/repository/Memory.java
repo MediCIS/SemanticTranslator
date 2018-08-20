@@ -31,7 +31,7 @@ import com.complexible.stardog.api.SelectQuery;
 import repository.ImportController.database;
 
 
-public class Memory extends OntologyPopulator{
+public class Memory extends OntologyPopulator {
 	//STABLE
 
 	Connection starDogConnection; String starDogUrl = Application.starDogUrl;
