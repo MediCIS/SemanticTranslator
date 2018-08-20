@@ -32,7 +32,7 @@ import repository.ImportController.database;
 
 
 public class Memory extends OntologyPopulator {
-	//STABLE
+	//STABLE2
 
 	Connection starDogConnection; String starDogUrl = Application.starDogUrl;
 	private final static Logger logger = LoggerFactory.getLogger(Memory.class);
