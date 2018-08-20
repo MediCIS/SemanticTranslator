@@ -1,10 +1,7 @@
 package querries;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -14,8 +11,6 @@ import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 
 public class ListQuerries {
@@ -26,40 +21,31 @@ public class ListQuerries {
 		ListQuerry = new ArrayList<Querry>(); 
 		
 		ClassPathResource resource = new ClassPathResource("/RequestList.xlsx");
-		
-		//URL fileQuerriesUrl = this.getClass().getResource("classpath:/request/RequestList.xlsx");
-	    //System.out.println("fileQuerriesUrl : "+fileQuerriesUrl);	 
-	    
+			    
         Workbook workbook;
 		try {
 			InputStream i = resource.getInputStream();
 			workbook = WorkbookFactory.create(i);
-
-	        // Getting the Sheet at index zero
-	        Sheet sheet = workbook.getSheetAt(0);
-
-	        // Create a DataFormatter to format and get each cell's value as String
-	        DataFormatter dataFormatter = new DataFormatter();
-
-	        // 2. Or you can use a for-each loop to iterate over the rows and columns
-	        String id; String description; String requete; String label;
-	        for (Row row: sheet) {
-	        	id = dataFormatter.formatCellValue(row.getCell(0));
+	        Sheet sheet = workbook.getSheetAt(0); 							// Getting the first Sheet (at index zero)
+	        DataFormatter dataFormatter = new DataFormatter();  			// Create a DataFormatter to format and get each cell's value as String 
+	        String id; String description; String requete; String label; 
+	        
+	        for (Row row: sheet) { 											// use a for-each loop to iterate over the rows and columns
+	        	id = dataFormatter.formatCellValue(row.getCell(0)); 		// get value
 	        	label = dataFormatter.formatCellValue(row.getCell(1));
 	        	description = dataFormatter.formatCellValue(row.getCell(2));
 	        	requete = dataFormatter.formatCellValue(row.getCell(3));
 
-	        	ListQuerry.add(new Querry(id, label, requete, description));
+	        	ListQuerry.add(new Querry(id, label, requete, description)); // generate a object Querry and add it to the list
 	        }
 
-	        // Closing the workbook
-	        workbook.close();
+	        workbook.close(); 	        									 // Closing the workbook
 		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public Querry getRequest(String nameRequest) {
+	public Querry getRequest(String nameRequest) {							// Return Querry as a Java Object
 		Iterator<Querry> iter = ListQuerry.iterator();
 		while (iter.hasNext()) {
 			Querry req = iter.next();
@@ -74,14 +60,11 @@ public class ListQuerries {
 		ListQuerry.add(new Querry(name, label, request, description));
 	}
 	
-	public String getJsonString() {
-		//JSONObject obj = new JSONObject();
+	public String getJsonString() {											// Return Querry in JSON format
 		JSONArray listeJSON = new JSONArray();
 		for (int i=0; i<ListQuerry.size(); i++) {
-			//obj.put("Request"+i, ListQuerry.get(i).getJSON());
 			listeJSON.put(ListQuerry.get(i).getJSON());
 		}
-		
 		return listeJSON.toString();
 	}
 }

@@ -32,10 +32,11 @@ import repository.ImportController.database;
 
 
 public class Memory extends OntologyPopulator{
+	//STABLE
+
 	Connection starDogConnection; String starDogUrl = Application.starDogUrl;
 	private final static Logger logger = LoggerFactory.getLogger(Memory.class);
 
-	//Memory
 	private LinkedList<String> listSeriesctDataset;
 	private LinkedList<String> listStudyctDataset;
 	private LinkedList<Individual> listIRIctDataset;
@@ -56,7 +57,6 @@ public class Memory extends OntologyPopulator{
 	
 	public Memory() {
 		initVoidMemory();
-
 		requestSoftware();
 		requestMCMethod();
 		requestInstit();

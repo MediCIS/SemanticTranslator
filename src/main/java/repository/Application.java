@@ -29,24 +29,24 @@ public class Application {
 	public static OntModel model;
 	public static ListQuerries listQuerries;
 	
-	public static boolean ontologyLoaded = false;
+	public static boolean hideLogs = true; 						//will hide most of the logs because loading ontology provide too many logs
 	private final static Logger logger = LoggerFactory.getLogger(Application.class);
 	
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
         loadProperties();
-        listQuerries = new ListQuerries();
-        loadOntology(pathOntology); 
-        memory = new Memory();
-        ontologyLoaded = true;
-        System.out.println("ready");
+        listQuerries = new ListQuerries(); 						// Init a querry list (read from the excel file)
+        loadOntology(pathOntology); 							// load the ontlogy from file (it takes about 4 minutes)
+        memory = new Memory(); 									// Going to request to get usefull object inside semanti database
+        hideLogs = false; 										// will allow logs to be show
+        System.out.println("ready"); 							// now server is ready to receive commands
     }
     
     public static void loadOntology(String pathOntology) {
 		System.out.println("Loading Ontology ...");
-		model = ModelFactory.createOntologyModel();
-		InputStream in = FileManager.get().open(pathOntology);
-		model.read(in, null);
+		model = ModelFactory.createOntologyModel(); 			//Create empty graph for the ontology
+		InputStream in = FileManager.get().open(pathOntology);  //get the main file
+		model.read(in, null); 									//read the ontology files (it takes about 4 minutes)
 		System.out.println("Ontology has been Imported Sucesfully\n");
 	}
 	
@@ -58,7 +58,7 @@ public class Application {
     	Properties prop = new Properties();
     	InputStream input = null;
     	try {
-    		input = new FileInputStream("config.properties");
+    		input = new FileInputStream("config.properties");  
     		prop.load(input);
     		logger.info("dockerHost : "+prop.getProperty("dockerHost"));
     		dockerHost = prop.getProperty("dockerHost");

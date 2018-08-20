@@ -6,11 +6,12 @@ REF='{"isValid":true,"message":""}'
 
 if [ "$RESULT" == "$REF" ]
 then
-  echo "validateDicomFileSetDescriptor : OK"
+    echo "validateDicomFileSetDescriptor : OK"
 else
-  echo "validateDicomFileSetDescriptor : Error"
-  echo -e "Return :"$RESULT
-  echo -e "Attempted :"$REF
+    echo "validateDicomFileSetDescriptor : Error"
+    echo -e "Return :"$RESULT
+    echo -e "Attempted :"$REF
+    return 1
 fi
 
 
@@ -21,11 +22,12 @@ REF='{"isValid":true,"message":""}'
 
 if [ "$RESULT" == "$REF" ]
 then
-  echo "validateNonDicomFileSetDescriptor : OK"
+    echo "validateNonDicomFileSetDescriptor : OK"
 else
-  echo "validateNonDicomFileSetDescriptor : Error"
-  echo -e "Return :"$RESULT
-  echo -e "Attempted :"$REF
+    echo "validateNonDicomFileSetDescriptor : Error"
+    echo -e "Return :"$RESULT
+    echo -e "Attempted :"$REF
+    return 1
 fi
 
 
@@ -35,11 +37,12 @@ REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
 then
-  echo "importDicomFileSetDescriptor : OK"
+    echo "importDicomFileSetDescriptor : OK"
 else
-  echo "importDicomFileSetDescriptor : Error"
-  echo -e "Return :"$RESULT
-  echo -e "Attempted :"$REF
+    echo "importDicomFileSetDescriptor : Error"
+    echo -e "Return :"$RESULT
+    echo -e "Attempted :"$REF
+    return 1
 fi
 
 
@@ -48,11 +51,12 @@ REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
 then
-  echo "ImportNonDicomFileSetDescriptor : OK"
+    echo "ImportNonDicomFileSetDescriptor : OK"
 else
-  echo "ImportNonDicomFileSetDescriptor : Error"
-  echo -e "Return :"$RESULT
-  echo -e "Attempted :"$REF
+    echo "ImportNonDicomFileSetDescriptor : Error"
+    echo -e "Return :"$RESULT
+    echo -e "Attempted :"$REF
+    return 1
 fi
 
 
@@ -61,22 +65,24 @@ NCHAR=${#RESULT}
 
 if [ "$NCHAR" -gt "50" ]
 then
-  echo "getListQuerries : OK"
+    echo "getListQuerries : OK"
 else
-  echo "getListQuerries : Error"
-  echo -e "Return :"$RESULT
+    echo "getListQuerries : Error"
+    echo -e "Return :"$RESULT
+    return 1
 fi
 
 
-RESULT=$(curl  -s -H "Content-Type: text/xml" -X GET http://localhost:8090/testReturnReq?isReasoning=false)
+RESULT=$(curl    -s -H "Content-Type: text/xml" -X GET http://localhost:8090/testReturnReq?isReasoning=false)
 NCHAR=${#RESULT} 
 
 if [ "$NCHAR" -gt "50" ]
 then
-  echo "testReturnReq : OK"
+    echo "testReturnReq : OK"
 else
-  echo "testReturnReq : Error"
-  echo -e "Return :"$RESULT
+    echo "testReturnReq : Error"
+    echo -e "Return :"$RESULT
+    return 1
 fi
 
 
@@ -91,4 +97,5 @@ else
     echo "TEST vérification Sémantique : Error"
     echo -e "Return :"$RESULT
     echo -e "Attempted :"$REF
+    return 1
 fi

@@ -11,7 +11,7 @@ public class SampleFilter extends Filter<ILoggingEvent> {
 		if (event.getLoggerName().contains("repository")) {
 			return FilterReply.ACCEPT;
 		} else if (event.getMessage().contains("Could not complete request") || event.getMessage().contains("Exception")) {
-			if (Application.ontologyLoaded) {
+			if (!Application.hideLogs) {
 				return FilterReply.ACCEPT;
 			} else {
 				return FilterReply.DENY;

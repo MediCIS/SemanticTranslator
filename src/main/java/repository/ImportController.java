@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -19,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -45,13 +43,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.complexible.common.base.Option;
 import com.complexible.common.rdf.query.resultio.TextTableQueryResultWriter;
 import com.complexible.stardog.StardogException;
-import com.complexible.stardog.TxInfo;
 import com.complexible.stardog.api.Connection;
 import com.complexible.stardog.api.ConnectionConfiguration;
 import com.complexible.stardog.api.ConnectionPool;
@@ -64,24 +59,20 @@ import com.pixelmed.dicom.DicomException;
 import com.pixelmed.dicom.StructuredReport;
 
 import querries.Querry;
-import repository.ImportController.database; 
 
 @Controller
 @RestController
-public class ImportController {
+public class ImportController {	
 	
-	//test
-	
-	
-	static String username = "admin";
+	static String username = "admin"; 			//credentials for StarDog
 	static String password = "admin";
 	
-	boolean reasoningDefault = false;
+	boolean reasoningDefault = false; 			// by defaut will request use reasoning
 	
 	String dockerHost = Application.dockerHost ;
 	String starDogUrl = Application.starDogUrl;
 
-	public enum database {ontoMedirad, test};
+	public enum database {ontoMedirad, test}; 	//StarDog Database list
 
 	StructuredReport SR;
 	String rdfName;
@@ -95,7 +86,7 @@ public class ImportController {
 	
 	Memory memory = Application.memory;
 	
-	int z = 0;
+	int z = 0; 									// used for names RDF files and avoid overwriting
 
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class);
 	
@@ -107,7 +98,7 @@ public class ImportController {
 		}
 	
 	@RequestMapping ( value = "/getRequestList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
-	public String getRequestList() {return Application.listQuerries.getJsonString();}
+	public String getRequestList() {return Application.listQuerries.getJsonString();} 
 	
 	@RequestMapping ( value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = {"application/json"})
 	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) {
@@ -115,16 +106,17 @@ public class ImportController {
 		logger.info("Validating DicomFileSetDescriptor");
 
 		try {
-			String tmpFilePath = "tmp.xml";
+			String tmpFilePath = "tmp.xml"; // XML content will be written in a temporary file (will be overwriten each time)
 			JAXBContext jc = JAXBContext.newInstance("repository");
 
-			PrintWriter out = new PrintWriter(tmpFilePath);
-			out.println(filesetDescriptorString);
+			PrintWriter out = new PrintWriter(tmpFilePath); 
+			out.println(filesetDescriptorString); // write XML content to be validated in the file
 			out.close();
 
 			SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
 			
-			Schema schema = factory.newSchema(new StreamSource(new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream()));
+			Schema schema = factory.newSchema(new StreamSource(new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream())); 
+			//read the XML schema
 
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 			unmarshaller.setSchema(schema);
@@ -132,11 +124,12 @@ public class ImportController {
 			DicomFileSetDescriptor fileSetDescriptor = (DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath));
 		
 		} catch (UnmarshalException  e) {
-
 			String msg;
 			if (e.getCause() != null ) {
 				msg =  e.getCause().getMessage();
-			} else {msg =  e.toString();}
+			} else {
+				msg =  e.toString();
+			}
 			e.printStackTrace();
 			return new ValidationReport(false, msg).getJson().toString();
 		} catch (Exception  e) {
