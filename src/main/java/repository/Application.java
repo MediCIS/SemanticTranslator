@@ -18,7 +18,7 @@ import querries.ListQuerries;
 @SpringBootApplication
 public class Application {
 	
-	// TEST
+	// CHAT
 	
 	static String testStudy;
 	static String testSerie;
