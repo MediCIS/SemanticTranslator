@@ -182,18 +182,6 @@ public class ImportController {
 		return true;									   // Commands seems to be secure
 	}
 	
-	public String executeQuerryFromList(String idRequest, String isReasoning) {
-		System.out.println("executeQuerryFromList "+idRequest);
-		Querry q = Application.listQuerries.getRequest(idRequest); // Retrieve request from the list (can be null if request name is unknown)
-		
-		if (q!=null) {											   // If request is NOT null
-			String a = executeQuerry(q.getRequest(), isReasoning); // Execute the querry and store the result as a string
-			return a;											   // Return Querry Result
-		} else {												   // If request is null
-			return ("{\"res\": \"Error : Unknown request\"}");	   // Return an Error message
-		}
-	}
-	
 	public String executeQuerry(String request, String isReasoning) { // Execute a querry (querry is passed as a string)
 		
 		if (GateKeeper(request)==false) {							  // Security test
@@ -218,34 +206,35 @@ public class ImportController {
 
 		try { aResult = aQuery.execute();}							   // Execute the request
 		catch (StardogException e) {
-			return ("{\"res\": \""+e.toString()+"\"}");				   // 
-		} finally {
-			starDogConnection.close();
+			starDogConnection.close();								   // Close the connection to StarDog  if there was an error
+			return ("{\"res\": \""+e.toString()+"\"}");				   // Return the error message in a JSON object
 		}
 		
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();	   // Create an OuputStream to receive result
 		
-		try {QueryResultIO.writeTuple(aResult, TextTableQueryResultWriter.FORMAT.JSON, out);
+		try {
+			QueryResultIO.writeTuple(aResult, TextTableQueryResultWriter.FORMAT.JSON, out); // Write the request result in the ByteArrayOutputStream
 		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException | IOException e) {
-			e.printStackTrace();
-		} finally {starDogConnection.close();aResult.close();}
-		
-		System.out.println("executeQuerry return : "+out.toString());
-		
-		return out.toString();
-		
+			return ("{\"res\": \""+e.toString()+"\"}");				   // Return the error message in a JSON object
+		} finally {starDogConnection.close();aResult.close();}		   // Close The Object (despite the errors)
+				
+		return ("{\"res\": \""+out.toString()+"\"}");				   // Convert the ByteArrayOutputStream as a string and return it in a JSON object
 	}
 	
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
-	public String requestFromList(@RequestParam("id") String id) {
+	public String requestFromList(@RequestParam("id") String id) {     // Shortcut to execute a request from the request list
 		String isReasoning = "false";
-		System.out.println("requestFromList "+id+" "+isReasoning);
-		String a = executeQuerryFromList(id, isReasoning);
-		System.out.println("requestFromList return : "+a);
-		return a;
+		Querry q = Application.listQuerries.getRequest(id);            // Retrieve request from the list (can be null if request name is unknown)
+		
+		if (q!=null) {											   	   // If request is NOT null
+			String a = executeQuerry(q.getRequest(), isReasoning); 	   // Execute the querry and store the result as a string
+			return a;											       // Return Querry Result
+		} else {												       // If request is null
+			return ("{\"res\": \"Error : Unknown request\"}");	       // Return an Error message
+		}
 	}
 	
-	@RequestMapping( value = "/testRequestControle", method = RequestMethod.GET, headers = "Accept=text/xml")
+	@RequestMapping( value = "/testRequestControle", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
 	public String TestRequestControle(@RequestParam Map<String,String> requestParams) throws Exception{
 		System.out.println(requestParams);
 		String name = requestParams.get("name");
@@ -267,7 +256,7 @@ public class ImportController {
 		} 
 	}
 	
-	@RequestMapping( value = "/testReturnReq", method = RequestMethod.GET, headers = "Accept=text/xml")
+	@RequestMapping( value = "/testReturnReq", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
 	public String RequeteTestReturn(@RequestParam("isReasoning") String isReasoning) {
 
 		String sparql1 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
@@ -332,7 +321,7 @@ public class ImportController {
 		
 	}
 	
-	public static boolean databaseContains(String test) {
+	public static boolean databaseContains(String test) { // function for check if Database name provided is a real database (in the enumeration)
 	    for (database b : database.values()) {
 	        if (b.name().equals(test)) {
 	            return true;
@@ -348,7 +337,6 @@ public class ImportController {
 		if (dockerHost==null) {dockerHost = Application.dockerHost ;}
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}
 		if (memory==null) {memory=Application.memory;}
-		//String db = "test";
 		OntologyPopulator.retrievePatientData(dicomFileSetDescriptor.getPatientDescriptor());
 
 		for (DICOMStudyType study : dicomFileSetDescriptor.getDICOMStudy() ){
