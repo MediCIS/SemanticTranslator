@@ -17,9 +17,7 @@ import querries.ListQuerries;
 
 @SpringBootApplication
 public class Application {
-	
-	// CHAT
-	
+		
 	static String testStudy;
 	static String testSerie;
 	
@@ -56,14 +54,14 @@ public class Application {
 		return model;
 	}
     
-    public static void loadProperties() {
+    public static void loadProperties() {						// load some settings from a text file for configure sever 
     	Properties prop = new Properties();
     	InputStream input = null;
     	try {
-    		input = new FileInputStream("config.properties");  
-    		prop.load(input);
-    		logger.info("dockerHost : "+prop.getProperty("dockerHost"));
-    		dockerHost = prop.getProperty("dockerHost");
+    		input = new FileInputStream("config.properties");  // load file as a stream
+    		prop.load(input);								   // extract properties
+    		logger.info("dockerHost : "+prop.getProperty("dockerHost")); // log the property read in the file
+    		dockerHost = prop.getProperty("dockerHost");				 // set the property
     		logger.info("starDogUrl : "+prop.getProperty("starDogUrl"));
     		starDogUrl = prop.getProperty("starDogUrl");
     		logger.info("pathOntology : "+prop.getProperty("pathOntology"));

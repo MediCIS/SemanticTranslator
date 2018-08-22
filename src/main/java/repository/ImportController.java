@@ -64,33 +64,33 @@ import querries.Querry;
 @RestController
 public class ImportController {	
 	
-	static String username = "admin"; 			//credentials for StarDog
+	static String username = "admin"; 			// credentials for StarDog
 	static String password = "admin";
 	
-	boolean reasoningDefault = false; 			// by defaut will request use reasoning
+	boolean reasoningDefault = false; 			// by defaut request will not use reasoning
 	
 	String dockerHost = Application.dockerHost ;
 	String starDogUrl = Application.starDogUrl;
-
-	public enum database {ontoMedirad, test}; 	//StarDog Database list
-
-	StructuredReport SR;
-	String rdfName;
-	
-	Connection starDogConnection;
-	HttpURLConnection connection;  
-	
-	Individual patient;
-	
-	static String handle; static String studyInstanceUID; static String seriesInstanceUID;
-	
 	Memory memory = Application.memory;
-	
-	int z = 0; 									// used for names RDF files and avoid overwriting
 
-	private final static Logger logger = LoggerFactory.getLogger(ImportController.class);
+	HttpURLConnection SRconnection;				// Connection to retrieve the SR
+	StructuredReport SR;						// For store SR document
+
+	public enum database {ontoMedirad, test}; 	// StarDog Database list ()
+
+	String rdfName;								// Name of the RDF file that wille writen before transfer to StarDog (for backup)
+	int z = 0; 									// Used for names RDF files and avoid overwriting
+
+	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
 	
-	@RequestMapping(value = "/test")
+	Individual patient;							// Will store the ontologic entity of the patient
+	
+	static String handle;						// Handle is at top for being transmitted to the Import Controller
+	static String studyInstanceUID; static String seriesInstanceUID; 
+
+	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 
+	
+	@RequestMapping(value = "/test")			// for my own use (will be removed at the end)
 	public String test(@RequestParam Map<String,String> requestParams) throws Exception{
 		   String p1=requestParams.get("p1");
 		   String p2=requestParams.get("p2");
@@ -98,45 +98,44 @@ public class ImportController {
 		}
 	
 	@RequestMapping ( value = "/getRequestList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
-	public String getRequestList() {return Application.listQuerries.getJsonString();} 
+	public String getRequestList() {return Application.listQuerries.getJsonString();} // return request list in JSON
 	
 	@RequestMapping ( value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = {"application/json"})
-	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) {
+	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) {  // validate request list in JSON
 
 		logger.info("Validating DicomFileSetDescriptor");
 
 		try {
-			String tmpFilePath = "tmp.xml"; // XML content will be written in a temporary file (will be overwriten each time)
+			String tmpFilePath = "tmp.xml";		// XML content will be written in a temporary file (will be overwriten each time)
 			JAXBContext jc = JAXBContext.newInstance("repository");
 
 			PrintWriter out = new PrintWriter(tmpFilePath); 
-			out.println(filesetDescriptorString); // write XML content to be validated in the file
+			out.println(filesetDescriptorString);// write XML content to be validated in the file
 			out.close();
 
-			SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+			SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema"); // Structure for XML schema
 			
 			Schema schema = factory.newSchema(new StreamSource(new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream())); 
-			//read the XML schema
+			// read the XML schema
 
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			unmarshaller.setSchema(schema);
+			unmarshaller.setSchema(schema);     // store the schema
 
-			DicomFileSetDescriptor fileSetDescriptor = (DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath));
+			DicomFileSetDescriptor fileSetDescriptor = (DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath)); 
+			// import the XML file and check if XML is valid with the schema
 		
 		} catch (UnmarshalException  e) {
 			String msg;
 			if (e.getCause() != null ) {
-				msg =  e.getCause().getMessage();
+				msg =  e.getCause().getMessage(); // get the cause why the XML file is invalid
 			} else {
-				msg =  e.toString();
+				msg =  e.toString(); 			  // get the error message
 			}
-			e.printStackTrace();
-			return new ValidationReport(false, msg).getJson().toString();
+			return new ValidationReport(false, msg).getJson().toString(); // return the error message as a JSON object
 		} catch (Exception  e) {
-			e.printStackTrace();
-			return new ValidationReport(false, e.toString()).getJson().toString();
+			return new ValidationReport(false, e.toString()).getJson().toString(); // return the error message as a JSON object
 		}
-		return new ValidationReport(true, "").getJson();
+		return new ValidationReport(true, "").getJson(); // return the message (valid) as a JSON object
 	}
 	
 	@RequestMapping ( value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
@@ -145,84 +144,84 @@ public class ImportController {
 		logger.info("Validating NonDicomFileSetDescriptor");
 
 		try {
-			String tmpFilePath = "tmp.xml";
+			String tmpFilePath = "tmp.xml";		// XML content will be written in a temporary file (will be overwriten each time)
 			JAXBContext jc = JAXBContext.newInstance("repository");
 
 			PrintWriter out = new PrintWriter(tmpFilePath);
-			out.println(filesetDescriptorString);
+			out.println(filesetDescriptorString);// write XML content to be validated in the file
 			out.close();
 
-			SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+			SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema"); // Structure for XML schema
 
 			Schema schema = factory.newSchema(new StreamSource(new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream()));
+			// read the XML schema
 			
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			unmarshaller.setSchema(schema);
+			unmarshaller.setSchema(schema);     // store the schema
 
 			NonDicomFileSetDescriptor fileSetDescriptor = (NonDicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath));
+			// import the XML file and check if XML is valid with the schema
 
 		} catch (UnmarshalException  e) {
-
 			String msg;
-			if( e.getCause() != null ) {
-				msg =  e.getCause().getMessage();
-			} else {msg =  e.toString();}
-			e.printStackTrace();
-			return new ValidationReport(false, msg).getJson().toString();
-		} catch (Exception  e) {
-			e.printStackTrace();
-			return new ValidationReport(false, e.toString()).getJson().toString();
+			if (e.getCause() != null ) {		  // if XML is invalid 
+				msg =  e.getCause().getMessage(); // get the cause why the XML file is invalid
+			} else {							  // if there is an error and no cause 
+				msg =  e.toString(); 			  // get the error message
+			}
+			return new ValidationReport(false, msg).getJson().toString(); // return the error message as a JSON object
+		} catch (Exception  e) {											//if there is an error
+			return new ValidationReport(false, e.toString()).getJson().toString(); // return the error message as a JSON object
 		}
-		return new ValidationReport(true, "").getJson().toString();
+		return new ValidationReport(true, "").getJson(); // return the message (valid) as a JSON object
 	}
 	
-	public static boolean GateKeeper(String request) {
-		if (request.contains("CONSTRUCT")) {return false;}
-		return true;
+	public static boolean GateKeeper(String request) {	   // Security Check for request sent to StarDog
+		// All request that will degrade data in stardog will be blocked
+		if (request.contains("CONSTRUCT")) {return false;} // Unsecure command because Construct command can degrade data
+		return true;									   // Commands seems to be secure
 	}
 	
 	public String executeQuerryFromList(String idRequest, String isReasoning) {
 		System.out.println("executeQuerryFromList "+idRequest);
-		Querry q = Application.listQuerries.getRequest(idRequest);
+		Querry q = Application.listQuerries.getRequest(idRequest); // Retrieve request from the list (can be null if request name is unknown)
 		
-		if (q!=null) {
-			System.out.println(q.getRequest());
-			String a = executeQuerry(q.getRequest(), isReasoning);
-			System.out.println("executeQuerryFromList return : "+a);
-			return a;
-		} else {
-			return ("{\"res\": \"Error : Unknown request\"}");
+		if (q!=null) {											   // If request is NOT null
+			String a = executeQuerry(q.getRequest(), isReasoning); // Execute the querry and store the result as a string
+			return a;											   // Return Querry Result
+		} else {												   // If request is null
+			return ("{\"res\": \"Error : Unknown request\"}");	   // Return an Error message
 		}
 	}
 	
-	public String executeQuerry(String request, String isReasoning) {
-		System.out.println("executeQuerry");
-		if (GateKeeper(request)==false) {return "Request refused for Security Reason";}
+	public String executeQuerry(String request, String isReasoning) { // Execute a querry (querry is passed as a string)
 		
-		switch(isReasoning) {
+		if (GateKeeper(request)==false) {							  // Security test
+			return "Request refused for Security Reason";             // Stop the function if the request is not secured
+		} 
+		
+		switch(isReasoning) {										  // Will create a stardog connection 
 		case "true": 
-			System.out.println("case : true");
-			createAdminConnection(database.ontoMedirad, true); 
+			createAdminConnection(database.ontoMedirad, true); 		  // Create a connection to a stardog database with reasoning
 			break;
 		case "false":
-			createAdminConnection(database.ontoMedirad, false); 
+			createAdminConnection(database.ontoMedirad, false);  	  // Create a connection to a stardog database WITHOUT reasoning
 			break;
-		default:
-			createAdminConnection(database.ontoMedirad, reasoningDefault);
+		default:														  	// Defaut case because for alwatys create a connection to stardog
+			createAdminConnection(database.ontoMedirad, reasoningDefault);  // Create a connection to a stardog database with reasoning as defaut value
 			break;
 		}
 		
-		SelectQuery aQuery = starDogConnection.select(request);
+		SelectQuery aQuery = starDogConnection.select(request);        // Put the request to the StarDog
 		
-		TupleQueryResult aResult = null;
+		TupleQueryResult aResult = null;							   // Create an object to receive the result
 
-		System.out.println("execute");
-		try { aResult = aQuery.execute();}
+		try { aResult = aQuery.execute();}							   // Execute the request
 		catch (StardogException e) {
+			return ("{\"res\": \""+e.toString()+"\"}");				   // 
+		} finally {
 			starDogConnection.close();
-			return ("{\"res\": \""+e.toString()+"\"}");
 		}
-		System.out.println("post execute");
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		
@@ -404,23 +403,24 @@ public class ImportController {
 	public boolean retrieveSR(String studyInstanceUID, String seriesInstanceUID) {
 		logger.warn("Retrieving SR StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 		URL url;
+
 		try {
 			String targetURL = "http://"+dockerHost+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;
 			handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;
 			
 			//Create connection
 			url = new URL(targetURL);
-			connection = (HttpURLConnection)url.openConnection();
-			connection.setRequestMethod("GET");
-			connection.setRequestProperty("Accept", "multipart/related; type=application/dicom;");
+			SRconnection = (HttpURLConnection)url.openConnection();
+			SRconnection.setRequestMethod("GET");
+			SRconnection.setRequestProperty("Accept", "multipart/related; type=application/dicom;");
 
 			String boundary = "";
 			String boundaryHeader = "boundary=";
-			String contenttype = connection.getHeaderField("Content-Type");
-			int bufsize = connection.getContentLength();
+			String contentType = SRconnection.getHeaderField("Content-Type");
+			int bufsize = SRconnection.getContentLength();
 
 			// retrieving boundary within Content-Type
-			String[] contenttypeArray = contenttype.split(";");
+			String[] contenttypeArray = contentType.split(";");
 			for ( String content : contenttypeArray ){
 				if(content.contains(boundaryHeader)) {
 					boundary = content.substring(content.indexOf("=")+1);
@@ -433,7 +433,7 @@ public class ImportController {
 				bufsize=50; logger.debug("bufsize corrected to  "+bufsize);
 			}
 
-			MultipartStream multipartStream = new MultipartStream(connection.getInputStream(), boundary.getBytes(), bufsize , null);
+			MultipartStream multipartStream = new MultipartStream(SRconnection.getInputStream(), boundary.getBytes(), bufsize , null);
 
 			// Write SR (DCM file)
 			String srFilename = "SR.dcm";
@@ -485,7 +485,7 @@ public class ImportController {
 			logger.debug(e.getMessage());
 		} finally {
 			logger.debug("Retrieving SR : No exception catched");
-			if(connection != null) {connection.disconnect(); }
+			if(SRconnection != null) {SRconnection.disconnect(); }
 		}
 		return true;
 	}
