@@ -16,7 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import querries.ListQuerries;
 
 @SpringBootApplication
-public class Application {
+public class Application { //TEST
 		
 	static String testStudy;
 	static String testSerie;
