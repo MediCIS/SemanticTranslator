@@ -19,7 +19,7 @@ public class TranslateDicomData extends OntologyPopulator {
 	static DicomFileSetDescriptor DicomFileSetDescriptorContent;
 	static NonDicomFileSetDescriptor nonDicomFileSetDescriptorContent;
 	
-	public static void readingCT(Iterator<DICOMStudyType> iterFileSet, String studyInstanceUID, String seriesInstanceUID) {
+	public static void readingCT(Iterator<DICOMStudyType> iterFileSet, String studyInstanceUID, String seriesInstanceUID, Individual clinicalResearchStudy) {
 		DICOMStudyType study; DICOMStudyDescriptorType studyDescriptor; 
 		Individual imagingStudy; String organName; ArrayList<Individual> organs;
 		List<DICOMSeriesType> dicomSeries; Iterator<DICOMSeriesType> serieIterator; DICOMSeriesType serie;
@@ -39,7 +39,8 @@ public class TranslateDicomData extends OntologyPopulator {
 			handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;
 			
 			memory.setPatient(seriesInstanceUID, studyInstanceUID, patient);
-
+			addObjectProperty(clinicalResearchStudy, racineURI+"has_patient", patient);
+	
 			imagingStudy = createIndiv(generateName("imaging_Study"), model.getResource(racineURI+"imaging_study")); 
 
 			addDataProperty(imagingStudy, racineURI+"has_description", studyDescriptor.getStudyDescription00081030());
@@ -65,6 +66,8 @@ public class TranslateDicomData extends OntologyPopulator {
 				addDataProperty(imageDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 				if (memory==null) {System.out.println("memory : NULL");}
 				memory.setCtDataSet(seriesInstanceUID, studyInstanceUID, imageDataSet);
+				
+				addObjectProperty(clinicalResearchStudy, racineURI+"has_patient",patientRole);
 
 				ctImageAcquisition = createIndiv(generateName("CT_acquisition"),model.getResource(racineURI+"CT_acquisition"));
 				ctImageAcquisition.addOntClass(model.getResource(racineURI+"CT_irradiation_event"));

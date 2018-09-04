@@ -30,6 +30,7 @@ public class Application { //TEST
 	public static ListQuerries listQuerries;
 	
 	public static boolean hideLogs = true; 						//will hide most of the logs because loading ontology provide too many logs
+	public static boolean ready = false; 	
 	private final static Logger logger = LoggerFactory.getLogger(Application.class);
 	
     public static void main(String[] args) {
@@ -39,6 +40,7 @@ public class Application { //TEST
         loadOntology(pathOntology); 							// load the ontlogy from file (it takes about 4 minutes)
         memory = new Memory(); 									// Going to request to get usefull object inside semanti database
         hideLogs = false; 										// will allow logs to be show
+        ready=true;
         System.out.println("ready"); 							// now server is ready to receive commands
     }
     

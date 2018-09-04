@@ -18,6 +18,7 @@ public class ValidationReport {
     
     public String getJson() {
 		JSONObject obj = new JSONObject();
+		
 		try {
 			obj.put("isValid", isValid);
 			obj.put("message", message);

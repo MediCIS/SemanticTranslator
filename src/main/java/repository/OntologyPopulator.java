@@ -37,7 +37,7 @@ public abstract class OntologyPopulator {
 	
 	static Hashtable<String, String> dico;
 	
-	public static void retrievePatientData(PatientDescriptorType patientData) {
+	public static Individual retrievePatientData(PatientDescriptorType patientData) {
 		logger.info("Retrieving PatientData");
 		
 		String patientWeight;String patientBirthDate;
@@ -51,7 +51,6 @@ public abstract class OntologyPopulator {
 		patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient"));
 
 		addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);
-		//addObjectProperty(patient, racineObo+"BFO_0000070", createIndiv("Patient", model.getResource(racineURI+"patient")));
 
 		if (patientData.getPatientID00100020()!=null) {
 			patientID = patientData.getPatientID00100020();
@@ -107,8 +106,28 @@ public abstract class OntologyPopulator {
 			addDataProperty(i, "http://purl.obolibrary.org/obo/IAO_0000004", patientWeight);
 			addObjectProperty(i, racineURI+"is_about", patient);
 		}
+		
+		return patient;
 	}
 
+	public static Individual retrieveClinicalResearchStudy(String name) {
+		name=name.trim();
+		System.out.println("retrieveClinicalResearchStudy : "+name);
+		populateModel = ModelFactory.createOntologyModel();
+		if (model==null) {model = Application.getModel();}
+		if (memory==null) {memory = Application.memory;}
+		
+		Individual researchClinicalStudy;
+		
+		if (name.contains("2.1.2") ) {
+			researchClinicalStudy = createIndiv("clinical_research_study_subtask2.1.2", model.getResource(racineURI+"clinical_research_study"));
+			return researchClinicalStudy;
+		} else {
+			researchClinicalStudy = createIndiv("clinical_research_study", model.getResource(racineURI+"clinical_research_study"));
+			return researchClinicalStudy;
+		}
+	}
+	
 	public static void addDataProperty(Individual ind, String propName, String value) {
 		logger.debug("Data Property adding with subjet : "+ind+" predicat : "+propName+" object : "+value);
 		Property prop = populateModel.createDatatypeProperty(propName);

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.ModelFactory;
 
+import repository.NonDicomFileSetDescriptor.ReferencedClinicalResearchStudy;
 import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData;
 import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.CTSegmentation;
 import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry;
@@ -16,13 +17,21 @@ import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMo
 public class TranslateNonDicomData extends OntologyPopulator {
 
 	static Hashtable<String, Individual> tableVOI = new Hashtable<String, Individual>();
+	static Individual researchClinicalStudy;
 	
-	public static void retrieveSubtastk212(Iterator<WP2Subtask212WorkflowData> subtask212Iter) {
+	public static void translateNonDicomData(NonDicomFileSetDescriptor nonDicomFileSetDescriptor) {
 		populateModel = ModelFactory.createOntologyModel();
 		if (model==null) {model = Application.getModel();}
+		
+		if (nonDicomFileSetDescriptor.wp2Subtask212WorkflowData!=null) {
+			researchClinicalStudy = createIndiv("clinical_research_study_subtask2.1.2", model.getResource(racineURI+"clinical_research_study"));
+			retrieveSubtastk212(nonDicomFileSetDescriptor.wp2Subtask212WorkflowData.iterator());
+		}
+		
+	}
+	
+ 	public static void retrieveSubtastk212(Iterator<WP2Subtask212WorkflowData> subtask212Iter) {
 		WP2Subtask212WorkflowData subtask212;
-		//List<WP2Subtask212WorkflowData> subtask212Liste = nonDicomFileSetDescriptor.wp2Subtask212WorkflowData;
-		//Iterator<WP2Subtask212WorkflowData> subtask212Iter = subtask212Liste.iterator();
 		CTSegmentation ctSegmentation =  null; Individual imageSegmentation = null; Individual institution;
 		Individual image; Individual segMeth; MethodSettingType settingTest;
 		Iterator<VOIDescriptorType> voiIterator; Individual voi; Iterator<NonDICOMDataType> voiDataList;
@@ -57,7 +66,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		
 		while (subtask212Iter.hasNext()) {
 			subtask212 = subtask212Iter.next();
-			
 			if (subtask212.simpleCTMonteCarloDosimetry!=null) {
 				ctMonteCarloDosimetryIter = subtask212.simpleCTMonteCarloDosimetry.iterator();
 				while (ctMonteCarloDosimetryIter.hasNext()) {
@@ -419,8 +427,10 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								seriesIter = imageUsed.dicomSeriesUID.iterator();
 								while (seriesIter.hasNext()) {
 									serie = seriesIter.next();
-									addObjectProperty(absorbedDoseVoi, racineURI+"has_patient", memory.getPatient(serie, imageUsed.dicomStudyUID));
-
+									patient = memory.getPatient(serie, imageUsed.dicomStudyUID); 
+									addObjectProperty(absorbedDoseVoi, racineURI+"has_patient", patient);
+									addObjectProperty(researchClinicalStudy, racineURI+"has_patient", patient);
+									
 								}
 							}
 							
