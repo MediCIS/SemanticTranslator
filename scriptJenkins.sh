@@ -12,7 +12,7 @@ else
 echo "validateDicomFileSetDescriptor : Error"
 echo -e "Return :"$RESULT
 echo -e "Attempted :"$REF
-return 1
+exit 1
 fi
 
 
@@ -28,7 +28,7 @@ else
 echo "validateNonDicomFileSetDescriptor : Error"
 echo -e "Return :"$RESULT
 echo -e "Attempted :"$REF
-return 1
+exit 1
 fi
 
 
@@ -43,7 +43,7 @@ else
 echo "importDicomFileSetDescriptor : Error"
 echo -e "Return :"$RESULT
 echo -e "Attempted :"$REF
-return 1
+exit 1
 fi
 
 
@@ -57,7 +57,7 @@ else
 echo "ImportNonDicomFileSetDescriptor : Error"
 echo -e "Return :"$RESULT
 echo -e "Attempted :"$REF
-return 1
+exit 1
 fi
 
 
@@ -70,7 +70,7 @@ echo "getListQuerries : OK"
 else
 echo "getListQuerries : Error"
 echo -e "Return :"$RESULT
-return 1
+exit 1
 fi
 
 
@@ -83,11 +83,11 @@ echo "testReturnReq : OK"
 else
 echo "testReturnReq : Error"
 echo -e "Return :"$RESULT
-return 1
+exit 1
 fi
 
 
 
-return 0
+exit 0
 
 

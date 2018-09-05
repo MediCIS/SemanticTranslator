@@ -119,7 +119,6 @@ public class ImportController {
 				"        FILTER (?classlabel = <"+nonDICOMDataFormat+"@en>) .\n" + 
 				"        }" , "false" ); 	  
 	} 
-	
 
 	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
 	public String getResearchStudies() {   
