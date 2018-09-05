@@ -107,8 +107,21 @@ public class ImportController {
 			return "NO";
 		}
 	}
+	
+	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
+	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
+		System.out.println("getMimeTypeDataFormat");
+		return executeQuerry("  SELECT DISTINCT  ?label ?class\n" + 
+				"           WHERE {\n" + 
+				"        ?class rdf:type owl:Class .\n" + 
+				"        ?class ontomedirad:has_MIME_type ?label .\n" + 
+				"        ?class skos:prefLabel ?classlabel .\n" + 
+				"        FILTER (?classlabel = <"+nonDICOMDataFormat+"@en>) .\n" + 
+				"        }" , "false" ); 	  
+	} 
+	
 
-	@RequestMapping ( value = "/getResearchStudies", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
+	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
 	public String getResearchStudies() {   
 		return executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
 				"          WHERE {\n" + 
