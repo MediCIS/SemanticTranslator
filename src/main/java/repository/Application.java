@@ -37,8 +37,8 @@ public class Application { //TEST
         SpringApplication.run(Application.class, args);
         loadProperties();
         listQuerries = new ListQuerries(); 						// Init a querry list (read from the excel file)
-        //loadOntology(pathOntology); 							// load the ontlogy from file (it takes about 4 minutes)
-        //memory = new Memory(); 									// Going to request to get usefull object inside semanti database
+        loadOntology(pathOntology); 							// load the ontlogy from file (it takes about 4 minutes)
+        memory = new Memory(); 									// Going to request to get usefull object inside semanti database
         hideLogs = false; 										// will allow logs to be show
         ready=true;
         System.out.println("ready"); 							// now server is ready to receive commands
