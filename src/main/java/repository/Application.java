@@ -18,7 +18,7 @@ import querries.ListQuerries;
 @SpringBootApplication
 public class Application { 
 	
-	// TEST NON STABLE
+	// TEST STABLE
 		
 	static String testStudy;
 	static String testSerie;
