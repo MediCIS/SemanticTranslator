@@ -15,9 +15,6 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-
-
-
 RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_1.xml -X POST http://localhost:8090/validateNonDicomFileSetDescriptor)
 REF='{"isValid":true,"message":""}'
 
@@ -30,8 +27,6 @@ echo -e "Return :"$RESULT
 echo -e "Attempted :"$REF
 exit 1
 fi
-
-
 
 RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_1.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
 REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
@@ -46,7 +41,6 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-
 RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_1.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
 REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
 
@@ -60,7 +54,6 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-
 RESULT=$(curl -s -H "Content-Type: text/xml" -X GET http://localhost:8090/getListQuerries)
 NCHAR=${#RESULT}
 
@@ -72,7 +65,6 @@ echo "getListQuerries : Error"
 echo -e "Return :"$RESULT
 exit 1
 fi
-
 
 RESULT=$(curl    -s -H "Content-Type: text/xml" -X GET http://localhost:8090/testReturnReq?isReasoning=false)
 NCHAR=${#RESULT}
@@ -86,24 +78,4 @@ echo -e "Return :"$RESULT
 exit 1
 fi
 
-
-
-git checkout stable
-
-heure=$(date +%H%M)
-jour=$(date +%Y%m%d)
-
-
-git add .
-
-git commit -m Stable"_"$jour"_"$heure
-
-git push
-
-git checkout master
-
-
-
 exit 0
-
-
