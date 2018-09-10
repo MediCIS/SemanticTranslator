@@ -17,65 +17,61 @@ import querries.ListQuerries;
 
 @SpringBootApplication
 public class Application { 
+
+	static Memory memory;												 // Memory will store a few objects without querrying the stardog
 	
-	// TEST STABLE
-		
-	static String testStudy;
-	static String testSerie;
-	
-	static Memory memory;
-	
-	public static String pathOntology; 
+	public static String pathOntology; 									 // Settings that will be read from a file 
 	public static String dockerHost;
 	public static String starDogUrl;
-	public static OntModel model;
-	public static ListQuerries listQuerries;
 	
-	public static boolean hideLogs = true; 						//will hide most of the logs because loading ontology provide too many logs
-	public static boolean ready = false; 	
-	private final static Logger logger = LoggerFactory.getLogger(Application.class);
+	public static OntModel model;										 // Model will store the ontology 
+	public static ListQuerries listQuerries;							 // Object to store the querries list
+				
+	public static boolean hideLogs = true; 								 // Will hide most of the logs because loading ontology provide too many logs
+
+	private final static Logger logger = 								 // Object to make logs
+			LoggerFactory.getLogger(Application.class);
 	
     public static void main(String[] args) {
-        SpringApplication.run(Application.class, args);
-        loadProperties();
-        listQuerries = new ListQuerries(); 						// Init a querry list (read from the excel file)
-        loadOntology(pathOntology); 							// load the ontlogy from file (it takes about 4 minutes)
-        memory = new Memory(); 									// Going to request to get usefull object inside semanti database
-        hideLogs = false; 										// will allow logs to be show
-        ready=true;
-        System.out.println("ready"); 							// now server is ready to receive commands
+        SpringApplication.run(Application.class, args);					 // Spring Boot
+        loadProperties();												 // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
+        listQuerries = new ListQuerries(); 								 // Init a querry list (read from the excel file)
+        loadOntology(pathOntology); 									 // load the ontlogy from file (it takes about 3-4 minutes)
+        memory = new Memory(); 											 // Going to request to get usefull object inside semanti database
+        hideLogs = false; 												 // Will allow logs to be show
+        System.out.println("ready"); 							  		 // Now server is ready to receive commands
     }
     
     public static void loadOntology(String pathOntology) {
 		System.out.println("Loading Ontology ...");
-		model = ModelFactory.createOntologyModel(); 			//Create empty graph for the ontology
-		InputStream in = FileManager.get().open(pathOntology);  //get the main file
-		model.read(in, null); 									//read the ontology files (it takes about 4 minutes)
+		model = ModelFactory.createOntologyModel(); 					 // Create empty graph for the ontology
+		InputStream in = FileManager.get().open(pathOntology);      	 // Get the main file
+		model.read(in, null); 											 // Read the ontology files (it takes about 4 minutes)
 		System.out.println("Ontology has been Imported Sucesfully\n");
 	}
 	
-	public static OntModel getModel() {
+	public static OntModel getModel() {									 // Used to provide the ontology to other classes
 		return model;
 	}
     
-    public static void loadProperties() {						// load some settings from a text file for configure sever 
-    	Properties prop = new Properties();
-    	InputStream input = null;
+    public static void loadProperties() {								 // Load some settings from a text file for configure sever 
+    	Properties prop = new Properties();                   		     // Object to store the properties
+    	InputStream input = null;										 // Stream for read the file
     	try {
-    		input = new FileInputStream("config.properties");  // load file as a stream
-    		prop.load(input);								   // extract properties
-    		logger.info("dockerHost : "+prop.getProperty("dockerHost")); // log the property read in the file
-    		dockerHost = prop.getProperty("dockerHost");				 // set the property
+    		input = new FileInputStream("config.properties");   		 // Load file as a stream
+    		prop.load(input);								    		 // Extract properties
+    		logger.info("dockerHost : "+prop.getProperty("dockerHost")); // Log the property read in the file
+    		dockerHost = prop.getProperty("dockerHost");				 // Set the property
     		logger.info("starDogUrl : "+prop.getProperty("starDogUrl"));
     		starDogUrl = prop.getProperty("starDogUrl");
     		logger.info("pathOntology : "+prop.getProperty("pathOntology"));
     		pathOntology = prop.getProperty("pathOntology");
-    	} catch (IOException ex) {ex.printStackTrace();}
+    	} catch (IOException ex) {ex.printStackTrace();}				 // Catch read errors
     	finally {
     		if (input != null) {
     			try {
-    				input.close();
-    			} catch (IOException e) {
+    				input.close();										 // Close the stream used to read the file
+    			} catch (IOException e) {								 // Catch read errors
     				e.printStackTrace();
     			}
     		}

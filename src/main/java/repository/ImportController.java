@@ -37,6 +37,7 @@ import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
 import org.openrdf.rio.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.SpringApplication;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -98,14 +99,10 @@ public class ImportController {
 		return "Hello "+p1+" "+p2+"\n";
 	}
 
-	@RequestMapping(value = "/isReady")			// for test with jenkins
-	public String isReady() {
+	@RequestMapping(value = "/exit")			
+	public void exit() {
 		//return Application.ready ? "YES" : "NO";
-		if (Application.ready) {
-			return "YES";
-		} else {
-			return "NO";
-		}
+		SpringApplication.exit(null, null);
 	}
 	
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
@@ -117,7 +114,7 @@ public class ImportController {
 				"        ?class ontomedirad:has_MIME_type ?label .\n" + 
 				"        ?class skos:prefLabel ?classlabel .\n" + 
 				"        FILTER (?classlabel = <"+nonDICOMDataFormat+"@en>) .\n" + 
-				"        }" , "false" ); 	  
+				"        }" , "false" ); 	
 	} 
 
 	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
@@ -140,119 +137,130 @@ public class ImportController {
 		logger.info("Validating DicomFileSetDescriptor");
 
 		try {
-			String tmpFilePath = "tmp.xml";		// XML content will be written in a temporary file (will be overwriten each time)
+			String tmpFilePath = "tmp.xml";								// XML content will be written in a temporary file (will be overwriten each time)
 			JAXBContext jc = JAXBContext.newInstance("repository");
 
 			PrintWriter out = new PrintWriter(tmpFilePath); 
-			out.println(filesetDescriptorString); // write XML content to be validated in the file
+			out.println(filesetDescriptorString); 						// Write XML content to be validated in the file
 			out.close();
 
 			SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema"); // Structure for XML schema
 
-			Schema schema = factory.newSchema(new StreamSource(new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream())); 
-			// read the XML schema
+			Schema schema = factory.newSchema(                           // Read the XML schema as a stream
+					new StreamSource(new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream()));  
 
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			unmarshaller.setSchema(schema);     // store the schema
+			unmarshaller.setSchema(schema);     						// Store the schema
 
-			DicomFileSetDescriptor fileSetDescriptor = (DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath)); 
-			// import the XML file and check if XML is valid with the schema
-
+			DicomFileSetDescriptor fileSetDescriptor = 					// Import the XML file and check if XML is valid with the schema
+					(DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath)); 
+			
 		} catch (UnmarshalException  e) {
 			String msg;
 			if (e.getCause() != null ) {
-				msg =  e.getCause().getMessage(); // get the cause why the XML file is invalid
+				msg =  e.getCause().getMessage(); 						// Get the cause why the XML file is invalid
 			} else {
-				msg =  e.toString(); 			  // get the error message
+				msg =  e.toString(); 			  						// Get the error message
 			}
 			return new ValidationReport(false, msg).getJson().toString(); // return the error message as a JSON object
 		} catch (Exception  e) {
 			return new ValidationReport(false, e.toString()).getJson().toString(); // return the error message as a JSON object
 		}
-		return new ValidationReport(true, "").getJson(); // return the message (valid) as a JSON object
+		return new ValidationReport(true, "").getJson(); 				// return the message (valid) as a JSON object
 	}
 
 	@RequestMapping ( value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
 	public String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) {
 
-		logger.info("Validating NonDicomFileSetDescriptor");
+		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
 
 		try {
-			String tmpFilePath = "tmp.xml";		// XML content will be written in a temporary file (will be overwriten each time)
+			String tmpFilePath = "tmp.xml";								// XML content will be written in a temporary file (will be overwriten each time)
 			JAXBContext jc = JAXBContext.newInstance("repository");
 
-			PrintWriter out = new PrintWriter(tmpFilePath);
-			out.println(filesetDescriptorString);// write XML content to be validated in the file
-			out.close();
+			PrintWriter out = new PrintWriter(tmpFilePath);				// Stream to write the XML file
+			out.println(filesetDescriptorString);						// Write XML content to be validated in the file
+			out.close();												// Close the Stream to write the XML file
 
-			SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema"); // Structure for XML schema
+			SchemaFactory factory = SchemaFactory.
+					newInstance("http://www.w3.org/2001/XMLSchema");    // Structure for XML schema
 
-			Schema schema = factory.newSchema(new StreamSource(new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream()));
-			// read the XML schema
+			Schema schema = factory.newSchema(new StreamSource(			// Read the XML schema
+					new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream()));
 
-			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			unmarshaller.setSchema(schema);     // store the schema
+			Unmarshaller unmarshaller = jc.createUnmarshaller();		// Object to receive the XML schema
+			unmarshaller.setSchema(schema);     						// Store the schema
 
-			NonDicomFileSetDescriptor fileSetDescriptor = (NonDicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath));
-			// import the XML file and check if XML is valid with the schema
+			NonDicomFileSetDescriptor fileSetDescriptor = 				// import the XML file and check if XML is valid with the schema
+					(NonDicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath));
 
 		} catch (UnmarshalException  e) {
 			String msg;
-			if (e.getCause() != null ) {		  // if XML is invalid 
-				msg =  e.getCause().getMessage(); // get the cause why the XML file is invalid
-			} else {							  // if there is an error and no cause 
-				msg =  e.toString(); 			  // get the error message
+			if (e.getCause() != null ) {		 						// If XML is invalid 
+				msg =  e.getCause().getMessage(); 						// Get the cause why the XML file is invalid
+			} else {							  						// If there is an error and no cause 
+				msg =  e.toString(); 			  						// Get the error message
 			}
-			return new ValidationReport(false, msg).getJson().toString(); // return the error message as a JSON object
-		} catch (Exception  e) {											//if there is an error
-			return new ValidationReport(false, e.toString()).getJson().toString(); // return the error message as a JSON object
+			return new ValidationReport(false, msg)
+					.getJson().toString(); 								// Return the error message as a JSON object
+		} catch (Exception  e) {										// If there is an error
+			return new ValidationReport(false, e.toString())			// Return the error message as a JSON object
+					.getJson().toString(); 
 		}
-		return new ValidationReport(true, "").getJson(); // return the message (valid) as a JSON object
+		return new ValidationReport(true, "").getJson(); 				// Return the message (valid) as a JSON object
 	}
 
-	public static boolean GateKeeper(String request) {	   // Security Check for request sent to StarDog
+	public static boolean GateKeeper(String request) {	   				// Security Check for request sent to StarDog
 		// All request that will degrade data in stardog will be blocked
-		if (request.contains("CONSTRUCT")) {return false;} // Unsecure command because Construct command can degrade data
-		return true;									   // Commands seems to be secure
+		if (request.contains("CONSTRUCT")) {return false;} 				// Unsecure command because Construct command can degrade data
+		return true;									   				// Commands seems to be secure
 	}
 
-	public String executeQuerry(String request, String isReasoning) { // Execute a querry (querry is passed as a string)
+	public String executeQuerry(String request, String isReasoning) { 	// Execute a querry (querry is passed as a string)
 
-		if (GateKeeper(request)==false) {							  // Security test
-			return "Request refused for Security Reason";             // Stop the function if the request is not secured
+		if (GateKeeper(request)==false) {							  	// Security test
+			return "Request refused for Security Reason";             	// Stop the function if the request is not secured
 		} 
 
-		switch(isReasoning) {										  // Will create a stardog connection 
+		switch(isReasoning) {										  	// Will create a stardog connection 
 		case "true": 
-			createAdminConnection(database.ontoMedirad, true); 		  // Create a connection to a stardog database with reasoning
+			createAdminConnection(database.ontoMedirad, true); 		  	// Create a connection to a stardog database with reasoning
 			break;
 		case "false":
-			createAdminConnection(database.ontoMedirad, false);  	  // Create a connection to a stardog database WITHOUT reasoning
+			createAdminConnection(database.ontoMedirad, false);  	  	// Create a connection to a stardog database WITHOUT reasoning
 			break;
-		default:														  	// Defaut case because for alwatys create a connection to stardog
-			createAdminConnection(database.ontoMedirad, reasoningDefault);  // Create a connection to a stardog database with reasoning as defaut value
+		default:														// Defaut case because for always create a connection to stardog
+			createAdminConnection(database.ontoMedirad, reasoningDefault);// Create a connection to a stardog database with reasoning as defaut value
 			break;
 		}
 
-		SelectQuery aQuery = starDogConnection.select(request);        // Put the request to the StarDog
+		SelectQuery aQuery = starDogConnection.select(request);         // Put the request to the StarDog
 
-		TupleQueryResult aResult = null;							   // Create an object to receive the result
+		TupleQueryResult aResult = null;							    // Create an object to receive the result
 
-		try { aResult = aQuery.execute();}							   // Execute the request
+		try { aResult = aQuery.execute();}							    // Execute the request
 		catch (StardogException e) {
-			starDogConnection.close();								   // Close the connection to StarDog  if there was an error
-			return ("{\"res\": \""+e.toString()+"\"}");				   // Return the error message in a JSON object
+			starDogConnection.close();								    // Close the connection to StarDog  if there was an error
+			return ("{\"res\": \""+e.toString()+"\"}");				    // Return the error message in a JSON object
 		}
 
-		ByteArrayOutputStream out = new ByteArrayOutputStream();	   // Create an OuputStream to receive result
-
+		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
 		try {
-			QueryResultIO.writeTuple(aResult, TextTableQueryResultWriter.FORMAT.JSON, out); // Write the request result in the ByteArrayOutputStream
-		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException | IOException e) {
-			return ("{\"res\": \""+e.toString()+"\"}");				   // Return the error message in a JSON object
-		} finally {starDogConnection.close();aResult.close();}		   // Close The Object (despite the errors)
-
-		return (out.toString());				 					   // Convert the ByteArrayOutputStream as a string and return it in a JSON object
+			QueryResultIO.writeTuple(aResult, 
+					TextTableQueryResultWriter.FORMAT.JSON, out);		// Write the request result in the ByteArrayOutputStream
+		} catch (TupleQueryResultHandlerException e) {
+			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
+		} catch (QueryEvaluationException e) {
+			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
+		} catch (UnsupportedQueryResultFormatException e) {
+			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
+		} catch (IOException e) {
+			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
+		} finally {
+			starDogConnection.close();
+			aResult.close();											// Close The Object (despite the errors)
+		}
+		return (out.toString());										// Convert the ByteArrayOutputStream as a string and return it in a JSON object
 	}
 
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
@@ -355,13 +363,13 @@ public class ImportController {
 
 	}
 
-	public static boolean databaseContains(String test) { // function for check if Database name provided is a real database (in the enumeration)
-		for (database b : database.values()) {
-			if (b.name().equals(test)) {
-				return true;
+	public static boolean databaseContains(String test) { 				// Function for check if Database name provided is a real database (in the enumeration)
+		for (database b : database.values()) {							// Iterate the iteration
+			if (b.name().equals(test)) {								// Compare name provided with name in the iterartion
+				return true;											// Return True if name provided is in the iterartion
 			}
 		}
-		return false;
+		return false;													// Return False if name provided is NOT in the iterartion
 	}
 
 	@RequestMapping( value = "/importDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
@@ -373,7 +381,8 @@ public class ImportController {
 		if (memory==null) {memory=Application.memory;}														// Memory is used for store some objects
 		patient = OntologyPopulator.retrievePatientData(dicomFileSetDescriptor.getPatientDescriptor()); 	// Retrieve patient data
 
-		Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy(dicomFileSetDescriptor.referencedClinicalStudy.clinicalStudyID);
+		Individual clinicalResearchStudy = OntologyPopulator.
+				retrieveClinicalResearchStudy(dicomFileSetDescriptor.referencedClinicalStudy.clinicalStudyID);
 
 		for (DICOMStudyType study : dicomFileSetDescriptor.getDICOMStudy()) {				   				// Iterate on the studies
 			for (DICOMSeriesType series : study.getDICOMSeries() ) {						   				// Iterate on the series
@@ -393,15 +402,16 @@ public class ImportController {
 					if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
 					else {createAdminConnection(db);}														// If DB provided create a connection these DB
 					logger.info("Retrieving CT"+" StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
-					Iterator<DICOMStudyType> iterFileSet = dicomFileSetDescriptor.dicomStudy.iterator();
-					TranslateDicomData.readingCT(iterFileSet, studyInstanceUID, seriesInstanceUID, clinicalResearchStudy);
-					rdfName = "RdfBackup/CT_study" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";
-					writingRDF(rdfName);
-					setInStarDog(rdfName);
+					Iterator<DICOMStudyType> iterFileSet = dicomFileSetDescriptor.dicomStudy.iterator();	// Iterator on the root of the Dicom Study XML
+					TranslateDicomData.readingCT(iterFileSet, 												// Read and translate the CT
+							studyInstanceUID, seriesInstanceUID, clinicalResearchStudy);
+					rdfName = "RdfBackup/CT_study" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";// Name for the RDF file
+					writingRDF(rdfName);																	// Write RDF in a file
+					setInStarDog(rdfName);																	// Push RDF file to Stardog
 					starDogConnection.close();																// Close Stardog connection
-
 				} else {
-					logger.warn("Unknown reference : "+series.getDICOMSeriesDescriptor().getModality00080060()); // Log a message if there is an unknown type
+					logger.warn("Unknown reference : "														// Log a message if there is an unknown type
+								+series.getDICOMSeriesDescriptor().getModality00080060()); 									
 				}
 			}
 		}
@@ -415,8 +425,8 @@ public class ImportController {
 		if (dockerHost==null) {dockerHost = Application.dockerHost ;}
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}		
 
-		if (nonDicomFileSetDescriptor!=null) {									    // If there is a nonDicomFileSetDescriptor
-			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); // Translate these Data
+		if (nonDicomFileSetDescriptor!=null) {									    						// If there is a nonDicomFileSetDescriptor
+			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data
 		}
 
 		logger.info("Retrieving NON Dicom FileSetDescriptor");
@@ -545,8 +555,8 @@ public class ImportController {
 				createAdminConnection(b, reasoningDefault); return;
 			}
 		}
-		createAdminConnection(database.ontoMedirad, reasoningDefault);										// If 
-	}
+		createAdminConnection(database.ontoMedirad, reasoningDefault);										// If the dataBase is not in the enumeration
+	}																										// Create a connection by default
 
 	public void createAdminConnection(String db, boolean paramreasoner) {
 		for (database b : database.values()) {
@@ -557,21 +567,23 @@ public class ImportController {
 		createAdminConnection(database.ontoMedirad, paramreasoner);
 	}
 
-	private ConnectionPool createConnectionPool (ConnectionConfiguration connectionConfig) {
+	private ConnectionPool createConnectionPool (ConnectionConfiguration connectionConfig) {				// Create the connection pool
 		ConnectionPoolConfig poolConfig = ConnectionPoolConfig.using(connectionConfig)
-				.minPool(0).maxPool(50).expiration(30, TimeUnit.MINUTES).blockAtCapacity(1, TimeUnit.MINUTES);
+				.minPool(0).maxPool(50)
+				.expiration(30, TimeUnit.MINUTES)
+				.blockAtCapacity(1, TimeUnit.MINUTES);
 		return poolConfig.create();
 	}
 
-	public void writingRDF(String pathOut) {
+	public void writingRDF(String pathOut) {																// Write the RDF 
 		logger.info("Writing RDF file in "+pathOut);		
 		try {
-			FileOutputStream sortie = new FileOutputStream(pathOut);
-			OntologyPopulator.populateModel.write(sortie, "RDF/XML-ABBREV");
-		} catch (FileNotFoundException e) {
+			FileOutputStream sortie = new FileOutputStream(pathOut);										// Open a stream to write in the file
+			OntologyPopulator.populateModel.write(sortie, "RDF/XML-ABBREV");								// Write content inside these stream in RDF/XML format
+		} catch (FileNotFoundException e) {																	// Error : file not found
 			logger.debug("Writing RDF file : FileNotFoundException");	
 			logger.debug(e.getMessage());
-		} catch (UnknownTransactionException e) {
+		} catch (UnknownTransactionException e) {															// Error during acces to database or file
 			logger.debug("Writing RDF file : UnknownTransactionException");	
 			logger.debug(e.getMessage());
 		} finally {
@@ -579,19 +591,20 @@ public class ImportController {
 		}
 	}
 
-	public void setInStarDog(String path) {
+	public void setInStarDog(String path) {																	// Import a RDF file in stardog
 		logger.info("Transfer to stardog...");
-		starDogConnection.begin();
-		try {starDogConnection.add().io().format(RDFFormat.RDFXML).stream(new FileInputStream(path)); 
-		} catch (StardogException e) {
+		starDogConnection.begin();																			// Begin the import action 
+		try {
+			starDogConnection.add().io().format(RDFFormat.RDFXML).stream(new FileInputStream(path)); 		// Import the file content belong the stardog connection
+		} catch (StardogException e) {																		// Error with Stardog or file content
 			logger.debug("StardogException");
 			logger.debug(e.getMessage());
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {																	// Error : file not found
 			logger.debug("StardogException");
 			logger.debug(e.getMessage());
 		}
 
-		starDogConnection.commit();
+		starDogConnection.commit();																			// End of the import action (without commit the import is not valid)
 		logger.info("Transfer to stardog : Complete");
 	}
 }

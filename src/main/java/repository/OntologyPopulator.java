@@ -18,41 +18,43 @@ import org.slf4j.LoggerFactory;
 
 import com.pixelmed.dicom.ContentItem;
 
-public abstract class OntologyPopulator {
-	static OntModel populateModel;
-	static OntModel model;
+public abstract class OntologyPopulator {															// Abstract Class because don't have to be callec
+																									// Contains all functions to create the ontology populated
+	static OntModel populateModel;																	// Model for store the populated graph
+	static OntModel model;																			// Model for store the ontology graph
 	
-	static String handle; static String patientID; 
+	static String handle; static String patientID; 													
 	static Individual patient; static Individual patientRole;
-	static Individual i; 
+	static Individual i; 																			// i is used to store an indivudual
 	
-	static Memory memory = Application.memory;
+	static Memory memory = Application.memory;														// memory store a few objects that will be used again
 
-	static String racineURI = "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#";
-	static String racineDCM = "http://dicom.nema.org/resources/ontology/DCM/";
+	static String racineDCM = "http://dicom.nema.org/resources/ontology/DCM/";						// ontology adresses
 	static String racineObo = "http://purl.obolibrary.org/obo/";
 	static String racineMol = "http://purl.bioontology.org/ontology/SNMI/";
+	static String racineURI = "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#";
+
 	
-	protected static final Logger logger = LoggerFactory.getLogger(repository.OntologyPopulator.class);
+	protected static final Logger logger = LoggerFactory.getLogger(repository.OntologyPopulator.class);	//logger
 	
-	static Hashtable<String, String> dico;
+	static Hashtable<String, String> dico;															// dictionnary to store shortcut to ontology adress
 	
-	public static Individual retrievePatientData(PatientDescriptorType patientData) {
+	public static Individual retrievePatientData(PatientDescriptorType patientData) {				// Extract Patient datas from XML
 		logger.info("Retrieving PatientData");
 		
 		String patientWeight;String patientBirthDate;
 		String patientSex; String patientAge; String patientSize;
 
-		populateModel = ModelFactory.createOntologyModel();
+		populateModel = ModelFactory.createOntologyModel();											// Create an empty graph for store individuals
 		if (model==null) {model = Application.getModel();}
 		if (memory==null) {memory = Application.memory;}
 
-		patient = createIndiv(generateName("Human"), model.getResource(racineURI+"human"));
-		patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient"));
+		patient = createIndiv(generateName("Human"), model.getResource(racineURI+"human"));			// create human
+		patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient")); // create patient role
 
-		addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);
+		addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
 
-		if (patientData.getPatientID00100020()!=null) {
+		if (patientData.getPatientID00100020()!=null) {												// if != null avoid a nullPointerException
 			patientID = patientData.getPatientID00100020();
 			addDataProperty(patient, racineURI+"has_id", patientID);
 		}
@@ -110,7 +112,7 @@ public abstract class OntologyPopulator {
 		return patient;
 	}
 
-	public static Individual retrieveClinicalResearchStudy(String name) {
+	public static Individual retrieveClinicalResearchStudy(String name) {									// Retrieve the clinical research Study (individual in the ontology)				
 		name=name.trim();
 		System.out.println("retrieveClinicalResearchStudy : "+name);
 		populateModel = ModelFactory.createOntologyModel();
@@ -128,32 +130,32 @@ public abstract class OntologyPopulator {
 		}
 	}
 	
-	public static void addDataProperty(Individual ind, String propName, String value) {
+	public static void addDataProperty(Individual ind, String propName, String value) {		// Create a Data property
 		logger.debug("Data Property adding with subjet : "+ind+" predicat : "+propName+" object : "+value);
 		Property prop = populateModel.createDatatypeProperty(propName);
 		ind.addProperty(prop, value);
 	}
 
-	public static void addObjectProperty(Individual ind, String propName, Individual ind2) {
+	public static void addObjectProperty(Individual ind, String propName, Individual ind2) { // Create an Object property
 		logger.debug("Object Property adding with subjet : "+ind+" predicat : "+propName+" object : "+ind2);
 		ObjectProperty prop = populateModel.createObjectProperty(propName);	
 		populateModel.add(ind, prop.asObjectProperty(), ind2);
 	}
 
-	public static Individual createIndiv(String name, Resource ressource) {
+	public static Individual createIndiv(String name, Resource ressource) {					// Create an Individual
 		logger.debug("Creating Individual named "+name+" with classs "+ressource.getLocalName());
 		Individual ind = populateModel.createIndividual(racineURI+name, ressource);
 		return ind;
 	}
 	
-	public static Individual createIndiv(Resource ressource) {
+	public static Individual createIndiv(Resource ressource) {								// Create an Individual by punning
 		logger.debug("Creating Individual (punning) "+" with classs "+ressource.getLocalName());
-		//Individual ind = populateModel.createIndividual(racineURI+name, ressource);
 		Individual ind = populateModel.createIndividual(ressource.getURI(), ressource);
 		return ind;
 	}
 
-	public static Individual createIndivWithUnit(String value, String name, String adresseValue, Resource ressource, String adresseProperty) {
+	public static Individual createIndivWithUnit(String value, String name, 				// Create an Individual with a unit (linked by a object property)
+			String adresseValue, Resource ressource, String adresseProperty) {
 		logger.debug("Creating Individual named "+name+" from "+adresseValue+" with Value and Unit : "+value);
 		Individual indiValue = createIndiv(generateName(name), model.getResource(adresseValue));
 		if (value.split("_")[0].contains(".")) {
@@ -165,27 +167,34 @@ public abstract class OntologyPopulator {
 		return indiValue;
 	}
 
-	public static void loadDico() {
+	public static void loadDico() { 									// Load shortcuts for IRI from a file
 		BufferedReader br; String cle; String iri;
 		try {
-			dico = new Hashtable<String, String>();
-			br = new BufferedReader(new FileReader("dico.txt"));
-            for(String line; (line = br.readLine()) != null; ) {
-                cle = line.split(":")[0];
-                iri = line.replace(cle+":", "");
-            	System.out.println("Dico : "+cle+" : "+iri);
-                dico.put(cle, iri);
+			dico = new Hashtable<String, String>();						// Create an empty dictionary
+			br = new BufferedReader(new FileReader("dico.txt"));		// Read (as a stream) the file
+            for(String line; (line = br.readLine()) != null; ) {		// Read line by line
+                cle = line.split(":")[0];								// Get name (used as a key for the dict)
+                iri = line.replace(cle+":", "");						// Get IRI 
+                dico.put(cle, iri);										// Put in the dictionary
             }
-		} catch (IOException e) {e.printStackTrace();}
+		} catch (IOException e) {e.printStackTrace();}	
 	}
 
-	public static Resource getResource(String cle) {
+	public static Resource getResource(String cle) {					// Get ressource from dictionary with the shortcut
 		if (dico==null) {loadDico();}
 		cle = cle.replace(" ", "_");
 		return model.getResource(dico.get(cle));
 	}
+	
+	public static String getURI(String cle) {							// Get URI from dictionary with the shortcut
+		if (dico==null) {loadDico();}
+		cle = cle.replace(" ", "_");
+		if (!dico.containsKey(cle)) {
+			logger.error("has key ("+cle+") : "+dico.containsKey(cle));
+		} return dico.get(cle);
+	}
 
-	public static ArrayList<Individual> createIndividualOrgan(String name, ContentItem e) {
+	public static ArrayList<Individual> createIndividualOrgan(String name, ContentItem e) {  // Special function used to send a list of organs (DICOM)
 		ArrayList<Individual> listOrgans = new ArrayList<Individual>();
 		Individual indOrgane = null; ContentItem lat; String latStr;
 		logger.debug("Creating Organ (Individual) from organ name : "+name);
@@ -1174,7 +1183,7 @@ public abstract class OntologyPopulator {
 		return listOrgans;
 	}
 
-	public static ArrayList<Individual> createIndividualOrgan(String name) {
+	public static ArrayList<Individual> createIndividualOrgan(String name) {				 // Special function used to send a list of organs (non DICOM)
 		ArrayList<Individual> listOrgans = new ArrayList<Individual>();
 		Individual indOrgane = null; 
 		logger.debug("Creating Organ (Individual) from organ name : "+name);
@@ -1639,7 +1648,7 @@ public abstract class OntologyPopulator {
 		return listOrgans;
 	}
  
-	public static ContentItem verifChild(ContentItem root, String test) {
+	public static ContentItem verifChild(ContentItem root, String test) {					 // (for dicom SR only) get child from a value
 		String name; String value; ContentItem child;
 		for (int i=0; i<root.getChildCount(); i++) {
 			child = (ContentItem) root.getChildAt(i);
@@ -1650,7 +1659,7 @@ public abstract class OntologyPopulator {
 		return null;
 	}
 
-	public static Individual getUnit(String u) {
+	public static Individual getUnit(String u) {											 // Generate unit individuals from a name
 		Individual unit; 
 		logger.debug("Creating Unit (Individual) from unit name : "+u);
 		u = u.trim();
@@ -1692,13 +1701,6 @@ public abstract class OntologyPopulator {
 		return unit;
 	}
 
-	public static String generateName(String type) {return type+"_"+UUID.randomUUID();}
+	public static String generateName(String type) {return type+"_"+UUID.randomUUID();}      // Generate a name with a random UID at end
 
-	public static String getURI(String cle) {
-		if (dico==null) {loadDico();}
-		cle = cle.replace(" ", "_");
-		if (!dico.containsKey(cle)) {
-			logger.error("has key ("+cle+") : "+dico.containsKey(cle));
-		} return dico.get(cle);
-	}
 }
