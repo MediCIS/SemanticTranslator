@@ -19,7 +19,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 	static Hashtable<String, Individual> tableVOI = new Hashtable<String, Individual>();
 	static Individual researchClinicalStudy;
 	
-	public static void translateNonDicomData(NonDicomFileSetDescriptor nonDicomFileSetDescriptor) {
+	public static void translateNonDicomData(NonDicomFileSetDescriptor nonDicomFileSetDescriptor) { // 1st function to read XML, check what is inside and call the appropritae function
 		populateModel = ModelFactory.createOntologyModel();
 		if (model==null) {model = Application.getModel();}
 		
@@ -27,6 +27,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			researchClinicalStudy = createIndiv("clinical_research_study_subtask2.1.2", model.getResource(racineURI+"clinical_research_study"));
 			retrieveSubtastk212(nonDicomFileSetDescriptor.wp2Subtask212WorkflowData.iterator());
 		}
+		
+		// to be completed when with other subtasks
 		
 	}
 	
@@ -615,7 +617,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		}
 	}
 	
-	public static Individual voi(String voiId, String voiClass) {
+	public static Individual voi(String voiId, String voiClass) { //function to check if a VOI has been already described (and make then unic)
+		// If the voi exist return these VOI, else return a new VOI
 		if (!tableVOI.containsKey(voiId)) {
 			Individual voi;
 			if (voiClass!=null) {

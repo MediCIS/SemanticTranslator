@@ -32,11 +32,11 @@ public class TranslateDicomData extends OntologyPopulator {
 		
 		if (memory==null) {memory = Application.memory;}
 
-		while (iterFileSet.hasNext()) {
+		while (iterFileSet.hasNext()) {					// allow to iter on multiple fileset
 			study = iterFileSet.next();
 			studyDescriptor = study.getDICOMStudyDescriptor();
 			
-			handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;
+			handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID; 
 			
 			memory.setPatient(seriesInstanceUID, studyInstanceUID, patient);
 			addObjectProperty(clinicalResearchStudy, racineURI+"has_patient", patient);
@@ -51,7 +51,7 @@ public class TranslateDicomData extends OntologyPopulator {
 			organName = organName.toLowerCase();
 
 			organs = createIndividualOrgan(organName);
-			for (int i=0; i<organs.size(); i++) {
+			for (int i=0; i<organs.size(); i++) {			// organs are provided as a list (because 1 name can be many organs as FMA)
 				addObjectProperty(imagingStudy, racineURI+"has_target_region", organs.get(i));
 			}
 
@@ -132,23 +132,25 @@ public class TranslateDicomData extends OntologyPopulator {
 		}
 	}
 
-	public static void readingSR(ContentItem root) {
+	public static void readingSR(ContentItem root) { // recursive function for read SR tree
 		if (model==null) {model = Application.getModel();}
 		ContentItem child;
 		
-		for (int i=0; i<root.getChildCount(); i++) {
+		for (int i=0; i<root.getChildCount(); i++) {  // Iterate on each child elements
 			child = (ContentItem) root.getChildAt(i);
-			TranslateSR(child);
-			if (!child.isLeaf()) {readingSR(child);}
+			TranslateSR(child);						  // Translate the element
+			if (!child.isLeaf()) {readingSR(child);}  // Iter on the child element(s)
 		}
 	}
 	
 	public static void TranslateSR(ContentItem e) {
-		String name = e.getConceptNameCodeMeaning().trim().replaceAll(" ", "_").replaceAll("\n", "");;
+		String name = e.getConceptNameCodeMeaning().trim().replaceAll(" ", "_").replaceAll("\n", ""); 
 		String value = e.getConceptValue().trim().replaceAll(" ", "_").replaceAll("\n", "");
 		logger.debug("Element Translation in Ontology : "+name+" : "+value);
 
 		switch (name) {
+		// Cases are ordred as SR references description table for make them more humand readable
+		
 		// Table 10011 CT Radiation Dose (part 16, p423)
 		case "Procedure_reported":
 			switch (value) {

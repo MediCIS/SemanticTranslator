@@ -3,8 +3,9 @@ package repository;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ValidationReport {
-    private final boolean isValid;
+public class ValidationReport { //Validation report are sent to Front server after XML validations
+    
+	private final boolean isValid;
     private final String message;
 
     public ValidationReport(boolean isValid, String message) {
@@ -16,7 +17,7 @@ public class ValidationReport {
 
     public String getMessage() {return message;}
     
-    public String getJson() {
+    public String getJson() { 		// Return as A JSOn object
 		JSONObject obj = new JSONObject();
 		
 		try {

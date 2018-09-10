@@ -10,7 +10,7 @@ public class Querry {
 	private String label;
 	private String description; 
 
-	public Querry(String pid, String plabel,String prequest, String pdescription) {
+	public Querry(String pid, String plabel,String prequest, String pdescription) { // Querry constructor
 		id=pid; label=plabel; description=pdescription; request=prequest;
 	}
 	
