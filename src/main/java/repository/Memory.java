@@ -30,7 +30,7 @@ public class Memory extends OntologyPopulator {
 	String starDogUrl = Application.starDogUrl;										// Retreive stardogURL from Application
 	private final static Logger logger = LoggerFactory.getLogger(Memory.class);		// Logger
 
-	private LinkedList<String> listSeriesctDataset;									//
+	private LinkedList<String> listSeriesctDataset;									
 	private LinkedList<String> listStudyctDataset;
 	private LinkedList<Individual> listIRIctDataset;
 	

@@ -11,10 +11,9 @@ import com.pixelmed.dicom.ContentItem;
 public class TranslateDicomData extends OntologyPopulator {
 	
 	static String value; static String name; static String studyInstUID;
-	static Individual CTradSR;
 	static Individual radioPharSR; static Individual study; static Individual accDose;
 	static Individual irradEvent; static  Individual scanningLength; static Individual CTDI;
-	static Individual DLP; static Individual CTDIwPhantomType; 
+	static Individual DLP; static Individual CTDIwPhantomType; static Individual CTradSR;
 	static String startValue; static String endValue; static String unit;
 	static DicomFileSetDescriptor DicomFileSetDescriptorContent;
 	static NonDicomFileSetDescriptor nonDicomFileSetDescriptorContent;
@@ -148,8 +147,7 @@ public class TranslateDicomData extends OntologyPopulator {
 		String value = e.getConceptValue().trim().replaceAll(" ", "_").replaceAll("\n", "");
 		logger.debug("Element Translation in Ontology : "+name+" : "+value);
 
-		switch (name) {
-		// Cases are ordred as SR references description table for make them more humand readable
+		switch (name) { // Cases are ordered as SR references description table for make them more human readable
 		
 		// Table 10011 CT Radiation Dose (part 16, p423)
 		case "Procedure_reported":
@@ -460,5 +458,4 @@ public class TranslateDicomData extends OntologyPopulator {
 			logger.warn("Unknown Field : "+name);
 		}
 	}
-
 }

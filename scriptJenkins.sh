@@ -54,7 +54,112 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -X GET http://localhost:8090/getListQuerries)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_2.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
+
+if [ "$RESULT" == "$REF" ]
+then
+echo "importDicomFileSetDescriptor : OK"
+else
+echo "importDicomFileSetDescriptor : Error"
+echo -e "Return :"$RESULT
+echo -e "Attempted :"$REF
+exit 1
+fi
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_2.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
+
+if [ "$RESULT" == "$REF" ]
+then
+echo "ImportNonDicomFileSetDescriptor : OK"
+else
+echo "ImportNonDicomFileSetDescriptor : Error"
+echo -e "Return :"$RESULT
+echo -e "Attempted :"$REF
+exit 1
+fi
+
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_3.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
+
+if [ "$RESULT" == "$REF" ]
+then
+echo "importDicomFileSetDescriptor : OK"
+else
+echo "importDicomFileSetDescriptor : Error"
+echo -e "Return :"$RESULT
+echo -e "Attempted :"$REF
+exit 1
+fi
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_3.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
+
+if [ "$RESULT" == "$REF" ]
+then
+echo "ImportNonDicomFileSetDescriptor : OK"
+else
+echo "ImportNonDicomFileSetDescriptor : Error"
+echo -e "Return :"$RESULT
+echo -e "Attempted :"$REF
+exit 1
+fi
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_4.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
+
+if [ "$RESULT" == "$REF" ]
+then
+echo "importDicomFileSetDescriptor : OK"
+else
+echo "importDicomFileSetDescriptor : Error"
+echo -e "Return :"$RESULT
+echo -e "Attempted :"$REF
+exit 1
+fi
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_4.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
+
+if [ "$RESULT" == "$REF" ]
+then
+echo "ImportNonDicomFileSetDescriptor : OK"
+else
+echo "ImportNonDicomFileSetDescriptor : Error"
+echo -e "Return :"$RESULT
+echo -e "Attempted :"$REF
+exit 1
+fi
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_5.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
+
+if [ "$RESULT" == "$REF" ]
+then
+echo "importDicomFileSetDescriptor : OK"
+else
+echo "importDicomFileSetDescriptor : Error"
+echo -e "Return :"$RESULT
+echo -e "Attempted :"$REF
+exit 1
+fi
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_5.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
+
+if [ "$RESULT" == "$REF" ]
+then
+echo "ImportNonDicomFileSetDescriptor : OK"
+else
+echo "ImportNonDicomFileSetDescriptor : Error"
+echo -e "Return :"$RESULT
+echo -e "Attempted :"$REF
+exit 1
+fi
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -X GET http://localhost:8090/getResearchStudies)
 NCHAR=${#RESULT}
 
 if [ "$NCHAR" -gt "50" ]
@@ -66,7 +171,19 @@ echo -e "Return :"$RESULT
 exit 1
 fi
 
-RESULT=$(curl    -s -H "Content-Type: text/xml" -X GET http://localhost:8090/testReturnReq?isReasoning=false)
+RESULT=$(curl -s -H "Content-Type: text/xml" -X GET http://localhost:8090/testReturnReq?isReasoning=false)
+NCHAR=${#RESULT}
+
+if [ "$NCHAR" -gt "50" ]
+then
+echo "testReturnReq : OK"
+else
+echo "testReturnReq : Error"
+echo -e "Return :"$RESULT
+exit 1
+fi
+
+RESULT=$(curl -s -H "Content-Type: text/xml" -X GET http://localhost:8090/testReturnReq?isReasoning=false)
 NCHAR=${#RESULT}
 
 if [ "$NCHAR" -gt "50" ]
