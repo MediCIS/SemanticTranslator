@@ -2,26 +2,19 @@ package repository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.ResourceFactory;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.TupleQueryResult;
 import org.openrdf.query.TupleQueryResultHandlerException;
 import org.openrdf.query.resultio.QueryResultIO;
+import org.openrdf.query.resultio.TupleQueryResultFormat;
 import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.complexible.common.rdf.query.resultio.TextTableQueryResultWriter;
 import com.complexible.stardog.api.Connection;
 import com.complexible.stardog.api.ConnectionConfiguration;
 import com.complexible.stardog.api.ConnectionPool;
@@ -238,7 +231,7 @@ public class Memory extends OntologyPopulator {
 			System.out.println("results : ");
 					
 			out = new ByteArrayOutputStream();
-			QueryResultIO.writeTuple(aResult, TextTableQueryResultWriter.FORMAT.CSV, out);
+			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
 			
 			System.out.println(out.toString());
 			
@@ -295,7 +288,7 @@ public class Memory extends OntologyPopulator {
 			System.out.println("results : ");
 					
 			out = new ByteArrayOutputStream();
-			QueryResultIO.writeTuple(aResult, TextTableQueryResultWriter.FORMAT.CSV, out);
+			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
 			
 			System.out.println(out.toString());
 			
@@ -353,7 +346,7 @@ public class Memory extends OntologyPopulator {
 			System.out.println("results : ");
 					
 			out = new ByteArrayOutputStream();
-			QueryResultIO.writeTuple(aResult, TextTableQueryResultWriter.FORMAT.CSV, out);
+			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
 			
 			System.out.println(out.toString());
 			
@@ -414,7 +407,7 @@ public class Memory extends OntologyPopulator {
 			System.out.println("results : ");
 					
 			out = new ByteArrayOutputStream();
-			QueryResultIO.writeTuple(aResult, TextTableQueryResultWriter.FORMAT.CSV, out);
+			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
 			
 			System.out.println(out.toString());
 			

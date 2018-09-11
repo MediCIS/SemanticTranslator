@@ -33,11 +33,12 @@ import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.TupleQueryResult;
 import org.openrdf.query.TupleQueryResultHandlerException;
 import org.openrdf.query.resultio.QueryResultIO;
+import org.openrdf.query.resultio.TupleQueryResultFormat;
 import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
 import org.openrdf.rio.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,7 +47,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.complexible.common.rdf.query.resultio.TextTableQueryResultWriter;
 import com.complexible.stardog.StardogException;
 import com.complexible.stardog.api.Connection;
 import com.complexible.stardog.api.ConnectionConfiguration;
@@ -98,12 +98,6 @@ public class ImportController {
 		String p2=requestParams.get("p2");
 		return "Hello "+p1+" "+p2+"\n";
 	}
-
-	@RequestMapping(value = "/exit")			
-	public void exit() {
-		//return Application.ready ? "YES" : "NO";
-		SpringApplication.exit(null, null);
-	}
 	
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
 	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
@@ -128,10 +122,10 @@ public class ImportController {
 				"      }" , "false" ); 	  
 	} 
 
-	@RequestMapping ( value = "/getRequestList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
+	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
 	public String getRequestList() {return Application.listQuerries.getJsonString();} // return request list in JSON
 
-	@RequestMapping ( value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = {"application/json"})
+	@RequestMapping(value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = {"application/json"})
 	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) {  // validate request list in JSON
 
 		logger.info("Validating DicomFileSetDescriptor");
@@ -152,6 +146,7 @@ public class ImportController {
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 			unmarshaller.setSchema(schema);     						// Store the schema
 
+			@SuppressWarnings("unused")
 			DicomFileSetDescriptor fileSetDescriptor = 					// Import the XML file and check if XML is valid with the schema
 					(DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath)); 
 			
@@ -169,7 +164,7 @@ public class ImportController {
 		return new ValidationReport(true, "").getJson(); 				// return the message (valid) as a JSON object
 	}
 
-	@RequestMapping ( value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
+	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
 	public String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) {
 
 		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
@@ -191,6 +186,7 @@ public class ImportController {
 			Unmarshaller unmarshaller = jc.createUnmarshaller();		// Object to receive the XML schema
 			unmarshaller.setSchema(schema);     						// Store the schema
 
+			@SuppressWarnings("unused")
 			NonDicomFileSetDescriptor fileSetDescriptor = 				// import the XML file and check if XML is valid with the schema
 					(NonDicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath));
 
@@ -247,7 +243,7 @@ public class ImportController {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
 		try {
 			QueryResultIO.writeTuple(aResult, 
-					TextTableQueryResultWriter.FORMAT.JSON, out);		// Write the request result in the ByteArrayOutputStream
+					TupleQueryResultFormat.JSON, out);					// Write the request result in the ByteArrayOutputStream
 		} catch (TupleQueryResultHandlerException e) {
 			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
 		} catch (QueryEvaluationException e) {
@@ -257,10 +253,10 @@ public class ImportController {
 		} catch (IOException e) {
 			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
 		} finally {
-			starDogConnection.close();
+			starDogConnection.close();									// Close The Connection to Stardog (despite the errors)
 			aResult.close();											// Close The Object (despite the errors)
 		}
-		return (out.toString());										// Convert the ByteArrayOutputStream as a string and return it in a JSON object
+		return (out.toString());										// Convert the ByteArrayOutputStream as a string and return it
 	}
 
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
@@ -300,7 +296,7 @@ public class ImportController {
 
 	@RequestMapping( value = "/testReturnReq", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
 	public String RequeteTestReturn(@RequestParam("isReasoning") String isReasoning) {
-
+		@SuppressWarnings("unused")
 		String sparql1 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
 				"	WHERE {\n" + 
 				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
@@ -333,6 +329,7 @@ public class ImportController {
 				"?scanner ontomedirad:has_model_name ?model .\n" + 
 				"}\n" ;
 
+		@SuppressWarnings("unused")
 		String sparql2 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
 				"	WHERE {\n" + 
 				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
@@ -345,7 +342,7 @@ public class ImportController {
 				"?scanner ontomedirad:has_manufacturer_name ?manufacturer .\n" + 
 				"?scanner ontomedirad:has_model_name ?model .\n" + 
 				"}\n";
-
+		@SuppressWarnings("unused")
 		String sparql3  = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
 				"	WHERE {\n" + 
 				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
@@ -538,7 +535,7 @@ public class ImportController {
 				.credentials(username, password)															// Login and Pasword of Stardog
 				.reasoning(paramreasoner);																	// Will it use reasoning (boollean)
 
-		logger.debug("StarDog connection (reasoning : "+connectionConfig.REASONING_ENABLED.toString()+")"); 
+		logger.debug("StarDog connection (reasoning : "+ConnectionConfiguration.REASONING_ENABLED.toString()+")"); 
 
 		ConnectionPool connectionPool = createConnectionPool(connectionConfig);								// Create the Stardog connection 
 		starDogConnection = connectionPool.obtain();														// Return the Stardog connection as a java Object

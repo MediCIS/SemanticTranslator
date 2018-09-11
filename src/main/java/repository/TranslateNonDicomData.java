@@ -7,7 +7,6 @@ import java.util.Iterator;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.ModelFactory;
 
-import repository.NonDicomFileSetDescriptor.ReferencedClinicalResearchStudy;
 import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData;
 import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.CTSegmentation;
 import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry;
