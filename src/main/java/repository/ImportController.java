@@ -84,7 +84,7 @@ public class ImportController {
 
 	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
 
-	static Individual patient;							// Will store the ontologic entity of the patient
+	static Individual patient;					// Will store the ontologic entity of the patient
 	static Individual clinicalResearchStudy;
 
 	static String handle;						// Handle is at top for being transmitted to the Import Controller
