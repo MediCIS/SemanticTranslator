@@ -2,7 +2,7 @@
 
 echo TEST
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_1.xml -X POST http://localhost:8090/validateDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/dicomFileSetDescriptor_1.xml -X POST http://localhost:8090/validateDicomFileSetDescriptor)
 REF='{"isValid":true,"message":""}'
 
 if [ "$RESULT" == "$REF" ]
@@ -15,7 +15,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_1.xml -X POST http://localhost:8090/validateNonDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/nonDicomFileSetDescriptor_1.xml -X POST http://localhost:8090/validateNonDicomFileSetDescriptor)
 REF='{"isValid":true,"message":""}'
 
 if [ "$RESULT" == "$REF" ]
@@ -28,7 +28,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_1.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/dicomFileSetDescriptor_1.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
 REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -41,7 +41,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_1.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/nonDicomFileSetDescriptor_1.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
 REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -54,7 +54,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_2.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/dicomFileSetDescriptor_2.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
 REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -67,7 +67,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_2.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/nonDicomFileSetDescriptor_2.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
 REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -81,7 +81,7 @@ exit 1
 fi
 
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_3.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/dicomFileSetDescriptor_3.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
 REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -94,7 +94,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_3.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/nonDicomFileSetDescriptor_3.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
 REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -107,7 +107,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_4.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/dicomFileSetDescriptor_4.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
 REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -120,7 +120,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_4.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/nonDicomFileSetDescriptor_4.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
 REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -133,7 +133,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @dicomFileSetDescriptor_5.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/dicomFileSetDescriptor_5.xml -X POST http://localhost:8090/importDicomFileSetDescriptor)
 REF='{"res": "ImportDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
@@ -146,7 +146,7 @@ echo -e "Attempted :"$REF
 exit 1
 fi
 
-RESULT=$(curl -s -H "Content-Type: text/xml" -d @nonDicomFileSetDescriptor_5.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
+RESULT=$(curl -s -H "Content-Type: text/xml" -d @uploadFiles/nonDicomFileSetDescriptor_5.xml -X POST http://localhost:8090/importNonDicomFileSetDescriptor)
 REF='{"res": "ImportNonDicomFileSetDescriptor Request received"}'
 
 if [ "$RESULT" == "$REF" ]
