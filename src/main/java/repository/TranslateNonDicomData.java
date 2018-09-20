@@ -67,6 +67,9 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		
 		while (subtask212Iter.hasNext()) {
 			subtask212 = subtask212Iter.next();
+			
+			
+			
 			if (subtask212.simpleCTMonteCarloDosimetry!=null) {
 				ctMonteCarloDosimetryIter = subtask212.simpleCTMonteCarloDosimetry.iterator();
 				while (ctMonteCarloDosimetryIter.hasNext()) {

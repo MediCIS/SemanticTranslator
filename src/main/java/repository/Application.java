@@ -38,7 +38,7 @@ public class Application {
         listQuerries = new ListQuerries(); 								 // Init a querry list (read from the excel file)
         loadOntology(pathOntology); 									 // load the ontlogy from file (it takes about 3-4 minutes)
         memory = new Memory(); 											 // Going to request to get usefull object inside semanti database
-        hideLogs = false; 												 // Will allow logs to be show
+        hideLogs = false; 									 			 // Will allow logs to be show
         System.out.println("ready"); 							  		 // Now server is ready to receive commands
     }
     

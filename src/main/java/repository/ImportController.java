@@ -102,12 +102,13 @@ public class ImportController {
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
 	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
 		System.out.println("getMimeTypeDataFormat");
+		
 		return executeQuerry("  SELECT DISTINCT  ?label ?class\n" + 
 				"           WHERE {\n" + 
 				"        ?class rdf:type owl:Class .\n" + 
 				"        ?class ontomedirad:has_MIME_type ?label .\n" + 
 				"        ?class skos:prefLabel ?classlabel .\n" + 
-				"        FILTER (?classlabel = <"+nonDICOMDataFormat+"@en>) .\n" + 
+				"        FILTER (?classlabel = \""+nonDICOMDataFormat.replace("_", " ")+"\"@en) \n" + 
 				"        }" , "false" ); 	
 	} 
 
@@ -217,7 +218,7 @@ public class ImportController {
 		if (GateKeeper(request)==false) {							  	// Security test
 			return "Request refused for Security Reason";             	// Stop the function if the request is not secured
 		} 
-
+		System.out.println(request);
 		switch(isReasoning) {										  	// Will create a stardog connection 
 		case "true": 
 			createAdminConnection(database.ontoMedirad, true); 		  	// Create a connection to a stardog database with reasoning

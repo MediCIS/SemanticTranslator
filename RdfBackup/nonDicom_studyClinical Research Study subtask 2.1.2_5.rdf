@@ -31,264 +31,93 @@
   <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_series_instance_UID"/>
   <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_IRDBB_FHIR_handle"/>
   <owl:DatatypeProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000004"/>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_8b2995d3-b87f-4bbd-8295-39be9c47a92c">
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_f56073d2-ba89-4c63-bc44-90142d16cdc7">
     <j.1:has_format>
       <j.1:zipped_pseudo_DICOM_ImpactMC rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
     </j.1:has_format>
     <j.1:has_name>dose_images/fixed/100kv/dose.zip</j.1:has_name>
   </j.1:non_DICOM_file>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_83610b05-4985-4f5a-b02f-8e01a1b8afa9">
-    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/fixed/80kv/dose.zip</j.1:has_name>
-  </j.1:non_DICOM_file>
-  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_fc3415ac-0408-46ca-add0-a82b933c049a">
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_d40e919a-ef69-489b-bb91-ca7c26d30a85">
+    <j.1:has_dose>
+      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_bffa1c5b-9e36-4884-a8ac-df03b6a3abab">
+        <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+        <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/176</j.1:has_IRDBB_FHIR_handle>
+        <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
+        <j.0:IAO_0000039>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))">
+            <rdf:type rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+          </rdf:Description>
+        </j.0:IAO_0000039>
+        <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/128487"/>
+      </rdf:Description>
+    </j.1:has_dose>
+  </rdf:Description>
+  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_89898581-9e37-4c54-99b4-f9e52192c3cd">
     <j.0:BFO_0000117>
-      <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_e9588c95-2bf7-44bf-8b19-9344dca504fd">
+      <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_d12d9917-8fae-4b44-85ee-fc18a299bfb8">
         <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_d3d6c268-d49f-4420-b6f9-47c99a00e48d">
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_9175d791-f1d0-4dc2-b39f-bd88b524503f">
             <j.1:is_dose_absorbed_by>
               <j.0:FMA_7163 rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
             </j.1:is_dose_absorbed_by>
-            <j.0:IAO_0000039>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))">
-                <rdf:type rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-              </rdf:Description>
-            </j.0:IAO_0000039>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
             <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
           </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
         </j.1:has_specified_output>
         <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_ae7017d8-7a33-4a38-9e90-7dd8c20d3594">
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_afaedf93-bb78-496e-be6a-143c398b3320">
             <j.1:is_dose_absorbed_by>
               <j.0:FMA_68877 rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
             </j.1:is_dose_absorbed_by>
             <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
             <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
           </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
         </j.1:has_specified_output>
         <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_f0c27cd4-72b8-40cc-8e84-ae80ea51853d">
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_b1b37fcb-9ca6-4168-8ff6-39573ae6d413">
             <j.1:is_dose_absorbed_by>
               <j.0:FMA_7088 rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
             </j.1:is_dose_absorbed_by>
             <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
             <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
           </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
         </j.1:has_specified_output>
         <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_13e599f3-ed7a-4e97-bdd0-490172b54832">
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_befdc4de-4613-42e3-acd2-0a07ce67ff86">
             <j.1:is_dose_absorbed_by>
               <j.0:FMA_7131 rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
             </j.1:is_dose_absorbed_by>
             <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
             <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
           </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
         </j.1:has_specified_output>
         <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_d575481b-d8e9-4cc3-8e24-246c4d77e74f">
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_9a5669e2-2cb6-4650-b800-07d9dd4074a0">
             <j.1:is_dose_absorbed_by>
               <j.1:breasts rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
             </j.1:is_dose_absorbed_by>
             <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
             <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
           </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
         </j.1:has_specified_output>
         <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_22b6803e-90c5-4961-8900-969f6f7a5e5f">
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_33c7fe6b-54a1-4074-8b26-9abfa4d9736b">
             <j.1:is_dose_absorbed_by>
               <j.0:FMA_5018 rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
             </j.1:is_dose_absorbed_by>
             <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
             <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
           </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
         </j.1:has_specified_output>
         <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
         <j.1:has_specified_input>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_a5b3e266-0361-4954-98ae-1b3dda55baba">
-            <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-            <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/181</j.1:has_IRDBB_FHIR_handle>
-            <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/128487"/>
-          </rdf:Description>
-        </j.1:has_specified_input>
-      </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
-    </j.0:BFO_0000117>
-    <j.0:BFO_0000117>
-      <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_c3bd15fc-bfc0-4f00-b2f4-6453ed7f6a6d">
-        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_9a9b83a8-8513-41f9-ab82-ed06f3dc28c3"/>
-        <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_a5b3e266-0361-4954-98ae-1b3dda55baba"/>
-        <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_3bcd7bfd-f641-4b7b-a2c0-61e04c4683fb"/>
-        <j.1:has_setting>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_7c0c501c-0542-4c43-ab70-77b4503c6b4b">
-            <j.0:IAO_0000004>80</j.0:IAO_0000004>
-            <j.0:IAO_0000039>
-              <j.0:UO_0000248 rdf:about="http://purl.obolibrary.org/obo/UO_0000248"/>
-            </j.0:IAO_0000039>
-            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
-          </rdf:Description>
-        </j.1:has_setting>
-        <j.1:has_setting>
-          <j.1:use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#use_of_X_ray_modulation_06f5c109-2444-49c6-ae76-1c70e3a928e8">
-            <j.0:IAO_0000004>use of X-ray modulation</j.0:IAO_0000004>
-          </j.1:use_of_X_ray_modulation>
-        </j.1:has_setting>
-        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_2c5f9e49-e456-417a-b148-ff48c1b80063"/>
-        <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
-      </j.1:calculation_of_a_3D_dose_map>
-    </j.0:BFO_0000117>
-    <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-  </j.1:Monte_Carlo_CT_dosimetry>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_cee33596-924d-4134-84a2-c730feabc9b1">
-    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/fixed/120kv/dose.zip</j.1:has_name>
-  </j.1:non_DICOM_file>
-  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_965a7aa6-0b54-44b1-a4b8-02f464dc80c0">
-    <j.0:BFO_0000117>
-      <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_67a7b5cc-0c59-4f02-af13-116711ebec26">
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_f1816921-2ec9-433c-8b29-cd869af3dab2">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_b37f0fe1-dad0-4e77-8647-690848fb8917">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_113c5ea4-d930-4271-96e6-b2b7083c3238">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_b2781fe4-5f0b-4f89-8a09-b06d1cc383ee">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_33b9ac2d-33ad-41d5-b8da-592df1eef446">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_2803bbc9-5856-4151-8e1c-08ef5e3cbcbe">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-        <j.1:has_specified_input>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_51551e32-f79e-402c-8722-c13cbc562fe7">
-            <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-            <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/182</j.1:has_IRDBB_FHIR_handle>
-            <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/128487"/>
-          </rdf:Description>
-        </j.1:has_specified_input>
-      </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
-    </j.0:BFO_0000117>
-    <j.0:BFO_0000117>
-      <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_0c0fdea4-8fb4-4def-a233-e47d866e17ae">
-        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_9a9b83a8-8513-41f9-ab82-ed06f3dc28c3"/>
-        <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_51551e32-f79e-402c-8722-c13cbc562fe7"/>
-        <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_3bcd7bfd-f641-4b7b-a2c0-61e04c4683fb"/>
-        <j.1:has_setting>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_9f6647ae-b2fd-4eca-8af3-a59ca21f256a">
-            <j.0:IAO_0000004>100</j.0:IAO_0000004>
-            <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
-            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
-          </rdf:Description>
-        </j.1:has_setting>
-        <j.1:has_setting>
-          <j.1:no_use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#no_use_of_X_ray_modulation_494a809b-c1a3-4d49-b7e5-8250bc6fa6e5">
-            <j.0:IAO_0000004>no use of X-ray modulation</j.0:IAO_0000004>
-          </j.1:no_use_of_X_ray_modulation>
-        </j.1:has_setting>
-        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_2c5f9e49-e456-417a-b148-ff48c1b80063"/>
-        <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
-      </j.1:calculation_of_a_3D_dose_map>
-    </j.0:BFO_0000117>
-    <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-  </j.1:Monte_Carlo_CT_dosimetry>
-  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_d57f9a13-ae33-4b8e-be40-f8971474a483">
-    <j.0:BFO_0000117>
-      <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_2aa2cb0a-107b-429f-bfff-9f8488e36920">
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_7d77252f-145d-427f-8ed1-bc48fdcda8b3">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_fd96177b-35eb-45f1-994e-47c288d2742c">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_0aba0a6d-a7b0-4e10-9788-554ee6e1974f">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_20ddd08c-2385-4573-8cd7-47979e30b085">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_d3190ee1-da01-4368-8725-722ee58f17c2">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_specified_output>
-          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_e8366aeb-175f-4574-81c3-932f2f474cef">
-            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
-            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-            <j.0:IAO_0000004>10</j.0:IAO_0000004>
-            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-        </j.1:has_specified_output>
-        <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-        <j.1:has_specified_input>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_cd56455e-b916-4be0-9499-ac24f3f8703b">
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_1232ad2a-1bf1-4ebf-b19f-0acdfcef4d49">
             <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
             <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/191</j.1:has_IRDBB_FHIR_handle>
             <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
@@ -299,39 +128,414 @@
       </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
     </j.0:BFO_0000117>
     <j.0:BFO_0000117>
-      <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_2a1ae86a-5793-40fd-a5d2-2c856688a1e4">
-        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_9a9b83a8-8513-41f9-ab82-ed06f3dc28c3"/>
-        <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_cd56455e-b916-4be0-9499-ac24f3f8703b"/>
-        <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_3bcd7bfd-f641-4b7b-a2c0-61e04c4683fb"/>
+      <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_d9f41670-c281-40e7-8566-b47d201c4c2a">
+        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_77a2e5a4-e922-4d6b-9905-df9c68e16a4f"/>
+        <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_1232ad2a-1bf1-4ebf-b19f-0acdfcef4d49"/>
+        <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_8022d962-c6da-4da5-b5f8-39abc9cd10b4"/>
         <j.1:has_setting>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_db3a6057-e162-420b-b1ed-a5b9cdb1422b">
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_7ee294b9-37dd-4124-91d0-68906c65bc69">
+            <j.0:IAO_0000004>80</j.0:IAO_0000004>
+            <j.0:IAO_0000039>
+              <j.0:UO_0000248 rdf:about="http://purl.obolibrary.org/obo/UO_0000248"/>
+            </j.0:IAO_0000039>
+            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
+          </rdf:Description>
+        </j.1:has_setting>
+        <j.1:has_setting>
+          <j.1:no_use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#no_use_of_X_ray_modulation_762de260-7cd7-4ac2-a280-4a6b5369f57d">
+            <j.0:IAO_0000004>no use of X-ray modulation</j.0:IAO_0000004>
+          </j.1:no_use_of_X_ray_modulation>
+        </j.1:has_setting>
+        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_bea237ae-ec52-48d1-835b-89bbd1f74f86"/>
+        <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
+      </j.1:calculation_of_a_3D_dose_map>
+    </j.0:BFO_0000117>
+    <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+  </j.1:Monte_Carlo_CT_dosimetry>
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_e51e564f-52d1-4966-911b-32ec566a9632">
+    <j.1:has_dose>
+      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_99a60e26-a7fa-4998-970b-1eb2c1f6f089">
+        <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+        <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/182</j.1:has_IRDBB_FHIR_handle>
+        <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
+        <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+        <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/128487"/>
+      </rdf:Description>
+    </j.1:has_dose>
+  </rdf:Description>
+  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_74839afa-a5ff-446a-86f6-e1d26fed4735">
+    <j.0:BFO_0000117>
+      <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_3e8a1782-dabc-4f4d-a901-1f5b14b777a6">
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_fe7289c7-3359-4ae2-8efb-c9e16a73256d">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_0ca7d797-101f-4b80-b46b-bfbf5817d0bd">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_f12c8045-3bb6-4be3-97d4-450747fdf618">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_ef6418d0-d624-436e-8ea6-84af7fa16524">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_85c340f8-948d-470c-9a56-9dba13696d8c">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_b788694d-19bc-40d8-a540-f36e6ba424da">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_99a60e26-a7fa-4998-970b-1eb2c1f6f089"/>
+      </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
+    </j.0:BFO_0000117>
+    <j.0:BFO_0000117>
+      <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_ccbf7f29-da4e-46b4-83ba-efc68ecd0cb1">
+        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_77a2e5a4-e922-4d6b-9905-df9c68e16a4f"/>
+        <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_99a60e26-a7fa-4998-970b-1eb2c1f6f089"/>
+        <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_8022d962-c6da-4da5-b5f8-39abc9cd10b4"/>
+        <j.1:has_setting>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_2f83016f-d645-4623-b00b-f245d96ee27c">
+            <j.0:IAO_0000004>100</j.0:IAO_0000004>
+            <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
+            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
+          </rdf:Description>
+        </j.1:has_setting>
+        <j.1:has_setting>
+          <j.1:no_use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#no_use_of_X_ray_modulation_d8436e24-c268-4810-8992-9e2f9683eacd">
+            <j.0:IAO_0000004>no use of X-ray modulation</j.0:IAO_0000004>
+          </j.1:no_use_of_X_ray_modulation>
+        </j.1:has_setting>
+        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_bea237ae-ec52-48d1-835b-89bbd1f74f86"/>
+        <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
+      </j.1:calculation_of_a_3D_dose_map>
+    </j.0:BFO_0000117>
+    <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+  </j.1:Monte_Carlo_CT_dosimetry>
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_c5a532e0-51c3-4242-9593-f50baec06af4">
+    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+    <j.1:has_name>dose_images/aec/80kv/dose.zip</j.1:has_name>
+  </j.1:non_DICOM_file>
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_a0afadd7-ec76-452d-907e-7ebc22c70379">
+    <j.1:has_dose>
+      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_142d2255-7c82-4fe1-ae71-d30d613bc7a5">
+        <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+        <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/178</j.1:has_IRDBB_FHIR_handle>
+        <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
+        <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+        <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/128487"/>
+      </rdf:Description>
+    </j.1:has_dose>
+  </rdf:Description>
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_ecf1f400-a5e3-4954-877f-2c4a0778d32e">
+    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+    <j.1:has_name>dose_images/fixed/80kv/dose.zip</j.1:has_name>
+  </j.1:non_DICOM_file>
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_0529f024-481d-43be-8855-27760b6fa172">
+    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+    <j.1:has_name>dose_images/fixed/80kv/dose.zip</j.1:has_name>
+  </j.1:non_DICOM_file>
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_6ec9346f-9eec-4de8-98d8-be1241453ff9">
+    <j.1:has_dose rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_1232ad2a-1bf1-4ebf-b19f-0acdfcef4d49"/>
+  </rdf:Description>
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_ace70bcf-ef45-497a-872d-4f7aa96fcdf2">
+    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+    <j.1:has_name>dose_images/aec/120kv/dose.zip</j.1:has_name>
+  </j.1:non_DICOM_file>
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_67a53163-e925-4d95-94e3-f4a0b7cede87">
+    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+    <j.1:has_name>dose_images/aec/100kv/dose.zip</j.1:has_name>
+  </j.1:non_DICOM_file>
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_22989f6a-8250-45b3-a8c8-162872e86e36">
+    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+    <j.1:has_name>dose_images/fixed/100kv/dose.zip</j.1:has_name>
+  </j.1:non_DICOM_file>
+  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_979c0abe-ee03-4ec0-ba89-4411fa03fe8d">
+    <j.0:BFO_0000117>
+      <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_4dc03e2f-a328-40c3-8f78-d413db43162f">
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_753d9b71-4062-4f82-bbf8-333ed76e1c08">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_4138717d-deac-4456-b81d-752dd3bbd2cf">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_e7ad51b8-6f56-4b39-b74c-33ad770c0049">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_b43ac14b-8ad6-4b17-9f5c-12fdcac42d81">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_782ad03e-aa8b-4fb9-adde-5b2af44b1798">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_17c39130-a715-4fd6-a409-5f2a9d7f3c56">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+        <j.1:has_specified_input>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_14a90b7e-f170-473e-a423-75ecee0c34df">
+            <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+            <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/181</j.1:has_IRDBB_FHIR_handle>
+            <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/128487"/>
+          </rdf:Description>
+        </j.1:has_specified_input>
+      </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
+    </j.0:BFO_0000117>
+    <j.0:BFO_0000117>
+      <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_f894e890-fe90-4857-98dc-aad52ed5886a">
+        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_77a2e5a4-e922-4d6b-9905-df9c68e16a4f"/>
+        <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_14a90b7e-f170-473e-a423-75ecee0c34df"/>
+        <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_8022d962-c6da-4da5-b5f8-39abc9cd10b4"/>
+        <j.1:has_setting>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_d11b96e8-483d-4c3f-aead-31ebe716adaa">
             <j.0:IAO_0000004>80</j.0:IAO_0000004>
             <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
             <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
           </rdf:Description>
         </j.1:has_setting>
         <j.1:has_setting>
-          <j.1:no_use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#no_use_of_X_ray_modulation_5e43109f-7f25-4268-948d-72eff2604c25">
-            <j.0:IAO_0000004>no use of X-ray modulation</j.0:IAO_0000004>
-          </j.1:no_use_of_X_ray_modulation>
+          <j.1:use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#use_of_X_ray_modulation_f4e38339-6d1f-4c27-ac78-006897b9871c">
+            <j.0:IAO_0000004>use of X-ray modulation</j.0:IAO_0000004>
+          </j.1:use_of_X_ray_modulation>
         </j.1:has_setting>
-        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_2c5f9e49-e456-417a-b148-ff48c1b80063"/>
+        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_bea237ae-ec52-48d1-835b-89bbd1f74f86"/>
         <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
       </j.1:calculation_of_a_3D_dose_map>
     </j.0:BFO_0000117>
     <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
   </j.1:Monte_Carlo_CT_dosimetry>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_f384d77b-3021-4044-a364-b4bd13479a68">
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_53b3e6b2-1373-4a68-b50c-29e7db9608da">
     <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/fixed/80kv/dose.zip</j.1:has_name>
+    <j.1:has_name>dose_images/fixed/120kv/dose.zip</j.1:has_name>
   </j.1:non_DICOM_file>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_b36d29c6-02ea-4d7c-bc2f-f7537796f4ae">
+  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_d9037bca-963b-4481-9c7d-2ee5516c4264">
+    <j.0:BFO_0000117>
+      <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_de003154-43ae-4447-8482-695a0aefb400">
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_8d3a44f9-fc63-4125-9ba4-5c7dc48f9c5b">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_1f2b2b63-e82e-4630-b098-58bf37b08cf6">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_4e80c662-7557-478b-8148-e320c258d274">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_59489f99-2a8f-4888-b7d4-0d0d850a338c">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_3c1d4e59-4b73-485c-9cfc-716b6d6887c3">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_e34fe21b-3b84-4433-ad8d-e9021002c7c5">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_142d2255-7c82-4fe1-ae71-d30d613bc7a5"/>
+      </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
+    </j.0:BFO_0000117>
+    <j.0:BFO_0000117>
+      <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_08325a56-5e3e-403c-95e0-335b51759038">
+        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_77a2e5a4-e922-4d6b-9905-df9c68e16a4f"/>
+        <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_142d2255-7c82-4fe1-ae71-d30d613bc7a5"/>
+        <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_8022d962-c6da-4da5-b5f8-39abc9cd10b4"/>
+        <j.1:has_setting>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_f30219b8-d7dc-4696-939f-86184ff27aea">
+            <j.0:IAO_0000004>120</j.0:IAO_0000004>
+            <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
+            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
+          </rdf:Description>
+        </j.1:has_setting>
+        <j.1:has_setting>
+          <j.1:use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#use_of_X_ray_modulation_0990832d-6531-487b-aa86-44a6fcb423b8">
+            <j.0:IAO_0000004>use of X-ray modulation</j.0:IAO_0000004>
+          </j.1:use_of_X_ray_modulation>
+        </j.1:has_setting>
+        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_bea237ae-ec52-48d1-835b-89bbd1f74f86"/>
+        <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
+      </j.1:calculation_of_a_3D_dose_map>
+    </j.0:BFO_0000117>
+    <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+  </j.1:Monte_Carlo_CT_dosimetry>
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_0203ba18-de3c-4dd6-b9e8-a92d114f21e7">
     <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/aec/100kv/dose.zip</j.1:has_name>
+    <j.1:has_name>dose_images/aec/80kv/dose.zip</j.1:has_name>
   </j.1:non_DICOM_file>
-  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_c2573b0d-9662-41a6-b709-8cff460e20df">
+  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_729f5455-bf7c-4a8d-abf6-053f33bc8f32">
+    <j.0:BFO_0000117>
+      <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_08d37722-ea99-47ea-8596-3890b9c222c3">
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_f1940a7a-cc8f-43c4-8cbe-ad8e2da3270e">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_301209dc-ccb3-4cf4-8eb9-1b95cf94794e">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_7db60b92-c7c8-44d9-a832-89cbf9eed3bb">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_c5d0b3c1-0ea5-4d01-85ac-54253eed1339">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_5df9ca31-92f2-497f-9762-f1b5103d0d51">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_specified_output>
+          <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_dc233a6b-a0e8-4871-b5c4-a13007acefee">
+            <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
+            <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+            <j.0:IAO_0000004>10</j.0:IAO_0000004>
+            <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+          </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+        </j.1:has_specified_output>
+        <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_bffa1c5b-9e36-4884-a8ac-df03b6a3abab"/>
+      </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
+    </j.0:BFO_0000117>
+    <j.0:BFO_0000117>
+      <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_6e856f0a-b91e-4518-bfc2-dc45aaf8edb1">
+        <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_77a2e5a4-e922-4d6b-9905-df9c68e16a4f"/>
+        <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_bffa1c5b-9e36-4884-a8ac-df03b6a3abab"/>
+        <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_8022d962-c6da-4da5-b5f8-39abc9cd10b4"/>
+        <j.1:has_setting>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_24faece5-b33c-4374-9d16-b6de13ea661d">
+            <j.0:IAO_0000004>100</j.0:IAO_0000004>
+            <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
+            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
+          </rdf:Description>
+        </j.1:has_setting>
+        <j.1:has_setting>
+          <j.1:use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#use_of_X_ray_modulation_25ab2dde-ea2b-4868-b0d1-cd4aaa74bb6e">
+            <j.0:IAO_0000004>use of X-ray modulation</j.0:IAO_0000004>
+          </j.1:use_of_X_ray_modulation>
+        </j.1:has_setting>
+        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_bea237ae-ec52-48d1-835b-89bbd1f74f86"/>
+        <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
+      </j.1:calculation_of_a_3D_dose_map>
+    </j.0:BFO_0000117>
+    <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+  </j.1:Monte_Carlo_CT_dosimetry>
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_2cc5c433-0d2a-429d-830c-e3c53efbc3cc">
+    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
+    <j.1:has_name>dose_images/aec/120kv/dose.zip</j.1:has_name>
+  </j.1:non_DICOM_file>
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_08017dd0-1a55-4c9f-ac30-7b0772e1b465">
     <j.1:has_dose>
-      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_e28825fe-c15a-4549-a404-53906acd82a3">
+      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_20fa70f5-5eed-421e-8107-df6cee70a2de">
         <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
         <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/190</j.1:has_IRDBB_FHIR_handle>
         <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
@@ -340,429 +544,225 @@
       </rdf:Description>
     </j.1:has_dose>
   </rdf:Description>
-  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_cc9a9f42-5394-48f7-bbb0-8c018ba65299">
-    <j.1:has_dose>
-      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_8e557674-63d9-4aa5-b5a3-f7a3730592d2">
-        <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-        <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/176</j.1:has_IRDBB_FHIR_handle>
-        <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
-        <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-        <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/128487"/>
-      </rdf:Description>
-    </j.1:has_dose>
-  </rdf:Description>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_b278b52b-032a-4170-976a-23fcf182f10c">
-    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/aec/80kv/dose.zip</j.1:has_name>
-  </j.1:non_DICOM_file>
-  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#institution_f6286c24-05c9-418c-b50e-9d3b8a481300">
-    <j.0:BFO_0000161>
-      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#role_of_responsible_organization_5bc951ec-b0df-4e33-ab3e-c1c28a7dfdfa">
-        <j.0:BFO_0000054>
-          <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_8290326b-00fe-423b-837a-630c8ec45289">
-            <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_9a9b83a8-8513-41f9-ab82-ed06f3dc28c3"/>
-            <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_e28825fe-c15a-4549-a404-53906acd82a3"/>
-            <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_3bcd7bfd-f641-4b7b-a2c0-61e04c4683fb"/>
-            <j.1:has_setting>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_83e94c5a-a9c7-448c-8fa4-b56cafe65e1e">
-                <j.0:IAO_0000004>120</j.0:IAO_0000004>
-                <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
-                <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
-              </rdf:Description>
-            </j.1:has_setting>
-            <j.1:has_setting>
-              <j.1:no_use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#no_use_of_X_ray_modulation_b7db067b-c0df-42ec-b4a7-b3fe4307bd0c">
-                <j.0:IAO_0000004>no use of X-ray modulation</j.0:IAO_0000004>
-              </j.1:no_use_of_X_ray_modulation>
-            </j.1:has_setting>
-            <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_2c5f9e49-e456-417a-b148-ff48c1b80063"/>
-            <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
-          </j.1:calculation_of_a_3D_dose_map>
-        </j.0:BFO_0000054>
-        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_2aa2cb0a-107b-429f-bfff-9f8488e36920"/>
-        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_0c0fdea4-8fb4-4def-a233-e47d866e17ae"/>
-        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_67a7b5cc-0c59-4f02-af13-116711ebec26"/>
-        <j.0:BFO_0000054>
-          <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_3f56918f-dd07-4e6e-8e5d-cac534b2d26c">
-            <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_9a9b83a8-8513-41f9-ab82-ed06f3dc28c3"/>
-            <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_8e557674-63d9-4aa5-b5a3-f7a3730592d2"/>
-            <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_3bcd7bfd-f641-4b7b-a2c0-61e04c4683fb"/>
-            <j.1:has_setting>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_d649e143-1db6-408d-9eb3-fc55f21f0a30">
-                <j.0:IAO_0000004>100</j.0:IAO_0000004>
-                <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
-                <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
-              </rdf:Description>
-            </j.1:has_setting>
-            <j.1:has_setting>
-              <j.1:use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#use_of_X_ray_modulation_c4fda3e2-d481-4bfb-8870-e8e044270bb5">
-                <j.0:IAO_0000004>use of X-ray modulation</j.0:IAO_0000004>
-              </j.1:use_of_X_ray_modulation>
-            </j.1:has_setting>
-            <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_2c5f9e49-e456-417a-b148-ff48c1b80063"/>
-            <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
-          </j.1:calculation_of_a_3D_dose_map>
-        </j.0:BFO_0000054>
-        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_e9588c95-2bf7-44bf-8b19-9344dca504fd"/>
-        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_c3bd15fc-bfc0-4f00-b2f4-6453ed7f6a6d"/>
-        <j.0:BFO_0000054>
-          <j.1:image_segmentation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1">
-            <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_9a9b83a8-8513-41f9-ab82-ed06f3dc28c3"/>
-            <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_e548261b-baae-4dd8-8cef-d9ceff5a98e2"/>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_f93c0403-fda5-4fcf-b9dd-562e2f4bfa46">
-                <j.1:has_format>
-                  <j.1:zipped_imageJ_contours_format rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
-                </j.1:has_format>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_6163c9ab-6d4c-4713-86de-cc3633db21a1">
-                <j.1:has_format>
-                  <j.1:TIFF_format_embedding_imageJ_contours rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
-                </j.1:has_format>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_beginning>20071215-093000.000000</j.1:has_beginning>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_53809b4b-95bb-4d1d-8db1-36d551102a84">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_27b6de41-4fd9-401c-8cac-266e8fbde719">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_4b728dd1-ac90-452e-92fd-5348a0f88b43">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_4a6d8702-e4bd-4b28-95b2-52814c855006">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_c8d5aac3-a76c-468c-a4e9-f3d9a8ddecc2">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_72fd5bd7-6142-4b76-8064-aacc5b22b1b4">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_b60acc38-080a-48b7-a90d-4f39b03a74a1">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_a3a0d648-11d3-49b9-811a-8a5f110f40ec">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_eeb7ae65-efab-4b4b-ab98-f06f7d7c95f1">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_ab321c31-4d6f-4590-a29a-48a6787e2778">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
-                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_71b65a25-0cc8-4788-abc6-61a29915fed1"/>
-                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
-              </rdf:Description>
-            </j.1:has_specified_output>
-            <j.1:has_protocol>
-              <j.1:interactive_contour_segmentation_method rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#interactive_contour_segmentation_method_589e02ef-4623-4605-97f7-5ed048c5105c"/>
-            </j.1:has_protocol>
-          </j.1:image_segmentation>
-        </j.0:BFO_0000054>
-        <j.0:BFO_0000054>
-          <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_9db47186-94ef-456c-b624-3754e1b33ac9">
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_4a280938-38aa-45a9-921d-274a3005fa0a">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_65e2194f-8d54-41c4-abc2-2d4563baab6a">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_880f1ba2-5b28-456e-a3b0-4384576d0ce1">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_263a5e3c-2fb1-4a82-b2e6-5b6dc8147d40">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_92c141b9-6cf9-4047-8c16-d6408e459b14">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_4f99a536-b2f3-465b-b8a3-2a97bb015327">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-            <j.1:has_specified_input>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_4fc9d91e-35b9-4ee4-8d29-f4176ff0ba9c">
-                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-                <j.1:has_IRDBB_FHIR_handle>/fhir/Binary/178</j.1:has_IRDBB_FHIR_handle>
-                <j.1:has_description>absorbed dose normalized to CTDI-free-in-air normalized to tube load</j.1:has_description>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/128487"/>
-              </rdf:Description>
-            </j.1:has_specified_input>
-          </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
-        </j.0:BFO_0000054>
-        <j.0:BFO_0000054>
-          <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_3765d478-97fb-4f5b-b8ba-eac30aa1b16e">
-            <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_9a9b83a8-8513-41f9-ab82-ed06f3dc28c3"/>
-            <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_4fc9d91e-35b9-4ee4-8d29-f4176ff0ba9c"/>
-            <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_3bcd7bfd-f641-4b7b-a2c0-61e04c4683fb"/>
-            <j.1:has_setting>
-              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_5bcb3b43-3095-4564-9487-0b250428203d">
-                <j.0:IAO_0000004>120</j.0:IAO_0000004>
-                <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
-                <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
-              </rdf:Description>
-            </j.1:has_setting>
-            <j.1:has_setting>
-              <j.1:use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#use_of_X_ray_modulation_e462f9e8-74fe-42e6-85af-7640eaa1788a">
-                <j.0:IAO_0000004>use of X-ray modulation</j.0:IAO_0000004>
-              </j.1:use_of_X_ray_modulation>
-            </j.1:has_setting>
-            <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_2c5f9e49-e456-417a-b148-ff48c1b80063"/>
-            <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
-          </j.1:calculation_of_a_3D_dose_map>
-        </j.0:BFO_0000054>
-        <j.0:BFO_0000054>
-          <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_41675bd9-160e-477d-8ae0-458a15ec6754">
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_02b009e6-bb71-428f-b91c-502f66e5d8d0">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_fefe4607-e304-4a22-b108-454cda9ac3b5">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_4317bd9c-d643-49a2-be32-7843ff7fe7e5">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_791a41d9-685d-413b-94ae-c94250c61df4">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_70c62a63-78e3-4881-ac61-cf2327bce10d">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_3f7af236-75e2-4143-a0ca-dcad3888d3f4">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-            <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_8e557674-63d9-4aa5-b5a3-f7a3730592d2"/>
-          </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
-        </j.0:BFO_0000054>
-        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_2a1ae86a-5793-40fd-a5d2-2c856688a1e4"/>
-        <j.0:BFO_0000054>
-          <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_320fe5d2-c701-43e0-8971-2e2f9eb683f7">
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_6e0c371a-1cfb-44c0-9597-321571bc5f0c">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_7d1fb61a-2e38-4583-bb45-5e18d77c03b9">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_b0f175a0-b53b-483d-9c39-99e73ef3371b">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_473a0bae-7a9f-4178-9a6a-afe5722506a8">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_819e59a7-c0b4-4e95-8c4e-08cbeabfda5d">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_specified_output>
-              <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_ed38d71e-5910-43d6-8620-ee0bf2e9e268">
-                <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
-                <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
-                <j.0:IAO_0000004>10</j.0:IAO_0000004>
-                <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-              </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
-            </j.1:has_specified_output>
-            <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-            <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_e28825fe-c15a-4549-a404-53906acd82a3"/>
-          </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
-        </j.0:BFO_0000054>
-        <j.0:BFO_0000054>
-          <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_455dd97b-6107-434d-8f10-baf95fc2463a">
-            <j.0:BFO_0000117 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_320fe5d2-c701-43e0-8971-2e2f9eb683f7"/>
-            <j.0:BFO_0000117 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_8290326b-00fe-423b-837a-630c8ec45289"/>
-            <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-          </j.1:Monte_Carlo_CT_dosimetry>
-        </j.0:BFO_0000054>
-      </rdf:Description>
-    </j.0:BFO_0000161>
-  </rdf:Description>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_5ff75044-9dc6-47a6-a4dd-d0a8f5db52f8">
-    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/aec/80kv/dose.zip</j.1:has_name>
-  </j.1:non_DICOM_file>
-  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_4ce52106-ab5a-4c6b-b310-a8d0e1acb7bd">
-    <j.1:has_dose rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_51551e32-f79e-402c-8722-c13cbc562fe7"/>
-  </rdf:Description>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_b2f96da8-18c1-4e1d-a017-f3daf8d624ce">
-    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/aec/120kv/dose.zip</j.1:has_name>
-  </j.1:non_DICOM_file>
-  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_0565e24c-5541-4be1-8375-c4cee6fe7f58">
-    <j.1:has_dose rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_a5b3e266-0361-4954-98ae-1b3dda55baba"/>
-  </rdf:Description>
-  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_8c53229b-f6b6-4b3d-bfa1-d128a4b5bc6c">
-    <j.0:BFO_0000117 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_41675bd9-160e-477d-8ae0-458a15ec6754"/>
-    <j.0:BFO_0000117 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_3f56918f-dd07-4e6e-8e5d-cac534b2d26c"/>
-    <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-  </j.1:Monte_Carlo_CT_dosimetry>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_304295dd-1cdf-460c-b9e5-7ee3f1ac5586">
-    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/aec/120kv/dose.zip</j.1:has_name>
-  </j.1:non_DICOM_file>
-  <j.1:CT_image_reconstruction rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Image_fad4f922-216c-42bf-b2bf-d8e681b4b2cf">
-    <j.1:has_DICOM_series_instance_UID>1.3.6.1.4.1.28104.1.20091209130043554.13</j.1:has_DICOM_series_instance_UID>
-    <j.1:has_DICOM_series_instance_UID>1.3.12.2.1107.5.1.4.50256.30000009121006503937500001309</j.1:has_DICOM_series_instance_UID>
-  </j.1:CT_image_reconstruction>
-  <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_e488c09d-5020-47a6-9b8b-06b9248b8efa">
-    <j.0:BFO_0000117 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_9db47186-94ef-456c-b624-3754e1b33ac9"/>
-    <j.0:BFO_0000117 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_3765d478-97fb-4f5b-b8ba-eac30aa1b16e"/>
-    <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
-  </j.1:Monte_Carlo_CT_dosimetry>
-  <j.1:clinical_research_study rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_subtask2.1.2">
-    <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_08d290d8-c032-4870-aacf-739e21bf9e82"/>
-  </j.1:clinical_research_study>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_dbbd3c54-cfca-4bc2-b4d6-b3e2571a3fb5">
-    <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
-    <j.1:has_name>dose_images/fixed/100kv/dose.zip</j.1:has_name>
-  </j.1:non_DICOM_file>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_b855bfd2-800c-4b19-9997-f7eb60d718ac">
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_bf700c11-a462-43e5-8da1-d57a30cc319d">
     <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
     <j.1:has_name>dose_images/fixed/120kv/dose.zip</j.1:has_name>
   </j.1:non_DICOM_file>
-  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_31b2a9ef-d66a-4269-a7f0-de0b70b89f1d">
-    <j.1:has_dose rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_4fc9d91e-35b9-4ee4-8d29-f4176ff0ba9c"/>
+  <j.1:clinical_research_study rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_subtask2.1.2">
+    <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+  </j.1:clinical_research_study>
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#institution_c3bdadfa-fa63-4dbc-8914-209ba247fdc6">
+    <j.0:BFO_0000161>
+      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#role_of_responsible_organization_11937225-b1aa-4dce-8c9a-4774b237b0ee">
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_ccbf7f29-da4e-46b4-83ba-efc68ecd0cb1"/>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_08d37722-ea99-47ea-8596-3890b9c222c3"/>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_6e856f0a-b91e-4518-bfc2-dc45aaf8edb1"/>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_f894e890-fe90-4857-98dc-aad52ed5886a"/>
+        <j.0:BFO_0000054>
+          <j.1:calculation_of_a_3D_dose_map rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_d4950609-d065-4496-b180-103eae972c46">
+            <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_77a2e5a4-e922-4d6b-9905-df9c68e16a4f"/>
+            <j.1:has_specified_output rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_20fa70f5-5eed-421e-8107-df6cee70a2de"/>
+            <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_8022d962-c6da-4da5-b5f8-39abc9cd10b4"/>
+            <j.1:has_setting>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_d816105e-beea-49be-b077-b3a648d4da37">
+                <j.0:IAO_0000004>120</j.0:IAO_0000004>
+                <j.0:IAO_0000039 rdf:resource="http://purl.obolibrary.org/obo/UO_0000248"/>
+                <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
+              </rdf:Description>
+            </j.1:has_setting>
+            <j.1:has_setting>
+              <j.1:no_use_of_X_ray_modulation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#no_use_of_X_ray_modulation_e017b159-3cb3-4e1b-ae45-a716df9a7987">
+                <j.0:IAO_0000004>no use of X-ray modulation</j.0:IAO_0000004>
+              </j.1:no_use_of_X_ray_modulation>
+            </j.1:has_setting>
+            <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_method_bea237ae-ec52-48d1-835b-89bbd1f74f86"/>
+            <j.1:has_beginning>20071215-103000.000000</j.1:has_beginning>
+          </j.1:calculation_of_a_3D_dose_map>
+        </j.0:BFO_0000054>
+        <j.0:BFO_0000054>
+          <j.1:Monte_Carlo_CT_dosimetry rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_95727dd3-96c5-4358-a799-687d0412fefc">
+            <j.0:BFO_0000117>
+              <j.1:calculation_of_mean_absorbed_doses_in_VOIs rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_663a1453-762d-4b0f-a2e5-09a5ec53e389">
+                <j.1:has_specified_output>
+                  <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_3b2a249d-aac6-44a1-8f48-baf4e91de8a1">
+                    <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
+                    <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+                    <j.0:IAO_0000004>10</j.0:IAO_0000004>
+                    <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+                  </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+                </j.1:has_specified_output>
+                <j.1:has_specified_output>
+                  <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_51329b3f-4890-4e13-9654-38fd49da2f52">
+                    <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
+                    <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+                    <j.0:IAO_0000004>10</j.0:IAO_0000004>
+                    <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+                  </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+                </j.1:has_specified_output>
+                <j.1:has_specified_output>
+                  <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_4d255aa5-0ee2-48f0-9927-81d4f72d73f1">
+                    <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
+                    <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+                    <j.0:IAO_0000004>10</j.0:IAO_0000004>
+                    <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+                  </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+                </j.1:has_specified_output>
+                <j.1:has_specified_output>
+                  <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_64af9250-6189-4450-9e36-3e489b4575a0">
+                    <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
+                    <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+                    <j.0:IAO_0000004>10</j.0:IAO_0000004>
+                    <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+                  </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+                </j.1:has_specified_output>
+                <j.1:has_specified_output>
+                  <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_6e530b02-f4bd-4ca5-abcd-1e4cec10748f">
+                    <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
+                    <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+                    <j.0:IAO_0000004>10</j.0:IAO_0000004>
+                    <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+                  </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+                </j.1:has_specified_output>
+                <j.1:has_specified_output>
+                  <j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load_4c0d8bbf-b627-4cc9-8466-fa6c0533c9f7">
+                    <j.1:is_dose_absorbed_by rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
+                    <j.0:IAO_0000039 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))"/>
+                    <j.0:IAO_0000004>10</j.0:IAO_0000004>
+                    <j.1:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_19f6b580-668f-419d-9d97-02135d328675"/>
+                  </j.1:mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load>
+                </j.1:has_specified_output>
+                <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+                <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_20fa70f5-5eed-421e-8107-df6cee70a2de"/>
+              </j.1:calculation_of_mean_absorbed_doses_in_VOIs>
+            </j.0:BFO_0000117>
+            <j.0:BFO_0000117 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_d4950609-d065-4496-b180-103eae972c46"/>
+            <j.1:has_beginning>20071215-193000.000000</j.1:has_beginning>
+          </j.1:Monte_Carlo_CT_dosimetry>
+        </j.0:BFO_0000054>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_3e8a1782-dabc-4f4d-a901-1f5b14b777a6"/>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_d12d9917-8fae-4b44-85ee-fc18a299bfb8"/>
+        <j.0:BFO_0000054>
+          <j.1:image_segmentation rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12">
+            <j.1:has_agent rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Software_b3884b4c-516f-4c90-9e1c-75bd4f2884ad"/>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_0b56b41a-c5fe-4b94-9b22-a67630f745f5">
+                <j.1:has_format>
+                  <j.1:zipped_imageJ_contours_format rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
+                </j.1:has_format>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_8c9f1ee9-e10a-4022-b679-758f56d5fc45">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_25858ad9-490f-43e7-8a8c-35182c61394e">
+                <j.1:has_format>
+                  <j.1:TIFF_format_embedding_imageJ_contours rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
+                </j.1:has_format>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_beginning>20071215-093000.000000</j.1:has_beginning>
+            <j.1:has_protocol>
+              <j.1:interactive_contour_segmentation_method rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#interactive_contour_segmentation_method_94247197-8363-488a-bda2-cd9623ea733c"/>
+            </j.1:has_protocol>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_46912e69-4aeb-4612-8029-d25e5c65cfee">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#esophagus_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_695a8c4a-04e2-4482-a4ad-28bc8f7b43fb">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_input rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_77a2e5a4-e922-4d6b-9905-df9c68e16a4f"/>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_5d62f52c-7932-4b71-833a-0c917850dd87">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_99cf39cf-98ac-4943-8e40-8abee98eb3fd">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#bone_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_84b183c8-60e9-4e44-aebf-712718589cdc">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#heart_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_9d1a2084-af1f-4125-9de2-6e7c5523eadc">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_48a79d84-60d6-4b49-87fe-a4868c8c69c1">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#skin_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_f04937fd-421f-48de-97e8-f789a6834c61">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_imageJ_contours_format"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+            <j.1:has_specified_output>
+              <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#VOI_superimposed_on_images_5588db57-8494-40a2-a557-afb4e338fdf2">
+                <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours"/>
+                <j.1:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_segmentation_87481d3e-6036-433c-bb52-32319d76de12"/>
+                <j.1:represents rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#lungs_UOC91801"/>
+              </rdf:Description>
+            </j.1:has_specified_output>
+          </j.1:image_segmentation>
+        </j.0:BFO_0000054>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_08325a56-5e3e-403c-95e0-335b51759038"/>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_663a1453-762d-4b0f-a2e5-09a5ec53e389"/>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_a_3D_dose_map_d9f41670-c281-40e7-8566-b47d201c4c2a"/>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_de003154-43ae-4447-8482-695a0aefb400"/>
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#calculation_of_mean_absorbed_doses_in_VOIs_4dc03e2f-a328-40c3-8f78-d413db43162f"/>
+      </rdf:Description>
+    </j.0:BFO_0000161>
   </rdf:Description>
-  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_f933c13e-210c-40a5-88f6-c0c0d723d926">
+  <j.1:non_DICOM_file rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#nonDicomFile_b5aea3f8-b96f-49f3-806b-81dddf8893fe">
     <j.1:has_format rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#zipped_pseudo_DICOM_ImpactMC"/>
     <j.1:has_name>dose_images/aec/100kv/dose.zip</j.1:has_name>
   </j.1:non_DICOM_file>
-  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_e2e632a5-dbac-4616-89d6-c57ea9532abb">
-    <j.1:has_dose rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_cd56455e-b916-4be0-9499-ac24f3f8703b"/>
+  <j.1:CT_image_reconstruction rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Image_0ca4a844-33b4-4325-961a-89f1c6c9dbf7">
+    <j.1:has_DICOM_series_instance_UID>1.3.6.1.4.1.28104.1.20091209130043554.13</j.1:has_DICOM_series_instance_UID>
+    <j.1:has_DICOM_series_instance_UID>1.3.12.2.1107.5.1.4.50256.30000009121006503937500001309</j.1:has_DICOM_series_instance_UID>
+  </j.1:CT_image_reconstruction>
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_8deb2f15-275b-42f7-ba04-ab5becde8ff2">
+    <j.1:has_dose rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#3D_dose_map_14a90b7e-f170-473e-a423-75ecee0c34df"/>
   </rdf:Description>
   <j.1:model_of_medical_imaging_device rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#model_of_medical_imaging_device"/>
   <j.1:medical_imaging_device rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#medical_imaging_device">
     <j.1:has_name>SIEMENS Sensation ?</j.1:has_name>
     <j.1:refers_to_device rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#model_of_medical_imaging_device"/>
-    <j.1:used_as_instrument_in rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_455dd97b-6107-434d-8f10-baf95fc2463a"/>
+    <j.1:used_as_instrument_in rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Monte_Carlo_CT_dosimetry_95727dd3-96c5-4358-a799-687d0412fefc"/>
     <j.1:has_name>SIEMENS Sensation</j.1:has_name>
   </j.1:medical_imaging_device>
 </rdf:RDF>

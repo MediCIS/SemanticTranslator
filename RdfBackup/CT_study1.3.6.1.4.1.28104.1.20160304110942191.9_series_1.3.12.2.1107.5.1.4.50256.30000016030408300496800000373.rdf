@@ -10,8 +10,8 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
   <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_patient"/>
   <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_setting"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_device_setting"/>
   <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_protocol"/>
+  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_device_setting"/>
   <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_specified_output_of"/>
   <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_target_region"/>
   <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000039"/>
@@ -27,11 +27,37 @@
   <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_date"/>
   <owl:DatatypeProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000004"/>
   <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_model_name"/>
-  <j.3:image_acquisition_role rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_acquisition_role_9dadbd37-7f7f-4f50-8dc2-e4ee3d977b56">
-    <j.0:BFO_0000054>
-      <j.3:CT_acquisition rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_25854d68-237a-427e-a47b-7e9f3cbb8b75">
+  <j.3:CT_image_dataset rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_7f639676-430c-4e40-adea-ebd614202601">
+    <j.3:has_DICOM_series_instance_UID>1.3.12.2.1107.5.1.4.50256.30000016030408300496800000373</j.3:has_DICOM_series_instance_UID>
+    <j.3:is_specified_output_of>
+      <j.3:CT_irradiation_event rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_6b32f934-c59d-4f86-9a0f-6f5c10e48c90">
+        <j.3:has_setting>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#X-Ray_Tube_Current_e2fde624-faec-4a76-b62b-8f4773f2299e">
+            <j.3:is_device_setting>
+              <j.3:CT_scanner rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_6882793e-1e8a-4f35-9f11-044a4949cff5">
+                <j.3:has_model_name>Sensation 16</j.3:has_model_name>
+                <j.3:has_manufacturer_name>SIEMENS</j.3:has_manufacturer_name>
+              </j.3:CT_scanner>
+            </j.3:is_device_setting>
+            <j.0:IAO_0000039>
+              <j.0:UO_0000037 rdf:about="http://purl.obolibrary.org/obo/UO_0000037"/>
+            </j.0:IAO_0000039>
+            <j.0:IAO_0000004>53</j.0:IAO_0000004>
+            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113734"/>
+          </rdf:Description>
+        </j.3:has_setting>
+        <j.3:has_setting>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Exposure_Time_2fe9a333-6c5f-485f-8e20-91f5a0e446d8">
+            <j.3:is_device_setting rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_6882793e-1e8a-4f35-9f11-044a4949cff5"/>
+            <j.0:IAO_0000039>
+              <j.0:UO_0000028 rdf:about="http://purl.obolibrary.org/obo/UO_0000028"/>
+            </j.0:IAO_0000039>
+            <j.0:IAO_0000004>500</j.0:IAO_0000004>
+            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113824"/>
+          </rdf:Description>
+        </j.3:has_setting>
         <j.3:part_of_occurent>
-          <j.3:imaging_study rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_Study_dd55fed3-e244-4505-a8b6-525a63092e8e">
+          <j.3:imaging_study rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_Study_0c092375-7d2b-4da1-b93c-647f8704ebb9">
             <j.3:has_target_region>
               <j.0:FMA_9576 rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#chest_PUOC60713"/>
             </j.3:has_target_region>
@@ -40,43 +66,9 @@
             <j.3:has_description>Thorax^ThoraxCombi (Child)</j.3:has_description>
           </j.3:imaging_study>
         </j.3:part_of_occurent>
-        <j.3:has_target_region rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#chest_PUOC60713"/>
         <j.3:has_setting>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Exposure_Time_38ed8a17-dd65-42e2-aa7a-f2e44da1e23e">
-            <j.3:is_device_setting>
-              <j.3:CT_scanner rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_32039eee-c469-47ff-a4fa-0feb6de05a1f">
-                <j.3:has_model_name>Sensation 16</j.3:has_model_name>
-                <j.3:has_manufacturer_name>SIEMENS</j.3:has_manufacturer_name>
-              </j.3:CT_scanner>
-            </j.3:is_device_setting>
-            <j.0:IAO_0000039>
-              <j.0:UO_0000028 rdf:about="http://purl.obolibrary.org/obo/UO_0000028"/>
-            </j.0:IAO_0000039>
-            <j.0:IAO_0000004>500</j.0:IAO_0000004>
-            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113824"/>
-          </rdf:Description>
-        </j.3:has_setting>
-        <j.3:has_setting>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#X-Ray_Tube_Current_dcd8dbdb-edc0-4106-8162-6cb851aa1cf7">
-            <j.3:is_device_setting rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_32039eee-c469-47ff-a4fa-0feb6de05a1f"/>
-            <j.0:IAO_0000039>
-              <j.0:UO_0000037 rdf:about="http://purl.obolibrary.org/obo/UO_0000037"/>
-            </j.0:IAO_0000039>
-            <j.0:IAO_0000004>53</j.0:IAO_0000004>
-            <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113734"/>
-          </rdf:Description>
-        </j.3:has_setting>
-        <j.3:has_protocol>
-          <j.3:CT_acquisition_protocol rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Protocol_ad793538-49f3-47e5-8b60-90f35e586628">
-            <j.3:has_name>ThoraxCombi</j.3:has_name>
-          </j.3:CT_acquisition_protocol>
-        </j.3:has_protocol>
-        <j.3:has_beginning_date>20160304</j.3:has_beginning_date>
-        <j.3:has_beginning_time>113146.859000</j.3:has_beginning_time>
-        <rdf:type rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_irradiation_event"/>
-        <j.3:has_setting>
-          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_5bc4fcfd-a573-407c-bb90-6d1cbc8a97ec">
-            <j.3:is_device_setting rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_32039eee-c469-47ff-a4fa-0feb6de05a1f"/>
+          <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#KVP_0cae8e6d-2930-4dd1-a5e7-8df28b16f483">
+            <j.3:is_device_setting rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_6882793e-1e8a-4f35-9f11-044a4949cff5"/>
             <j.0:IAO_0000039>
               <j.0:UO_0000248 rdf:about="http://purl.obolibrary.org/obo/UO_0000248"/>
             </j.0:IAO_0000039>
@@ -84,25 +76,33 @@
             <rdf:type rdf:resource="http://dicom.nema.org/resources/ontology/DCM/113733"/>
           </rdf:Description>
         </j.3:has_setting>
-      </j.3:CT_acquisition>
-    </j.0:BFO_0000054>
-    <j.0:BFO_0000052 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_32039eee-c469-47ff-a4fa-0feb6de05a1f"/>
-  </j.3:image_acquisition_role>
-  <j.3:CT_image_dataset rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_image_dataset_57709281-aea6-45eb-a46a-469f1e618a13">
-    <j.3:has_DICOM_series_instance_UID>1.3.12.2.1107.5.1.4.50256.30000016030408300496800000373</j.3:has_DICOM_series_instance_UID>
-    <j.3:is_specified_output_of rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_25854d68-237a-427e-a47b-7e9f3cbb8b75"/>
+        <j.3:has_protocol>
+          <j.3:CT_acquisition_protocol rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Protocol_42ec63d8-7642-42fe-8a1f-c48bfc5ab995">
+            <j.3:has_name>ThoraxCombi</j.3:has_name>
+          </j.3:CT_acquisition_protocol>
+        </j.3:has_protocol>
+        <j.3:has_beginning_time>113146.859000</j.3:has_beginning_time>
+        <j.3:has_target_region rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#chest_PUOC60713"/>
+        <rdf:type rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition"/>
+        <j.3:has_beginning_date>20160304</j.3:has_beginning_date>
+      </j.3:CT_irradiation_event>
+    </j.3:is_specified_output_of>
     <j.3:has_IRDBB_WADO_handle>/pacs/studies/1.3.6.1.4.1.28104.1.20160304110942191.9/series/1.3.12.2.1107.5.1.4.50256.30000016030408300496800000373</j.3:has_IRDBB_WADO_handle>
   </j.3:CT_image_dataset>
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#role_of_responsible_organization_f12a5a8e-4c96-4596-afef-35648d7ed9da">
+    <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_6b32f934-c59d-4f86-9a0f-6f5c10e48c90"/>
+    <j.0:BFO_0000052 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#institution_d43d7e4d-ce9d-42d8-932e-18f9decc8c19"/>
+  </rdf:Description>
+  <j.3:image_acquisition_role rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_acquisition_role_0e6f631f-9d16-49e1-855f-9c234e526230">
+    <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_6b32f934-c59d-4f86-9a0f-6f5c10e48c90"/>
+    <j.0:BFO_0000052 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_6882793e-1e8a-4f35-9f11-044a4949cff5"/>
+  </j.3:image_acquisition_role>
   <j.3:clinical_research_study rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_subtask2.1.2">
     <j.3:has_patient>
-      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_65e530ea-2962-43c1-a3b2-82d3480891b2">
-        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_25854d68-237a-427e-a47b-7e9f3cbb8b75"/>
+      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_880c160f-d91f-49a3-918a-35b87b1f3bc0">
+        <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_6b32f934-c59d-4f86-9a0f-6f5c10e48c90"/>
       </rdf:Description>
     </j.3:has_patient>
-    <j.3:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_2b9d7e86-507a-4956-bfb8-ed4cd238f70a"/>
+    <j.3:has_patient rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Human_6d89a81c-a6e4-4f72-a664-c3144d56bf50"/>
   </j.3:clinical_research_study>
-  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#role_of_responsible_organization_d9d9d351-f3b7-45d2-9c48-0774c86273e2">
-    <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_25854d68-237a-427e-a47b-7e9f3cbb8b75"/>
-    <j.0:BFO_0000052 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#institution_fe0a131a-a392-4f4e-8cf1-9e55db6a4161"/>
-  </rdf:Description>
 </rdf:RDF>
