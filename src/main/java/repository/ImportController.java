@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
@@ -40,6 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -82,6 +85,7 @@ public class ImportController {
 	String rdfName;								// Name of the RDF file that wille writen before transfer to StarDog (for backup)
 	int z = 0; 									// Used for names RDF files and avoid overwriting
 
+	
 	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
 
 	static Individual patient;					// Will store the ontologic entity of the patient
@@ -99,7 +103,82 @@ public class ImportController {
 		return "Hello "+p1+" "+p2+"\n";
 	}
 	
-	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
+/*
+	@RequestMapping(value = "/demoXSD")			// for my own use (will be removed at the end)
+	public void demoXSD(@RequestParam("valeur") int valeur) {  
+		System.out.println("demoXSD");
+		String chemin1xml = "/Users/marinebrenet/Desktop/xml_1.xml";
+		String chemin2xml = "/Users/marinebrenet/Desktop/xml_2.xml";
+		
+		JAXBContext jc;
+		try {
+			System.out.println("Try");
+			jc = JAXBContext.newInstance("repository");
+			Unmarshaller unmarshaller = jc.createUnmarshaller();
+			ProcessusDescriptor process;
+			
+			switch (valeur) {
+			case 1 :
+				process = (ProcessusDescriptor) unmarshaller.unmarshal(new File(chemin1xml));
+				break;
+			case 2 :
+				process = (ProcessusDescriptor) unmarshaller.unmarshal(new File(chemin2xml));
+				break;
+			default:
+				process = (ProcessusDescriptor) unmarshaller.unmarshal(new File(chemin1xml));
+				break;
+			}
+			
+			System.out.println("processus : "+process);
+
+			SousProcessus sousProcess = process.getSousProcessus();
+			System.out.println("sousProcess : "+sousProcess);
+			
+			EtapeAlternative etapeAlter = process.getEtapeAlternative();
+			System.out.println("etapeAlter : "+etapeAlter);
+			
+			VOIDescriptorType voi;
+			
+			if (process.etapeAlternative!=null) {
+				System.out.println("Etape Alternative");
+				EtapeAlternative eAlt = process.etapeAlternative;
+				System.out.println("Param 5 : "+eAlt.param5);
+				
+				voi = eAlt.output;
+				System.out.println("VOI : "+voi);
+			}
+			
+				if (sousProcess.etape1!=null) {
+					System.out.println("Etape 1");
+					Etape1 e1 = sousProcess.etape1;
+					
+					e1.output.voiData.iterator().next().nonDICOMDataFileName.iterator().next()
+					
+					
+					System.out.println("Param 1 : "+e1.param1);
+					System.out.println("Param 2 : "+e1.param2);
+
+					voi = e1.output;
+					System.out.println("VOI : "+voi);
+
+				}
+				
+				System.out.println("Etape 2");
+				Etape2 e2 = sousProcess.etape2;
+				System.out.println("Param 3 : "+e2.param3);
+				System.out.println("Param 4 : "+e2.param4);
+				//System.out.println("Input : "+e2.IdInput);
+				
+			
+			
+		} catch (JAXBException e) {e.printStackTrace();} 
+		
+		
+		System.out.println("FIN demoXSD");
+	}
+	*/
+	
+	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
 	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
 		System.out.println("getMimeTypeDataFormat");
 		
@@ -114,13 +193,14 @@ public class ImportController {
 
 	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
 	public String getResearchStudies() {   
-		return executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
+		String result = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
 				"          WHERE {\n" + 
 				"      ?study rdf:type ontomedirad:clinical_research_study .\n" + 
 				"      ?study ontomedirad:has_id ?id .\n" + 
 				"      ?study ontomedirad:has_name ?name .\n" + 
 				"      ?study ontomedirad:has_description ?description .\n" + 
 				"      }" , "false" ); 	  
+		return result;
 	} 
 
 	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
@@ -148,8 +228,7 @@ public class ImportController {
 			unmarshaller.setSchema(schema);     						// Store the schema
 
 			@SuppressWarnings("unused")
-			DicomFileSetDescriptor fileSetDescriptor = 					// Import the XML file and check if XML is valid with the schema
-					(DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath)); 
+			DicomFileSetDescriptor fileSetDescriptor = (DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath)); // Import the XML file and check if XML is valid with the schema
 			
 		} catch (UnmarshalException  e) {
 			String msg;
@@ -238,7 +317,9 @@ public class ImportController {
 		try { aResult = aQuery.execute();}							    // Execute the request
 		catch (StardogException e) {
 			starDogConnection.close();								    // Close the connection to StarDog  if there was an error
-			return ("{\"res\": \""+e.toString()+"\"}");				    // Return the error message in a JSON object
+			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return error.toString();
+			//return ("{\"res\": \""+e.toString()+"\"}");				    // Return the error message in a JSON object
 		}
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
@@ -246,17 +327,34 @@ public class ImportController {
 			QueryResultIO.writeTuple(aResult, 
 					TupleQueryResultFormat.JSON, out);					// Write the request result in the ByteArrayOutputStream
 		} catch (TupleQueryResultHandlerException e) {
-			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
+			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return error.toString();				// Return the error message in a JSON object
 		} catch (QueryEvaluationException e) {
-			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
+			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return error.toString();				// Return the error message in a JSON object
 		} catch (UnsupportedQueryResultFormatException e) {
-			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
+			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return error.toString();				// Return the error message in a JSON object
 		} catch (IOException e) {
-			return ("{\"res\": \""+e.toString()+"\"}");					// Return the error message in a JSON object
+			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return error.toString();				// Return the error message in a JSON object
 		} finally {
 			starDogConnection.close();									// Close The Connection to Stardog (despite the errors)
 			aResult.close();											// Close The Object (despite the errors)
 		}
+		
+		String emptyResult = "},\n" + 
+				"  \"results\" : {\n" + 
+				"    \"bindings\" : [ ]\n" + 
+				"  }\n" + 
+				"}";
+		
+		if (out.toString().contains(emptyResult)) {
+			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			return error.toString(); 
+		}
+		
+		
 		return (out.toString());										// Convert the ByteArrayOutputStream as a string and return it
 	}
 
@@ -421,7 +519,9 @@ public class ImportController {
 			@RequestParam(value = "db", required = false) String db) {						    
 
 		if (dockerHost==null) {dockerHost = Application.dockerHost ;}
-		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}		
+		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}	
+		
+		
 
 		if (nonDicomFileSetDescriptor!=null) {									    						// If there is a nonDicomFileSetDescriptor
 			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data

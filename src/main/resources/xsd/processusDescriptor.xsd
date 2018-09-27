@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<xs:schema
+    targetNamespace="https://www.irdbb-medirad.com"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:irdbb="https://www.irdbb-medirad.com">
+
+
+    
+    <xs:element name="processusDescriptor">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="sousProcessus" type="irdbb:SousProcessus"/>
+                <xs:element name="etapeAlternative" type="irdbb:EtapeAlternative" minOccurs="0" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="SousProcessus">
+        <xs:sequence>
+            <xs:element name="etape1" type="irdbb:Etape1" minOccurs="0" />
+            <xs:element name="etape2" type="irdbb:Etape2"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Etape1">
+        <xs:sequence>
+            <xs:element name="param1" type="xs:string"/>
+            <xs:element name="param2" type="xs:string"/>
+            <xs:element name="output" type="irdbb:VOIDescriptorType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Etape2">
+        <xs:sequence>
+            <xs:element name="param3" type="xs:string"/>
+            <xs:element name="param4" type="xs:string"/>
+            <xs:element name="inputID" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="EtapeAlternative">
+        <xs:sequence>
+            <xs:element name="param5" type="xs:string"/>
+            <xs:element name="output" type="irdbb:VOIDescriptorType"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+<!--    <xs:complexType name="NonDICOMDataType">-->
+<!--        <xs:sequence>-->
+<!--            <xs:element name="NonDICOMDataClass">-->
+<!--                <xs:simpleType>-->
+<!--                    <xs:restriction base="xs:string">-->
+<!--                        <xs:enumeration value="VOI"/>-->
+<!--                        <xs:enumeration value="VOI superimposed on images"/>-->
+<!--                        <xs:enumeration value="3D dose map"/>-->
+<!--                    </xs:restriction>-->
+<!--                </xs:simpleType>-->
+<!--            </xs:element>-->
+<!--            <xs:element name="NonDICOMDataFormat">-->
+<!--                <xs:simpleType>-->
+<!--                    <xs:restriction base="xs:string">-->
+<!--                        <xs:enumeration value="zipped imageJ contours format"/>-->
+<!--                        <xs:enumeration value="TIFF format embedding imageJ contours"/>-->
+<!--                        <xs:enumeration value="zipped pseudo-DICOM ImpactMC"/>-->
+<!--                    </xs:restriction>-->
+<!--                </xs:simpleType>-->
+<!--            </xs:element>-->
+<!--            <xs:element name="NonDICOMDataFileName" type="xs:string" maxOccurs="unbounded" />-->
+<!--            <xs:element name="FHIRId" minOccurs="0" type="xs:string"/>-->
+<!--        </xs:sequence>-->
+<!--    </xs:complexType>-->
+<!--    -->
+<!--    <xs:complexType name="VOIDescriptorType">-->
+<!--        <xs:sequence>-->
+<!--            <xs:element name="VOIId" type="xs:string"/>-->
+<!--            <xs:element name="VOILabel">-->
+<!--                <xs:simpleType>-->
+<!--                    <xs:restriction base="xs:string">-->
+<!--                        <xs:enumeration value="bone"/>-->
+<!--                        <xs:enumeration value="breast"/>-->
+<!--                        <xs:enumeration value="esophagus"/>-->
+<!--                        <xs:enumeration value="heart"/>-->
+<!--                        <xs:enumeration value="lungs"/>-->
+<!--                        <xs:enumeration value="skin"/>-->
+<!--                    </xs:restriction>-->
+<!--                </xs:simpleType>-->
+<!--            </xs:element>-->
+<!--            <xs:element name="VOIData" type="NonDICOMDataType" minOccurs="0" maxOccurs="unbounded" />-->
+<!--        </xs:sequence>-->
+<!--    </xs:complexType>-->
+
+
+
+</xs:schema>

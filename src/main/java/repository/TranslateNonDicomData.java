@@ -13,6 +13,8 @@ import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMo
 import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry.CalculationOfAbsorbedDosesInVOIs;
 import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry.CalculationOfVoxelMap;
 
+
+
 public class TranslateNonDicomData extends OntologyPopulator {
 
 	static Hashtable<String, Individual> tableVOI = new Hashtable<String, Individual>();
@@ -103,7 +105,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				addObjectProperty(roleOfOrganization,racineObo+"BFO_0000054",imageSegmentation);
 
 				image = createIndiv(generateName("Image"), model.getResource(racineURI+"CT_image_reconstruction"));
-				for(int i = 0; i<ctSegmentation.dicomImageUsed.dicomSeriesUID.size(); i++) {
+				for (int i = 0; i<ctSegmentation.dicomImageUsed.dicomSeriesUID.size(); i++) {
 					addDataProperty(image, racineURI+"has_DICOM_series_instance_UID", ctSegmentation.dicomImageUsed.dicomSeriesUID.get(i));
 				}
 				addDataProperty(image, racineURI+"has_DICOM_series_instance_UID", ctSegmentation.dicomImageUsed.dicomStudyUID);
@@ -619,7 +621,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		}
 	}
 	
-	public static Individual voi(String voiId, String voiClass) { //function to check if a VOI has been already described (and make then unic)
+	public static Individual voi(String voiId, String voiClass) { //function to check if a VOI has been already described (and make them unic)
 		// If the voi exist return these VOI, else return a new VOI
 		if (!tableVOI.containsKey(voiId)) {
 			Individual voi;
