@@ -88,7 +88,7 @@ public class ImportController {
 	
 	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
 
-	static Individual patient;					// Will store the ontologic entity of the patient
+	private static Individual patient;					// Will store the ontologic entity of the patient
 	static Individual clinicalResearchStudy;
 
 	static String handle;						// Handle is at top for being transmitted to the Import Controller
@@ -343,18 +343,6 @@ public class ImportController {
 			aResult.close();											// Close The Object (despite the errors)
 		}
 		
-		String emptyResult = "},\n" + 
-				"  \"results\" : {\n" + 
-				"    \"bindings\" : [ ]\n" + 
-				"  }\n" + 
-				"}";
-		
-		if (out.toString().contains(emptyResult)) {
-			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-			return error.toString(); 
-		}
-		
-		
 		return (out.toString());										// Convert the ByteArrayOutputStream as a string and return it
 	}
 
@@ -367,7 +355,8 @@ public class ImportController {
 			String a = executeQuerry(q.getRequest(), isReasoning); 	   // Execute the querry and store the result as a string
 			return a;											       // Return Querry Result
 		} else {												       // If request is null
-			return ("{\"res\": \"Error : Unknown request\"}");	       // Return an Error message
+			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+			return error.toString(); 
 		}
 	}
 
@@ -467,6 +456,10 @@ public class ImportController {
 		}
 		return false;													// Return False if name provided is NOT in the iterartion
 	}
+	
+	public static Individual getPatient() {
+		return patient;
+	}
 
 	@RequestMapping( value = "/importDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
 	public String importDicomData(@RequestBody DicomFileSetDescriptor dicomFileSetDescriptor,  				// Import Dicom file
@@ -475,7 +468,7 @@ public class ImportController {
 		if (dockerHost==null) {dockerHost = Application.dockerHost ;}
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}
 		if (memory==null) {memory=Application.memory;}														// Memory is used for store some objects
-		patient = OntologyPopulator.retrievePatientData(dicomFileSetDescriptor.getPatientDescriptor()); 	// Retrieve patient data
+		//patient = OntologyPopulator.retrievePatientData(); 	// Retrieve patient data
 
 		Individual clinicalResearchStudy = OntologyPopulator.
 				retrieveClinicalResearchStudy(dicomFileSetDescriptor.referencedClinicalStudy.clinicalStudyID);
@@ -500,7 +493,7 @@ public class ImportController {
 					logger.info("Retrieving CT"+" StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 					Iterator<DICOMStudyType> iterFileSet = dicomFileSetDescriptor.dicomStudy.iterator();	// Iterator on the root of the Dicom Study XML
 					TranslateDicomData.readingCT(iterFileSet, 												// Read and translate the CT
-							studyInstanceUID, seriesInstanceUID, clinicalResearchStudy);
+							studyInstanceUID, seriesInstanceUID, clinicalResearchStudy, dicomFileSetDescriptor.getPatientDescriptor());
 					rdfName = "RdfBackup/CT_study" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";// Name for the RDF file
 					writingRDF(rdfName);																	// Write RDF in a file
 					setInStarDog(rdfName);																	// Push RDF file to Stardog

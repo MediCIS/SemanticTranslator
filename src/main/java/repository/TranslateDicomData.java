@@ -17,8 +17,9 @@ public class TranslateDicomData extends OntologyPopulator {
 	static String startValue; static String endValue; static String unit;
 	static DicomFileSetDescriptor DicomFileSetDescriptorContent;
 	static NonDicomFileSetDescriptor nonDicomFileSetDescriptorContent;
+	static Individual patient;
 	
-	public static void readingCT(Iterator<DICOMStudyType> iterFileSet, String studyInstanceUID, String seriesInstanceUID, Individual clinicalResearchStudy) {
+	public static void readingCT(Iterator<DICOMStudyType> iterFileSet, String studyInstanceUID, String seriesInstanceUID, Individual clinicalResearchStudy, PatientDescriptorType patientDescriptor) {
 		DICOMStudyType study; DICOMStudyDescriptorType studyDescriptor; 
 		Individual imagingStudy; String organName; ArrayList<Individual> organs;
 		List<DICOMSeriesType> dicomSeries; Iterator<DICOMSeriesType> serieIterator; DICOMSeriesType serie;
@@ -30,10 +31,12 @@ public class TranslateDicomData extends OntologyPopulator {
 		Individual role_of_responsible_organization = null; Iterator<DICOMSOPInstanceDescriptorType> dicomsopInstanceDescriptorIter;
 		
 		if (memory==null) {memory = Application.memory;}
+		
+		patient = retrievePatientData(patientDescriptor);
 
 		while (iterFileSet.hasNext()) {					// allow to iter on multiple fileset
 			study = iterFileSet.next();
-			studyDescriptor = study.getDICOMStudyDescriptor();
+			studyDescriptor = study.getDICOMStudyDescriptor(); 
 			
 			handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID; 
 			
@@ -217,6 +220,7 @@ public class TranslateDicomData extends OntologyPopulator {
 			addDataProperty(irradEvent, racineURI+"has_beginning", startValue.toString()); 
 			addDataProperty(irradEvent, racineURI+"has_end",       endValue.toString()); 
 			addObjectProperty(patientRole, "http://purl.obolibrary.org/obo/BFO_0000054", irradEvent );
+			
 			break;
 		case "Source_of_Dose_Information":
 			switch (value) {
