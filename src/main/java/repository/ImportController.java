@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -55,6 +56,7 @@ import com.complexible.stardog.api.Connection;
 import com.complexible.stardog.api.ConnectionConfiguration;
 import com.complexible.stardog.api.ConnectionPool;
 import com.complexible.stardog.api.ConnectionPoolConfig;
+import com.complexible.stardog.api.Exporter;
 import com.complexible.stardog.api.SelectQuery;
 import com.complexible.stardog.server.UnknownTransactionException;
 import com.pixelmed.dicom.AttributeList;
@@ -96,15 +98,12 @@ public class ImportController {
 
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 
 
-	@RequestMapping(value = "/test")			// for my own use (will be removed at the end)
-	public String test(@RequestParam Map<String,String> requestParams) throws Exception{
-		String p1=requestParams.get("p1");
-		String p2=requestParams.get("p2");
-		return "Hello "+p1+" "+p2+"\n";
+	@RequestMapping(value = "/test", method = RequestMethod.GET)			// for my own use (will be removed at the end)
+	public String test(@RequestParam String param) throws Exception{
+		return "Hello "+param+"\n";
 	}
 	
-/*
-	@RequestMapping(value = "/demoXSD")			// for my own use (will be removed at the end)
+	@RequestMapping(value = "/demoXSD", method = RequestMethod.GET) 		// for my own use (will be removed at the end)
 	public void demoXSD(@RequestParam("valeur") int valeur) {  
 		System.out.println("demoXSD");
 		String chemin1xml = "/Users/marinebrenet/Desktop/xml_1.xml";
@@ -152,8 +151,7 @@ public class ImportController {
 					System.out.println("Etape 1");
 					Etape1 e1 = sousProcess.etape1;
 					
-					e1.output.voiData.iterator().next().nonDICOMDataFileName.iterator().next()
-					
+					e1.output.voiData.iterator().next().nonDICOMDataFileName.iterator().next();
 					
 					System.out.println("Param 1 : "+e1.param1);
 					System.out.println("Param 2 : "+e1.param2);
@@ -176,8 +174,7 @@ public class ImportController {
 		
 		System.out.println("FIN demoXSD");
 	}
-	*/
-	
+
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
 	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
 		System.out.println("getMimeTypeDataFormat");
@@ -187,7 +184,7 @@ public class ImportController {
 				"        ?class rdf:type owl:Class .\n" + 
 				"        ?class ontomedirad:has_MIME_type ?label .\n" + 
 				"        ?class skos:prefLabel ?classlabel .\n" + 
-				"        FILTER (?classlabel = \""+nonDICOMDataFormat.replace("_", " ")+"\"@en) \n" + 
+				"        FILTER (?classlabel = \""+nonDICOMDataFormat+"\"@en) \n" + 
 				"        }" , "false" ); 	
 	} 
 
@@ -493,7 +490,8 @@ public class ImportController {
 					logger.info("Retrieving CT"+" StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 					Iterator<DICOMStudyType> iterFileSet = dicomFileSetDescriptor.dicomStudy.iterator();	// Iterator on the root of the Dicom Study XML
 					TranslateDicomData.readingCT(iterFileSet, 												// Read and translate the CT
-							studyInstanceUID, seriesInstanceUID, clinicalResearchStudy, dicomFileSetDescriptor.getPatientDescriptor());
+							studyInstanceUID, seriesInstanceUID, 
+							clinicalResearchStudy, dicomFileSetDescriptor.getPatientDescriptor());
 					rdfName = "RdfBackup/CT_study" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";// Name for the RDF file
 					writingRDF(rdfName);																	// Write RDF in a file
 					setInStarDog(rdfName);																	// Push RDF file to Stardog
@@ -514,8 +512,6 @@ public class ImportController {
 		if (dockerHost==null) {dockerHost = Application.dockerHost ;}
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}	
 		
-		
-
 		if (nonDicomFileSetDescriptor!=null) {									    						// If there is a nonDicomFileSetDescriptor
 			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data
 		}
@@ -698,4 +694,28 @@ public class ImportController {
 		starDogConnection.commit();																			// End of the import action (without commit the import is not valid)
 		logger.info("Transfer to stardog : Complete");
 	}
+	
+	@RequestMapping( value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/xml")
+	public void downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) {		
+		if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
+		else {createAdminConnection(db);}
+		try {
+			Exporter exporter = starDogConnection.export();
+			exporter.format(org.openrdf.rio.RDFFormat.RDFXML);
+			
+			File f = new File("stardogData.rdf");
+			FileOutputStream output = new FileOutputStream(f);
+			exporter.to(output);
+			
+		} catch (StardogException e) {																		// Error with Stardog or file content
+			logger.debug("StardogException");
+			logger.debug(e.getMessage());
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		starDogConnection.close();
+	}
+	
+	
 }
