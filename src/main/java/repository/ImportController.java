@@ -698,7 +698,7 @@ public class ImportController {
 		logger.info("Transfer to stardog : Complete");
 	}
 	
-	@RequestMapping( value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/xml")
+	@RequestMapping (value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/xml")
 	public @ResponseBody FileSystemResource downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) {		
 		
 		String fileName; File file = null;
@@ -733,8 +733,7 @@ public class ImportController {
 		
 	}
 	
-	
-	@RequestMapping( value = "/shutDownServer", method = RequestMethod.GET , headers = "Accept=text/xml")
+	@RequestMapping (value = "/shutDownServer", method = RequestMethod.GET , headers = "Accept=text/xml")
 	public void shutDownServer() {
 		logger.info("Shutting Down Server");
 		System.out.println("Good Bye Friend !");

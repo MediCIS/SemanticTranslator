@@ -1,48 +1,47 @@
 package querries;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import querries.Querry;
-
-import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.*;
 import org.json.JSONArray;
-import org.springframework.core.io.ClassPathResource;
 
-public class ListQuerries {
+public class ListQuerries implements java.io.Serializable {
 	
 	private ArrayList<Querry> ListQuerry; 
+	private String filename = "src/main/resources/requestList.ser";
 	
 	public ListQuerries() {													// Constructor (by reading querries in an excel file) 
 		ListQuerry = new ArrayList<Querry>(); 								// List for store the Querry Objects
 		
-		ClassPathResource resource = 										// Excel file containing the querries list
-				new ClassPathResource("/RequestList.xlsx");					// Stored as a ressource 
-			    
 		try {
-			InputStream i = resource.getInputStream();						// Stream to read the file
-			Workbook workbook = WorkbookFactory.create(i);							// Convert the file content as a "workbook"
-	        Sheet sheet = workbook.getSheetAt(0); 							// Getting the first Sheet (at index zero)
-	        DataFormatter dataFormatter = new DataFormatter();  			// Create a DataFormatter to format and get each cell's value as String 
-	        String id; String description; String requete; String label; 	// Empty String for store values read in the file
-	        
-	        for (Row row: sheet) { 											// Use a for-each loop to iterate over the rows and columns
-	        	id = dataFormatter.formatCellValue(row.getCell(0)); 		// Get ID value in the first cell
-	        	label = dataFormatter.formatCellValue(row.getCell(1));		
-	        	description = dataFormatter.formatCellValue(row.getCell(2));
-	        	requete = dataFormatter.formatCellValue(row.getCell(3));
-
-	        	ListQuerry.add(new Querry(id, label, requete, description)); // Generate a object Querry and add it to the list
-	        }
-
-	        workbook.close(); 	        									 // Closing the workbook
-		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
+			FileInputStream fileIn = new FileInputStream(filename);
+	        ObjectInputStream in = new ObjectInputStream(fileIn);
+	        ListQuerry = (ArrayList<Querry>) in.readObject();
+	        in.close();
+	        fileIn.close();
+		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+
+	}
+	
+	public void serializeListQuerries() {
+		try {
+	         FileOutputStream fileOut = new FileOutputStream(filename);
+	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	         out.writeObject(ListQuerry);
+	         out.close();
+	         fileOut.close();
+	         System.out.printf("Serialized data is saved in "+filename);
+	      } catch (IOException i) {
+	         i.printStackTrace();
+	      }
 	}
 	
 	public Querry getRequest(String nameRequest) {							// Return a Querry as a Java Object
@@ -67,4 +66,5 @@ public class ListQuerries {
 		}
 		return listeJSON.toString();										// Return the JSON list
 	}
+	
 }
