@@ -225,28 +225,19 @@ public class Memory extends OntologyPopulator {
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
 		try {
-			System.out.println("execute : ");
 			aResult = aQuery.execute();
-			
-			System.out.println("results : ");
-					
+								
 			out = new ByteArrayOutputStream();
 			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-			
-			System.out.println(out.toString());
-			
+						
 			String[] resultats = out.toString().split("\n");
 			String[] ContenuLignes; String iri; String name;
 			
 			for (int i=1; i<resultats.length; i++) {
-				System.out.println("Ligne : "+resultats[i]);
 				
 				ContenuLignes = resultats[i].split(",");
 				iri = ContenuLignes[0];
 				name = ContenuLignes[1];
-				
-				System.out.println("\tName : "+name);
-				System.out.println("\tIRI : "+iri);
 							
 				setSoftware(name, iri);
 				
@@ -282,28 +273,20 @@ public class Memory extends OntologyPopulator {
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
 		try {
-			System.out.println("execute : ");
 			aResult = aQuery.execute();
 			
-			System.out.println("results : ");
-					
 			out = new ByteArrayOutputStream();
 			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
 			
-			System.out.println(out.toString());
 			
 			String[] resultats = out.toString().split("\n");
 			String[] ContenuLignes; String iri; String name;
 			
 			for (int i=1; i<resultats.length; i++) {
-				System.out.println("Ligne : "+resultats[i]);
 				
 				ContenuLignes = resultats[i].split(",");
 				iri = ContenuLignes[0];
 				name = ContenuLignes[1];
-				
-				System.out.println("\tName : "+name);
-				System.out.println("\tIRI : "+iri);
 							
 				setMCMethod(name, iri);
 				
@@ -340,31 +323,22 @@ public class Memory extends OntologyPopulator {
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
 		try {
-			System.out.println("execute : ");
 			aResult = aQuery.execute();
-			
-			System.out.println("results : ");
 					
 			out = new ByteArrayOutputStream();
 			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-			
-			System.out.println(out.toString());
-			
+						
 			String[] resultats = out.toString().split("\n");
 			String[] ContenuLignes; String iriRole;
 			String iriInstit; String nameInstit;
 			
 			for (int i=1; i<resultats.length; i++) {
-				System.out.println("Ligne : "+resultats[i]);
 				
 				ContenuLignes = resultats[i].split(",");
 				iriInstit = ContenuLignes[0];
 				nameInstit = ContenuLignes[1];
 				iriRole = ContenuLignes[2];
-				
-				System.out.println("\tNameInstit : "+nameInstit);
-				System.out.println("\tIRIInstit : "+iriInstit);
-							
+											
 				setInstit(nameInstit, iriInstit, iriRole);
 				
 			}
@@ -401,21 +375,15 @@ public class Memory extends OntologyPopulator {
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
 		try {
-			System.out.println("execute : ");
 			aResult = aQuery.execute();
 			
-			System.out.println("results : ");
-					
 			out = new ByteArrayOutputStream();
 			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-			
-			System.out.println(out.toString());
-			
+						
 			String[] resultats = out.toString().split("\n");
 			String[] ContenuLignes; String patientIRI; String CTImageDsIRI; String handle;
 			
 			for (int i=1; i<resultats.length; i++) {
-				System.out.println("Ligne : "+resultats[i]);
 				
 				ContenuLignes = resultats[i].split(",");
 				patientIRI = ContenuLignes[0];
@@ -427,10 +395,6 @@ public class Memory extends OntologyPopulator {
 				String study = handle.split("/series/")[0];
 				String series = handle.split("/series/")[1];
 				
-				System.out.println("\tpatientIRI : "+patientIRI);
-				System.out.println("\tCTImageDsIRI : "+CTImageDsIRI);
-				System.out.println("\tstudy : "+study);
-				System.out.println("\tseries : "+series);
 				if (model==null) {model=Application.model;}
 				
 				setPatient(series, study, model.createIndividual(patientIRI, model.getResource(racineURI+"human")));

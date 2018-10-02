@@ -42,13 +42,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.complexible.stardog.StardogException;
@@ -696,26 +699,46 @@ public class ImportController {
 	}
 	
 	@RequestMapping( value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/xml")
-	public void downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) {		
-		if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
-		else {createAdminConnection(db);}
+	public @ResponseBody FileSystemResource downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) {		
+		
+		String fileName; File file = null;
+		if (db==null)  {
+			createAdminConnection(database.ontoMedirad);										// If no DB provided create a connection to ontoMedirad
+			fileName = "stardogData_ontoMedirad.rdf";
+		} else {
+			createAdminConnection(db);
+			fileName = "stardogData_"+db.toString()+".rdf";
+		}
+		
 		try {
 			Exporter exporter = starDogConnection.export();
 			exporter.format(org.openrdf.rio.RDFFormat.RDFXML);
 			
-			File f = new File("stardogData.rdf");
-			FileOutputStream output = new FileOutputStream(f);
+			file = new File(fileName);
+			FileOutputStream output = new FileOutputStream(file);
 			exporter.to(output);
-			
+			 			
 		} catch (StardogException e) {																		// Error with Stardog or file content
+			starDogConnection.close();
 			logger.debug("StardogException");
 			logger.debug(e.getMessage());
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			starDogConnection.close();
 			e.printStackTrace();
 		} 
+		
 		starDogConnection.close();
+		
+		return new FileSystemResource(file); 
+		
 	}
 	
+	
+	@RequestMapping( value = "/shutDownServer", method = RequestMethod.GET , headers = "Accept=text/xml")
+	public void shutDownServer() {
+		logger.info("Shutting Down Server");
+		System.out.println("Good Bye Friend !");
+		System.exit(0);
+	}
 	
 }

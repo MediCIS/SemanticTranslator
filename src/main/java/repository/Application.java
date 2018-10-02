@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import querries.ListQuerries;
 
@@ -36,11 +35,12 @@ public class Application {
 		
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);					 // Spring Boot
-        
+		System.out.println("Hello Friend !");
+
         for (int i = 0; i<args.length; i++) {
         	if (args[i].contains("express")) {express=true;}
         }
- 
+        
         if (express==false) {
         	loadProperties();											 // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
         	listQuerries = new ListQuerries(); 							 // Init a querry list (read from the excel file)
@@ -49,7 +49,8 @@ public class Application {
         }
         
         hideLogs = false; 									 			 // Will allow logs to be show
-        System.out.println("ready"); 							  		 // Now server is ready to receive commands
+        System.out.println("\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"); 
+        System.out.println("\n\nSemantic Translator is ready\n\n"); 	 // Now server is ready to receive commands
     }
     
     public static void loadOntology(String pathOntology) {
@@ -57,12 +58,10 @@ public class Application {
 		model = ModelFactory.createOntologyModel(); 					 // Create empty graph for the ontology
 		InputStream in = FileManager.get().open(pathOntology);      	 // Get the main file
 		model.read(in, null); 											 // Read the ontology files (it takes about 4 minutes)
-		System.out.println("Ontology has been Imported Sucesfully\n");
+		System.out.println("\nOntology has been Imported Sucesfully\n");
 	}
 	
-	public static OntModel getModel() {									 // Used to provide the ontology to other classes
-		return model;
-	}
+	public static OntModel getModel() {return model;}					// Used to provide the ontology to other classes
     
     public static void loadProperties() {								 // Load some settings from a text file for configure sever 
     	Properties prop = new Properties();                   		     // Object to store the properties
