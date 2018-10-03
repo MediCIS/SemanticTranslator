@@ -15,6 +15,7 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 
 import com.pixelmed.dicom.ContentItem;
 
@@ -169,9 +170,11 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 
 	public static void loadDico() { 									// Load shortcuts for IRI from a file
 		BufferedReader br; String cle; String iri;
+		String dicoFileName = "dico.txt";
 		try {
 			dico = new Hashtable<String, String>();						// Create an empty dictionary
-			br = new BufferedReader(new FileReader("dico.txt"));		// Read (as a stream) the file
+			ClassPathResource res = new ClassPathResource(dicoFileName);// Load the file as a resource
+			br = new BufferedReader(new FileReader(res.getFile()));		// Read (as a stream) the file
             for(String line; (line = br.readLine()) != null; ) {		// Read line by line
                 cle = line.split(":")[0];								// Get name (used as a key for the dict)
                 iri = line.replace(cle+":", "");						// Get IRI 
@@ -180,7 +183,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		} catch (IOException e) {e.printStackTrace();}	
 	}
 
-	public static Resource getResource(String cle) {					// Get ressource from dictionary with the shortcut
+	public static Resource getResource(String cle) {					// Get resource from dictionary with the shortcut
 		if (dico==null) {loadDico();}
 		cle = cle.replace(" ", "_");
 		return model.getResource(dico.get(cle));

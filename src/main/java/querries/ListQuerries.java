@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.JSONArray;
+import org.springframework.core.io.ClassPathResource;
 
 public class ListQuerries implements java.io.Serializable {
 	
@@ -17,10 +18,11 @@ public class ListQuerries implements java.io.Serializable {
 	private String filename = "src/main/resources/requestList.ser";
 	
 	public ListQuerries() {													// Constructor (by reading querries in an excel file) 
-		ListQuerry = new ArrayList<Querry>(); 								// List for store the Querry Objects
 		
+		ListQuerry = new ArrayList<Querry>(); 								// List for store the Querry Object
 		try {
-			FileInputStream fileIn = new FileInputStream(filename);
+			FileInputStream fileIn = new FileInputStream(
+					new ClassPathResource("requestList.ser").getFile());  
 	        ObjectInputStream in = new ObjectInputStream(fileIn);
 	        ListQuerry = (ArrayList<Querry>) in.readObject();
 	        in.close();
@@ -28,12 +30,12 @@ public class ListQuerries implements java.io.Serializable {
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 	
 	public void serializeListQuerries() {
 		try {
-	         FileOutputStream fileOut = new FileOutputStream(filename);
+	         FileOutputStream fileOut = new FileOutputStream(
+	        		 new ClassPathResource("requestList.ser").getFile());
 	         ObjectOutputStream out = new ObjectOutputStream(fileOut);
 	         out.writeObject(ListQuerry);
 	         out.close();
@@ -57,6 +59,7 @@ public class ListQuerries implements java.io.Serializable {
 	
 	public void addRequest(String name, String label, String request, String description) {
 		ListQuerry.add(new Querry(name, label, request, description));		// Create a querry Object and add it to the list
+		serializeListQuerries();
 	}
 	
 	public String getJsonString() {											// Return Querry in JSON format

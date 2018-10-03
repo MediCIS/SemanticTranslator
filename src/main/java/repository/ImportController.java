@@ -730,7 +730,6 @@ public class ImportController {
 		starDogConnection.close();
 		
 		return new FileSystemResource(file); 
-		
 	}
 	
 	@RequestMapping (value = "/shutDownServer", method = RequestMethod.GET , headers = "Accept=text/xml")
@@ -738,6 +737,14 @@ public class ImportController {
 		logger.info("Shutting Down Server");
 		System.out.println("Good Bye Friend !");
 		System.exit(0);
+	}
+	
+	@RequestMapping (value = "/addRequest", method = RequestMethod.GET , headers = "Accept=text/xml")
+	public void addRequest(@RequestParam("id") String name,
+			@RequestParam("label") String label,
+			@RequestParam("request") String request,
+			@RequestParam("description") String description) {
+		Application.listQuerries.addRequest(name, label, request, description);
 	}
 	
 }

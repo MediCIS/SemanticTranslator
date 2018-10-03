@@ -38,8 +38,8 @@ public class Application {
     	loadProperties();											     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
 		System.out.println("Hello Friend !");
 
-        for (int i = 0; i<args.length; i++) {
-        	if (args[i].contains("express")) {express=true;}
+        for (int i = 0; i<args.length; i++) {							 // Iter on arguments
+        	if (args[i].contains("express")) {express=true;}			 // Allow a quick boot (without ontology loading)
         }
                 
         if (express==false) {
@@ -49,7 +49,8 @@ public class Application {
         }
         
         hideLogs = false; 									 			 // Will allow logs to be show
-        System.out.println("\n||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"); 
+        System.out.println("\n"); 
+        System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"); 
         System.out.println("\n\nSemantic Translator is ready\n\n"); 	 // Now server is ready to receive commands
     }
     
