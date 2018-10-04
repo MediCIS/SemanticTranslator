@@ -746,7 +746,7 @@ public class ImportController {
 		Application.listQuerries.addRequest(name, label, request, description);
 	}
 	
-	@RequestMapping (value = "/addRequest", method = RequestMethod.GET , headers = "Accept=text/xml")
+	@RequestMapping (value = "/deleteRequest", method = RequestMethod.GET , headers = "Accept=text/xml")
 	public void deleteRequest(@RequestParam("name") String name) {
 		Application.listQuerries.deleteRequest(name);
 	}
