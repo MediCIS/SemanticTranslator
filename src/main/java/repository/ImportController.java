@@ -89,7 +89,6 @@ public class ImportController {
 
 	String rdfName;								// Name of the RDF file that wille writen before transfer to StarDog (for backup)
 	int z = 0; 									// Used for names RDF files and avoid overwriting
-
 	
 	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
 
@@ -740,11 +739,21 @@ public class ImportController {
 	}
 	
 	@RequestMapping (value = "/addRequest", method = RequestMethod.GET , headers = "Accept=text/xml")
-	public void addRequest(@RequestParam("id") String name,
+	public void addRequest(@RequestParam("name") String name,
 			@RequestParam("label") String label,
 			@RequestParam("request") String request,
 			@RequestParam("description") String description) {
 		Application.listQuerries.addRequest(name, label, request, description);
+	}
+	
+	@RequestMapping (value = "/addRequest", method = RequestMethod.GET , headers = "Accept=text/xml")
+	public void deleteRequest(@RequestParam("name") String name) {
+		Application.listQuerries.deleteRequest(name);
+	}
+	
+	@RequestMapping (value = "/downloadRequests", method = RequestMethod.GET , headers = "Accept=text/xml")
+	public String downloadRequests() {
+		return Application.listQuerries.getRequestListsinCSV();
 	}
 	
 }

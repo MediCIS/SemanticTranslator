@@ -27,4 +27,10 @@ public class Querry implements java.io.Serializable {
 	public String getId() {return id;}
 	
 	public String getRequest() {return request;}
+	
+	public String getLabel() {return label;}
+		
+	public String toString() {
+		return id+"\t"+label+"\t"+request+"\t"+description;
+	}
 }

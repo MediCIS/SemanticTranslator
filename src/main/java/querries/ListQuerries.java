@@ -1,7 +1,6 @@
 package querries;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,11 +13,11 @@ import org.springframework.core.io.ClassPathResource;
 
 public class ListQuerries implements java.io.Serializable {
 	
+	private static final long serialVersionUID = 8697356345025659263L;
 	private ArrayList<Querry> ListQuerry; 
 	private String filename = "src/main/resources/requestList.ser";
 	
 	public ListQuerries() {													// Constructor (by reading querries in an excel file) 
-		
 		ListQuerry = new ArrayList<Querry>(); 								// List for store the Querry Object
 		try {
 			FileInputStream fileIn = new FileInputStream(
@@ -62,12 +61,37 @@ public class ListQuerries implements java.io.Serializable {
 		serializeListQuerries();
 	}
 	
+	public void deleteRequest(String nameOrLabel) {
+		Iterator<Querry> iter = ListQuerry.iterator();
+		Querry requestToDelete = null;
+		while (iter.hasNext()) {
+			Querry request = iter.next();
+			if (request.getLabel()==nameOrLabel || request.getId()==nameOrLabel) {
+				requestToDelete = request;
+			}
+		}
+		if (requestToDelete!=null) {
+			ListQuerry.remove(requestToDelete);
+		}
+		serializeListQuerries();
+	}
+	
 	public String getJsonString() {											// Return Querry in JSON format
 		JSONArray listeJSON = new JSONArray();								// Create an array in JSON format
 		for (int i=0; i<ListQuerry.size(); i++) {							// Iterate on the querry's list
 			listeJSON.put(ListQuerry.get(i).getJSON());						// Add the querry to the JSON list
 		}
 		return listeJSON.toString();										// Return the JSON list
+	}
+	
+	public String getRequestListsinCSV() {
+		String csv = "";
+		Iterator<Querry> iter = ListQuerry.iterator();
+		while (iter.hasNext()) {
+			csv+=iter.next().toString()+"\n";
+		}
+		System.out.println("csv : "+csv);
+		return csv;
 	}
 	
 }
