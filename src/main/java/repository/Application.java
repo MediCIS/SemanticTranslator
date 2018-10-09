@@ -41,9 +41,10 @@ public class Application {
         for (int i = 0; i<args.length; i++) {							 // Iter on arguments
         	if (args[i].contains("express")) {express=true;}			 // Allow a quick boot (without ontology loading)
         }
+    	listQuerries = new ListQuerries(); 							 // Init a querry list (read from the excel file)
+
                 
         if (express==false) {
-        	listQuerries = new ListQuerries(); 							 // Init a querry list (read from the excel file)
         	loadOntology(pathOntology); 								 // load the ontlogy from file (it takes about 3-4 minutes)
         	memory = new Memory(); 										 // Going to request to get usefull object inside semanti database
         }

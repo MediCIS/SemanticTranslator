@@ -1,0 +1,129 @@
+"List CT datasets and IRDBB WADO handles","CT datasets and handles",1,"SELECT DISTINCT   ?dataset ?handle
+	WHERE {
+?dataset rdf:type ontomedirad:CT_image_dataset .
+?dataset ontomedirad:has_IRDBB_WADO_handle ?handle .
+} ORDER BY ?datase"
+"List CT datasets, CT model & manufacturer and main protocol settings","CT datasets and acquisition settings",2," 
+SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue
+	WHERE {
+?dataset rdf:type ontomedirad:CT_image_dataset .
+?dataset ontomedirad:is_specified_output_of ?ctacq .
+?ctacq rdf:type ontomedirad:CT_acquisition .
+?scanner rdf:type ontomedirad:CT_scanner .
+?acqrole rdf:type ontomedirad:image_acquisition_role .
+?acqrole purl:BFO_0000052 ?scanner.     
+?acqrole purl:BFO_0000054 ?ctacq . 
+OPTIONAL {?ctacq ontomedirad:has_setting ?tubecurrent .
+?tubecurrent rdf:type dcm:113734 .
+?tubecurrent purl:IAO_0000004 ?tubecurrentvalue . 
+OPTIONAL {?tubecurrent purl:IAO_0000039 ?tubecurrentunit . 
+?tubecurrentunit rdfs:label ?tubecurrentunitlabel }}.
+OPTIONAL {?ctacq ontomedirad:has_setting ?xraymodsetting .
+?xraymodsetting rdf:type ?xraymodclass .
+?xraymodclass rdfs:subClassOf* dcm:113842 .
+?xraymodsetting purl:IAO_0000004 ?useofxraymodvalue } .
+OPTIONAL {?ctacq ontomedirad:has_setting ?kvpsetting .
+?kvpsetting rdf:type dcm:113733 .
+?kvpsetting purl:IAO_0000004 ?kvpvalue . 
+OPTIONAL {?kvpsetting purl:IAO_0000039 ?kvpunit .
+?kvpunit rdfs:label ?kvpunitlabel }}.
+OPTIONAL {?ctacq ontomedirad:has_setting ?exptime .
+?exptime rdf:type dcm:113824 .
+?exptime purl:IAO_0000004 ?exptimevalue .
+OPTIONAL {?exptime purl:IAO_0000039 ?exptimeunit .
+?exptimeunit rdfs:label ?exptimeunitlabel }}.
+?scanner ontomedirad:has_manufacturer_name ?manufacturer .
+?scanner ontomedirad:has_model_name ?model .
+}
+"
+"List patients with demographic characteristics","Patients and demographic data",3,"SELECT  DISTINCT ?human ?id ?sex ?birthdate 
+	WHERE {
+
+?human rdf:type ontomedirad:human  .
+?human ontomedirad:has_id ?id .
+?human ontomedirad:has_sex ?sex .  
+?human ontomedirad:has_birthdate ?birthdate .
+} "
+"List 3D_dose_maps, from which CT data it was obtained, with what method and what main settings","3D Dose Maps and provenance data",4,"SELECT DISTINCT   ?dataset ?process ?softwarename ?inputct ?kvpvalue ?kvpunitlabel ?useofxraymodvalue
+	WHERE {
+?dataset rdf:type dcm:128487 .	 # 3D dose map
+?process ontomedirad:has_specified_output ?dataset .
+?process rdf:type ontomedirad:calculation_of_a_3D_dose_map .
+?process ontomedirad:has_specified_input ?inputct .
+?process ontomedirad:has_protocol ?method .
+?process ontomedirad:has_agent ?software .
+?software ontomedirad:has_name ?softwarename .
+OPTIONAL {?process ontomedirad:has_setting ?kvpsetting .
+?kvpsetting rdf:type dcm:113733 .
+?kvpsetting purl:IAO_0000004 ?kvpvalue .
+?kvpsetting purl:IAO_0000039 ?kvpunit .
+?kvpunit rdfs:label ?kvpunitlabel }.
+OPTIONAL {?process ontomedirad:has_setting ?xraymodsetting .
+?xraymodsetting rdf:type ?xraymodclass .
+?xraymodclass rdfs:subClassOf* dcm:113842 .
+?xraymodsetting purl:IAO_0000004 ?useofxraymodvalue } .
+} ORDER BY ?dataset"
+"List data processing steps, date and time, class of processing and responsible institution
+","Processing steps",5,"SELECT DISTINCT ?process ?date ?time ?processclass ?labelclassroleinstitut ?nameinstitut
+	WHERE {
+?process rdf:type ?processclass .
+OPTIONAL {?process ontomedirad:has_agent ?software .}
+OPTIONAL {?process ontomedirad:has_beginning ?datetime .
+BIND (substr(?datetime,1,8) AS ?date) .
+BIND (substr(?datetime,10,4) AS ?time) .}
+?processclass rdfs:subClassOf* purl:BFO_0000015 .
+?roleinstitut purl:BFO_0000054 ?process .
+OPTIONAL {?institut purl:BFO_0000161 ?roleinstitut .
+?roleinstitut rdf:type ?classroleinstitut .
+?classroleinstitut skos:prefLabel ?labelclassroleinstitut .
+?institut ontomedirad:has_name ?nameinstitut  } . 	
+} ORDER BY ?process"
+"List Volumes of Interest (VOI), related segmented entity (e.g. organ)","Volumes Of Interest and organs",6,"SELECT  ?dataset ?filename  ?voiclass ?matentity ?matentityclasslabel ?processclass ?date ?time
+	WHERE {
+?dataset rdf:type ?voiclass .  # subclass of VOI
+?dataset ontomedirad:has_name ?filename .
+?voiclass rdfs:subClassOf* ontomedirad:VOI  .
+?dataset ontomedirad:represents ?matentity .
+?matentity rdf:type ?matentityclass .
+OPTIONAL {?matentityclass rdfs:label ?matentityclasslabel } .
+?dataset ontomedirad:is_specified_output_of ?process .
+OPTIONAL {?process ontomedirad:has_beginning ?datetime .
+BIND (substr(?datetime,1,8) AS ?date) .
+BIND (substr(?datetime,10,4) AS ?time) .}
+?process rdf:type ?processclass .
+?processclass rdfs:subClassOf* purl:BFO_0000015 .
+} ORDER BY ?matentity"
+"List Mean absorbed doses (value and unit of measurement), and concerned organ","Mean absorbed doses in organs",7,"SELECT  DISTINCT ?patientid ?classdoselabel ?processclass ?value ?unitclasslabel ?matentity ?matentityclasslabel
+    WHERE {
+?dose rdf:type ?doseclass .
+?doseclass rdfs:subClassOf* dcm:128533 .
+?doseclass skos:prefLabel ?classdoselabel .
+?dose purl:IAO_0000004 ?value .
+?dose purl:IAO_0000039 ?unit .
+?unit rdf:type ?unitclass .
+?unitclass rdfs:label ?unitclasslabel .
+OPTIONAL {?process ontomedirad:has_specified_output ?dose .
+?process rdf:type ?processclass .
+?processclass rdfs:subClassOf* purl:BFO_0000015 .}
+?dose ontomedirad:is_dose_absorbed_by ?matentity .
+?matentity rdf:type ?matentityclass .
+OPTIONAL {?matentityclass rdfs:label ?matentityclasslabel } .
+?dose ontomedirad:has_patient ?human  .
+?human ontomedirad:has_id ?patientid .
+} ORDER BY ?dose "
+"List Clinical research studies","Clinical research studies",8,"SELECT DISTINCT   ?study ?id ?name ?description
+	WHERE {
+?study rdf:type ontomedirad:clinical_research_study .
+?study ontomedirad:has_id ?id .
+?study ontomedirad:has_name ?name .
+?study ontomedirad:has_description ?description .
+} "
+"List Non-DICOM Files and handles ","Non DICOM datasets and handles",9,"SELECT  DISTINCT ?patientid ?dataset ?datasetclasslabel ?fhirhandle
+    WHERE {
+?dataset ontomedirad:has_IRDBB_FHIR_handle ?fhirhandle .
+?dataset rdf:type ?datasetclass .
+?datasetclass rdfs:subClassOf* purl:IAO_0000100 .
+OPTIONAL {?datasetclass skos:prefLabel ?datasetclasslabel } .
+?dataset ontomedirad:has_patient ?human  .
+?human ontomedirad:has_id ?patientid .
+} ORDER BY ?dataset"

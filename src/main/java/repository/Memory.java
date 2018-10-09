@@ -278,7 +278,6 @@ public class Memory extends OntologyPopulator {
 			out = new ByteArrayOutputStream();
 			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
 			
-			
 			String[] resultats = out.toString().split("\n");
 			String[] ContenuLignes; String iri; String name;
 			

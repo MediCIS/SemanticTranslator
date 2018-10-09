@@ -3,7 +3,7 @@ package querries;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Querry implements java.io.Serializable {
+public class Querry  implements java.io.Serializable  {
 
 	private String id; 
 	private String request;

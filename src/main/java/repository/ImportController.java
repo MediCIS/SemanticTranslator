@@ -6,8 +6,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
@@ -105,6 +108,7 @@ public class ImportController {
 		return "Hello "+param+"\n";
 	}
 	
+	/*
 	@RequestMapping(value = "/demoXSD", method = RequestMethod.GET) 		// for my own use (will be removed at the end)
 	public void demoXSD(@RequestParam("valeur") int valeur) {  
 		System.out.println("demoXSD");
@@ -176,7 +180,8 @@ public class ImportController {
 		
 		System.out.println("FIN demoXSD");
 	}
-
+    */	
+	
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
 	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
 		System.out.println("getMimeTypeDataFormat");
