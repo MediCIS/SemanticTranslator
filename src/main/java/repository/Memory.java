@@ -48,7 +48,7 @@ public class Memory extends OntologyPopulator {
 	private LinkedList<String> listMcMethod;
 	private LinkedList<Individual> listIRIMcMethod;
 	
-	public Memory() {
+	public Memory() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
 		initVoidMemory();
 		requestSoftware();
 		requestMCMethod();
@@ -207,7 +207,7 @@ public class Memory extends OntologyPopulator {
 		return MCmethod;
 	}
 	
-	public synchronized void requestSoftware() {
+	public synchronized void requestSoftware() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
 		System.out.println("requestSoftware");
 		starDogUrl = Application.starDogUrl ;	
 		
@@ -224,26 +224,21 @@ public class Memory extends OntologyPopulator {
 		
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
-		try {
-			aResult = aQuery.execute();
-								
-			out = new ByteArrayOutputStream();
-			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-						
-			String[] resultats = out.toString().split("\n");
-			String[] ContenuLignes; String iri; String name;
+		aResult = aQuery.execute();
+		
+		out = new ByteArrayOutputStream();
+		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
+					
+		String[] resultats = out.toString().split("\n");
+		String[] ContenuLignes; String iri; String name;
+		
+		for (int i=1; i<resultats.length; i++) {
 			
-			for (int i=1; i<resultats.length; i++) {
-				
-				ContenuLignes = resultats[i].split(",");
-				iri = ContenuLignes[0];
-				name = ContenuLignes[1];
-							
-				setSoftware(name, iri);
-				
-			}
-		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException | IOException e) {
-			e.printStackTrace();
+			ContenuLignes = resultats[i].split(",");
+			iri = ContenuLignes[0];
+			name = ContenuLignes[1];
+						
+			setSoftware(name, iri);
 		}
 
 		if (aResult!=null) {
@@ -253,9 +248,10 @@ public class Memory extends OntologyPopulator {
 		starDogConnection.close();
 		
 		System.out.println("requestSoftware OK");
+		
 	}
 	
-	public synchronized void requestMCMethod() {
+	public synchronized void requestMCMethod() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
 		System.out.println("requestMCMethod");
 		starDogUrl = Application.starDogUrl ;	
 		
@@ -272,26 +268,22 @@ public class Memory extends OntologyPopulator {
 		
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
-		try {
-			aResult = aQuery.execute();
+		aResult = aQuery.execute();
+		
+		out = new ByteArrayOutputStream();
+		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
+		
+		String[] resultats = out.toString().split("\n");
+		String[] ContenuLignes; String iri; String name;
+		
+		for (int i=1; i<resultats.length; i++) {
 			
-			out = new ByteArrayOutputStream();
-			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
+			ContenuLignes = resultats[i].split(",");
+			iri = ContenuLignes[0];
+			name = ContenuLignes[1];
+						
+			setMCMethod(name, iri);
 			
-			String[] resultats = out.toString().split("\n");
-			String[] ContenuLignes; String iri; String name;
-			
-			for (int i=1; i<resultats.length; i++) {
-				
-				ContenuLignes = resultats[i].split(",");
-				iri = ContenuLignes[0];
-				name = ContenuLignes[1];
-							
-				setMCMethod(name, iri);
-				
-			}
-		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException | IOException e) {
-			e.printStackTrace();
 		}
 
 		if (aResult!=null) {
@@ -303,7 +295,7 @@ public class Memory extends OntologyPopulator {
 		System.out.println("requestMCMethod OK");
 	}
 	
-	public synchronized void requestInstit() {
+	public synchronized void requestInstit() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
 		System.out.println("requestInstit");
 		starDogUrl = Application.starDogUrl ;	
 		
@@ -321,28 +313,23 @@ public class Memory extends OntologyPopulator {
 		
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
-		try {
-			aResult = aQuery.execute();
+		aResult = aQuery.execute();
+		
+		out = new ByteArrayOutputStream();
+		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
 					
-			out = new ByteArrayOutputStream();
-			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-						
-			String[] resultats = out.toString().split("\n");
-			String[] ContenuLignes; String iriRole;
-			String iriInstit; String nameInstit;
+		String[] resultats = out.toString().split("\n");
+		String[] ContenuLignes; String iriRole;
+		String iriInstit; String nameInstit;
+		
+		for (int i=1; i<resultats.length; i++) {
 			
-			for (int i=1; i<resultats.length; i++) {
-				
-				ContenuLignes = resultats[i].split(",");
-				iriInstit = ContenuLignes[0];
-				nameInstit = ContenuLignes[1];
-				iriRole = ContenuLignes[2];
-											
-				setInstit(nameInstit, iriInstit, iriRole);
-				
-			}
-		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException | IOException e) {
-			e.printStackTrace();
+			ContenuLignes = resultats[i].split(",");
+			iriInstit = ContenuLignes[0];
+			nameInstit = ContenuLignes[1];
+			iriRole = ContenuLignes[2];
+										
+			setInstit(nameInstit, iriInstit, iriRole);
 		}
 
 		if (aResult!=null) {
@@ -354,7 +341,7 @@ public class Memory extends OntologyPopulator {
 		System.out.println("requestInstit OK");
 	}
 	
-	public synchronized void requestPatientCTImageDS() {
+	public synchronized void requestPatientCTImageDS() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
 		System.out.println("requestPatientCTImageDS");
 		starDogUrl = Application.starDogUrl ;	
 		
@@ -373,35 +360,30 @@ public class Memory extends OntologyPopulator {
 		
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
-		try {
-			aResult = aQuery.execute();
+		aResult = aQuery.execute();
+		
+		out = new ByteArrayOutputStream();
+		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
+					
+		String[] resultats = out.toString().split("\n");
+		String[] ContenuLignes; String patientIRI; String CTImageDsIRI; String handle;
+		
+		for (int i=1; i<resultats.length; i++) {
 			
-			out = new ByteArrayOutputStream();
-			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-						
-			String[] resultats = out.toString().split("\n");
-			String[] ContenuLignes; String patientIRI; String CTImageDsIRI; String handle;
+			ContenuLignes = resultats[i].split(",");
+			patientIRI = ContenuLignes[0];
+			CTImageDsIRI = ContenuLignes[1];
+			handle = ContenuLignes[2]; 
 			
-			for (int i=1; i<resultats.length; i++) {
-				
-				ContenuLignes = resultats[i].split(",");
-				patientIRI = ContenuLignes[0];
-				CTImageDsIRI = ContenuLignes[1];
-				handle = ContenuLignes[2]; 
-				
-				handle = handle.split("/studies/")[1];
-				
-				String study = handle.split("/series/")[0];
-				String series = handle.split("/series/")[1];
-				
-				if (model==null) {model=Application.model;}
-				
-				setPatient(series, study, model.createIndividual(patientIRI, model.getResource(racineURI+"human")));
-				setCtDataSet(series, study, model.createIndividual(CTImageDsIRI, model.getResource(racineURI+"CT_image_dataset")));
-											
-			}
-		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException | IOException e) {
-			e.printStackTrace();
+			handle = handle.split("/studies/")[1];
+			
+			String study = handle.split("/series/")[0];
+			String series = handle.split("/series/")[1];
+			
+			if (model==null) {model=Application.model;}
+			
+			setPatient(series, study, model.createIndividual(patientIRI, model.getResource(racineURI+"human")));
+			setCtDataSet(series, study, model.createIndividual(CTImageDsIRI, model.getResource(racineURI+"CT_image_dataset")));
 		}
 
 		if (aResult!=null) {

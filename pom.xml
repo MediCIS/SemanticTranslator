@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework</groupId>
     <artifactId>semanticTranslator</artifactId>
-    <version>0.4.1</version>
+    <version>0.4.2</version>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -98,9 +98,6 @@
     		<artifactId>springfox-swagger-ui</artifactId>
     		<version>2.9.2</version>
 		</dependency>
-		
-
-
 
     </dependencies>
     <properties>
@@ -130,6 +127,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
@@ -141,16 +139,17 @@
                             <goal>xjc</goal>
                         </goals>
                         <configuration>
-                            <!-- Use all XSDs under the west directory for sources here. -->
                             <sources>
-                                <source>src/main/resources/xsd/</source>
+                                <source>src/main/resources/xsd/dicomFileSetDescriptor.xsd</source>
+                                <source>src/main/resources/xsd/nonDicomFileSetDescriptor.xsd</source>
+                                <source>src/main/resources/xsd/processusDescriptor.xsd</source>
                             </sources>
-                            <!-- Package name of the generated sources. -->
                             <packageName>repository</packageName>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+            
         </plugins>
     </build>
     <repositories>

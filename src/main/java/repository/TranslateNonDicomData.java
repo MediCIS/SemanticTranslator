@@ -96,7 +96,9 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				ctSegmentation = subtask212.ctSegmentation;
 
 				imageSegmentation = createIndiv(generateName("image_segmentation"), model.getResource(racineURI+"image_segmentation")); //process
-				addObjectProperty(imageSegmentation, racineURI+"has_specified_input", ctImageDataSet);
+				if (ctImageDataSet!=null) {
+					addObjectProperty(imageSegmentation, racineURI+"has_specified_input", ctImageDataSet);
+				}
 				addDataProperty(imageSegmentation, racineURI+"has_beginning", ctSegmentation.dateTimeProcessStarted);
 
 				institution = memory.getInstitution(ctSegmentation.performingInstitution);
@@ -300,7 +302,9 @@ public class TranslateNonDicomData extends OntologyPopulator {
 
 						if (calculationof3Ddosemap!=null) {
 							addObjectProperty(calculationof3Ddosemap, racineURI+"has_specified_output", voxelBasedDistributionOfAbsorbedDoseType);
-							addObjectProperty(calculationof3Ddosemap, racineURI+"has_specified_input", ctImageDataSet);
+							if (ctImageDataSet!=null) {
+								addObjectProperty(calculationof3Ddosemap, racineURI+"has_specified_input", ctImageDataSet);
+							}
 						}
 						if (voxelBasedDistribution.absorbedDoseUnit!=null) {
 							addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType, racineObo+"IAO_0000039", getUnit(voxelBasedDistribution.absorbedDoseUnit));

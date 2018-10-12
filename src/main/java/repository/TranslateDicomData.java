@@ -1,5 +1,6 @@
 package repository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -134,7 +135,7 @@ public class TranslateDicomData extends OntologyPopulator {
 		}
 	}
 
-	public static void readingSR(ContentItem root) { // recursive function for read SR tree
+	public static void readingSR(ContentItem root) throws IOException { // recursive function for read SR tree
 		if (model==null) {model = Application.getModel();}
 		ContentItem child;
 		
@@ -145,7 +146,7 @@ public class TranslateDicomData extends OntologyPopulator {
 		}
 	}
 	
-	public static void TranslateSR(ContentItem e) {
+	public static void TranslateSR(ContentItem e) throws IOException {
 		String name = e.getConceptNameCodeMeaning().trim().replaceAll(" ", "_").replaceAll("\n", ""); 
 		String value = e.getConceptValue().trim().replaceAll(" ", "_").replaceAll("\n", "");
 		logger.debug("Element Translation in Ontology : "+name+" : "+value);

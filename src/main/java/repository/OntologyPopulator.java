@@ -168,28 +168,26 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		return indiValue;
 	}
 
-	public static void loadDico() { 									// Load shortcuts for IRI from a file
+	public static void loadDico() throws IOException { 									// Load shortcuts for IRI from a file
 		BufferedReader br; String cle; String iri;
 		String dicoFileName = "dico.txt";
-		try {
-			dico = new Hashtable<String, String>();						// Create an empty dictionary
-			ClassPathResource res = new ClassPathResource(dicoFileName);// Load the file as a resource
-			br = new BufferedReader(new FileReader(res.getFile()));		// Read (as a stream) the file
-            for(String line; (line = br.readLine()) != null; ) {		// Read line by line
-                cle = line.split(":")[0];								// Get name (used as a key for the dict)
-                iri = line.replace(cle+":", "");						// Get IRI 
-                dico.put(cle, iri);										// Put in the dictionary
-            }
-		} catch (IOException e) {e.printStackTrace();}	
+		dico = new Hashtable<String, String>();						// Create an empty dictionary
+		ClassPathResource res = new ClassPathResource(dicoFileName);// Load the file as a resource
+		br = new BufferedReader(new FileReader(res.getFile()));		// Read (as a stream) the file
+        for(String line; (line = br.readLine()) != null; ) {		// Read line by line
+            cle = line.split(":")[0];								// Get name (used as a key for the dict)
+            iri = line.replace(cle+":", "");						// Get IRI 
+            dico.put(cle, iri);										// Put in the dictionary
+        }
 	}
 
-	public static Resource getResource(String cle) {					// Get resource from dictionary with the shortcut
+	public static Resource getResource(String cle) throws IOException {					// Get resource from dictionary with the shortcut
 		if (dico==null) {loadDico();}
 		cle = cle.replace(" ", "_");
 		return model.getResource(dico.get(cle));
 	}
 	
-	public static String getURI(String cle) {							// Get URI from dictionary with the shortcut
+	public static String getURI(String cle) throws IOException {							// Get URI from dictionary with the shortcut
 		if (dico==null) {loadDico();}
 		cle = cle.replace(" ", "_");
 		if (!dico.containsKey(cle)) {

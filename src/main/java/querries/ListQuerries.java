@@ -18,12 +18,9 @@ import org.springframework.core.io.ClassPathResource;
 public class ListQuerries {
 	
 	private ArrayList<Querry> ListQuerry; 
-	private String csvFileName = "RequestList.csv";
-	private String tmpFileName = "/Users/marinebrenet/Documents/metadata-repository/src/main/resources/requestList.ser";
 	private String fileName = "requestList.ser";
 	
 	public ListQuerries() {													// Constructor (by reading querries in an excel file) 
-		//ListQuerry = new ArrayList<Querry>();
 		
 		try {
 			InputStream fileIn = new ClassPathResource(fileName).getInputStream();
@@ -39,44 +36,21 @@ public class ListQuerries {
 			e.printStackTrace();
 		}
 
-		
 	}
 	
 	public void serializeRequests() {
-		
-		//Iterator<Querry> iter = ListQuerry.iterator();
 		try {
 			ClassPathResource res = new ClassPathResource(fileName);
 			FileOutputStream fos = new FileOutputStream(res.getFile());
 	        ObjectOutputStream out = new ObjectOutputStream(fos);
 	        out.writeObject(ListQuerry);
 			out.close();
-	        
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		/*
-		Iterator<Querry> iter = ListQuerry.iterator();
-		FileOutputStream fileOut;
-		try {
-			fileOut = new FileOutputStream("/Users/marinebrenet/Documents/metadata-repository/src/main/resources/requestList.ser");
-	        ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
-			while (iter.hasNext()) {
-				Querry q = iter.next();
-				out.writeObject(q);
-			}
-			out.close();
-	        fileOut.close();
-	        
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 	}
 	
 	public Querry getRequest(String nameRequest) {							// Return a Querry as a Java Object

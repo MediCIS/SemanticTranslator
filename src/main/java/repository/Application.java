@@ -8,6 +8,9 @@ import java.util.Properties;
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileManager;
+import org.openrdf.query.QueryEvaluationException;
+import org.openrdf.query.TupleQueryResultHandlerException;
+import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -33,7 +36,7 @@ public class Application {
 	private final static Logger logger = 								 // Object to make logs
 			LoggerFactory.getLogger(Application.class);
 		
-    public static void main(String[] args) {
+    public static void main(String[] args) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
         SpringApplication.run(Application.class, args);					 // Spring Boot
     	loadProperties();											     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
 		System.out.println("Hello Friend !");
