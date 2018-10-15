@@ -74,7 +74,8 @@ public class ListQuerries {
 		Querry requestToDelete = null;
 		while (iter.hasNext()) {
 			Querry request = iter.next();
-			if (request.getLabel()==nameOrLabel || request.getId()==nameOrLabel) {
+
+			if (request.getLabel().trim().contains(nameOrLabel.trim()) || request.getId().trim().contains(nameOrLabel.trim())) {
 				requestToDelete = request;
 			}
 		}

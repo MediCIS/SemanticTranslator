@@ -8,8 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,16 +15,13 @@ import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.UnmarshalException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.jena.ontology.Individual;
-import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileUploadIOException;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
-import org.apache.tomcat.util.http.fileupload.MultipartStream.MalformedStreamException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,16 +37,12 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 
@@ -62,12 +53,12 @@ import com.complexible.stardog.api.ConnectionPool;
 import com.complexible.stardog.api.ConnectionPoolConfig;
 import com.complexible.stardog.api.Exporter;
 import com.complexible.stardog.api.SelectQuery;
-import com.complexible.stardog.server.UnknownTransactionException;
 import com.pixelmed.dicom.AttributeList;
 import com.pixelmed.dicom.ContentItem;
 import com.pixelmed.dicom.DicomException;
 import com.pixelmed.dicom.StructuredReport;
 
+import errors.BadRequestException;
 import querries.Querry;
 
 @Controller
@@ -162,7 +153,7 @@ public class ImportController {
 	
 	
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
-	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {  
+	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException, BadRequestException {  
 		System.out.println("getMimeTypeDataFormat");
 		
 		return executeQuerry("  SELECT DISTINCT  ?label ?class\n" + 
@@ -175,7 +166,7 @@ public class ImportController {
 	} 
 
 	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
-	public String getResearchStudies() throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {   
+	public String getResearchStudies() throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException, BadRequestException {   
 		String result = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
 				"          WHERE {\n" + 
 				"      ?study rdf:type ontomedirad:clinical_research_study .\n" + 
@@ -251,10 +242,10 @@ public class ImportController {
 
 	
 	public synchronized String executeQuerry(String request, String isReasoning) // Execute a querry (querry is passed as a string)
-			throws StardogException, TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException  { 	
+			throws StardogException, TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, BadRequestException  { 	
 		if (GateKeeper(request)==false) {	
-			ResponseEntity<String> error = new ResponseEntity<String>("Request refused for Security Reason", HttpStatus.BAD_REQUEST);
-			return error.toString();
+			logger.error("Request refused for Security Reason");
+			throw new BadRequestException("Request refused for Security Reason");
 		} 
 		
 		System.out.println("\n"+request+"\n");
@@ -297,7 +288,7 @@ public class ImportController {
 
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
 	public String requestFromList(@RequestParam("id") String id)        // Shortcut to execute a request from the request list
-			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {    
+			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException, BadRequestException {    
 		String isReasoning = "false";
 		Querry q = Application.listQuerries.getRequest(id);             // Retrieve request from the list (can be null if request name is unknown)
 
@@ -305,8 +296,8 @@ public class ImportController {
 			String a = executeQuerry(q.getRequest(), isReasoning); 	    // Execute the querry and store the result as a string
 			return a;											        // Return Querry Result
 		} else {												        // If request is null
-			ResponseEntity<String> error = new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
-			return error.toString(); 
+			logger.error("Unknown Request");
+			throw new BadRequestException("Unknown Request");
 		}
 	}
 
@@ -334,7 +325,7 @@ public class ImportController {
 
 	@RequestMapping( value = "/testReturnReq", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
 	public String RequeteTestReturn(@RequestParam("isReasoning") String isReasoning) 
-			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {
+			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException, BadRequestException {
 		@SuppressWarnings("unused")
 		String sparql1 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
 				"	WHERE {\n" + 
@@ -476,6 +467,7 @@ public class ImportController {
 		writingRDF(rdfName);																				// Write Semantic Graph in a RDF file
 		if (db==null)  {createAdminConnection(database.ontoMedirad);}										// If no DB provided create a connection to ontoMedirad
 		else {createAdminConnection(db);}																	// If DB provided create a connection these DB setInStarDog(rdfName);
+		setInStarDog(rdfName);
 		starDogConnection.close();																			// Close Stardog connection
 
 		return "{\"res\": \"ImportNonDicomFileSetDescriptor Request received\"}";							// Return these message if there's no Error
@@ -613,7 +605,7 @@ public class ImportController {
 		logger.info("Transfer to stardog : Complete");
 	}
 	
-	@RequestMapping (value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/xml")
+	@RequestMapping (value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/rdf")
 	public @ResponseBody FileSystemResource downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {		
 		
 		String fileName; File file = null;

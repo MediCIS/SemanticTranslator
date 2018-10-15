@@ -87,6 +87,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						while (seriesIter.hasNext()) {
 							serie = seriesIter.next();
 							ctImageDataSet = memory.getCtDataSet(serie, imageUsed.dicomStudyUID);
+
  						}
 					}
 				}
@@ -152,6 +153,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							
 							if (voiData.fhirId!=null) {
 								addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.fhirId);
+								addObjectProperty(voi,racineURI+"has_patient",patient);
 							}
 
 							addObjectProperty(imageSegmentation,racineURI+"has_specified_output",voi);
@@ -170,6 +172,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							voi.addOntClass(model.getResource(racineURI+"non_DICOM_file"));
 							if (voiData.fhirId!=null) {
 								addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.fhirId);
+								addObjectProperty(voi,racineURI+"has_patient",patient);
 							}
 							switch (voiData.nonDICOMDataFormat) {
 							case ("zipped imageJ contours format"):
@@ -331,7 +334,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								}	
 								if(voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId!=null) {
 									addDataProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_IRDBB_FHIR_handle", 
-											"/fhir/Binary/"+voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
+											"/fhir/335/Binary/"+voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
+									addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType,racineURI+"has_patient",patient);
 								}
 								nonDicomFile = createIndiv(generateName("nonDicomFile"),model.getResource(racineURI+"non_DICOM_file"));
 								addDataProperty(nonDicomFile, racineURI+"has_name", voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFileName.get(n));
@@ -505,8 +509,9 @@ public class TranslateNonDicomData extends OntologyPopulator {
 									voiData = voiDataList.next();	
 									voi = voi(voiData.nonDICOMDataFileName.get(0), voiData.nonDICOMDataClass);
 									if (voiData.fhirId!=null) {
-										addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.fhirId);
+										addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/509/Binary/"+voiData.fhirId);
 									}
+									addObjectProperty(voi,racineURI+"has_patient", patient);
 									addObjectProperty(calculationOfMeanAbsorbedDosesinVOIs,racineURI+"has_specified_input",voi);
 									addDataProperty(voi, racineURI+"has_id", voidescriptor.voiId);
 									listOrgans = createIndividualOrgan(voidescriptor.voiLabel);
@@ -559,7 +564,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								nonDICOMVoxelBasedAbsorbedDoseDistribution = doseMap;
 								if ( voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId!=null) {
 									addDataProperty(nonDICOMVoxelBasedAbsorbedDoseDistribution, racineURI+"has_IRDBB_FHIR_handle", 
-											"/fhir/Binary/"+voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
+											"/fhir/564/Binary/"+voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
 								}
 								switch (voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataClass) {
 								case ("VOI"):
