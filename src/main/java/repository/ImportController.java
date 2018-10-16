@@ -293,7 +293,7 @@ public class ImportController {
 		Querry q = Application.listQuerries.getRequest(id);             // Retrieve request from the list (can be null if request name is unknown)
 
 		if (q!=null) {											   	    // If request is NOT null
-			String a = executeQuerry(q.getRequest(), isReasoning); 	    // Execute the querry and store the result as a string
+			String a = executeQuerry(q.getRequest().replaceAll("\"", ""), isReasoning); 	    // Execute the querry and store the result as a string
 			return a;											        // Return Querry Result
 		} else {												        // If request is null
 			logger.error("Unknown Request");

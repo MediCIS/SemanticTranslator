@@ -196,3 +196,8 @@ exit 1
 fi
 
 exit 0
+
+
+RESULT=$(curl -s -X GET "http://localhost:8090/requestFromList?id=Request" -H "accept: text/xml")
+
+

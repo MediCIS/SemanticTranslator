@@ -334,7 +334,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								}	
 								if(voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId!=null) {
 									addDataProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_IRDBB_FHIR_handle", 
-											"/fhir/335/Binary/"+voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
+											"/fhir/Binary/"+voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
 									addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType,racineURI+"has_patient",patient);
 								}
 								nonDicomFile = createIndiv(generateName("nonDicomFile"),model.getResource(racineURI+"non_DICOM_file"));
@@ -509,7 +509,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 									voiData = voiDataList.next();	
 									voi = voi(voiData.nonDICOMDataFileName.get(0), voiData.nonDICOMDataClass);
 									if (voiData.fhirId!=null) {
-										addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/509/Binary/"+voiData.fhirId);
+										addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.fhirId);
 									}
 									addObjectProperty(voi,racineURI+"has_patient", patient);
 									addObjectProperty(calculationOfMeanAbsorbedDosesinVOIs,racineURI+"has_specified_input",voi);
@@ -564,7 +564,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								nonDICOMVoxelBasedAbsorbedDoseDistribution = doseMap;
 								if ( voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId!=null) {
 									addDataProperty(nonDICOMVoxelBasedAbsorbedDoseDistribution, racineURI+"has_IRDBB_FHIR_handle", 
-											"/fhir/564/Binary/"+voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
+											"/fhir/Binary/"+voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
 								}
 								switch (voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataClass) {
 								case ("VOI"):
