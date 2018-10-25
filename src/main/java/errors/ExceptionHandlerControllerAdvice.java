@@ -1,10 +1,7 @@
 package errors;
 
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import javax.xml.bind.JAXBException;
 
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.TupleQueryResultHandlerException;
@@ -69,18 +66,12 @@ public class ExceptionHandlerControllerAdvice {
     	logger.error("FileNotFoundException");
     }
     
-    @ExceptionHandler(JAXBException.class)
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "JAXB Exception (XML is not valid)")
-    public String JAXBExceptionHandler() {
-    	logger.error("JAXBException");
-    	return new ValidationReport(false, "JAXBException").getJson();
-    }
-    
     @ExceptionHandler(SAXException.class)
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "SAX Exception (XML is not valid)")
     public String SAXExceptionHandler() {
     	logger.error("SAXException");
-    	return new ValidationReport(false, "SAXException").getJson();
+    	
+    	return new ValidationReport(false, "To complete").getJson();
     }
     
     @ExceptionHandler(BadRequestException.class)
@@ -88,4 +79,5 @@ public class ExceptionHandlerControllerAdvice {
     public void BadRequestHandler() {
     	logger.error("BadRequest");
     }
+
 }

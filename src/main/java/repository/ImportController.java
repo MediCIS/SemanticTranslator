@@ -13,12 +13,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
@@ -180,58 +182,33 @@ public class ImportController {
 	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
 	public String getRequestList() {return Application.listQuerries.getJsonString();} // return request list in JSON
 
-	@RequestMapping(value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = {"application/json"})
-	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws JAXBException, SAXException, IOException {  // validate request list in JSON
-
-		logger.info("Validating DicomFileSetDescriptor");
-
-		String tmpFilePath = "tmp.xml";								// XML content will be written in a temporary file (will be overwriten each time)
-		JAXBContext jc = JAXBContext.newInstance("repository");
-
-		PrintWriter out = new PrintWriter(tmpFilePath); 
-		out.println(filesetDescriptorString); 						// Write XML content to be validated in the file
+	@RequestMapping(value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
+	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {  // validate request list in JSON
+		logger.info("Validating DicomFileSetDescriptor");			// Log a message 
+		String tmpFilePath = "tmp.xml";
+		PrintWriter out = new PrintWriter(tmpFilePath);				// Stream to write the XML file
+		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
 		out.close();
-
-		SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema"); // Structure for XML schema
-
-		Schema schema = factory.newSchema(                           // Read the XML schema as a stream
-				new StreamSource(new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream()));  
-
-		Unmarshaller unmarshaller = jc.createUnmarshaller();
-		unmarshaller.setSchema(schema);     						// Store the schema
-
-		@SuppressWarnings("unused")
-		DicomFileSetDescriptor fileSetDescriptor = (DicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath)); // Import the XML file and check if XML is valid with the schema
-		
+		SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = factory.newSchema(new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getFile());
+        Validator validator = schema.newValidator();
+        validator.validate(new StreamSource(new File(tmpFilePath)));
 		return new ValidationReport(true, "").getJson(); 				// return the message (valid) as a JSON object
 	}
 
 	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
-	public String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException, JAXBException {
-
+	public @ResponseBody String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException{
 		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
-
-		String tmpFilePath = "tmp.xml";								// XML content will be written in a temporary file (will be overwriten each time)
-		JAXBContext jc = JAXBContext.newInstance("repository");
-
+		String tmpFilePath = "tmp.xml";
+		
 		PrintWriter out = new PrintWriter(tmpFilePath);				// Stream to write the XML file
 		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
-		out.close();												// Close the Stream to write the XML file
-
-		SchemaFactory factory = SchemaFactory.
-				newInstance("http://www.w3.org/2001/XMLSchema");    // Structure for XML schema
-
-		Schema schema = factory.newSchema(new StreamSource(			// Read the XML schema
-				new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream()));
-
-		Unmarshaller unmarshaller = jc.createUnmarshaller();		// Object to receive the XML schema
-		unmarshaller.setSchema(schema);     						// Store the schema
-
-		@SuppressWarnings("unused")
-		NonDicomFileSetDescriptor fileSetDescriptor = 				// import the XML file and check if XML is valid with the schema
-				(NonDicomFileSetDescriptor) unmarshaller.unmarshal(new File(tmpFilePath));
-
-		return new ValidationReport(true, "").getJson(); 				// Return the message (valid) as a JSON object
+		out.close();
+        SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		Schema schema = factory.newSchema(new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getFile());
+        Validator validator = schema.newValidator();
+        validator.validate(new StreamSource(new File(tmpFilePath)));
+		return new ValidationReport(true, "").getJson(); 				// return the message (valid) as a JSON object
 	}
 
 	public static boolean GateKeeper(String request) {	   				// Security Check for request sent to StarDog
