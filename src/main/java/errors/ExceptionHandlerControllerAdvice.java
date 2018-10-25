@@ -28,63 +28,63 @@ public class ExceptionHandlerControllerAdvice {
 	protected static final Logger logger = LoggerFactory.getLogger(repository.OntologyPopulator.class);	//logger
 	
     @ExceptionHandler(StardogException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Stardog Error")
     public void StarDogExceptionHandler() {
     	logger.error("StardogException");
     }
     
     @ExceptionHandler(TupleQueryResultHandlerException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Error Tuple Query Result Handler Exception (error when converting querry result is converted to String)")
     public void TupleQueryResultHandlerExceptionHandler() {
     	logger.error("TupleQueryResultHandlerException");
     }
     
     @ExceptionHandler(QueryEvaluationException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Query Evaluation Exception (error when converting querry result is converted to String)")
     public void QueryEvaluationExceptionHandler() {
     	logger.error("QueryEvaluationException");
     }
     
     @ExceptionHandler(UnsupportedQueryResultFormatException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Unsupported Query Result Format Exception (error when converting querry result is converted to String)")
     public void UnsupportedQueryResultFormatExceptionHandler() {
     	logger.error("UnsupportedQueryResultFormatException");
     }
     
     @ExceptionHandler(IOException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "IOException (Error when Reading or Writing a file)")
     public void IOExceptionHandler() {
     	logger.error("IOException");
     }
    
     @ExceptionHandler(DicomException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Dicom Exception (Error with Dicom datas)")
     public void DicomExceptionHandler() {
     	logger.error("DicomException");
     }
     
     @ExceptionHandler(FileNotFoundException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "File Not Found Exception")
     public void FileNotFoundExceptionHandler() {
     	logger.error("FileNotFoundException");
     }
     
     @ExceptionHandler(JAXBException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "JAXB Exception (XML is not valid)")
     public String JAXBExceptionHandler() {
     	logger.error("JAXBException");
     	return new ValidationReport(false, "JAXBException").getJson();
     }
     
     @ExceptionHandler(SAXException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "SAX Exception (XML is not valid)")
     public String SAXExceptionHandler() {
     	logger.error("SAXException");
     	return new ValidationReport(false, "SAXException").getJson();
     }
     
     @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Request refused for Security Reason")
     public void BadRequestHandler() {
     	logger.error("BadRequest");
     }
