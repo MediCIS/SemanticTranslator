@@ -19,6 +19,8 @@ import org.springframework.core.io.ClassPathResource;
 
 import com.pixelmed.dicom.ContentItem;
 
+import javaXSDclass.PatientDescriptorType;
+
 public abstract class OntologyPopulator {															// Abstract Class because don't have to be callec
 																									// Contains all functions to create the ontology populated
 	static OntModel populateModel;																	// Model for store the populated graph

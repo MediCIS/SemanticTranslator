@@ -195,9 +195,23 @@ echo -e "Return :"$RESULT
 exit 1
 fi
 
+for i in {1..9}
+do
+adresse=$"http://localhost:8090/requestFromList?id=Request"$i
+echo $adresse
+result=$(curl -s -X GET $adresse -H "accept: text/xml")
+nchar=$(echo -n $result | wc -c)
+
+if [ "$nchar" -gt 500 ]
+then
+echo "request"$i" : OK"
+else
+echo "request"$i" : Error"
+echo -e "Return :"$result
+exit 1
+fi
+
+done
+
+curl -s -X GET "http://localhost:8090/shutDownServer" -H "accept: text/xml"
 exit 0
-
-
-RESULT=$(curl -s -X GET "http://localhost:8090/requestFromList?id=Request" -H "accept: text/xml")
-
-

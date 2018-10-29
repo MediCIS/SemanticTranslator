@@ -39,14 +39,13 @@ public class Application {
     public static void main(String[] args) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
         SpringApplication.run(Application.class, args);					 // Spring Boot
     	loadProperties();											     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
-		System.out.println("Hello Friend !");
+		System.out.println("Hello World !");
 
         for (int i = 0; i<args.length; i++) {							 // Iter on arguments
         	if (args[i].contains("express")) {express=true;}			 // Allow a quick boot (without ontology loading)
         }
-    	listQuerries = new ListQuerries(); 							 // Init a querry list (read from the excel file)
+    	listQuerries = new ListQuerries(); 							 	 // Init a querry list (read from the excel file)
 
-                
         if (express==false) {
         	loadOntology(pathOntology); 								 // load the ontlogy from file (it takes about 3-4 minutes)
         	memory = new Memory(); 										 // Going to request to get usefull object inside semanti database

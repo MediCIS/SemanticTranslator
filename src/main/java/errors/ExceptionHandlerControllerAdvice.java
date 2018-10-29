@@ -67,11 +67,10 @@ public class ExceptionHandlerControllerAdvice {
     }
     
     @ExceptionHandler(SAXException.class)
-    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "SAX Exception (XML is not valid)")
-    public String SAXExceptionHandler() {
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public void SAXExceptionHandler() {
     	logger.error("SAXException");
-    	
-    	return new ValidationReport(false, "To complete").getJson();
+    	//return new ValidationReport(false, "To complete").getJson();
     }
     
     @ExceptionHandler(BadRequestException.class)

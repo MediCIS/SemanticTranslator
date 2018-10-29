@@ -7,11 +7,19 @@ import java.util.Iterator;
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.ModelFactory;
 
-import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData;
-import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.CTSegmentation;
-import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry;
-import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry.CalculationOfAbsorbedDosesInVOIs;
-import repository.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry.CalculationOfVoxelMap;
+import javaXSDclass.AbsorbedDosePerVOIType;
+import javaXSDclass.AttenuatorType;
+import javaXSDclass.DICOMDataType;
+import javaXSDclass.MethodSettingType;
+import javaXSDclass.NonDICOMDataType;
+import javaXSDclass.NonDicomFileSetDescriptor;
+import javaXSDclass.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData;
+import javaXSDclass.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.CTSegmentation;
+import javaXSDclass.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry;
+import javaXSDclass.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry.CalculationOfAbsorbedDosesInVOIs;
+import javaXSDclass.NonDicomFileSetDescriptor.WP2Subtask212WorkflowData.SimpleCTMonteCarloDosimetry.CalculationOfVoxelMap;
+import javaXSDclass.VOIDescriptorType;
+import javaXSDclass.VoxelBasedDistributionOfAbsorbedDoseType;
 
 
 
@@ -24,9 +32,9 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		populateModel = ModelFactory.createOntologyModel();
 		if (model==null) {model = Application.getModel();}
 		
-		if (nonDicomFileSetDescriptor.wp2Subtask212WorkflowData!=null) {
+		if (nonDicomFileSetDescriptor.getWP2Subtask212WorkflowData()!=null) {
 			researchClinicalStudy = createIndiv("clinical_research_study_subtask2.1.2", model.getResource(racineURI+"clinical_research_study"));
-			retrieveSubtastk212(nonDicomFileSetDescriptor.wp2Subtask212WorkflowData.iterator());
+			retrieveSubtastk212(nonDicomFileSetDescriptor.getWP2Subtask212WorkflowData().iterator());
 		}
 		
 		// to be completed when with other subtasks
@@ -72,109 +80,109 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			
 			
 			
-			if (subtask212.simpleCTMonteCarloDosimetry!=null) {
-				ctMonteCarloDosimetryIter = subtask212.simpleCTMonteCarloDosimetry.iterator();
+			if (subtask212.getSimpleCTMonteCarloDosimetry()!=null) {
+				ctMonteCarloDosimetryIter = subtask212.getSimpleCTMonteCarloDosimetry().iterator();
 				while (ctMonteCarloDosimetryIter.hasNext()) {
 					ctMonteCarloDosimetry = ctMonteCarloDosimetryIter.next();
 					ctDosiMc = createIndiv(generateName("Monte_Carlo_CT_dosimetry"), model.getResource(racineURI+"Monte_Carlo_CT_dosimetry")); // process
 					listeDosiMc.add(ctDosiMc);
-					addDataProperty(ctDosiMc, racineURI+"has_beginning", ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs.dateTimeProcessStarted);
+					addDataProperty(ctDosiMc, racineURI+"has_beginning", ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getDateTimeProcessStarted());
 
-					imageUsedIter = ctMonteCarloDosimetry.calculationOfVoxelMap.dicomctImageDataUsed.iterator();
+					imageUsedIter = ctMonteCarloDosimetry.getCalculationOfVoxelMap().getDICOMCTImageDataUsed().iterator();
 					while(imageUsedIter.hasNext()) {
 						imageUsed = imageUsedIter.next();
-						seriesIter = imageUsed.dicomSeriesUID.iterator();
+						seriesIter = imageUsed.getDICOMSeriesUID().iterator();
 						while (seriesIter.hasNext()) {
 							serie = seriesIter.next();
-							ctImageDataSet = memory.getCtDataSet(serie, imageUsed.dicomStudyUID);
+							ctImageDataSet = memory.getCtDataSet(serie, imageUsed.getDICOMStudyUID());
 
  						}
 					}
 				}
 			} //fin simpleCTMonteCarloDosimetry
 
-			if (subtask212.ctSegmentation!=null) {
-				ctSegmentation = subtask212.ctSegmentation;
+			if (subtask212.getCTSegmentation()!=null) {
+				ctSegmentation = subtask212.getCTSegmentation();
 
 				imageSegmentation = createIndiv(generateName("image_segmentation"), model.getResource(racineURI+"image_segmentation")); //process
 				if (ctImageDataSet!=null) {
 					addObjectProperty(imageSegmentation, racineURI+"has_specified_input", ctImageDataSet);
 				}
-				addDataProperty(imageSegmentation, racineURI+"has_beginning", ctSegmentation.dateTimeProcessStarted);
+				addDataProperty(imageSegmentation, racineURI+"has_beginning", ctSegmentation.getDateTimeProcessStarted());
 
-				institution = memory.getInstitution(ctSegmentation.performingInstitution);
-				roleOfOrganization = memory.getRoleOfResponsibleOrganization(ctSegmentation.performingInstitution);
+				institution = memory.getInstitution(ctSegmentation.getPerformingInstitution());
+				roleOfOrganization = memory.getRoleOfResponsibleOrganization(ctSegmentation.getPerformingInstitution());
 				addObjectProperty(institution, racineObo+"BFO_0000161", roleOfOrganization);
 				addObjectProperty(roleOfOrganization,racineObo+"BFO_0000054",imageSegmentation);
 
 				image = createIndiv(generateName("Image"), model.getResource(racineURI+"CT_image_reconstruction"));
-				for (int i = 0; i<ctSegmentation.dicomImageUsed.dicomSeriesUID.size(); i++) {
-					addDataProperty(image, racineURI+"has_DICOM_series_instance_UID", ctSegmentation.dicomImageUsed.dicomSeriesUID.get(i));
+				for (int i = 0; i<ctSegmentation.getDICOMImageUsed().getDICOMSeriesUID().size(); i++) {
+					addDataProperty(image, racineURI+"has_DICOM_series_instance_UID", ctSegmentation.getDICOMImageUsed().getDICOMSeriesUID().get(i));
 				}
-				addDataProperty(image, racineURI+"has_DICOM_series_instance_UID", ctSegmentation.dicomImageUsed.dicomStudyUID);
+				addDataProperty(image, racineURI+"has_DICOM_series_instance_UID", ctSegmentation.getDICOMImageUsed().getDICOMStudyUID());
 
-				if (ctSegmentation.segmentationMethodUsed.segmentationMethod!=null) {
-					if (ctSegmentation.segmentationMethodUsed.segmentationMethod.compareToIgnoreCase("Interactive contour segmentation")==0) {
+				if (ctSegmentation.getSegmentationMethodUsed().getSegmentationMethod()!=null) {
+					if (ctSegmentation.getSegmentationMethodUsed().getSegmentationMethod().compareToIgnoreCase("Interactive contour segmentation")==0) {
 						segMeth = createIndiv(generateName("interactive_contour_segmentation_method"), model.getResource(racineURI+"interactive_contour_segmentation_method"));
 					} else {
 						segMeth = createIndiv(generateName("image_segmentation_method"), model.getResource(racineURI+"image_segmentation_method"));
 					}
 					addObjectProperty(imageSegmentation, racineURI+"has_protocol", segMeth);
-					if (ctSegmentation.segmentationMethodUsed.softwareName!=null) {
-						for (int i =0; i<ctSegmentation.segmentationMethodUsed.softwareName.size(); i++) {
-							addObjectProperty(imageSegmentation, racineURI+"has_agent", memory.getSoftware(ctSegmentation.segmentationMethodUsed.softwareName.get(i)));
+					if (ctSegmentation.getSegmentationMethodUsed().getSoftwareName()!=null) {
+						for (int i =0; i<ctSegmentation.getSegmentationMethodUsed().getSoftwareName().size(); i++) {
+							addObjectProperty(imageSegmentation, racineURI+"has_agent", memory.getSoftware(ctSegmentation.getSegmentationMethodUsed().getSoftwareName().get(i)));
 						}
 					}
 
-					if (ctSegmentation.segmentationMethodUsed.segmentationMethodSetting!=null) {
-						for (int i =0; i<ctSegmentation.segmentationMethodUsed.segmentationMethodSetting.size(); i++) {
-							settingTest = ctSegmentation.segmentationMethodUsed.segmentationMethodSetting.get(i);
-							switch (settingTest.methodSettingValue) {
+					if (ctSegmentation.getSegmentationMethodUsed().getSegmentationMethodSetting()!=null) {
+						for (int i =0; i<ctSegmentation.getSegmentationMethodUsed().getSegmentationMethodSetting().size(); i++) {
+							settingTest = ctSegmentation.getSegmentationMethodUsed().getSegmentationMethodSetting().get(i);
+							switch (settingTest.getMethodSettingValue()) {
 							case("KVP"):
 								indivSetting = createIndiv(generateName("KVP"), model.getResource(racineDCM+"113733"));break;
 							default:
-								indivSetting = createIndiv(generateName(settingTest.methodSettingValue), model.getResource(racineURI+"device_setting"));break;
+								indivSetting = createIndiv(generateName(settingTest.getMethodSettingValue()), model.getResource(racineURI+"device_setting"));break;
 							}
-							addObjectProperty(indivSetting, racineObo+"IAO_0000039",  getUnit(settingTest.methodSettingUnit));
-							addDataProperty(indivSetting,racineObo+"IAO_0000004",settingTest.methodSettingUnit);
+							addObjectProperty(indivSetting, racineObo+"IAO_0000039",  getUnit(settingTest.getMethodSettingUnit()));
+							addDataProperty(indivSetting,racineObo+"IAO_0000004",settingTest.getMethodSettingUnit());
 						}
 					}
 				}
 
-				if (ctSegmentation.voiDescriptorProduced!=null) {
-					voiIterator = ctSegmentation.voiDescriptorProduced.iterator();
+				if (ctSegmentation.getVOIDescriptorProduced()!=null) {
+					voiIterator = ctSegmentation.getVOIDescriptorProduced().iterator();
 					while (voiIterator.hasNext()) {
 						voiDescriptor = voiIterator.next();
-						voiDataList = voiDescriptor.voiData.iterator();
+						voiDataList = voiDescriptor.getVOIData().iterator();
 						while (voiDataList.hasNext()) {
 							voiData = voiDataList.next();
 							
-							voi = voi(voiData.nonDICOMDataFileName.get(0), voiData.nonDICOMDataClass);
+							voi = voi(voiData.getNonDICOMDataFileName().get(0), voiData.getNonDICOMDataClass());
 							
-							if (voiData.fhirId!=null) {
-								addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.fhirId);
+							if (voiData.getFHIRId()!=null) {
+								addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.getFHIRId());
 								addObjectProperty(voi,racineURI+"has_patient",patient);
 							}
 
 							addObjectProperty(imageSegmentation,racineURI+"has_specified_output",voi);
 
-							listOrgans = createIndividualOrgan(voiDescriptor.voiLabel);
+							listOrgans = createIndividualOrgan(voiDescriptor.getVOILabel());
 							for (int i=0; i<listOrgans.size(); i++) {
 								addObjectProperty(voi,racineURI+"represents",listOrgans.get(i));
 							}
 
 							addObjectProperty(voi, racineURI+"is_specified_output_of", imageSegmentation);
 
-							for (int i=0; i<voiData.nonDICOMDataFileName.size(); i++) {
-								addDataProperty(voi, racineURI+"has_name", voiData.nonDICOMDataFileName.get(i));
+							for (int i=0; i<voiData.getNonDICOMDataFileName().size(); i++) {
+								addDataProperty(voi, racineURI+"has_name", voiData.getNonDICOMDataFileName().get(i));
 							}
 
 							voi.addOntClass(model.getResource(racineURI+"non_DICOM_file"));
-							if (voiData.fhirId!=null) {
-								addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.fhirId);
+							if (voiData.getFHIRId()!=null) {
+								addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.getFHIRId());
 								addObjectProperty(voi,racineURI+"has_patient",patient);
 							}
-							switch (voiData.nonDICOMDataFormat) {
+							switch (voiData.getNonDICOMDataFormat()) {
 							case ("zipped imageJ contours format"):
 								i = createIndiv(model.getResource(racineURI+"zipped_imageJ_contours_format"));
 								addObjectProperty(voi, racineURI+"has_format", i);
@@ -188,7 +196,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								addObjectProperty(voi, racineURI+"has_format", i);
 								break;		
 							default: 
-								logger.warn("Unknown nonDICOMDataFormat : "+voiData.nonDICOMDataFormat);
+								logger.warn("Unknown nonDICOMDataFormat : "+voiData.getNonDICOMDataFormat());
 								break;
 							}
 						}
@@ -196,18 +204,18 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				}
 			} //fin CT segmentation
 
-			ctMonteCarloDosimetryIter2 = subtask212.simpleCTMonteCarloDosimetry.iterator();
+			ctMonteCarloDosimetryIter2 = subtask212.getSimpleCTMonteCarloDosimetry().iterator();
 			int j=0;
 			while (ctMonteCarloDosimetryIter2.hasNext()) {
 				ctMonteCarloDosimetry = ctMonteCarloDosimetryIter2.next();
-				calculationOfVoxelMap = ctMonteCarloDosimetry.calculationOfVoxelMap ;
+				calculationOfVoxelMap = ctMonteCarloDosimetry.getCalculationOfVoxelMap() ;
 				calculationof3Ddosemap = createIndiv(generateName("calculation_of_a_3D_dose_map"), model.getResource(racineURI+"calculation_of_a_3D_dose_map"));  
 
 				addObjectProperty(listeDosiMc.get(j), racineObo+"BFO_0000117", calculationof3Ddosemap);
-				addDataProperty(calculationof3Ddosemap, racineURI+"has_beginning", calculationOfVoxelMap.dateTimeProcessStarted);
+				addDataProperty(calculationof3Ddosemap, racineURI+"has_beginning", calculationOfVoxelMap.getDateTimeProcessStarted());
 
-				institution = memory.getInstitution(ctSegmentation.performingInstitution);	
-				role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(ctSegmentation.performingInstitution);
+				institution = memory.getInstitution(ctSegmentation.getPerformingInstitution());	
+				role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(ctSegmentation.getPerformingInstitution());
 				addObjectProperty(role_of_responsible_organization,racineObo+"BFO_0000054", calculationof3Ddosemap);
 
 				if (institution!=null) {
@@ -217,8 +225,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					addObjectProperty(role_of_responsible_organization,racineObo+"BFO_0000054", ctDosiMc);
 				}
 
-				if (calculationOfVoxelMap.attenuatorUsed!=null) {
-					attenuatorUsedIterator = calculationOfVoxelMap.attenuatorUsed.iterator();
+				if (calculationOfVoxelMap.getAttenuatorUsed()!=null) {
+					attenuatorUsedIterator = calculationOfVoxelMap.getAttenuatorUsed().iterator();
 					while (attenuatorUsedIterator.hasNext()) {
 						attenuatorParam = attenuatorUsedIterator.next();
 
@@ -226,34 +234,34 @@ public class TranslateNonDicomData extends OntologyPopulator {
 
 						addObjectProperty(calculationof3Ddosemap, racineURI+"has_setting", attenuator); 
 
-						addDataProperty(attenuator, racineURI+"has_description", attenuatorParam.attenuatorCategory);
-						addDataProperty(attenuator, racineURI+"has_description", attenuatorParam.equivalentAttenuatorDescription);
+						addDataProperty(attenuator, racineURI+"has_description", attenuatorParam.getAttenuatorCategory());
+						addDataProperty(attenuator, racineURI+"has_description", attenuatorParam.getEquivalentAttenuatorDescription());
 
 						modelAttenuator = createIndiv(generateName("Attenuator_Model"), model.createResource(racineDCM+"128472"));
-						addDataProperty(attenuator, racineURI+"has_name", attenuatorParam.equivalentAttenuatorModel);
+						addDataProperty(attenuator, racineURI+"has_name", attenuatorParam.getEquivalentAttenuatorModel());
 						//addObjectProperty(attenuator, racineURI+"has_setting", attenuatorParam.equivalentAttenuatorMaterial);
 						//TODO décommneter au dessus et compléter
 
 						i = createIndiv(generateName("Attenuator_Thickness"), model.getResource(racineDCM+"128469"));
 
-						addObjectProperty(i, racineObo+"IAO_0000039", getUnit(attenuatorParam.equivalentAttenuatorThicknessUnit));
-						addDataProperty(i, racineObo+"IAO_0000004", attenuatorParam.equivalentAttenuatorThicknessValue);				
+						addObjectProperty(i, racineObo+"IAO_0000039", getUnit(attenuatorParam.getEquivalentAttenuatorThicknessUnit()));
+						addDataProperty(i, racineObo+"IAO_0000004", attenuatorParam.getEquivalentAttenuatorThicknessValue());				
 					}
 				}
 
-				if (calculationOfVoxelMap.monteCarloMethodUsed!=null) {
+				if (calculationOfVoxelMap.getMonteCarloMethodUsed()!=null) {
 					
-					MCmethod = memory.getMCmethod(calculationOfVoxelMap.monteCarloMethodUsed.monteCarloMethod);
+					MCmethod = memory.getMCmethod(calculationOfVoxelMap.getMonteCarloMethodUsed().getMonteCarloMethod());
 
 					addObjectProperty(calculationof3Ddosemap, racineURI+"has_protocol", MCmethod);
 					
-					if (calculationOfVoxelMap.monteCarloMethodUsed.monteCarloMethodSetting!=null) {
-						mcSettingsIter = calculationOfVoxelMap.monteCarloMethodUsed.monteCarloMethodSetting.iterator();
+					if (calculationOfVoxelMap.getMonteCarloMethodUsed().getMonteCarloMethodSetting()!=null) {
+						mcSettingsIter = calculationOfVoxelMap.getMonteCarloMethodUsed().getMonteCarloMethodSetting().iterator();
 						while (mcSettingsIter.hasNext()) {
 							mcSetting = mcSettingsIter.next();
-							switch (mcSetting.methodSetting) {
+							switch (mcSetting.getMethodSetting()) {
 							case ("Simulation of intensity modulation"):
-								if (mcSetting.methodSettingValue.equalsIgnoreCase("no use of X-ray modulation")) {
+								if (mcSetting.getMethodSettingValue().equalsIgnoreCase("no use of X-ray modulation")) {
 									settingMC = createIndiv(generateName("no_use_of_X_ray_modulation"), model.getResource(racineURI+"no_use_of_X_ray_modulation")); 
 								} else {
 									settingMC = createIndiv(generateName("use_of_X_ray_modulation"), model.getResource(racineURI+"use_of_X_ray_modulation")); 
@@ -267,11 +275,11 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								logger.warn("Unknown : mcSetting.methodSetting");
 								break;
 							}
-							if (mcSetting.methodSettingUnit!=null) {
-								addObjectProperty(settingMC, racineObo+"IAO_0000039", getUnit(mcSetting.methodSettingUnit));
+							if (mcSetting.getMethodSettingUnit()!=null) {
+								addObjectProperty(settingMC, racineObo+"IAO_0000039", getUnit(mcSetting.getMethodSettingUnit()));
 							}
-							if (mcSetting.methodSettingValue!=null && mcSetting.methodSetting!="Simulation of intensity modulation") {
-								addDataProperty(settingMC, racineObo+"IAO_0000004", mcSetting.methodSettingValue);	
+							if (mcSetting.getMethodSettingValue()!=null && mcSetting.getMethodSetting()!="Simulation of intensity modulation") {
+								addDataProperty(settingMC, racineObo+"IAO_0000004", mcSetting.getMethodSettingValue());	
 							}
 							if (settingMC!=null) {
 								addObjectProperty(calculationof3Ddosemap, racineURI+"has_setting", settingMC);
@@ -279,7 +287,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						}
 					}
 
-					imagingDeviceIter = calculationOfVoxelMap.monteCarloMethodUsed.simulatedImagingDevice.iterator();
+					imagingDeviceIter = calculationOfVoxelMap.getMonteCarloMethodUsed().getSimulatedImagingDevice().iterator();
 					while (imagingDeviceIter.hasNext()) {
 						imagingDevice = imagingDeviceIter.next();
 						i = createIndiv(model.getResource(racineURI+"medical_imaging_device")); 
@@ -289,15 +297,15 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						addObjectProperty(i, racineURI+"refers_to_device", modelOfImagingDevice);
 					}
 
-					MCsoftwareIter = calculationOfVoxelMap.monteCarloMethodUsed.softwareName.iterator();
+					MCsoftwareIter = calculationOfVoxelMap.getMonteCarloMethodUsed().getSoftwareName().iterator();
 					while (MCsoftwareIter.hasNext()) {
 						MCsoftware = MCsoftwareIter.next();
 						addObjectProperty(calculationof3Ddosemap, racineURI+"has_agent", memory.getSoftware(MCsoftware)); 
 					}
 				}
 
-				if (calculationOfVoxelMap.voxelBasedDistributionOfAbsorbedDoseProduced!=null) {
-					voxelBasedDistributionIter = calculationOfVoxelMap.voxelBasedDistributionOfAbsorbedDoseProduced.iterator();
+				if (calculationOfVoxelMap.getVoxelBasedDistributionOfAbsorbedDoseProduced()!=null) {
+					voxelBasedDistributionIter = calculationOfVoxelMap.getVoxelBasedDistributionOfAbsorbedDoseProduced().iterator();
 					while (voxelBasedDistributionIter.hasNext()) {
 						voxelBasedDistribution = voxelBasedDistributionIter.next();
 						voxelBasedDistributionOfAbsorbedDoseType = createIndiv(generateName("3D_dose_map"), model.getResource(racineDCM+"128487"));
@@ -309,17 +317,17 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								addObjectProperty(calculationof3Ddosemap, racineURI+"has_specified_input", ctImageDataSet);
 							}
 						}
-						if (voxelBasedDistribution.absorbedDoseUnit!=null) {
-							addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType, racineObo+"IAO_0000039", getUnit(voxelBasedDistribution.absorbedDoseUnit));
+						if (voxelBasedDistribution.getAbsorbedDoseUnit()!=null) {
+							addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType, racineObo+"IAO_0000039", getUnit(voxelBasedDistribution.getAbsorbedDoseUnit()));
 						}	
 						
-						addDataProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_description", voxelBasedDistribution.voxelBasedDistributionOfAbsorbedDoseCategory);
+						addDataProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_description", voxelBasedDistribution.getVoxelBasedDistributionOfAbsorbedDoseCategory());
 
-						if (voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution!=null) {
+						if (voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution()!=null) {
 
-							for (int n=0; n<voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFileName.size(); n++) {
+							for (int n=0; n<voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFileName().size(); n++) {
 
-								switch (voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataClass) {
+								switch (voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataClass()) {
 								case ("VOI"):
 									voxelBasedDistributionOfAbsorbedDoseType.addOntClass(model.getResource(racineURI+"VOI"));
 									break;
@@ -330,16 +338,16 @@ public class TranslateNonDicomData extends OntologyPopulator {
 									voxelBasedDistributionOfAbsorbedDoseType.addOntClass(model.getResource(racineDCM+"128487"));
 									break;
 								default:
-									logger.warn("Unknown : voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataClass");
+									logger.warn("Unknown : voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().nonDICOMDataClass");
 								}	
-								if(voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId!=null) {
+								if(voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getFHIRId()!=null) {
 									addDataProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_IRDBB_FHIR_handle", 
-											"/fhir/Binary/"+voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
+											"/fhir/Binary/"+voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getFHIRId());
 									addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType,racineURI+"has_patient",patient);
 								}
 								nonDicomFile = createIndiv(generateName("nonDicomFile"),model.getResource(racineURI+"non_DICOM_file"));
-								addDataProperty(nonDicomFile, racineURI+"has_name", voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFileName.get(n));
-								switch (voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFormat) {
+								addDataProperty(nonDicomFile, racineURI+"has_name", voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFileName().get(n));
+								switch (voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFormat()) {
 								case ("zipped imageJ contours format"):
 									i = createIndiv(model.getResource(racineURI+"zipped_imageJ_contours_format"));
 									addObjectProperty(nonDicomFile, racineURI+"has_format", i);
@@ -356,7 +364,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 									addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_format", i);
 									break;	
 								default: 
-									logger.warn("Unknown nonDICOMDataFormat : "+voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFormat);
+									logger.warn("Unknown nonDICOMDataFormat : "+voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFormat());
 									break;
 								}
 							}
@@ -364,8 +372,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					}
 				} // fin calculationOf3D`
 
-				if (ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs!=null) {
-					calculationOfAbsorbedDoses = ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs;
+				if (ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs()!=null) {
+					calculationOfAbsorbedDoses = ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs();
 
 					calculationOfMeanAbsorbedDosesinVOIs = createIndiv(generateName("calculation_of_mean_absorbed_doses_in_VOIs"), model.getResource(racineURI+"calculation_of_mean_absorbed_doses_in_VOIs"));
 
@@ -376,17 +384,17 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						addObjectProperty(calculationOfMeanAbsorbedDosesinVOIs, racineURI+"has_specified_input", voxelBasedDistributionOfAbsorbedDoseType);
 					}
 
-					institution = memory.getInstitution(calculationOfAbsorbedDoses.performingInstitution);		
-					role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(calculationOfAbsorbedDoses.performingInstitution);
+					institution = memory.getInstitution(calculationOfAbsorbedDoses.getPerformingInstitution());		
+					role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(calculationOfAbsorbedDoses.getPerformingInstitution());
 					addObjectProperty(role_of_responsible_organization,racineObo+"BFO_0000054", calculationOfMeanAbsorbedDosesinVOIs);
 					addObjectProperty(institution,racineObo+"BFO_0000161",role_of_responsible_organization); //has role at all time
-					addDataProperty(calculationOfMeanAbsorbedDosesinVOIs, racineURI+"has_beginning", calculationOfAbsorbedDoses.dateTimeProcessStarted);
+					addDataProperty(calculationOfMeanAbsorbedDosesinVOIs, racineURI+"has_beginning", calculationOfAbsorbedDoses.getDateTimeProcessStarted());
 
-					if (ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs.absorbedDosePerVOI!=null) {
-						absorbedDosePerVOIlist = ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs.absorbedDosePerVOI.iterator();
+					if (ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getAbsorbedDosePerVOI()!=null) {
+						absorbedDosePerVOIlist = ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getAbsorbedDosePerVOI().iterator();
 						while (absorbedDosePerVOIlist.hasNext()) {
 							absorbedDosePerVOI = absorbedDosePerVOIlist.next();
-							switch (absorbedDosePerVOI.absorbedDoseCategory) {
+							switch (absorbedDosePerVOI.getAbsorbedDoseCategory()) {
 							case "mean absorbed dose normalized to CTDI-free-in-air normalized to tube load":
 								absorbedDoseVoi = createIndiv(generateName("mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load"),
 										model.getResource(racineURI+"mean_absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load"));
@@ -411,12 +419,12 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								absorbedDoseVoi = createIndiv(generateName("Mode_Absorbed_Radiation_Dose"), model.getResource(racineDCM+"128534"));
 								break;
 							default : 
-								logger.warn("Unknown absorbedDosePerVOICategory : "+absorbedDosePerVOI.absorbedDoseCategory);
+								logger.warn("Unknown absorbedDosePerVOICategory : "+absorbedDosePerVOI.getAbsorbedDoseCategory());
 								absorbedDoseVoi = createIndiv(generateName("Absorbed_Dose"), model.getResource(racineDCM+"128513"));
 								break;
 							}
-							if (absorbedDosePerVOI.statisticalSubCategory!=null) {
-								switch (absorbedDosePerVOI.statisticalSubCategory) {
+							if (absorbedDosePerVOI.getStatisticalSubCategory()!=null) {
+								switch (absorbedDosePerVOI.getStatisticalSubCategory()) {
 								case "mean":
 									absorbedDoseVoi.addOntClass(model.getResource(racineDCM+"128533"));
 									break;
@@ -435,13 +443,13 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								}
 							}
 							
-							imageUsedIter3 = ctMonteCarloDosimetry.calculationOfVoxelMap.dicomctImageDataUsed.iterator();
+							imageUsedIter3 = ctMonteCarloDosimetry.getCalculationOfVoxelMap().getDICOMCTImageDataUsed().iterator();
 							while(imageUsedIter3.hasNext()) {
 								imageUsed = imageUsedIter3.next();
-								seriesIter = imageUsed.dicomSeriesUID.iterator();
+								seriesIter = imageUsed.getDICOMSeriesUID().iterator();
 								while (seriesIter.hasNext()) {
 									serie = seriesIter.next();
-									patient = memory.getPatient(serie, imageUsed.dicomStudyUID); 
+									patient = memory.getPatient(serie, imageUsed.getDICOMStudyUID()); 
 									addObjectProperty(absorbedDoseVoi, racineURI+"has_patient", patient);
 									addObjectProperty(researchClinicalStudy, racineURI+"has_patient", patient);
 									
@@ -449,32 +457,32 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							}
 							
 							addObjectProperty(calculationOfMeanAbsorbedDosesinVOIs,racineURI+"has_specified_output",absorbedDoseVoi);
-							addDataProperty(absorbedDoseVoi, racineObo+"IAO_0000004", absorbedDosePerVOI.absorbedDoseValue); 
-							addObjectProperty(absorbedDoseVoi, racineObo+"IAO_0000039", getUnit(absorbedDosePerVOI.absorbedDoseUnit));
+							addDataProperty(absorbedDoseVoi, racineObo+"IAO_0000004", absorbedDosePerVOI.getAbsorbedDoseValue()); 
+							addObjectProperty(absorbedDoseVoi, racineObo+"IAO_0000039", getUnit(absorbedDosePerVOI.getAbsorbedDoseUnit()));
 
-							listOrgans = createIndividualOrgan(absorbedDosePerVOI.voi.voiLabel);
+							listOrgans = createIndividualOrgan(absorbedDosePerVOI.getVOI().getVOILabel());
 							logger.debug("listOrgans "+listOrgans+" ("+listOrgans.size()+")");
 							for (int i=0; i<listOrgans.size(); i++) {
 								//addObjectProperty(voi,racineURI+"represents",listOrgans.get(i));
 								addObjectProperty(absorbedDoseVoi,racineURI+"is_dose_absorbed_by",listOrgans.get(i));
 							}
 
-							if (absorbedDosePerVOI.voi.voiData!=null) {
-								voiDataIterator = absorbedDosePerVOI.voi.voiData.iterator();
+							if (absorbedDosePerVOI.getVOI().getVOIData()!=null) {
+								voiDataIterator = absorbedDosePerVOI.getVOI().getVOIData().iterator();
 								while (voiDataIterator.hasNext()) {
 									voiData = voiDataIterator.next();
 
-									voi = voi(voiData.nonDICOMDataFileName.get(0), voiData.nonDICOMDataClass);
+									voi = voi(voiData.getNonDICOMDataFileName().get(0), voiData.getNonDICOMDataClass());
 									voiFile = createIndiv(generateName("nonDicomFile_Voi"), model.getResource(racineURI+"non_DICOM_file"));
 
 									addObjectProperty(calculationOfMeanAbsorbedDosesinVOIs,racineURI+" ",voiFile);
 									addObjectProperty(absorbedDoseVoi,racineObo+"BFO_0000170",voi);
 
-									for (int i=0; i<voiData.nonDICOMDataFileName.size();i++) {
-										addDataProperty(voiFile,racineURI+"has_name",voiData.nonDICOMDataFileName.get(i));
+									for (int i=0; i<voiData.getNonDICOMDataFileName().size();i++) {
+										addDataProperty(voiFile,racineURI+"has_name",voiData.getNonDICOMDataFileName().get(i));
 									}
 									
-									switch (voiData.nonDICOMDataFormat) {
+									switch (voiData.getNonDICOMDataFormat()) {
 									case ("zipped imageJ contours format"):
 										i = createIndiv(model.getResource(racineURI+"zipped_imageJ_contours_format"));
 										addObjectProperty(voiFile, racineURI+"has_format", i);
@@ -491,7 +499,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 										addObjectProperty(voi, racineURI+"has_format", i);
 										break;	
 									default: 
-										logger.warn("Unknown nonDICOMDataFormat : "+voiData.nonDICOMDataFormat);
+										logger.warn("Unknown nonDICOMDataFormat : "+voiData.getNonDICOMDataFormat());
 										break;
 									}					
 								}
@@ -499,33 +507,33 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						}
 					}
 
-					if (ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs.voiDescriptorUsed!=null) {
-						listVoiDescriptor = ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs.voiDescriptorUsed.iterator();
+					if (ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getVOIDescriptorUsed()!=null) {
+						listVoiDescriptor = ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getVOIDescriptorUsed().iterator();
 						while (listVoiDescriptor.hasNext()) {
 							voidescriptor = listVoiDescriptor.next();
-							if (voidescriptor.voiData!=null) {
-								voiDataList = voidescriptor.voiData.iterator();
+							if (voidescriptor.getVOIData()!=null) {
+								voiDataList = voidescriptor.getVOIData().iterator();
 								while (voiDataList.hasNext()) {
 									voiData = voiDataList.next();	
-									voi = voi(voiData.nonDICOMDataFileName.get(0), voiData.nonDICOMDataClass);
-									if (voiData.fhirId!=null) {
-										addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.fhirId);
+									voi = voi(voiData.getNonDICOMDataFileName().get(0), voiData.getNonDICOMDataClass());
+									if (voiData.getFHIRId()!=null) {
+										addDataProperty(voi,racineURI+"has_IRDBB_FHIR_handle","/fhir/Binary/"+voiData.getFHIRId());
 									}
 									addObjectProperty(voi,racineURI+"has_patient", patient);
 									addObjectProperty(calculationOfMeanAbsorbedDosesinVOIs,racineURI+"has_specified_input",voi);
-									addDataProperty(voi, racineURI+"has_id", voidescriptor.voiId);
-									listOrgans = createIndividualOrgan(voidescriptor.voiLabel);
+									addDataProperty(voi, racineURI+"has_id", voidescriptor.getVOIId());
+									listOrgans = createIndividualOrgan(voidescriptor.getVOILabel());
 									for (int i=0; i<listOrgans.size(); i++) {
 										addObjectProperty(voi,racineURI+"represents",listOrgans.get(i));
 									}
 									addObjectProperty(voi, racineObo+"BFO_OOOO132", imageSegmentation); //part of occurent
 
-									for (int n=0; n<voiData.nonDICOMDataFileName.size(); n++) {
+									for (int n=0; n<voiData.getNonDICOMDataFileName().size(); n++) {
 										voiFile = createIndiv(generateName("non_Dicom_File_Voi"), model.getResource(racineURI+"non_DICOM_file"));
 										addObjectProperty(calculationOfMeanAbsorbedDosesinVOIs,racineURI+"has_specified_input",voiFile);
-										addDataProperty(voiFile, racineURI+"has_name", voiData.nonDICOMDataFileName.get(n));
+										addDataProperty(voiFile, racineURI+"has_name", voiData.getNonDICOMDataFileName().get(n));
 										addObjectProperty(voiFile, racineObo+"BFO_OOOO054", voi);
-										switch (voiData.nonDICOMDataFormat) {
+										switch (voiData.getNonDICOMDataFormat()) {
 										case ("zipped imageJ contours format"):
 											i = createIndiv(model.getResource(racineURI+"zipped_imageJ_contours_format"));
 											addObjectProperty(voiFile, racineURI+"has_format", i);
@@ -539,7 +547,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 											addObjectProperty(voiFile, racineURI+"has_format", i);
 											break;	
 										default: 
-											logger.warn("Unknown nonDICOMDataFormat : "+voiData.nonDICOMDataFormat);
+											logger.warn("Unknown nonDICOMDataFormat : "+voiData.getNonDICOMDataFormat());
 											break;
 										}
 									}
@@ -548,8 +556,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						}
 					}
 
-					if (ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs.voxelBasedDistributionOfAbsorbedDoseUsed!=null) {
-						listVoxelBasedDistributionOfAbsorbedDoseUsed = ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs.voxelBasedDistributionOfAbsorbedDoseUsed.iterator();
+					if (ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getVoxelBasedDistributionOfAbsorbedDoseUsed()!=null) {
+						listVoxelBasedDistributionOfAbsorbedDoseUsed = ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getVoxelBasedDistributionOfAbsorbedDoseUsed().iterator();
 						int k = 0;
 						while (listVoxelBasedDistributionOfAbsorbedDoseUsed.hasNext()) {
 							
@@ -558,15 +566,15 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							}
 
 							voxelBasedDistributionOfAbsorbedDoseUsed = listVoxelBasedDistributionOfAbsorbedDoseUsed.next();
-							voiNDescriptorUsed = ctMonteCarloDosimetry.calculationOfAbsorbedDosesInVOIs.voiDescriptorUsed.get(k);
+							voiNDescriptorUsed = ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getVOIDescriptorUsed().get(k);
 							
-							if (voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution!=null) {
+							if (voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution()!=null) {
 								nonDICOMVoxelBasedAbsorbedDoseDistribution = doseMap;
-								if ( voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId!=null) {
+								if ( voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getFHIRId()!=null) {
 									addDataProperty(nonDICOMVoxelBasedAbsorbedDoseDistribution, racineURI+"has_IRDBB_FHIR_handle", 
-											"/fhir/Binary/"+voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.fhirId);
+											"/fhir/Binary/"+voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getFHIRId());
 								}
-								switch (voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataClass) {
+								switch (voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataClass()) {
 								case ("VOI"):
 									nonDICOMVoxelBasedAbsorbedDoseDistribution.addOntClass(model.getResource(racineURI+"VOI"));
 									break;
@@ -577,34 +585,34 @@ public class TranslateNonDicomData extends OntologyPopulator {
 									nonDICOMVoxelBasedAbsorbedDoseDistribution.addOntClass(model.getResource(racineDCM+"128487"));
 									break;
 								default:
-									logger.warn("Unknown : voxelBasedDistribution.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataClass");
+									logger.warn("Unknown : voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().nonDICOMDataClass");
 								}
 
-								for (int n=0; n<voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFileName.size(); n++) {
+								for (int n=0; n<voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFileName().size(); n++) {
 
-									voi = voi(voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFileName.get(0), voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataClass); 
+									voi = voi(voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFileName().get(0), voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataClass()); 
 									k++;
 									
 									addObjectProperty(voi, racineURI+"has_dose", doseMap);
 									
 
-									if (voxelBasedDistributionOfAbsorbedDoseUsed.absorbedDoseUnit!=null) {
-										addObjectProperty(doseMap,racineObo+"IAO_0000039",getUnit(voxelBasedDistributionOfAbsorbedDoseUsed.absorbedDoseUnit));
+									if (voxelBasedDistributionOfAbsorbedDoseUsed.getAbsorbedDoseUnit()!=null) {
+										addObjectProperty(doseMap,racineObo+"IAO_0000039",getUnit(voxelBasedDistributionOfAbsorbedDoseUsed.getAbsorbedDoseUnit()));
 									}
-									if (voxelBasedDistributionOfAbsorbedDoseUsed.dicomVoxelBasedAbsorbedDoseDistribution!=null) {
-										if (voxelBasedDistributionOfAbsorbedDoseUsed.dicomVoxelBasedAbsorbedDoseDistribution.dicomSeriesUID!=null) {
-											for (int i=0;i<voxelBasedDistributionOfAbsorbedDoseUsed.dicomVoxelBasedAbsorbedDoseDistribution.dicomSeriesUID.size(); i++) {
-												addDataProperty(doseMap, racineURI+"has_DICOM_series_instance_UID", voxelBasedDistributionOfAbsorbedDoseUsed.dicomVoxelBasedAbsorbedDoseDistribution.dicomSeriesUID.get(i));
+									if (voxelBasedDistributionOfAbsorbedDoseUsed.getDICOMVoxelBasedAbsorbedDoseDistribution()!=null) {
+										if (voxelBasedDistributionOfAbsorbedDoseUsed.getDICOMVoxelBasedAbsorbedDoseDistribution().getDICOMSeriesUID()!=null) {
+											for (int i=0;i<voxelBasedDistributionOfAbsorbedDoseUsed.getDICOMVoxelBasedAbsorbedDoseDistribution().getDICOMSeriesUID().size(); i++) {
+												addDataProperty(doseMap, racineURI+"has_DICOM_series_instance_UID", voxelBasedDistributionOfAbsorbedDoseUsed.getDICOMVoxelBasedAbsorbedDoseDistribution().getDICOMSeriesUID().get(i));
 											}
 										}
-										if (voxelBasedDistributionOfAbsorbedDoseUsed.dicomVoxelBasedAbsorbedDoseDistribution.dicomStudyUID!=null) {
-											addDataProperty(doseMap, racineURI+"has_DICOM_SOP_instance_UID", voxelBasedDistributionOfAbsorbedDoseUsed.dicomVoxelBasedAbsorbedDoseDistribution.dicomStudyUID);
+										if (voxelBasedDistributionOfAbsorbedDoseUsed.getDICOMVoxelBasedAbsorbedDoseDistribution().getDICOMStudyUID()!=null) {
+											addDataProperty(doseMap, racineURI+"has_DICOM_SOP_instance_UID", voxelBasedDistributionOfAbsorbedDoseUsed.getDICOMVoxelBasedAbsorbedDoseDistribution().getDICOMStudyUID());
 										}
 									}
 
 									nonDicomFile = createIndiv(generateName("nonDicomFile"),model.getResource(racineURI+"non_DICOM_file"));
-									addDataProperty(nonDicomFile, racineURI+"has_name", voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFileName.get(n));
-									switch (voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFormat) {
+									addDataProperty(nonDicomFile, racineURI+"has_name", voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFileName().get(n));
+									switch (voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFormat()) {
 									case ("zipped imageJ contours format"):
 										i = createIndiv(model.getResource(racineURI+"zipped_imageJ_contours_format"));
 										addObjectProperty(nonDicomFile, racineURI+"has_format", i);
@@ -618,7 +626,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 										addObjectProperty(nonDicomFile, racineURI+"has_format", i);
 										break;	
 									default: 
-										logger.warn("Unknown nonDICOMDataFormat : "+voxelBasedDistributionOfAbsorbedDoseUsed.nonDICOMVoxelBasedAbsorbedDoseDistribution.nonDICOMDataFormat);
+										logger.warn("Unknown nonDICOMDataFormat : "+voxelBasedDistributionOfAbsorbedDoseUsed.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFormat());
 										break;
 									}
 								}

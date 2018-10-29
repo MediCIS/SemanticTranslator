@@ -9,6 +9,16 @@ import org.apache.jena.ontology.Individual;
 
 import com.pixelmed.dicom.ContentItem;
 
+import javaXSDclass.CTImageAcquisitionDescriptorType;
+import javaXSDclass.DICOMSOPInstanceDescriptorType;
+import javaXSDclass.DICOMSeriesDescriptorType;
+import javaXSDclass.DICOMSeriesType;
+import javaXSDclass.DICOMStudyDescriptorType;
+import javaXSDclass.DICOMStudyType;
+import javaXSDclass.DicomFileSetDescriptor;
+import javaXSDclass.NonDicomFileSetDescriptor;
+import javaXSDclass.PatientDescriptorType;
+
 public class TranslateDicomData extends OntologyPopulator {
 	
 	static String value; static String name; static String studyInstUID;
@@ -58,7 +68,7 @@ public class TranslateDicomData extends OntologyPopulator {
 				addObjectProperty(imagingStudy, racineURI+"has_target_region", organs.get(i));
 			}
 
-			dicomSeries = study.dicomSeries;
+			dicomSeries = study.getDICOMSeries();
 			serieIterator = dicomSeries.iterator();
 
 			while (serieIterator.hasNext()) {
@@ -82,51 +92,51 @@ public class TranslateDicomData extends OntologyPopulator {
 
 				addObjectProperty(ctImageAcquisition, racineURI+"part_of_occurent", imagingStudy);
 				addObjectProperty(imageDataSet, racineURI+"is_specified_output_of", ctImageAcquisition);
-				addDataProperty(ctImageAcquisition, racineURI+"has_beginning_date", serieDescriptorType.seriesDate00080021);
-				addDataProperty(ctImageAcquisition, racineURI+"has_beginning_time", serieDescriptorType.seriesTime00080031);
-				addDataProperty(imageDataSet, racineURI+"has_DICOM_series_instance_UID", serieDescriptorType.seriesInstanceUID0020000E);
+				addDataProperty(ctImageAcquisition, racineURI+"has_beginning_date", serieDescriptorType.getSeriesDate00080021());
+				addDataProperty(ctImageAcquisition, racineURI+"has_beginning_time", serieDescriptorType.getSeriesTime00080031());
+				addDataProperty(imageDataSet, racineURI+"has_DICOM_series_instance_UID", serieDescriptorType.getSeriesInstanceUID0020000E());
 
 				scanner = createIndiv(generateName("CT_scanner"), model.getResource(racineURI+"CT_scanner"));
 				imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
 				
 				addObjectProperty(imageAccRole, racineObo+"BFO_0000052", scanner);
 				addObjectProperty(imageAccRole, racineObo+"BFO_0000054", ctImageAcquisition);
-				addDataProperty(scanner, racineURI+"has_manufacturer_name", serieDescriptorType.manufacturer00080070);
-				addDataProperty(scanner, racineURI+"has_model_name", serieDescriptorType.manufacturersModelName00081090);
+				addDataProperty(scanner, racineURI+"has_manufacturer_name", serieDescriptorType.getManufacturer00080070());
+				addDataProperty(scanner, racineURI+"has_model_name", serieDescriptorType.getManufacturersModelName00081090());
 
-				if (serieDescriptorType.institutionName00080080!= null && serieDescriptorType.institutionName00080080!=null) {
-					institution = memory.getInstitution(serieDescriptorType.institutionName00080080);
-					role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(serieDescriptorType.institutionName00080080);
+				if (serieDescriptorType.getInstitutionName00080080() != null && serieDescriptorType.getInstitutionName00080080() !=null) {
+					institution = memory.getInstitution(serieDescriptorType.getInstitutionName00080080());
+					role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(serieDescriptorType.getInstitutionName00080080());
 				}
 				
 				addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000052", institution);
 				addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000054", ctImageAcquisition);
 
 				protocol = createIndiv(generateName("Protocol"), model.getResource(racineURI+"CT_acquisition_protocol"));
-				addDataProperty(protocol, racineURI+"has_name", serieDescriptorType.protocolName00181030);
+				addDataProperty(protocol, racineURI+"has_name", serieDescriptorType.getProtocolName00181030());
 				addObjectProperty(ctImageAcquisition, racineURI+"has_protocol", protocol);
 
-				dicomsopInstanceDescriptor = serie.dicomsopInstanceDescriptor;
+				dicomsopInstanceDescriptor = serie.getDICOMSOPInstanceDescriptor();
 				dicomsopInstanceDescriptorIter = dicomsopInstanceDescriptor.iterator();
 
 				while (dicomsopInstanceDescriptorIter.hasNext()) {
 					dicomsopInstanceDescriptorType = dicomsopInstanceDescriptorIter.next();
-					ctimageAcquisitionDescriptorType = dicomsopInstanceDescriptorType.ctImageAcquisitionDescriptor;
+					ctimageAcquisitionDescriptorType = dicomsopInstanceDescriptorType.getCTImageAcquisitionDescriptor();
 
 					i =  createIndiv(generateName("KVP"), model.getResource(racineDCM+"113733"));
-					addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.kvp00180060);
+					addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.getKVP00180060());
 					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("kV"));
 					addObjectProperty(ctImageAcquisition,racineURI+"has_setting",i);
 					addObjectProperty(i,racineURI+"is_device_setting",scanner);
 
 					i =  createIndiv(generateName("Exposure_Time"), model.getResource(racineDCM+"113824"));
-					addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.exposureTime00181150);
-					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ms"));
+					addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.getExposureTime00181150());
+					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ms")); 
 					addObjectProperty(ctImageAcquisition,racineURI+"has_setting",i);
 					addObjectProperty(i,racineURI+"is_device_setting",scanner);
 
 					i =  createIndiv(generateName("X-Ray_Tube_Current"), model.getResource(racineDCM+"113734"));
-					addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.xRayTubeCurrent00181151);
+					addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.getXRayTubeCurrent00181151());
 					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("mA"));
 					addObjectProperty(ctImageAcquisition,racineURI+"has_setting",i);
 					addObjectProperty(i,racineURI+"is_device_setting",scanner);

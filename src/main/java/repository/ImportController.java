@@ -14,9 +14,6 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.xml.XMLConstants;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -61,6 +58,10 @@ import com.pixelmed.dicom.DicomException;
 import com.pixelmed.dicom.StructuredReport;
 
 import errors.BadRequestException;
+import javaXSDclass.DICOMSeriesType;
+import javaXSDclass.DICOMStudyType;
+import javaXSDclass.DicomFileSetDescriptor;
+import javaXSDclass.NonDicomFileSetDescriptor;
 import querries.Querry;
 
 @Controller
@@ -197,15 +198,14 @@ public class ImportController {
 	}
 
 	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
-	public @ResponseBody String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException{
+	public @ResponseBody String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {
 		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
 		String tmpFilePath = "tmp.xml";
-		
 		PrintWriter out = new PrintWriter(tmpFilePath);				// Stream to write the XML file
 		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
 		out.close();
-        SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-		Schema schema = factory.newSchema(new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getFile());
+		SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = factory.newSchema(new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getFile());
         Validator validator = schema.newValidator();
         validator.validate(new StreamSource(new File(tmpFilePath)));
 		return new ValidationReport(true, "").getJson(); 				// return the message (valid) as a JSON object
@@ -390,7 +390,7 @@ public class ImportController {
 		//patient = OntologyPopulator.retrievePatientData(); 	// Retrieve patient data
 
 		Individual clinicalResearchStudy = OntologyPopulator.
-				retrieveClinicalResearchStudy(dicomFileSetDescriptor.referencedClinicalStudy.clinicalStudyID);
+				retrieveClinicalResearchStudy(dicomFileSetDescriptor.getReferencedClinicalStudy().getClinicalStudyID());
 
 		for (DICOMStudyType study : dicomFileSetDescriptor.getDICOMStudy()) {				   				// Iterate on the studies
 			for (DICOMSeriesType series : study.getDICOMSeries() ) {						   				// Iterate on the series
@@ -410,7 +410,7 @@ public class ImportController {
 					if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
 					else {createAdminConnection(db);}														// If DB provided create a connection these DB
 					logger.info("Retrieving CT"+" StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
-					Iterator<DICOMStudyType> iterFileSet = dicomFileSetDescriptor.dicomStudy.iterator();	// Iterator on the root of the Dicom Study XML
+					Iterator<DICOMStudyType> iterFileSet = dicomFileSetDescriptor.getDicomStudy().iterator();	// Iterator on the root of the Dicom Study XML
 					TranslateDicomData.readingCT(iterFileSet, 												// Read and translate the CT
 							studyInstanceUID, seriesInstanceUID, 
 							clinicalResearchStudy, dicomFileSetDescriptor.getPatientDescriptor());
@@ -440,7 +440,7 @@ public class ImportController {
 
 		logger.info("Retrieving NON Dicom FileSetDescriptor");
 		z++;																								// Z is a number for the file name (will avoid overwriting)
-		rdfName = "RdfBackup/nonDicom_study" + nonDicomFileSetDescriptor.referencedClinicalResearchStudy.clinicalResearchStudyID +"_"+z+".rdf";
+		rdfName = "RdfBackup/nonDicom_study" + nonDicomFileSetDescriptor.getReferencedClinicalResearchStudy().getClinicalResearchStudyID() +"_"+z+".rdf";
 		writingRDF(rdfName);																				// Write Semantic Graph in a RDF file
 		if (db==null)  {createAdminConnection(database.ontoMedirad);}										// If no DB provided create a connection to ontoMedirad
 		else {createAdminConnection(db);}																	// If DB provided create a connection these DB setInStarDog(rdfName);
