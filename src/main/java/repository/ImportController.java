@@ -1,17 +1,23 @@
 package repository;
 
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -19,6 +25,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.jena.ontology.Individual;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
 import org.json.JSONArray;
@@ -57,7 +64,6 @@ import com.pixelmed.dicom.ContentItem;
 import com.pixelmed.dicom.DicomException;
 import com.pixelmed.dicom.StructuredReport;
 
-import errors.BadRequestException;
 import javaXSDclass.DICOMSeriesType;
 import javaXSDclass.DICOMStudyType;
 import javaXSDclass.DicomFileSetDescriptor;
@@ -100,61 +106,6 @@ public class ImportController {
 		return "Hello "+param+"\n";
 	}
 	
-	/*
-	@RequestMapping(value = "/demoXSD", method = RequestMethod.GET) 		// for my own use (will be removed at the end)
-	public void demoXSD(@RequestParam("valeur") int valeur) {  
-		System.out.println("demoXSD");
-		String chemin1xml = "/Users/marinebrenet/Desktop/xml_1.xml";
-		String chemin2xml = "/Users/marinebrenet/Desktop/xml_2.xml";
-		
-		JAXBContext jc;
-		try {
-			System.out.println("Try");
-			jc = JAXBContext.newInstance("repository");
-			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			ProcessusDescriptor process;
-			
-			switch (valeur) {
-			case 1 :
-				process = (ProcessusDescriptor) unmarshaller.unmarshal(new File(chemin1xml));
-				break;
-			case 2 :
-				process = (ProcessusDescriptor) unmarshaller.unmarshal(new File(chemin2xml));
-				break;
-			default:
-				process = (ProcessusDescriptor) unmarshaller.unmarshal(new File(chemin1xml));
-				break;
-			}
-			
-		} catch (JAXBException e) {e.printStackTrace();} 
-		
-		
-		System.out.println("FIN demoXSD");
-	}*
-	
-	/*
-	@RequestMapping(value = "/demoXSDcalibration", method = RequestMethod.GET) 		// for my own use (will be removed at the end)
-	public void demoXSDcalibration(@RequestParam("valeur") int valeur) {  
-		System.out.println("demoXSD");
-		String cheminxml = "/Users/marinebrenet/Desktop/calibrationDemo.xml";
-		
-		//JAXBContext jc;
-		try {
-			System.out.println("Try");
-			JAXBContext jc = JAXBContext.newInstance("repository");
-			Unmarshaller unmarshaller = jc.createUnmarshaller();
-			Calibrationworkflow cal = (Calibrationworkflow) unmarshaller.unmarshal(new File(cheminxml));
-			
-			//DemoTranslateCalibration.translateCalibration(cal);
-			
-			
-		} catch (JAXBException e) {e.printStackTrace();} 
-		
-		
-		System.out.println("FIN demoXSD");
-	}*/
-	
-	
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
 	public String getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException, BadRequestException {  
 		System.out.println("getMimeTypeDataFormat");
@@ -179,7 +130,45 @@ public class ImportController {
 				"      }" , "false" ); 	  
 		return result;
 	} 
-
+	
+	
+	List<String> listXSDnames = Stream.of("2D-DosimetryWorkflow.xsd", "3D-DosimetrySlide1Workflow.xsd", "3D-DosimetrySlide2Workflow.xsd", 
+			"3D-DosimetryWorkflow.xsd", "calibrationWorkflow.xsd", "Hybrid-DosimetryWorkflow.xsd","WP2subtask212WorkflowData.xsd"
+			).collect(Collectors.toList());
+			
+			
+	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET)
+	public String getXSDfilesName() {  
+		String str = "";
+		System.out.println("getXSDfilesName");
+		Iterator<String> iterXSD = listXSDnames.iterator();
+		while (iterXSD.hasNext()) {
+			str+=iterXSD.next()+"\n";
+		}
+		return str;
+	} 
+	
+	@RequestMapping (value = "/getXSD", method = RequestMethod.GET, produces = {"text/xml"} )
+	public String getXSD(@RequestParam("fileName") String fileName) {  
+		System.out.println("getXSD");
+		String path = "/xsdSimple/"+fileName;
+		try {
+			ClassPathResource res = new ClassPathResource(path);
+			System.out.println(res.getFilename());
+			InputStream stream = res.getInputStream();
+			StringWriter writer = new StringWriter();
+			IOUtils.copy(stream, writer, "UTF-8");
+			String theString = writer.toString();
+			return(theString);
+		} catch (IOException e) {
+			System.out.print("IOException");
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		//return null;
+	} 
+	
 	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
 	public String getRequestList() {return Application.listQuerries.getJsonString();} // return request list in JSON
 
@@ -216,7 +205,6 @@ public class ImportController {
 		if (request.contains("CONSTRUCT")) {return false;} 				// Unsecure command because Construct command can degrade data
 		return true;									   				// Commands seems to be secure
 	}
-
 	
 	public synchronized String executeQuerry(String request, String isReasoning) // Execute a querry (querry is passed as a string)
 			throws StardogException, TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, BadRequestException  { 	
@@ -387,7 +375,6 @@ public class ImportController {
 		if (dockerHost==null) {dockerHost = Application.dockerHost ;}
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}
 		if (memory==null) {memory=Application.memory;}														// Memory is used for store some objects
-		//patient = OntologyPopulator.retrievePatientData(); 	// Retrieve patient data
 
 		Individual clinicalResearchStudy = OntologyPopulator.
 				retrieveClinicalResearchStudy(dicomFileSetDescriptor.getReferencedClinicalStudy().getClinicalStudyID());

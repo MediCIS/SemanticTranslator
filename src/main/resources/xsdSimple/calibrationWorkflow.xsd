@@ -1,0 +1,372 @@
+<?xml version="1.0"?>
+<xs:schema
+targetNamespace="https://www.irdbb-medirad.com"
+elementFormDefault="qualified"
+attributeFormDefault="unqualified"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:irdbb="https://www.irdbb-medirad.com">
+	<xs:element name="NonDicomFileSetDescriptor">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ReferencedClinicalResearchStudy">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ClinicalResearchStudyID" type="xs:string"/>
+							<xs:element name="ClinicalResearchStudyTitle" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			<xs:element name="PatientId" type="xs:string"/>
+
+	<xs:element name="CalibrationWorkflow" minOccurs="0" maxOccurs="unbounded">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SPECTCTCalibrationWorkflow" type="irdbb:SPECTCTCalibrationWorkflow"/>
+				<xs:element name="PlanarCalibrationWorkflow" type="irdbb:PlanarCalibrationWorkflow"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="SPECTCTCalibrationWorkflow">
+		<xs:sequence>
+				<xs:element name="CTNumberCalibrationWorkfow" type="irdbb:CTNumberCalibrationWorkfow" minOccurs="0" />
+				<xs:element name="SPECTAcqCTAcqAndReconstruction" type="irdbb:SPECTAcqCTAcqAndReconstruction"/>
+				<xs:element name="SPECTReconstruction" type="irdbb:SPECTReconstruction"/>
+				<xs:element name="CTSegmentation" type="irdbb:CTSegmentation"/>
+				<xs:element name="SPECTSensitivityCalculation" type="irdbb:SPECTSensitivityCalculation"/>
+				<xs:element name="SPECTRecoveryCurveCalculation" type="irdbb:SPECTRecoveryCurveCalculation" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarCalibrationWorkflow">
+		<xs:sequence>
+				<xs:element name="PlanarAcquisition" type="irdbb:PlanarAcquisition"/>
+				<xs:element name="PlanarImageCorrections" type="irdbb:PlanarImageCorrections"/>
+				<xs:element name="PlanarImageSegmentation" type="irdbb:PlanarImageSegmentation"/>
+				<xs:element name="PlanarSensitivityCalculation" type="irdbb:PlanarSensitivityCalculation"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTNumberCalibrationWorkfow">
+		<xs:sequence>
+				<xs:element name="CTAcqForCTNumberCalibrationCurve" type="irdbb:CTAcqForCTNumberCalibrationCurve"/>
+				<xs:element name="CalculationOfCTNumberCalibrationCurve" type="irdbb:CalculationOfCTNumberCalibrationCurve"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTAcqForCTNumberCalibrationCurve">
+		<xs:sequence>
+				<xs:element name="DensityPhantomUsed" type="irdbb:DensityPhantom"/>
+				<xs:element name="CTReconProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CalculationOfCTNumberCalibrationCurve">
+		<xs:sequence>
+				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+				<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
+				<xs:element name="CTNumberCalibrationCurveProduced" type="irdbb:CTNumberCalibrationCurve"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTAcqCTAcqAndReconstruction">
+		<xs:sequence>
+				<xs:element name="PhantomUsed" type="irdbb:NMPhantom"/>
+				<xs:element name="NMTomoProduced" type="irdbb:DICOMData"/>
+				<xs:element name="CTReconProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTReconstruction">
+		<xs:sequence>
+				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+				<xs:element name="NMTomoUsed" type="irdbb:DICOMData"/>
+				<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
+				<xs:element name="ReconstructionMethodAndCorrectionsUsed" type="xs:string"/>
+				<xs:element name="CTNumberCalibrationCurveUsed" type="irdbb:CTNumberCalibrationCurve"/>
+				<xs:element name="NMTomoReconProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTSegmentation">
+		<xs:sequence>
+				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+				<xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
+				<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
+				<xs:element name="SegmentationMethodMethodUsed" type="xs:string"/>
+				<xs:element name="VOIInCTProduced" type="irdbb:VOIInCT" maxOccurs="unbounded" />
+				<xs:element name="VOIInSPECTProduced" type="irdbb:VOIInSPECT" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTSensitivityCalculation">
+		<xs:sequence>
+				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+				<xs:element name="VOIInCTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="VOIInSPECTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="CalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTRecoveryCurveCalculation">
+		<xs:sequence>
+				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+				<xs:element name="VOIInCTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="VOIInSPECTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="PhantomIdentifierUsed" type="xs:string"/>
+				<xs:element name="CalibrationCoefficientIdentifierUsed" type="xs:string"/>
+				<xs:element name="SPECTRecoveryCoefficientCurve" type="irdbb:SPECTRecoveryCoefficientCurve"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarAcquisition">
+		<xs:sequence>
+				<xs:element name="PhantomUsed" type="irdbb:NMPhantom"/>
+				<xs:element name="NMStaticProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarImageCorrections">
+		<xs:sequence>
+				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+				<xs:element name="NMStaticUsed" type="irdbb:DICOMData"/>
+				<xs:element name="CorrectionsUsed" type="xs:string"/>
+				<xs:element name="NMStaticCorrectedProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarImageSegmentation">
+		<xs:sequence>
+				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+				<xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMData"/>
+				<xs:element name="SegmentationMethodUsed" type="xs:string"/>
+				<xs:element name="ROIInSPECTProduced" type="irdbb:ROIInSPECT" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarSensitivityCalculation">
+		<xs:sequence>
+				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+				<xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMData"/>
+				<xs:element name="CalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DensityPhantom">
+		<xs:sequence>
+				<xs:element name="DensityPhantomName" type="xs:string"/>
+				<xs:element name="DensityPhantomIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTNumberCalibrationCurve">
+		<xs:sequence>
+				<xs:element name="ElementOfCTNumberCalibrationCurve" type="irdbb:ElementOfCTNumberCalibrationCurve" maxOccurs="unbounded" />
+				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ElementOfCTNumberCalibrationCurve">
+		<xs:sequence>
+				<xs:element name="MeasuredDensityValue" type="xs:float"/>
+				<xs:element name="MeasuredDensityUnit" type="xs:string"/>
+				<xs:element name="RealDensityOfMaterialValue" type="xs:float"/>
+				<xs:element name="RealDensityOfMaterialUnit" type="xs:string"/>
+				<xs:element name="MaterialIdentifier" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NMPhantom">
+		<xs:sequence>
+				<xs:element name="NMPhantomName" type="xs:string"/>
+				<xs:element name="NMPhantomIdentifier" type="xs:string"/>
+				<xs:element name="HotInsert" type="irdbb:HotInsert" maxOccurs="unbounded" />
+				<xs:element name="ColdInsert" type="irdbb:ColdInsert" maxOccurs="unbounded" />
+				<xs:element name="Tank" type="irdbb:Tank"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HotInsert">
+		<xs:sequence>
+				<xs:element name="VolumeValue" type="xs:float"/>
+				<xs:element name="VolumeUnit" type="xs:string"/>
+				<xs:element name="PreAdminActivityValue" type="xs:float"/>
+				<xs:element name="PreAdminActivityUnit" type="xs:string"/>
+				<xs:element name="PreAdminActivityTimestamp" type="xs:string"/>
+				<xs:element name="PostAdminActivityValue" type="xs:float"/>
+				<xs:element name="PostAdminActivityUnit" type="xs:string"/>
+				<xs:element name="PostAdminActivityTimestamp" type="xs:string"/>
+				<xs:element name="HotInsertIdentifier" type="xs:string"/>
+		<xs:element name="Isotope">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="iodine131"/>
+					<xs:enumeration value="lutetium177"/>
+					<xs:enumeration value="yttrium90"/>
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="rhenium188"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ColdInsert">
+		<xs:sequence>
+				<xs:element name="VolumeValue" type="xs:float"/>
+				<xs:element name="VolumeUnit" type="xs:string"/>
+				<xs:element name="ColdInsertIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Tank">
+		<xs:sequence>
+				<xs:element name="VolumeValue" type="xs:float"/>
+				<xs:element name="VolumeUnit" type="xs:string"/>
+				<xs:element name="PreAdminBackgroundActivityValue" type="xs:float"/>
+				<xs:element name="PreAdminBackgroundActivityUnit" type="xs:string"/>
+				<xs:element name="PreAdminBackgroundActivityTimestamp" type="xs:string"/>
+				<xs:element name="PostAdminBackgroundActivityValue" type="xs:float"/>
+				<xs:element name="PostAdminBackgroundActivityUnit" type="xs:string"/>
+				<xs:element name="PostAdminBackgroundActivityTimestamp" type="xs:string"/>
+				<xs:element name="TankIdentifier" type="xs:string"/>
+		<xs:element name="Isotope">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="iodine131"/>
+					<xs:enumeration value="lutetium177"/>
+					<xs:enumeration value="yttrium90"/>
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="rhenium188"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ProcessExecutionContext">
+		<xs:sequence>
+				<xs:element name="DateTimeProcessStarted" type="xs:string"/>
+				<xs:element name="PerformingInstitution" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIInCT">
+		<xs:sequence>
+				<xs:element name="VOIIdentifier" type="xs:string"/>
+				<xs:element name="VOIVolumeValue" type="xs:float"/>
+				<xs:element name="VOIVolumeUnit" type="xs:string"/>
+				<xs:element name="PhantomPartIdentifier" type="xs:string"/>
+				<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
+				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIInSPECT">
+		<xs:sequence>
+				<xs:element name="VOIIdentifier" type="xs:string"/>
+				<xs:element name="CountsInVOIValue" type="xs:float"/>
+				<xs:element name="CountsInVOIUnit" type="xs:string"/>
+				<xs:element name="PhantomPartIdentifier" type="xs:string"/>
+				<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
+				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ROIInSPECT">
+		<xs:sequence>
+				<xs:element name="ROIIdentifier" type="xs:string"/>
+				<xs:element name="CountsInROIValue" type="xs:float"/>
+				<xs:element name="CountsInROIUnit" type="xs:string"/>
+				<xs:element name="PhantomPartIdentifier" type="xs:string"/>
+				<xs:element name="DICOMROIContainer" type="irdbb:DICOMData" minOccurs="0" />
+				<xs:element name="NonDICOMROIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CalibrationCoefficient">
+		<xs:sequence>
+				<xs:element name="CalibrationCoefficientValue" type="xs:float"/>
+				<xs:element name="CalibrationCoefficientUnit" type="xs:string"/>
+				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		<xs:element name="Isotope">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="iodine131"/>
+					<xs:enumeration value="lutetium177"/>
+					<xs:enumeration value="yttrium90"/>
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="rhenium188"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTRecoveryCoefficientCurve">
+		<xs:sequence>
+				<xs:element name="ElementOfSPECTRecoveryCoefficientCurve" type="irdbb:ElementOfSPECTRecoveryCoefficientCurve" maxOccurs="unbounded" />
+				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		<xs:element name="Isotope">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="iodine131"/>
+					<xs:enumeration value="lutetium177"/>
+					<xs:enumeration value="yttrium90"/>
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="rhenium188"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ElementOfSPECTRecoveryCoefficientCurve">
+		<xs:sequence>
+				<xs:element name="RatioMeasuredActivityToTrueActivity" type="xs:float"/>
+				<xs:element name="HotInsertVolumeValue" type="xs:float"/>
+				<xs:element name="HotInsertVolumeUnit" type="xs:string"/>
+				<xs:element name="HotInsertIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DICOMData">
+		<xs:sequence>
+				<xs:element name="DICOMStudyUID" type="xs:string"/>
+				<xs:element name="DICOMSeriesUID" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NonDICOMData">
+		<xs:sequence>
+		<xs:element name="NonDICOMDataClass">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="VOI"/>
+					<xs:enumeration value="VOI superimposed on images"/>
+					<xs:enumeration value="3D dose map"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+		<xs:element name="NonDICOMDataFormat">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="zipped imageJ contours format"/>
+					<xs:enumeration value="TIFF format embedding imageJ contours"/>
+					<xs:enumeration value="zipped pseudo_DICOM ImpactMC"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+				<xs:element name="NonDICOMDataFileName" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="FHIRIdentifier" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

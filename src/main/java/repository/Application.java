@@ -44,6 +44,7 @@ public class Application {
         for (int i = 0; i<args.length; i++) {							 // Iter on arguments
         	if (args[i].contains("express")) {express=true;}			 // Allow a quick boot (without ontology loading)
         }
+        
     	listQuerries = new ListQuerries(); 							 	 // Init a querry list (read from the excel file)
 
         if (express==false) {
