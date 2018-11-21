@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -131,12 +132,10 @@ public class ImportController {
 		return result;
 	} 
 	
-	
 	List<String> listXSDnames = Stream.of("2D-DosimetryWorkflow.xsd", "3D-DosimetrySlide1Workflow.xsd", "3D-DosimetrySlide2Workflow.xsd", 
 			"3D-DosimetryWorkflow.xsd", "calibrationWorkflow.xsd", "Hybrid-DosimetryWorkflow.xsd","WP2subtask212WorkflowData.xsd"
 			).collect(Collectors.toList());
-			
-			
+					
 	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET)
 	public String getXSDfilesName() {  
 		String str = "";
@@ -180,7 +179,11 @@ public class ImportController {
 		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
 		out.close();
 		SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = factory.newSchema(new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getFile());
+		InputStream xsdStream = new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream();
+		Source schemaSource = new StreamSource(xsdStream);
+		System.out.println("factory.newSchema");
+        Schema schema = factory.newSchema(schemaSource);
+        System.out.println("schema.newValidator();");
         Validator validator = schema.newValidator();
         validator.validate(new StreamSource(new File(tmpFilePath)));
 		return new ValidationReport(true, "").getJson(); 				// return the message (valid) as a JSON object
@@ -194,7 +197,11 @@ public class ImportController {
 		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
 		out.close();
 		SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = factory.newSchema(new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getFile());
+		InputStream xsdStream = new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream();
+		Source schemaSource = new StreamSource(xsdStream);
+		System.out.println("factory.newSchema");
+        Schema schema = factory.newSchema(schemaSource);
+        System.out.println("schema.newValidator();");
         Validator validator = schema.newValidator();
         validator.validate(new StreamSource(new File(tmpFilePath)));
 		return new ValidationReport(true, "").getJson(); 				// return the message (valid) as a JSON object
