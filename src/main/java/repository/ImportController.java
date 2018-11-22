@@ -1,6 +1,7 @@
 package repository;
 
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,10 +9,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +67,9 @@ import com.pixelmed.dicom.AttributeList;
 import com.pixelmed.dicom.ContentItem;
 import com.pixelmed.dicom.DicomException;
 import com.pixelmed.dicom.StructuredReport;
+
+import javaXSDclass.DicomFileSetDescriptor;
+import javaXSDclass.NonDicomFileSetDescriptor;
 
 import javaXSDclass.DICOMSeriesType;
 import javaXSDclass.DICOMStudyType;
@@ -138,13 +144,37 @@ public class ImportController {
 					
 	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET)
 	public String getXSDfilesName() {  
-		String str = "";
-		System.out.println("getXSDfilesName");
-		Iterator<String> iterXSD = listXSDnames.iterator();
-		while (iterXSD.hasNext()) {
-			str+=iterXSD.next()+"\n";
+		JSONArray listeJSON = new JSONArray();
+		try {
+			InputStream stream = new ClassPathResource("xsdTableau.txt").getInputStream();
+			
+			String line; String name; String fileName;  String description;
+			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+			while ((line = br.readLine()) != null) {
+				System.out.println(line);
+				name = line.split(";")[0];
+				fileName = line.split(";")[1];
+				description = line.split(";")[2];
+				
+				JSONObject obj = new JSONObject();
+				try {
+					obj.put("name", name);
+					obj.put("fileName", fileName);
+					obj.put("description", description);
+					listeJSON.put(obj);		
+				} catch (JSONException e) {e.printStackTrace();}
+			}
+			
+			stream.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		return str;
+		
+		for (int i=0; i<listXSDnames.size(); i++) {							// Iterate on the querry's list
+							        // Add the querry to the JSON list
+		}
+		return listeJSON.toString();	
 	} 
 	
 	@RequestMapping (value = "/getXSD", method = RequestMethod.GET, produces = {"text/xml"} )

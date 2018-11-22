@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import querries.ListQuerries;
+
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.util.FileManager;
@@ -16,12 +18,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import querries.ListQuerries;
+
 
 @SpringBootApplication
 public class Application { 
 
 	static Memory memory;												 // Memory will store a few objects without querrying the stardog
+	
 	
 	public static String pathOntology; 									 // Settings that will be read from a file 
 	public static String dockerHost;
