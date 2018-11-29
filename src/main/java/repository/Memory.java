@@ -2,6 +2,7 @@ package repository;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,7 @@ import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.complexible.stardog.StardogException;
 import com.complexible.stardog.api.Connection;
 import com.complexible.stardog.api.ConnectionConfiguration;
 import com.complexible.stardog.api.ConnectionPool;
@@ -48,7 +50,7 @@ public class Memory extends OntologyPopulator {
 	private LinkedList<String> listMcMethod;
 	private LinkedList<Individual> listIRIMcMethod;
 	
-	public Memory() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
+	public Memory() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
 		initVoidMemory();
 		requestSoftware();
 		requestMCMethod();
@@ -56,7 +58,35 @@ public class Memory extends OntologyPopulator {
 		requestPatientCTImageDS();
 	}
 	
-	public String toString() {
+	private synchronized String[] executeRequest(String request) throws TupleQueryResultHandlerException, QueryEvaluationException, 
+				UnsupportedQueryResultFormatException, IOException, StardogException {
+		
+		createAdminConnection(database.ontoMedirad);
+		
+		System.out.println("starDogConnection : ");
+		System.out.println(starDogConnection.name());
+		
+		System.out.println("request : ");
+		System.out.println(request);
+	
+		SelectQuery aQuery = starDogConnection.select(request);
+		//aQuery.limit(10);
+		
+		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
+
+		aResult = aQuery.execute();
+		System.out.println("Querry executed");
+
+		out = new ByteArrayOutputStream();
+		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
+		String[] resultats = out.toString().split("\n");
+		
+		if (aResult!=null) {aResult.close();}
+		
+		return resultats;
+	}
+	
+	public synchronized String toString() {
 		String str = "Tableau Patient : \n";
 		for (int i = 0; i<listSeriesPatient.size();i++) {
 			str+=listSeriesPatient.get(i);
@@ -207,29 +237,18 @@ public class Memory extends OntologyPopulator {
 		return MCmethod;
 	}
 	
-	public synchronized void requestSoftware() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
+	public synchronized void requestSoftware() throws TupleQueryResultHandlerException, QueryEvaluationException, 
+			UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
 		System.out.println("requestSoftware");
 		starDogUrl = Application.starDogUrl ;	
-		
-		createAdminConnection(database.ontoMedirad);
-		
+
 		String sparql = "SELECT DISTINCT ?software ?nameSoftware WHERE {\n" + 
 				"?software rdf:type ontomedirad:software .\n" + 
 				"?software ontomedirad:has_name ?nameSoftware .\n" + 
 				"} ORDER BY ?software";
-	
-		SelectQuery aQuery = starDogConnection.select(sparql);
-
-		aQuery.limit(10);
 		
-		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
-
-		aResult = aQuery.execute();
+		String[] resultats = executeRequest(sparql);	
 		
-		out = new ByteArrayOutputStream();
-		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-					
-		String[] resultats = out.toString().split("\n");
 		String[] ContenuLignes; String iri; String name;
 		
 		for (int i=1; i<resultats.length; i++) {
@@ -239,10 +258,6 @@ public class Memory extends OntologyPopulator {
 			name = ContenuLignes[1];
 						
 			setSoftware(name, iri);
-		}
-
-		if (aResult!=null) {
-			aResult.close();
 		}
 		
 		starDogConnection.close();
@@ -254,26 +269,13 @@ public class Memory extends OntologyPopulator {
 	public synchronized void requestMCMethod() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
 		System.out.println("requestMCMethod");
 		starDogUrl = Application.starDogUrl ;	
-		
-		createAdminConnection(database.ontoMedirad);
-		
+				
 		String sparql = "SELECT DISTINCT ?method ?nameMethod WHERE {" + 
 				"	?method rdf:type ontomedirad:Monte_Carlo_CT_dosimetry_method ." + 
 				"	?method ontomedirad:has_name ?nameMethod ." + 
 				"} ORDER BY ?method";
-	
-		SelectQuery aQuery = starDogConnection.select(sparql);
-
-		aQuery.limit(10);
+		String[] resultats = executeRequest(sparql);	
 		
-		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
-
-		aResult = aQuery.execute();
-		
-		out = new ByteArrayOutputStream();
-		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-		
-		String[] resultats = out.toString().split("\n");
 		String[] ContenuLignes; String iri; String name;
 		
 		for (int i=1; i<resultats.length; i++) {
@@ -285,10 +287,6 @@ public class Memory extends OntologyPopulator {
 			setMCMethod(name, iri);
 			
 		}
-
-		if (aResult!=null) {
-			aResult.close();
-		}
 		
 		starDogConnection.close();
 		
@@ -298,27 +296,15 @@ public class Memory extends OntologyPopulator {
 	public synchronized void requestInstit() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
 		System.out.println("requestInstit");
 		starDogUrl = Application.starDogUrl ;	
-		
-		createAdminConnection(database.ontoMedirad);
-		
+				
 		String sparql = "SELECT DISTINCT ?institution ?nameInstit ?roleInstit WHERE {" + 
 				"	?institution rdf:type ontomedirad:institution ." + 
 				"	?institution ontomedirad:has_name ?nameInstit ." + 
 				"    ?institution purl:BFO_0000161 ?roleInstit ." + 
 				"} ORDER BY ?institution";
 	
-		SelectQuery aQuery = starDogConnection.select(sparql);
-
-		aQuery.limit(10);
+		String[] resultats = executeRequest(sparql);	
 		
-		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
-
-		aResult = aQuery.execute();
-		
-		out = new ByteArrayOutputStream();
-		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-					
-		String[] resultats = out.toString().split("\n");
 		String[] ContenuLignes; String iriRole;
 		String iriInstit; String nameInstit;
 		
@@ -331,10 +317,6 @@ public class Memory extends OntologyPopulator {
 										
 			setInstit(nameInstit, iriInstit, iriRole);
 		}
-
-		if (aResult!=null) {
-			aResult.close();
-		}
 		
 		starDogConnection.close();
 		
@@ -344,9 +326,7 @@ public class Memory extends OntologyPopulator {
 	public synchronized void requestPatientCTImageDS() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
 		System.out.println("requestPatientCTImageDS");
 		starDogUrl = Application.starDogUrl ;	
-		
-		createAdminConnection(database.ontoMedirad);
-		
+				
 		String sparql = "SELECT DISTINCT ?patient ?CT_ImageDataSet ?handle WHERE {" + 
 				"	?patient rdf:type ontomedirad:patient ." + 
 				"  	?patient purl:BFO_0000054 ?CT_Acquisition ." + 
@@ -354,18 +334,8 @@ public class Memory extends OntologyPopulator {
 				"  	?CT_ImageDataSet ontomedirad:has_IRDBB_WADO_handle ?handle ." + 
 				"} ORDER BY ?software";
 	
-		SelectQuery aQuery = starDogConnection.select(sparql);
-
-		aQuery.limit(10);
+		String[] resultats = executeRequest(sparql);	
 		
-		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
-
-		aResult = aQuery.execute();
-		
-		out = new ByteArrayOutputStream();
-		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-					
-		String[] resultats = out.toString().split("\n");
 		String[] ContenuLignes; String patientIRI; String CTImageDsIRI; String handle;
 		
 		for (int i=1; i<resultats.length; i++) {
@@ -384,10 +354,6 @@ public class Memory extends OntologyPopulator {
 			
 			setPatient(series, study, model.createIndividual(patientIRI, model.getResource(racineURI+"human")));
 			setCtDataSet(series, study, model.createIndividual(CTImageDsIRI, model.getResource(racineURI+"CT_image_dataset")));
-		}
-
-		if (aResult!=null) {
-			aResult.close();
 		}
 		
 		starDogConnection.close();

@@ -3,6 +3,7 @@ package repository;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 import querries.ListQuerries;
@@ -39,7 +40,7 @@ public class Application {
 	private final static Logger logger = 								 // Object to make logs
 			LoggerFactory.getLogger(Application.class);
 		
-    public static void main(String[] args) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
+    public static void main(String[] args) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
         SpringApplication.run(Application.class, args);					 // Spring Boot
     	loadProperties();											     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
 		System.out.println("Hello World !");

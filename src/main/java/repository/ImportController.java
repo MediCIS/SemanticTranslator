@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -100,7 +101,7 @@ public class ImportController {
 	
 	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
 
-	private static Individual patient;					// Will store the ontologic entity of the patient
+	private static Individual patient;			// Will store the ontologic entity of the patient
 	static Individual clinicalResearchStudy;
 
 	static String handle;						// Handle is at top for being transmitted to the Import Controller
@@ -126,7 +127,7 @@ public class ImportController {
 				"        }" , "false" ); 	
 	} 
 
-	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
+	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, produces = {"application/json"})
 	public String getResearchStudies() throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException, BadRequestException {   
 		String result = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
 				"          WHERE {\n" + 
@@ -142,7 +143,7 @@ public class ImportController {
 			"3D-DosimetryWorkflow.xsd", "calibrationWorkflow.xsd", "Hybrid-DosimetryWorkflow.xsd","WP2subtask212WorkflowData.xsd"
 			).collect(Collectors.toList());
 					
-	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET)
+	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET, produces = {"application/json"})
 	public String getXSDfilesName() {  
 		JSONArray listeJSON = new JSONArray();
 		try {
@@ -198,7 +199,7 @@ public class ImportController {
 		//return null;
 	} 
 	
-	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = {"application/json"})
+	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, produces = {"application/json"})
 	public String getRequestList() {return Application.listQuerries.getJsonString();} // return request list in JSON
 
 	@RequestMapping(value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
@@ -268,15 +269,6 @@ public class ImportController {
 		TupleQueryResult aResult = null;							    // Create an object to receive the result
 
 		aResult = aQuery.execute();										// Execute Request (StarDog Exception)
-		
-		/*
-		try {aResult = aQuery.execute();}							    // Execute the request
-		
-		catch (StardogException e) {
-			starDogConnection.close();								    // Close the connection to StarDog  if there was an error
-			ResponseEntity<String> error = new ResponseEntity<String>("StardogException", HttpStatus.INTERNAL_SERVER_ERROR);
-			return error.getStatusCode().toString();
-		}*/
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
 		QueryResultIO.writeTuple(aResult, 
@@ -418,10 +410,10 @@ public class ImportController {
 
 		for (DICOMStudyType study : dicomFileSetDescriptor.getDICOMStudy()) {				   				// Iterate on the studies
 			for (DICOMSeriesType series : study.getDICOMSeries() ) {						   				// Iterate on the series
+				studyInstanceUID = study.getDICOMStudyDescriptor().getStudyInstanceUID0020000D();		// Get studyID
+				seriesInstanceUID = series.getDICOMSeriesDescriptor().getSeriesInstanceUID0020000E();	// Get seriesID
 				if(series.getDICOMSeriesDescriptor().getModality00080060().equals("SR")) {	   				// If there is a SR Structured Report
 					logger.info("SR referenced");
-					studyInstanceUID = study.getDICOMStudyDescriptor().getStudyInstanceUID0020000D();		// Get studyID
-					seriesInstanceUID = series.getDICOMSeriesDescriptor().getSeriesInstanceUID0020000E();	// Get seriesID
 					if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
 					else {createAdminConnection(db);}														// If DB provided create a connection these DB
 					retrieveSR(studyInstanceUID, seriesInstanceUID);										// Translate SR
@@ -429,8 +421,6 @@ public class ImportController {
 
 				} else if (series.getDICOMSeriesDescriptor().getModality00080060().equals("CT")) {			// If there is a CT 
 					logger.info("CT referenced");
-					studyInstanceUID = study.getDICOMStudyDescriptor().getStudyInstanceUID0020000D();		// Get studyID
-					seriesInstanceUID = series.getDICOMSeriesDescriptor().getSeriesInstanceUID0020000E();	// Get seriesID
 					if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
 					else {createAdminConnection(db);}														// If DB provided create a connection these DB
 					logger.info("Retrieving CT"+" StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
@@ -473,7 +463,7 @@ public class ImportController {
 
 		return "{\"res\": \"ImportNonDicomFileSetDescriptor Request received\"}";							// Return these message if there's no Error
 	}
-
+	
 	public boolean retrieveSR(String studyInstanceUID, String seriesInstanceUID) throws DicomException, IOException {							// Treat SR (before and after translation)
 		logger.warn("Retrieving SR StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.xml.sax.SAXException;
 
+
 import com.complexible.stardog.StardogException;
 import com.pixelmed.dicom.DicomException;
 
@@ -78,5 +79,11 @@ public class ExceptionHandlerControllerAdvice {
     public void BadRequestHandler() {
     	logger.error("BadRequest");
     }
+    
+//    @ExceptionHandler(InvocationTargetException.class)
+//    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "InvocationTargetException during Request Exception")
+//    public void InvocationTargetException() {
+//    	logger.error("InvocationTargetException");
+//    }
 
 }
