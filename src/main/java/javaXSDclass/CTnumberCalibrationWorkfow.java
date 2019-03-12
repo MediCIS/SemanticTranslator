@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:01 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
@@ -15,17 +15,17 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour CTnumberCalibrationWorkfow complex type.
+ * <p>Classe Java pour CTNumberCalibrationWorkfow complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="CTnumberCalibrationWorkfow">
+ * &lt;complexType name="CTNumberCalibrationWorkfow">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="CTAcqForCTnumberCalibrationCurve" type="{https://www.irdbb-medirad.com}CTacqForCTnumberCalibrationCurve"/>
- *         &lt;element name="CalculationofCTnumberCalibrationcurve" type="{https://www.irdbb-medirad.com}CalculationOfCTnumberCalibrationCurve"/>
+ *         &lt;element name="CTAcqForCTNumberCalibrationCurve" type="{https://www.irdbb-medirad.com}CTAcqForCTNumberCalibrationCurve"/>
+ *         &lt;element name="CalculationOfCTNumberCalibrationCurve" type="{https://www.irdbb-medirad.com}CalculationOfCTNumberCalibrationCurve"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,63 +35,63 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CTnumberCalibrationWorkfow", propOrder = {
-    "ctAcqForCTnumberCalibrationCurve",
-    "calculationofCTnumberCalibrationcurve"
+@XmlType(name = "CTNumberCalibrationWorkfow", propOrder = {
+    "ctAcqForCTNumberCalibrationCurve",
+    "calculationOfCTNumberCalibrationCurve"
 })
-public class CTnumberCalibrationWorkfow {
+public class CTNumberCalibrationWorkfow {
 
-    @XmlElement(name = "CTAcqForCTnumberCalibrationCurve", required = true)
-    protected CTacqForCTnumberCalibrationCurve ctAcqForCTnumberCalibrationCurve;
-    @XmlElement(name = "CalculationofCTnumberCalibrationcurve", required = true)
-    protected CalculationOfCTnumberCalibrationCurve calculationofCTnumberCalibrationcurve;
+    @XmlElement(name = "CTAcqForCTNumberCalibrationCurve", required = true)
+    protected CTAcqForCTNumberCalibrationCurve ctAcqForCTNumberCalibrationCurve;
+    @XmlElement(name = "CalculationOfCTNumberCalibrationCurve", required = true)
+    protected CalculationOfCTNumberCalibrationCurve calculationOfCTNumberCalibrationCurve;
 
     /**
-     * Obtient la valeur de la propriété ctAcqForCTnumberCalibrationCurve.
+     * Obtient la valeur de la propriété ctAcqForCTNumberCalibrationCurve.
      * 
      * @return
      *     possible object is
-     *     {@link CTacqForCTnumberCalibrationCurve }
+     *     {@link CTAcqForCTNumberCalibrationCurve }
      *     
      */
-    public CTacqForCTnumberCalibrationCurve getCTAcqForCTnumberCalibrationCurve() {
-        return ctAcqForCTnumberCalibrationCurve;
+    public CTAcqForCTNumberCalibrationCurve getCTAcqForCTNumberCalibrationCurve() {
+        return ctAcqForCTNumberCalibrationCurve;
     }
 
     /**
-     * Définit la valeur de la propriété ctAcqForCTnumberCalibrationCurve.
+     * Définit la valeur de la propriété ctAcqForCTNumberCalibrationCurve.
      * 
      * @param value
      *     allowed object is
-     *     {@link CTacqForCTnumberCalibrationCurve }
+     *     {@link CTAcqForCTNumberCalibrationCurve }
      *     
      */
-    public void setCTAcqForCTnumberCalibrationCurve(CTacqForCTnumberCalibrationCurve value) {
-        this.ctAcqForCTnumberCalibrationCurve = value;
+    public void setCTAcqForCTNumberCalibrationCurve(CTAcqForCTNumberCalibrationCurve value) {
+        this.ctAcqForCTNumberCalibrationCurve = value;
     }
 
     /**
-     * Obtient la valeur de la propriété calculationofCTnumberCalibrationcurve.
+     * Obtient la valeur de la propriété calculationOfCTNumberCalibrationCurve.
      * 
      * @return
      *     possible object is
-     *     {@link CalculationOfCTnumberCalibrationCurve }
+     *     {@link CalculationOfCTNumberCalibrationCurve }
      *     
      */
-    public CalculationOfCTnumberCalibrationCurve getCalculationofCTnumberCalibrationcurve() {
-        return calculationofCTnumberCalibrationcurve;
+    public CalculationOfCTNumberCalibrationCurve getCalculationOfCTNumberCalibrationCurve() {
+        return calculationOfCTNumberCalibrationCurve;
     }
 
     /**
-     * Définit la valeur de la propriété calculationofCTnumberCalibrationcurve.
+     * Définit la valeur de la propriété calculationOfCTNumberCalibrationCurve.
      * 
      * @param value
      *     allowed object is
-     *     {@link CalculationOfCTnumberCalibrationCurve }
+     *     {@link CalculationOfCTNumberCalibrationCurve }
      *     
      */
-    public void setCalculationofCTnumberCalibrationcurve(CalculationOfCTnumberCalibrationCurve value) {
-        this.calculationofCTnumberCalibrationcurve = value;
+    public void setCalculationOfCTNumberCalibrationCurve(CalculationOfCTNumberCalibrationCurve value) {
+        this.calculationOfCTNumberCalibrationCurve = value;
     }
 
 }

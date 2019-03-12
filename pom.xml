@@ -6,13 +6,71 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework</groupId>
     <artifactId>semanticTranslator</artifactId>
-    <version>0.5.3</version>
+    <version>0.6.2</version>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.0.RELEASE</version>
     </parent>
     <dependencies>
+
+	<dependency>
+		<groupId>org.dcm4che</groupId>
+		<artifactId>dcm4che-imageio</artifactId>
+		<version>3.3.7</version>
+		<exclusions>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+			</exclusion>
+		</exclusions>
+
+	</dependency>
+	<dependency>
+		<groupId>org.dcm4che</groupId>
+		<artifactId>dcm4che-imageio-rle</artifactId>
+		<version>3.3.7</version>
+		<scope>runtime</scope>
+		<exclusions>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+
+	<dependency>
+		<groupId>com.sun.media</groupId>
+		<artifactId>jai_imageio</artifactId>
+		<version>1.2-pre-dr-b04</version>
+		<scope>runtime</scope>
+	</dependency>
+
+	<dependency>
+		<groupId>org.dcm4che.tool</groupId>
+		<artifactId>dcm4che-tool-common</artifactId>
+		<version>3.3.7</version>
+		<scope>compile</scope>
+		<exclusions>
+			<exclusion>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-log4j12</artifactId>
+			</exclusion>
+			<exclusion>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+			</exclusion>
+		</exclusions>
+	</dependency>
+
 	    <dependency>
 		    <groupId>com.amazonaws</groupId>
 		    <artifactId>aws-java-sdk-s3</artifactId>
@@ -127,29 +185,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-
-            <!-- <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jaxb2-maven-plugin</artifactId>
-                <version>2.3.1</version>
-                <executions>
-                    <execution>
-                        <id>xjc-schema</id>
-                        <goals>
-                            <goal>xjc</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/main/resources/xsd/dicomFileSetDescriptor.xsd</source>
-                                <source>src/main/resources/xsd/nonDicomFileSetDescriptor.xsd</source>
-                                <source>src/main/resources/xsd/processusDescriptor.xsd</source>
-                            </sources>
-                            <packageName>repository</packageName>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin> -->
-            
         </plugins>
     </build>
     <repositories>
@@ -171,6 +206,12 @@
      		<id>stardog-public</id>
      		<url>http://maven.stardog.com</url>
    		</repository>
+
+		<repository>
+		    <id>www.dcm4che.org</id>
+		    <name>dcm4che Repository</name>
+		    <url>http://www.dcm4che.org/maven2</url>
+		</repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>

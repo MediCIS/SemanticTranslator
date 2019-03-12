@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:01 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
@@ -11,23 +11,23 @@ package javaXSDclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour anonymous complex type.
+ * <p>Classe Java pour PlanarImageCorrections complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="PlanarImageCorrections">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="Background" type="{https://www.irdbb-medirad.com}complexUnknown"/>
- *         &lt;element name="Scatter" type="{https://www.irdbb-medirad.com}complexUnknown"/>
- *         &lt;element name="correctedNMstatic" type="{https://www.irdbb-medirad.com}complexUnknown"/>
+ *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
+ *         &lt;element name="NMStaticUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="CorrectionsUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="NMStaticCorrectedProduced" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,91 +37,117 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "background",
-    "scatter",
-    "correctedNMstatic"
+@XmlType(name = "PlanarImageCorrections", propOrder = {
+    "processExecutionContext",
+    "nmStaticUsed",
+    "correctionsUsed",
+    "nmStaticCorrectedProduced"
 })
-@XmlRootElement(name = "planarImageCorrections")
 public class PlanarImageCorrections {
 
-    @XmlElement(name = "Background", required = true)
-    protected ComplexUnknown background;
-    @XmlElement(name = "Scatter", required = true)
-    protected ComplexUnknown scatter;
-    @XmlElement(required = true)
-    protected ComplexUnknown correctedNMstatic;
+    @XmlElement(name = "ProcessExecutionContext", required = true)
+    protected ProcessExecutionContext processExecutionContext;
+    @XmlElement(name = "NMStaticUsed", required = true)
+    protected DICOMData nmStaticUsed;
+    @XmlElement(name = "CorrectionsUsed", required = true)
+    protected String correctionsUsed;
+    @XmlElement(name = "NMStaticCorrectedProduced", required = true)
+    protected DICOMData nmStaticCorrectedProduced;
 
     /**
-     * Obtient la valeur de la propriété background.
+     * Obtient la valeur de la propriété processExecutionContext.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link ProcessExecutionContext }
      *     
      */
-    public ComplexUnknown getBackground() {
-        return background;
+    public ProcessExecutionContext getProcessExecutionContext() {
+        return processExecutionContext;
     }
 
     /**
-     * Définit la valeur de la propriété background.
+     * Définit la valeur de la propriété processExecutionContext.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link ProcessExecutionContext }
      *     
      */
-    public void setBackground(ComplexUnknown value) {
-        this.background = value;
+    public void setProcessExecutionContext(ProcessExecutionContext value) {
+        this.processExecutionContext = value;
     }
 
     /**
-     * Obtient la valeur de la propriété scatter.
+     * Obtient la valeur de la propriété nmStaticUsed.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link DICOMData }
      *     
      */
-    public ComplexUnknown getScatter() {
-        return scatter;
+    public DICOMData getNMStaticUsed() {
+        return nmStaticUsed;
     }
 
     /**
-     * Définit la valeur de la propriété scatter.
+     * Définit la valeur de la propriété nmStaticUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link DICOMData }
      *     
      */
-    public void setScatter(ComplexUnknown value) {
-        this.scatter = value;
+    public void setNMStaticUsed(DICOMData value) {
+        this.nmStaticUsed = value;
     }
 
     /**
-     * Obtient la valeur de la propriété correctedNMstatic.
+     * Obtient la valeur de la propriété correctionsUsed.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link String }
      *     
      */
-    public ComplexUnknown getCorrectedNMstatic() {
-        return correctedNMstatic;
+    public String getCorrectionsUsed() {
+        return correctionsUsed;
     }
 
     /**
-     * Définit la valeur de la propriété correctedNMstatic.
+     * Définit la valeur de la propriété correctionsUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link String }
      *     
      */
-    public void setCorrectedNMstatic(ComplexUnknown value) {
-        this.correctedNMstatic = value;
+    public void setCorrectionsUsed(String value) {
+        this.correctionsUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nmStaticCorrectedProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DICOMData }
+     *     
+     */
+    public DICOMData getNMStaticCorrectedProduced() {
+        return nmStaticCorrectedProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété nmStaticCorrectedProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DICOMData }
+     *     
+     */
+    public void setNMStaticCorrectedProduced(DICOMData value) {
+        this.nmStaticCorrectedProduced = value;
     }
 
 }

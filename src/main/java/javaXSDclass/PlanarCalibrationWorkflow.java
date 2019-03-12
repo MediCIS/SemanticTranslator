@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:01 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
@@ -15,19 +15,19 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour planarCalibrationWorkflow complex type.
+ * <p>Classe Java pour PlanarCalibrationWorkflow complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="planarCalibrationWorkflow">
+ * &lt;complexType name="PlanarCalibrationWorkflow">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="planarAcquisition" type="{https://www.irdbb-medirad.com}complexUnknown"/>
- *         &lt;element name="planarImageCorrections" type="{https://www.irdbb-medirad.com}complexUnknown"/>
- *         &lt;element name="planarImageSegmentation" type="{https://www.irdbb-medirad.com}complexUnknown"/>
- *         &lt;element name="planarSensitivityCalculation" type="{https://www.irdbb-medirad.com}complexUnknown"/>
+ *         &lt;element name="PlanarAcquisition" type="{https://www.irdbb-medirad.com}PlanarAcquisition"/>
+ *         &lt;element name="PlanarImageCorrections" type="{https://www.irdbb-medirad.com}PlanarImageCorrections"/>
+ *         &lt;element name="PlanarImageSegmentation" type="{https://www.irdbb-medirad.com}PlanarImageSegmentation"/>
+ *         &lt;element name="PlanarSensitivityCalculation" type="{https://www.irdbb-medirad.com}PlanarSensitivityCalculation"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "planarCalibrationWorkflow", propOrder = {
+@XmlType(name = "PlanarCalibrationWorkflow", propOrder = {
     "planarAcquisition",
     "planarImageCorrections",
     "planarImageSegmentation",
@@ -45,24 +45,24 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class PlanarCalibrationWorkflow {
 
-    @XmlElement(required = true)
-    protected ComplexUnknown planarAcquisition;
-    @XmlElement(required = true)
-    protected ComplexUnknown planarImageCorrections;
-    @XmlElement(required = true)
-    protected ComplexUnknown planarImageSegmentation;
-    @XmlElement(required = true)
-    protected ComplexUnknown planarSensitivityCalculation;
+    @XmlElement(name = "PlanarAcquisition", required = true)
+    protected PlanarAcquisition planarAcquisition;
+    @XmlElement(name = "PlanarImageCorrections", required = true)
+    protected PlanarImageCorrections planarImageCorrections;
+    @XmlElement(name = "PlanarImageSegmentation", required = true)
+    protected PlanarImageSegmentation planarImageSegmentation;
+    @XmlElement(name = "PlanarSensitivityCalculation", required = true)
+    protected PlanarSensitivityCalculation planarSensitivityCalculation;
 
     /**
      * Obtient la valeur de la propriété planarAcquisition.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link PlanarAcquisition }
      *     
      */
-    public ComplexUnknown getPlanarAcquisition() {
+    public PlanarAcquisition getPlanarAcquisition() {
         return planarAcquisition;
     }
 
@@ -71,10 +71,10 @@ public class PlanarCalibrationWorkflow {
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link PlanarAcquisition }
      *     
      */
-    public void setPlanarAcquisition(ComplexUnknown value) {
+    public void setPlanarAcquisition(PlanarAcquisition value) {
         this.planarAcquisition = value;
     }
 
@@ -83,10 +83,10 @@ public class PlanarCalibrationWorkflow {
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link PlanarImageCorrections }
      *     
      */
-    public ComplexUnknown getPlanarImageCorrections() {
+    public PlanarImageCorrections getPlanarImageCorrections() {
         return planarImageCorrections;
     }
 
@@ -95,10 +95,10 @@ public class PlanarCalibrationWorkflow {
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link PlanarImageCorrections }
      *     
      */
-    public void setPlanarImageCorrections(ComplexUnknown value) {
+    public void setPlanarImageCorrections(PlanarImageCorrections value) {
         this.planarImageCorrections = value;
     }
 
@@ -107,10 +107,10 @@ public class PlanarCalibrationWorkflow {
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link PlanarImageSegmentation }
      *     
      */
-    public ComplexUnknown getPlanarImageSegmentation() {
+    public PlanarImageSegmentation getPlanarImageSegmentation() {
         return planarImageSegmentation;
     }
 
@@ -119,10 +119,10 @@ public class PlanarCalibrationWorkflow {
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link PlanarImageSegmentation }
      *     
      */
-    public void setPlanarImageSegmentation(ComplexUnknown value) {
+    public void setPlanarImageSegmentation(PlanarImageSegmentation value) {
         this.planarImageSegmentation = value;
     }
 
@@ -131,10 +131,10 @@ public class PlanarCalibrationWorkflow {
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link PlanarSensitivityCalculation }
      *     
      */
-    public ComplexUnknown getPlanarSensitivityCalculation() {
+    public PlanarSensitivityCalculation getPlanarSensitivityCalculation() {
         return planarSensitivityCalculation;
     }
 
@@ -143,10 +143,10 @@ public class PlanarCalibrationWorkflow {
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link PlanarSensitivityCalculation }
      *     
      */
-    public void setPlanarSensitivityCalculation(ComplexUnknown value) {
+    public void setPlanarSensitivityCalculation(PlanarSensitivityCalculation value) {
         this.planarSensitivityCalculation = value;
     }
 

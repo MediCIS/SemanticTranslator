@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:02 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
@@ -27,8 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="AbsorbedDoseCategory">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="mean absorbed dose normalized to CTDI-free-in-air normalized to tube load"/>
- *               &lt;enumeration value="mean absorbed dose normalized to CTDI-vol normalized to tube load"/>
+ *               &lt;enumeration value="mean absorbed dose normalized to CTDI free in air normalized to tube load"/>
+ *               &lt;enumeration value="mean absorbed dose normalized to CTDI vol normalized to tube load"/>
  *               &lt;enumeration value="mean absorbed radiation dose"/>
  *               &lt;enumeration value="maximum absorbed radiation dose"/>
  *               &lt;enumeration value="minimum absorbed radiation dose"/>
@@ -58,7 +58,7 @@ import javax.xml.bind.annotation.XmlType;
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
- *         &lt;element name="VOI" type="{https://www.irdbb-medirad.com}VOIDescriptorType"/>
+ *         &lt;element name="VOIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -73,7 +73,7 @@ import javax.xml.bind.annotation.XmlType;
     "statisticalSubCategory",
     "absorbedDoseValue",
     "absorbedDoseUnit",
-    "voi"
+    "voiIdentifier"
 })
 public class AbsorbedDosePerVOIType {
 
@@ -85,8 +85,8 @@ public class AbsorbedDosePerVOIType {
     protected String absorbedDoseValue;
     @XmlElement(name = "AbsorbedDoseUnit", required = true)
     protected String absorbedDoseUnit;
-    @XmlElement(name = "VOI", required = true)
-    protected VOIDescriptorType voi;
+    @XmlElement(name = "VOIIdentifier", required = true)
+    protected String voiIdentifier;
 
     /**
      * Obtient la valeur de la propriété absorbedDoseCategory.
@@ -185,27 +185,27 @@ public class AbsorbedDosePerVOIType {
     }
 
     /**
-     * Obtient la valeur de la propriété voi.
+     * Obtient la valeur de la propriété voiIdentifier.
      * 
      * @return
      *     possible object is
-     *     {@link VOIDescriptorType }
+     *     {@link String }
      *     
      */
-    public VOIDescriptorType getVOI() {
-        return voi;
+    public String getVOIIdentifier() {
+        return voiIdentifier;
     }
 
     /**
-     * Définit la valeur de la propriété voi.
+     * Définit la valeur de la propriété voiIdentifier.
      * 
      * @param value
      *     allowed object is
-     *     {@link VOIDescriptorType }
+     *     {@link String }
      *     
      */
-    public void setVOI(VOIDescriptorType value) {
-        this.voi = value;
+    public void setVOIIdentifier(String value) {
+        this.voiIdentifier = value;
     }
 
 }

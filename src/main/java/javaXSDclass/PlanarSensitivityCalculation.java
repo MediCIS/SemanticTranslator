@@ -2,34 +2,34 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:01 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
 package javaXSDclass;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour anonymous complex type.
+ * <p>Classe Java pour PlanarSensitivityCalculation complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="PlanarSensitivityCalculation">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="ROI" type="{https://www.irdbb-medirad.com}ROIdescriptor"/>
- *         &lt;element name="NetplanarSourceActivity" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="CalibrationCoefficient" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PreAdminMeasuredActivity" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PostAdminMeasuredActivity" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
+ *         &lt;element name="ROIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="NMStaticCorrectedUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="CalibrationCoefficientProduced" type="{https://www.irdbb-medirad.com}CalibrationCoefficient"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,145 +39,122 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "roi",
-    "netplanarSourceActivity",
-    "calibrationCoefficient",
-    "preAdminMeasuredActivity",
-    "postAdminMeasuredActivity"
+@XmlType(name = "PlanarSensitivityCalculation", propOrder = {
+    "processExecutionContext",
+    "roiIdentifierUsed",
+    "nmStaticCorrectedUsed",
+    "calibrationCoefficientProduced"
 })
-@XmlRootElement(name = "planarSensitivityCalculation")
 public class PlanarSensitivityCalculation {
 
-    @XmlElement(name = "ROI", required = true)
-    protected ROIdescriptor roi;
-    @XmlElement(name = "NetplanarSourceActivity", required = true)
-    protected String netplanarSourceActivity;
-    @XmlElement(name = "CalibrationCoefficient", required = true)
-    protected String calibrationCoefficient;
-    @XmlElement(name = "PreAdminMeasuredActivity", required = true)
-    protected String preAdminMeasuredActivity;
-    @XmlElement(name = "PostAdminMeasuredActivity", required = true)
-    protected String postAdminMeasuredActivity;
+    @XmlElement(name = "ProcessExecutionContext", required = true)
+    protected ProcessExecutionContext processExecutionContext;
+    @XmlElement(name = "ROIIdentifierUsed", required = true)
+    protected List<String> roiIdentifierUsed;
+    @XmlElement(name = "NMStaticCorrectedUsed", required = true)
+    protected DICOMData nmStaticCorrectedUsed;
+    @XmlElement(name = "CalibrationCoefficientProduced", required = true)
+    protected CalibrationCoefficient calibrationCoefficientProduced;
 
     /**
-     * Obtient la valeur de la propriété roi.
+     * Obtient la valeur de la propriété processExecutionContext.
      * 
      * @return
      *     possible object is
-     *     {@link ROIdescriptor }
+     *     {@link ProcessExecutionContext }
      *     
      */
-    public ROIdescriptor getROI() {
-        return roi;
+    public ProcessExecutionContext getProcessExecutionContext() {
+        return processExecutionContext;
     }
 
     /**
-     * Définit la valeur de la propriété roi.
+     * Définit la valeur de la propriété processExecutionContext.
      * 
      * @param value
      *     allowed object is
-     *     {@link ROIdescriptor }
+     *     {@link ProcessExecutionContext }
      *     
      */
-    public void setROI(ROIdescriptor value) {
-        this.roi = value;
+    public void setProcessExecutionContext(ProcessExecutionContext value) {
+        this.processExecutionContext = value;
     }
 
     /**
-     * Obtient la valeur de la propriété netplanarSourceActivity.
+     * Gets the value of the roiIdentifierUsed property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the roiIdentifierUsed property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getROIIdentifierUsed().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getROIIdentifierUsed() {
+        if (roiIdentifierUsed == null) {
+            roiIdentifierUsed = new ArrayList<String>();
+        }
+        return this.roiIdentifierUsed;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nmStaticCorrectedUsed.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link DICOMData }
      *     
      */
-    public String getNetplanarSourceActivity() {
-        return netplanarSourceActivity;
+    public DICOMData getNMStaticCorrectedUsed() {
+        return nmStaticCorrectedUsed;
     }
 
     /**
-     * Définit la valeur de la propriété netplanarSourceActivity.
+     * Définit la valeur de la propriété nmStaticCorrectedUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link DICOMData }
      *     
      */
-    public void setNetplanarSourceActivity(String value) {
-        this.netplanarSourceActivity = value;
+    public void setNMStaticCorrectedUsed(DICOMData value) {
+        this.nmStaticCorrectedUsed = value;
     }
 
     /**
-     * Obtient la valeur de la propriété calibrationCoefficient.
+     * Obtient la valeur de la propriété calibrationCoefficientProduced.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link CalibrationCoefficient }
      *     
      */
-    public String getCalibrationCoefficient() {
-        return calibrationCoefficient;
+    public CalibrationCoefficient getCalibrationCoefficientProduced() {
+        return calibrationCoefficientProduced;
     }
 
     /**
-     * Définit la valeur de la propriété calibrationCoefficient.
+     * Définit la valeur de la propriété calibrationCoefficientProduced.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link CalibrationCoefficient }
      *     
      */
-    public void setCalibrationCoefficient(String value) {
-        this.calibrationCoefficient = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété preAdminMeasuredActivity.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPreAdminMeasuredActivity() {
-        return preAdminMeasuredActivity;
-    }
-
-    /**
-     * Définit la valeur de la propriété preAdminMeasuredActivity.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPreAdminMeasuredActivity(String value) {
-        this.preAdminMeasuredActivity = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété postAdminMeasuredActivity.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getPostAdminMeasuredActivity() {
-        return postAdminMeasuredActivity;
-    }
-
-    /**
-     * Définit la valeur de la propriété postAdminMeasuredActivity.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setPostAdminMeasuredActivity(String value) {
-        this.postAdminMeasuredActivity = value;
+    public void setCalibrationCoefficientProduced(CalibrationCoefficient value) {
+        this.calibrationCoefficientProduced = value;
     }
 
 }

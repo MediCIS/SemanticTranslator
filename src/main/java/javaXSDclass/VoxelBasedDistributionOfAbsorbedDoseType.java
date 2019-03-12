@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:02 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
@@ -24,11 +24,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
+ *         &lt;element name="VoxelBasedDistributionOfAbsorbedDoseIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="VoxelBasedDistributionOfAbsorbedDoseCategory">
  *           &lt;simpleType>
  *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="absorbed dose normalized to CTDI-free-in-air normalized to tube load"/>
- *               &lt;enumeration value="absorbed dose normalized to CTDI-vol normalized to tube load"/>
+ *               &lt;enumeration value="absorbed dose normalized to CTDI free in air normalized to tube load"/>
+ *               &lt;enumeration value="absorbed dose normalized to CTDI vol normalized to tube load"/>
  *               &lt;enumeration value="absorbed dose"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
@@ -42,8 +43,8 @@ import javax.xml.bind.annotation.XmlType;
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
- *         &lt;element name="NonDICOMVoxelBasedAbsorbedDoseDistribution" type="{https://www.irdbb-medirad.com}NonDICOMDataType" minOccurs="0"/>
- *         &lt;element name="DICOMVoxelBasedAbsorbedDoseDistribution" type="{https://www.irdbb-medirad.com}DICOMDataType" minOccurs="0"/>
+ *         &lt;element name="NonDICOMVoxelBasedAbsorbedDoseDistribution" type="{https://www.irdbb-medirad.com}NonDICOMData" minOccurs="0"/>
+ *         &lt;element name="DICOMVoxelBasedAbsorbedDoseDistribution" type="{https://www.irdbb-medirad.com}DICOMData" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -54,6 +55,7 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VoxelBasedDistributionOfAbsorbedDoseType", propOrder = {
+    "voxelBasedDistributionOfAbsorbedDoseIdentifier",
     "voxelBasedDistributionOfAbsorbedDoseCategory",
     "absorbedDoseUnit",
     "nonDICOMVoxelBasedAbsorbedDoseDistribution",
@@ -61,14 +63,40 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class VoxelBasedDistributionOfAbsorbedDoseType {
 
+    @XmlElement(name = "VoxelBasedDistributionOfAbsorbedDoseIdentifier", required = true)
+    protected String voxelBasedDistributionOfAbsorbedDoseIdentifier;
     @XmlElement(name = "VoxelBasedDistributionOfAbsorbedDoseCategory", required = true)
     protected String voxelBasedDistributionOfAbsorbedDoseCategory;
     @XmlElement(name = "AbsorbedDoseUnit", required = true)
     protected String absorbedDoseUnit;
     @XmlElement(name = "NonDICOMVoxelBasedAbsorbedDoseDistribution")
-    protected NonDICOMDataType nonDICOMVoxelBasedAbsorbedDoseDistribution;
+    protected NonDICOMData nonDICOMVoxelBasedAbsorbedDoseDistribution;
     @XmlElement(name = "DICOMVoxelBasedAbsorbedDoseDistribution")
-    protected DICOMDataType dicomVoxelBasedAbsorbedDoseDistribution;
+    protected DICOMData dicomVoxelBasedAbsorbedDoseDistribution;
+
+    /**
+     * Obtient la valeur de la propriété voxelBasedDistributionOfAbsorbedDoseIdentifier.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getVoxelBasedDistributionOfAbsorbedDoseIdentifier() {
+        return voxelBasedDistributionOfAbsorbedDoseIdentifier;
+    }
+
+    /**
+     * Définit la valeur de la propriété voxelBasedDistributionOfAbsorbedDoseIdentifier.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setVoxelBasedDistributionOfAbsorbedDoseIdentifier(String value) {
+        this.voxelBasedDistributionOfAbsorbedDoseIdentifier = value;
+    }
 
     /**
      * Obtient la valeur de la propriété voxelBasedDistributionOfAbsorbedDoseCategory.
@@ -123,10 +151,10 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
      * 
      * @return
      *     possible object is
-     *     {@link NonDICOMDataType }
+     *     {@link NonDICOMData }
      *     
      */
-    public NonDICOMDataType getNonDICOMVoxelBasedAbsorbedDoseDistribution() {
+    public NonDICOMData getNonDICOMVoxelBasedAbsorbedDoseDistribution() {
         return nonDICOMVoxelBasedAbsorbedDoseDistribution;
     }
 
@@ -135,10 +163,10 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
      * 
      * @param value
      *     allowed object is
-     *     {@link NonDICOMDataType }
+     *     {@link NonDICOMData }
      *     
      */
-    public void setNonDICOMVoxelBasedAbsorbedDoseDistribution(NonDICOMDataType value) {
+    public void setNonDICOMVoxelBasedAbsorbedDoseDistribution(NonDICOMData value) {
         this.nonDICOMVoxelBasedAbsorbedDoseDistribution = value;
     }
 
@@ -147,10 +175,10 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
      * 
      * @return
      *     possible object is
-     *     {@link DICOMDataType }
+     *     {@link DICOMData }
      *     
      */
-    public DICOMDataType getDICOMVoxelBasedAbsorbedDoseDistribution() {
+    public DICOMData getDICOMVoxelBasedAbsorbedDoseDistribution() {
         return dicomVoxelBasedAbsorbedDoseDistribution;
     }
 
@@ -159,10 +187,10 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
      * 
      * @param value
      *     allowed object is
-     *     {@link DICOMDataType }
+     *     {@link DICOMData }
      *     
      */
-    public void setDICOMVoxelBasedAbsorbedDoseDistribution(DICOMDataType value) {
+    public void setDICOMVoxelBasedAbsorbedDoseDistribution(DICOMData value) {
         this.dicomVoxelBasedAbsorbedDoseDistribution = value;
     }
 

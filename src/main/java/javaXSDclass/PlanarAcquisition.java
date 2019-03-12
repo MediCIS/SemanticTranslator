@@ -2,34 +2,30 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:01 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour anonymous complex type.
+ * <p>Classe Java pour PlanarAcquisition complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType>
+ * &lt;complexType name="PlanarAcquisition">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="AcquisitionSettings" type="{https://www.irdbb-medirad.com}complexUnknown" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="phantom" type="{https://www.irdbb-medirad.com}Phantomdescriptor"/>
- *         &lt;element name="NMstatic" type="{https://www.irdbb-medirad.com}complexUnknown"/>
+ *         &lt;element name="PhantomUsed" type="{https://www.irdbb-medirad.com}NMPhantom"/>
+ *         &lt;element name="NMStaticProduced" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,96 +35,63 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "acquisitionSettings",
-    "phantom",
-    "nMstatic"
+@XmlType(name = "PlanarAcquisition", propOrder = {
+    "phantomUsed",
+    "nmStaticProduced"
 })
-@XmlRootElement(name = "planarAcquisition")
 public class PlanarAcquisition {
 
-    @XmlElement(name = "AcquisitionSettings")
-    protected List<ComplexUnknown> acquisitionSettings;
-    @XmlElement(required = true)
-    protected Phantomdescriptor phantom;
-    @XmlElement(name = "NMstatic", required = true)
-    protected ComplexUnknown nMstatic;
+    @XmlElement(name = "PhantomUsed", required = true)
+    protected NMPhantom phantomUsed;
+    @XmlElement(name = "NMStaticProduced", required = true)
+    protected DICOMData nmStaticProduced;
 
     /**
-     * Gets the value of the acquisitionSettings property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the acquisitionSettings property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAcquisitionSettings().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ComplexUnknown }
-     * 
-     * 
-     */
-    public List<ComplexUnknown> getAcquisitionSettings() {
-        if (acquisitionSettings == null) {
-            acquisitionSettings = new ArrayList<ComplexUnknown>();
-        }
-        return this.acquisitionSettings;
-    }
-
-    /**
-     * Obtient la valeur de la propriété phantom.
+     * Obtient la valeur de la propriété phantomUsed.
      * 
      * @return
      *     possible object is
-     *     {@link Phantomdescriptor }
+     *     {@link NMPhantom }
      *     
      */
-    public Phantomdescriptor getPhantom() {
-        return phantom;
+    public NMPhantom getPhantomUsed() {
+        return phantomUsed;
     }
 
     /**
-     * Définit la valeur de la propriété phantom.
+     * Définit la valeur de la propriété phantomUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link Phantomdescriptor }
+     *     {@link NMPhantom }
      *     
      */
-    public void setPhantom(Phantomdescriptor value) {
-        this.phantom = value;
+    public void setPhantomUsed(NMPhantom value) {
+        this.phantomUsed = value;
     }
 
     /**
-     * Obtient la valeur de la propriété nMstatic.
+     * Obtient la valeur de la propriété nmStaticProduced.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link DICOMData }
      *     
      */
-    public ComplexUnknown getNMstatic() {
-        return nMstatic;
+    public DICOMData getNMStaticProduced() {
+        return nmStaticProduced;
     }
 
     /**
-     * Définit la valeur de la propriété nMstatic.
+     * Définit la valeur de la propriété nmStaticProduced.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link DICOMData }
      *     
      */
-    public void setNMstatic(ComplexUnknown value) {
-        this.nMstatic = value;
+    public void setNMStaticProduced(DICOMData value) {
+        this.nmStaticProduced = value;
     }
 
 }

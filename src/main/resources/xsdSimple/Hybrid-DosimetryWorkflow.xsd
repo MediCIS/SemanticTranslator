@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!--Version 009-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -324,7 +325,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			</xs:simpleType>
 		</xs:element>
 				<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
-				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
+				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 

@@ -25,6 +25,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 																									// Contains all functions to create the ontology populated
 	static OntModel populateModel;																	// Model for store the populated graph
 	static OntModel model;																			// Model for store the ontology graph
+	static OntModel dataModel;																		// TEST
 	
 	static String handle; static String patientID; 													
 	static Individual patient; static Individual patientRole;
@@ -37,7 +38,6 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	static String racineMol = "http://purl.bioontology.org/ontology/SNMI/";
 	static String racineURI = "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#";
 
-	
 	protected static final Logger logger = LoggerFactory.getLogger(repository.OntologyPopulator.class);	//logger
 	
 	static Hashtable<String, String> dico;															// dictionnary to store shortcut to ontology adress
@@ -51,15 +51,13 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		populateModel = ModelFactory.createOntologyModel();											// Create an empty graph for store individuals
 		if (model==null) {model = Application.getModel();}
 		if (memory==null) {memory = Application.memory;}
+		if (dataModel==null) {dataModel = Application.dataModel;}
 
-		patient = createIndiv(generateName("Human"), model.getResource(racineURI+"human"));			// create human
-		patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient")); // create patient role
-
-		addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
-
-		if (patientData.getPatientID00100020()!=null) {												// if != null avoid a nullPointerException
+		if (patientData.getPatientID00100020()!=null) {													// if != null avoid a nullPointerException
 			patientID = patientData.getPatientID00100020();
-			addDataProperty(patient, racineURI+"has_id", patientID);
+			patient = memory.getHuman(patientID);														// create human
+			patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient")); // create patient role
+			addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
 		}
 
 		if (patientData.getPatientBirthDate00100030()!=null) {
@@ -117,9 +115,11 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 
 	public static Individual retrieveClinicalResearchStudy(String name) {									// Retrieve the clinical research Study (individual in the ontology)				
 		name=name.trim();
-		System.out.println("retrieveClinicalResearchStudy : "+name);
+		logger.debug("retrieveClinicalResearchStudy : "+name);
 		populateModel = ModelFactory.createOntologyModel();
 		if (model==null) {model = Application.getModel();}
+		if (dataModel==null) {dataModel = Application.dataModel;}
+
 		if (memory==null) {memory = Application.memory;}
 		
 		Individual researchClinicalStudy;
@@ -134,40 +134,63 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	}
 	
 	public static void addDataProperty(Individual ind, String propName, String value) {		// Create a Data property
-		logger.debug("Data Property adding with subjet : "+ind+" predicat : "+propName+" object : "+value);
-		Property prop = populateModel.createDatatypeProperty(propName);
-		ind.addProperty(prop, value);
+		if (ind==null || propName==null || value==null) {
+			logger.error("Data Property adding with subjet : "+ind+" predicat : "+propName+" object : "+value);
+		} else {
+			logger.debug("Data Property adding with subjet : "+ind+" predicat : "+propName+" object : "+value);
+			Property prop = populateModel.createDatatypeProperty(propName);
+			ind.addProperty(prop, value);
+		}
 	}
 
 	public static void addObjectProperty(Individual ind, String propName, Individual ind2) { // Create an Object property
-		logger.debug("Object Property adding with subjet : "+ind+" predicat : "+propName+" object : "+ind2);
-		ObjectProperty prop = populateModel.createObjectProperty(propName);	
-		populateModel.add(ind, prop.asObjectProperty(), ind2);
+		if (ind==null || propName==null || ind2==null) {
+			logger.error("Object Property adding with subjet : "+ind+" predicat : "+propName+" object : "+ind2);
+		} else {
+			logger.debug("Object Property adding with subjet : "+ind+" predicat : "+propName+" object : "+ind2);
+			ObjectProperty prop = populateModel.createObjectProperty(propName);	
+			populateModel.add(ind, prop.asProperty(), ind2);
+		}
 	}
 
 	public static Individual createIndiv(String name, Resource ressource) {					// Create an Individual
-		logger.debug("Creating Individual named "+name+" with classs "+ressource.getLocalName());
-		Individual ind = populateModel.createIndividual(racineURI+name, ressource);
-		return ind;
+		if (name==null || ressource==null) {
+			logger.error("Creating Individual named "+name+" with classs "+ressource.getLocalName());
+			return null;
+		} else {
+			logger.debug("Creating Individual named "+name+" with classs "+ressource.getLocalName());
+			Individual ind = populateModel.createIndividual(racineURI+name, ressource);
+			return ind;
+		}
 	}
 	
 	public static Individual createIndiv(Resource ressource) {								// Create an Individual by punning
-		logger.debug("Creating Individual (punning) "+" with classs "+ressource.getLocalName());
-		Individual ind = populateModel.createIndividual(ressource.getURI(), ressource);
-		return ind;
+		if (ressource==null) {
+			logger.error("Creating Individual (punning) "+" with classs ");
+			return null;
+		} else {
+			logger.debug("Creating Individual (punning) "+" with classs "+ressource.getLocalName());
+			Individual ind = populateModel.createIndividual(ressource.getURI(), ressource);
+			return ind;
+		}
 	}
 
 	public static Individual createIndivWithUnit(String value, String name, 				// Create an Individual with a unit (linked by a object property)
-			String adresseValue, Resource ressource, String adresseProperty) {
-		logger.debug("Creating Individual named "+name+" from "+adresseValue+" with Value and Unit : "+value);
-		Individual indiValue = createIndiv(generateName(name), model.getResource(adresseValue));
-		if (value.split("_")[0].contains(".")) {
-			indiValue.addLiteral(populateModel.createProperty(racineObo+"IAO_0000004"), Double.parseDouble(value.split("_")[0]));
+			String adresseValue, Resource ressource, String adresseProperty) {		
+		if (name==null || ressource==null || adresseValue==null || ressource==null || adresseProperty==null) {
+			logger.error("Creating Individual named "+name+" from "+adresseValue+" with Value and Unit : "+value);
+			return null;
 		} else {
-			indiValue.addLiteral(populateModel.createProperty(racineObo+"IAO_0000004"), Integer.parseInt(value.split("_")[0]));
+			logger.debug("Creating Individual named "+name+" from "+adresseValue+" with Value and Unit : "+value);
+			Individual indiValue = createIndiv(generateName(name), model.getResource(adresseValue));
+			if (value.split("_")[0].contains(".")) {
+				indiValue.addLiteral(populateModel.createProperty(racineObo+"IAO_0000004"), Double.parseDouble(value.split("_")[0]));
+			} else {
+				indiValue.addLiteral(populateModel.createProperty(racineObo+"IAO_0000004"), Integer.parseInt(value.split("_")[0]));
+			}
+			ressource.addProperty(populateModel.createProperty(adresseProperty), indiValue);
+			return indiValue;
 		}
-		ressource.addProperty(populateModel.createProperty(adresseProperty), indiValue);
-		return indiValue;
 	}
 
 	public static void loadDico() throws IOException { 									// Load shortcuts for IRI from a file
@@ -181,6 +204,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
             iri = line.replace(cle+":", "");						// Get IRI 
             dico.put(cle, iri);										// Put in the dictionary
         }
+        br.close();
 	}
 
 	public static Resource getResource(String cle) throws IOException {					// Get resource from dictionary with the shortcut
@@ -1696,6 +1720,9 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			break;
 		case "milligray per (100 milliampere second)":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(100_milliampere_second)")); 
+			break;	
+		case "kiloelectronvolt":
+			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#kiloelectronvolt")); 
 			break;	
 		default:
 			unit = createIndiv(generateName("Unknown_Unit"), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));

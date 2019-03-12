@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 
 public class ListQuerries {
@@ -85,12 +87,15 @@ public class ListQuerries {
 		serializeRequests();
 	}
 	
-	public String getJsonString() {											// Return Querry in JSON format
+	public  JSONArray getJsonString() throws JSONException {											// Return Querry in JSON format
 		JSONArray listeJSON = new JSONArray();								// Create an array in JSON format
 		for (int i=0; i<ListQuerry.size(); i++) {							// Iterate on the querry's list
-			listeJSON.put(ListQuerry.get(i).getJSON());						// Add the querry to the JSON list
+			String strJson = ListQuerry.get(i).getJSON();
+			JSONObject jsonQuerry = null;
+			jsonQuerry = new JSONObject(strJson);
+			listeJSON.put(jsonQuerry);								// Add the querry to the JSON list
 		}
-		return listeJSON.toString();										// Return the JSON list
+		return listeJSON;										// Return the JSON list
 	}
 	
 	public String getRequestListsinCSV() {

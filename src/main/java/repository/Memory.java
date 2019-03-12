@@ -50,12 +50,16 @@ public class Memory extends OntologyPopulator {
 	private LinkedList<String> listMcMethod;
 	private LinkedList<Individual> listIRIMcMethod;
 	
+	private LinkedList<String> listIDsHuman;
+	private LinkedList<Individual> listIRIHuman;
+	
 	public Memory() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
 		initVoidMemory();
 		requestSoftware();
 		requestMCMethod();
 		requestInstit();
 		requestPatientCTImageDS();
+		requestHuman();
 	}
 	
 	private synchronized String[] executeRequest(String request) throws TupleQueryResultHandlerException, QueryEvaluationException, 
@@ -63,11 +67,7 @@ public class Memory extends OntologyPopulator {
 		
 		createAdminConnection(database.ontoMedirad);
 		
-		System.out.println("starDogConnection : ");
-		System.out.println(starDogConnection.name());
-		
-		System.out.println("request : ");
-		System.out.println(request);
+		logger.debug("Request"+request);
 	
 		SelectQuery aQuery = starDogConnection.select(request);
 		//aQuery.limit(10);
@@ -75,7 +75,6 @@ public class Memory extends OntologyPopulator {
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
 		aResult = aQuery.execute();
-		System.out.println("Querry executed");
 
 		out = new ByteArrayOutputStream();
 		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
@@ -143,6 +142,59 @@ public class Memory extends OntologyPopulator {
 
 		listMcMethod = new LinkedList<String>();
 		listIRIMcMethod = new LinkedList<Individual>();
+		
+		listIDsHuman = new LinkedList<String>();
+		listIRIHuman= new LinkedList<Individual>();
+	}
+	
+	
+	public synchronized void testHumans() {
+		for (int i = 0; i<listIDsHuman.size(); i++) {
+			System.out.println(listIDsHuman.get(i)+" ;"+listIRIHuman.get(i));
+		}
+	}
+	
+	
+	public synchronized Individual getHuman(String patientID) {
+		for (int i = 0; i<listIDsHuman.size(); i++) {
+			if (listIDsHuman.get(i).equalsIgnoreCase(patientID)) {
+				return (listIRIPatient.get(i));
+			}
+		}
+	
+		Individual patient = createIndiv(generateName("Human"), model.getResource(racineURI+"human"));	
+		addDataProperty(patient, racineURI+"has_id", patientID);
+		listIDsHuman.add(patientID.trim());
+		listIRIHuman.add(patient);
+		return patient;
+	}
+
+	public synchronized void requestHuman() throws TupleQueryResultHandlerException, QueryEvaluationException, 
+	UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
+		logger.debug("requestHumans");
+		starDogUrl = Application.starDogUrl ;	
+
+		String sparql = "SELECT DISTINCT ?human ?patientID WHERE {\n" + 
+				"				?human rdf:type ontomedirad:human .\n" + 
+				"				?human ontomedirad:has_id ?patientID .\n" + 
+				"				} ORDER BY ?human";
+
+		String[] resultats = executeRequest(sparql);	
+
+		String[] ContenuLignes; String id; String human;
+
+		for (int i=1; i<resultats.length; i++) {
+			ContenuLignes = resultats[i].split(",");
+			human = ContenuLignes[0];
+			id = ContenuLignes[1];
+
+			listIDsHuman.add(id.trim());
+			listIRIHuman.add(model.getIndividual(human.trim()));
+		}
+
+		starDogConnection.close();
+
+		logger.debug("requestHuman OK");
 	}
 
 	public synchronized void setPatient(String SeriesID, String StudyID, Individual patient) {
@@ -179,8 +231,10 @@ public class Memory extends OntologyPopulator {
 	
 	public synchronized Individual getCtDataSet(String SeriesID, String StudyID) {
 		for (int i = 0; i<listSeriesctDataset.size(); i++) {
-			if (listSeriesctDataset.get(i).equalsIgnoreCase(SeriesID.trim()) && listStudyctDataset.get(i).equalsIgnoreCase(StudyID.trim())) {
-				return listIRIctDataset.get(i);
+			if (listSeriesctDataset.get(i).equalsIgnoreCase(SeriesID.trim())) {
+				if (listStudyctDataset.get(i).equalsIgnoreCase(StudyID.trim())) {
+					return listIRIctDataset.get(i);
+				}
 			}
 		}
 		return null;
@@ -239,7 +293,7 @@ public class Memory extends OntologyPopulator {
 	
 	public synchronized void requestSoftware() throws TupleQueryResultHandlerException, QueryEvaluationException, 
 			UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
-		System.out.println("requestSoftware");
+		logger.debug("requestSoftware");
 		starDogUrl = Application.starDogUrl ;	
 
 		String sparql = "SELECT DISTINCT ?software ?nameSoftware WHERE {\n" + 
@@ -262,12 +316,11 @@ public class Memory extends OntologyPopulator {
 		
 		starDogConnection.close();
 		
-		System.out.println("requestSoftware OK");
-		
+		logger.debug("requestSoftware OK");
 	}
 	
 	public synchronized void requestMCMethod() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
-		System.out.println("requestMCMethod");
+		logger.debug("requestMCMethod");
 		starDogUrl = Application.starDogUrl ;	
 				
 		String sparql = "SELECT DISTINCT ?method ?nameMethod WHERE {" + 
@@ -290,11 +343,11 @@ public class Memory extends OntologyPopulator {
 		
 		starDogConnection.close();
 		
-		System.out.println("requestMCMethod OK");
+		logger.debug("requestMCMethod OK");
 	}
 	
 	public synchronized void requestInstit() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
-		System.out.println("requestInstit");
+		logger.debug("requestInstit");
 		starDogUrl = Application.starDogUrl ;	
 				
 		String sparql = "SELECT DISTINCT ?institution ?nameInstit ?roleInstit WHERE {" + 
@@ -320,11 +373,11 @@ public class Memory extends OntologyPopulator {
 		
 		starDogConnection.close();
 		
-		System.out.println("requestInstit OK");
+		logger.debug("requestInstit OK");
 	}
 	
 	public synchronized void requestPatientCTImageDS() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
-		System.out.println("requestPatientCTImageDS");
+		logger.debug("requestPatientCTImageDS");
 		starDogUrl = Application.starDogUrl ;	
 				
 		String sparql = "SELECT DISTINCT ?patient ?CT_ImageDataSet ?handle WHERE {" + 
@@ -358,11 +411,11 @@ public class Memory extends OntologyPopulator {
 		
 		starDogConnection.close();
 		
-		System.out.println("requestPatientCTImageDS OK");
+		logger.debug("requestPatientCTImageDS OK");
 	}
 	
 	public synchronized void setMCMethod(String nameMethod, String iri) {
-		System.out.println("setMCMethod IRI : "+iri+" name : "+nameMethod);
+		logger.debug("setMCMethod IRI : "+iri+" name : "+nameMethod);
 		if (model==null) {model=Application.model;}
 		Individual res = model.createIndividual(iri, model.getResource(racineURI+"Monte_Carlo_CT_dosimetry_method"));
 		
@@ -371,18 +424,16 @@ public class Memory extends OntologyPopulator {
 	}
 
 	public synchronized void setSoftware(String nameSoftware, String iri) {
-		System.out.println("setSoftware IRI : "+iri+" name : "+nameSoftware);
+		logger.debug("setSoftware IRI : "+iri+" name : "+nameSoftware);
 		if (model==null) {model=Application.model;}
-		//Individual res = memoryModel.createIndividual(Application.model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#software"));
 		Individual res = model.createIndividual(iri, model.getResource(racineURI+"software"));
 		
 		listSoftware.add(nameSoftware.trim());
 		listIRIsoftware.add(res);
-		
 	}
 
 	public synchronized void setInstit(String nameInstit, String iriInstit, String iriRole) {
-		System.out.println("setInstit IRI : "+iriInstit+" name : "+nameInstit);
+		logger.debug("setInstit IRI : "+iriInstit+" name : "+nameInstit);
 		if (model==null) {model=Application.model;}
 		
 		Individual instit = model.createIndividual(iriInstit, model.getResource(racineURI+"institution"));

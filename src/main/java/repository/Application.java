@@ -26,11 +26,11 @@ public class Application {
 
 	static Memory memory;												 // Memory will store a few objects without querrying the stardog
 	
-	
 	public static String pathOntology; 									 // Settings that will be read from a file 
-	public static String dockerHost;
+	public static String pacsUrl;
 	public static String starDogUrl;
-	
+	public static String fhirUrl;
+
 	public static OntModel model;										 // Model will store the ontology 
 	public static ListQuerries listQuerries;							 // Object to store the querries list
 				
@@ -39,6 +39,8 @@ public class Application {
 
 	private final static Logger logger = 								 // Object to make logs
 			LoggerFactory.getLogger(Application.class);
+	
+	public static OntModel dataModel;
 		
     public static void main(String[] args) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
         SpringApplication.run(Application.class, args);					 // Spring Boot
@@ -53,12 +55,15 @@ public class Application {
 
         if (express==false) {
         	loadOntology(pathOntology); 								 // load the ontlogy from file (it takes about 3-4 minutes)
-        	memory = new Memory(); 										 // Going to request to get usefull object inside semanti database
+        	memory = new Memory(); 										 // Going to request to get usefull object inside semantic database
         }
         
+		dataModel = ModelFactory.createOntologyModel();
+
         hideLogs = false; 									 			 // Will allow logs to be show
         System.out.println("\n"); 
         System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"); 
+        logger.info("Semantic Translator is ready");
         System.out.println("\n\nSemantic Translator is ready\n\n"); 	 // Now server is ready to receive commands
     }
     
@@ -78,12 +83,14 @@ public class Application {
     	try {
     		input = new FileInputStream("config.properties");   		 // Load file as a stream
     		prop.load(input);								    		 // Extract properties
-    		logger.info("dockerHost : "+prop.getProperty("dockerHost")); // Log the property read in the file
-    		dockerHost = prop.getProperty("dockerHost");				 // Set the property
+    		logger.info("pacsUrl : "+prop.getProperty("pacsUrl")); // Log the property read in the file
+    		pacsUrl = prop.getProperty("pacsUrl");				 // Set the property
     		logger.info("starDogUrl : "+prop.getProperty("starDogUrl"));
     		starDogUrl = prop.getProperty("starDogUrl");
     		logger.info("pathOntology : "+prop.getProperty("pathOntology"));
     		pathOntology = prop.getProperty("pathOntology");
+    		logger.info("fhirUrl : "+prop.getProperty("fhirUrl"));
+    		fhirUrl = prop.getProperty("fhirUrl");
     	} catch (IOException ex) {ex.printStackTrace();}				 // Catch read errors
     	finally {
     		if (input != null) {

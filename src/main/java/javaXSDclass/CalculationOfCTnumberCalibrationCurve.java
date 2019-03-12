@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:01 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
@@ -15,16 +15,18 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour CalculationOfCTnumberCalibrationCurve complex type.
+ * <p>Classe Java pour CalculationOfCTNumberCalibrationCurve complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="CalculationOfCTnumberCalibrationCurve">
+ * &lt;complexType name="CalculationOfCTNumberCalibrationCurve">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="CTnumberCalibrationCurve" type="{https://www.irdbb-medirad.com}complexUnknown"/>
+ *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
+ *         &lt;element name="CTReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="CTNumberCalibrationCurveProduced" type="{https://www.irdbb-medirad.com}CTNumberCalibrationCurve"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -34,36 +36,90 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CalculationOfCTnumberCalibrationCurve", propOrder = {
-    "cTnumberCalibrationCurve"
+@XmlType(name = "CalculationOfCTNumberCalibrationCurve", propOrder = {
+    "processExecutionContext",
+    "ctReconUsed",
+    "ctNumberCalibrationCurveProduced"
 })
-public class CalculationOfCTnumberCalibrationCurve {
+public class CalculationOfCTNumberCalibrationCurve {
 
-    @XmlElement(name = "CTnumberCalibrationCurve", required = true)
-    protected ComplexUnknown cTnumberCalibrationCurve;
+    @XmlElement(name = "ProcessExecutionContext", required = true)
+    protected ProcessExecutionContext processExecutionContext;
+    @XmlElement(name = "CTReconUsed", required = true)
+    protected DICOMData ctReconUsed;
+    @XmlElement(name = "CTNumberCalibrationCurveProduced", required = true)
+    protected CTNumberCalibrationCurve ctNumberCalibrationCurveProduced;
 
     /**
-     * Obtient la valeur de la propriété cTnumberCalibrationCurve.
+     * Obtient la valeur de la propriété processExecutionContext.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link ProcessExecutionContext }
      *     
      */
-    public ComplexUnknown getCTnumberCalibrationCurve() {
-        return cTnumberCalibrationCurve;
+    public ProcessExecutionContext getProcessExecutionContext() {
+        return processExecutionContext;
     }
 
     /**
-     * Définit la valeur de la propriété cTnumberCalibrationCurve.
+     * Définit la valeur de la propriété processExecutionContext.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link ProcessExecutionContext }
      *     
      */
-    public void setCTnumberCalibrationCurve(ComplexUnknown value) {
-        this.cTnumberCalibrationCurve = value;
+    public void setProcessExecutionContext(ProcessExecutionContext value) {
+        this.processExecutionContext = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété ctReconUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DICOMData }
+     *     
+     */
+    public DICOMData getCTReconUsed() {
+        return ctReconUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété ctReconUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DICOMData }
+     *     
+     */
+    public void setCTReconUsed(DICOMData value) {
+        this.ctReconUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété ctNumberCalibrationCurveProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CTNumberCalibrationCurve }
+     *     
+     */
+    public CTNumberCalibrationCurve getCTNumberCalibrationCurveProduced() {
+        return ctNumberCalibrationCurveProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété ctNumberCalibrationCurveProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CTNumberCalibrationCurve }
+     *     
+     */
+    public void setCTNumberCalibrationCurveProduced(CTNumberCalibrationCurve value) {
+        this.ctNumberCalibrationCurveProduced = value;
     }
 
 }

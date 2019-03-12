@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:01 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
@@ -15,21 +15,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour SPECTCTcalibrationworkflow complex type.
+ * <p>Classe Java pour SPECTCTCalibrationWorkflow complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="SPECTCTcalibrationworkflow">
+ * &lt;complexType name="SPECTCTCalibrationWorkflow">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="CTnumberCalibrationWorkfow" type="{https://www.irdbb-medirad.com}CTnumberCalibrationWorkfow" minOccurs="0"/>
- *         &lt;element name="SPECTacqCTAcqAndReconstruction" type="{https://www.irdbb-medirad.com}SPECTaccqCTacqAndReconstruction"/>
- *         &lt;element name="SPECTreconstruction" type="{https://www.irdbb-medirad.com}SPECTreconstruction"/>
- *         &lt;element name="CTsegmentation" type="{https://www.irdbb-medirad.com}CTsegmentation"/>
- *         &lt;element name="SPECTsensitivityCalculation" type="{https://www.irdbb-medirad.com}SPECTsensitivityCalculation"/>
- *         &lt;element name="SPECTrecoveryCurveCalculation" type="{https://www.irdbb-medirad.com}SPECTrecoveryCurveCalculation" minOccurs="0"/>
+ *         &lt;element name="CTNumberCalibrationWorkfow" type="{https://www.irdbb-medirad.com}CTNumberCalibrationWorkfow" minOccurs="0"/>
+ *         &lt;element name="SPECTAcqCTAcqAndReconstruction" type="{https://www.irdbb-medirad.com}SPECTAcqCTAcqAndReconstruction"/>
+ *         &lt;element name="SPECTReconstruction" type="{https://www.irdbb-medirad.com}SPECTReconstruction"/>
+ *         &lt;element name="CTSegmentation" type="{https://www.irdbb-medirad.com}CTSegmentation"/>
+ *         &lt;element name="SPECTSensitivityCalculation" type="{https://www.irdbb-medirad.com}SPECTSensitivityCalculation"/>
+ *         &lt;element name="SPECTRecoveryCurveCalculation" type="{https://www.irdbb-medirad.com}SPECTRecoveryCurveCalculation" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,171 +39,171 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SPECTCTcalibrationworkflow", propOrder = {
-    "cTnumberCalibrationWorkfow",
-    "specTacqCTAcqAndReconstruction",
-    "specTreconstruction",
-    "cTsegmentation",
-    "specTsensitivityCalculation",
-    "specTrecoveryCurveCalculation"
+@XmlType(name = "SPECTCTCalibrationWorkflow", propOrder = {
+    "ctNumberCalibrationWorkfow",
+    "spectAcqCTAcqAndReconstruction",
+    "spectReconstruction",
+    "ctSegmentation",
+    "spectSensitivityCalculation",
+    "spectRecoveryCurveCalculation"
 })
-public class SPECTCTcalibrationworkflow {
+public class SPECTCTCalibrationWorkflow {
 
-    @XmlElement(name = "CTnumberCalibrationWorkfow")
-    protected CTnumberCalibrationWorkfow cTnumberCalibrationWorkfow;
-    @XmlElement(name = "SPECTacqCTAcqAndReconstruction", required = true)
-    protected SPECTaccqCTacqAndReconstruction specTacqCTAcqAndReconstruction;
-    @XmlElement(name = "SPECTreconstruction", required = true)
-    protected SPECTreconstruction specTreconstruction;
-    @XmlElement(name = "CTsegmentation", required = true)
-    protected CTsegmentation cTsegmentation;
-    @XmlElement(name = "SPECTsensitivityCalculation", required = true)
-    protected SPECTsensitivityCalculation specTsensitivityCalculation;
-    @XmlElement(name = "SPECTrecoveryCurveCalculation")
-    protected SPECTrecoveryCurveCalculation specTrecoveryCurveCalculation;
+    @XmlElement(name = "CTNumberCalibrationWorkfow")
+    protected CTNumberCalibrationWorkfow ctNumberCalibrationWorkfow;
+    @XmlElement(name = "SPECTAcqCTAcqAndReconstruction", required = true)
+    protected SPECTAcqCTAcqAndReconstruction spectAcqCTAcqAndReconstruction;
+    @XmlElement(name = "SPECTReconstruction", required = true)
+    protected SPECTReconstruction spectReconstruction;
+    @XmlElement(name = "CTSegmentation", required = true)
+    protected CTSegmentation ctSegmentation;
+    @XmlElement(name = "SPECTSensitivityCalculation", required = true)
+    protected SPECTSensitivityCalculation spectSensitivityCalculation;
+    @XmlElement(name = "SPECTRecoveryCurveCalculation")
+    protected SPECTRecoveryCurveCalculation spectRecoveryCurveCalculation;
 
     /**
-     * Obtient la valeur de la propriété cTnumberCalibrationWorkfow.
+     * Obtient la valeur de la propriété ctNumberCalibrationWorkfow.
      * 
      * @return
      *     possible object is
-     *     {@link CTnumberCalibrationWorkfow }
+     *     {@link CTNumberCalibrationWorkfow }
      *     
      */
-    public CTnumberCalibrationWorkfow getCTnumberCalibrationWorkfow() {
-        return cTnumberCalibrationWorkfow;
+    public CTNumberCalibrationWorkfow getCTNumberCalibrationWorkfow() {
+        return ctNumberCalibrationWorkfow;
     }
 
     /**
-     * Définit la valeur de la propriété cTnumberCalibrationWorkfow.
+     * Définit la valeur de la propriété ctNumberCalibrationWorkfow.
      * 
      * @param value
      *     allowed object is
-     *     {@link CTnumberCalibrationWorkfow }
+     *     {@link CTNumberCalibrationWorkfow }
      *     
      */
-    public void setCTnumberCalibrationWorkfow(CTnumberCalibrationWorkfow value) {
-        this.cTnumberCalibrationWorkfow = value;
+    public void setCTNumberCalibrationWorkfow(CTNumberCalibrationWorkfow value) {
+        this.ctNumberCalibrationWorkfow = value;
     }
 
     /**
-     * Obtient la valeur de la propriété specTacqCTAcqAndReconstruction.
+     * Obtient la valeur de la propriété spectAcqCTAcqAndReconstruction.
      * 
      * @return
      *     possible object is
-     *     {@link SPECTaccqCTacqAndReconstruction }
+     *     {@link SPECTAcqCTAcqAndReconstruction }
      *     
      */
-    public SPECTaccqCTacqAndReconstruction getSPECTacqCTAcqAndReconstruction() {
-        return specTacqCTAcqAndReconstruction;
+    public SPECTAcqCTAcqAndReconstruction getSPECTAcqCTAcqAndReconstruction() {
+        return spectAcqCTAcqAndReconstruction;
     }
 
     /**
-     * Définit la valeur de la propriété specTacqCTAcqAndReconstruction.
+     * Définit la valeur de la propriété spectAcqCTAcqAndReconstruction.
      * 
      * @param value
      *     allowed object is
-     *     {@link SPECTaccqCTacqAndReconstruction }
+     *     {@link SPECTAcqCTAcqAndReconstruction }
      *     
      */
-    public void setSPECTacqCTAcqAndReconstruction(SPECTaccqCTacqAndReconstruction value) {
-        this.specTacqCTAcqAndReconstruction = value;
+    public void setSPECTAcqCTAcqAndReconstruction(SPECTAcqCTAcqAndReconstruction value) {
+        this.spectAcqCTAcqAndReconstruction = value;
     }
 
     /**
-     * Obtient la valeur de la propriété specTreconstruction.
+     * Obtient la valeur de la propriété spectReconstruction.
      * 
      * @return
      *     possible object is
-     *     {@link SPECTreconstruction }
+     *     {@link SPECTReconstruction }
      *     
      */
-    public SPECTreconstruction getSPECTreconstruction() {
-        return specTreconstruction;
+    public SPECTReconstruction getSPECTReconstruction() {
+        return spectReconstruction;
     }
 
     /**
-     * Définit la valeur de la propriété specTreconstruction.
+     * Définit la valeur de la propriété spectReconstruction.
      * 
      * @param value
      *     allowed object is
-     *     {@link SPECTreconstruction }
+     *     {@link SPECTReconstruction }
      *     
      */
-    public void setSPECTreconstruction(SPECTreconstruction value) {
-        this.specTreconstruction = value;
+    public void setSPECTReconstruction(SPECTReconstruction value) {
+        this.spectReconstruction = value;
     }
 
     /**
-     * Obtient la valeur de la propriété cTsegmentation.
+     * Obtient la valeur de la propriété ctSegmentation.
      * 
      * @return
      *     possible object is
-     *     {@link CTsegmentation }
+     *     {@link CTSegmentation }
      *     
      */
-    public CTsegmentation getCTsegmentation() {
-        return cTsegmentation;
+    public CTSegmentation getCTSegmentation() {
+        return ctSegmentation;
     }
 
     /**
-     * Définit la valeur de la propriété cTsegmentation.
+     * Définit la valeur de la propriété ctSegmentation.
      * 
      * @param value
      *     allowed object is
-     *     {@link CTsegmentation }
+     *     {@link CTSegmentation }
      *     
      */
-    public void setCTsegmentation(CTsegmentation value) {
-        this.cTsegmentation = value;
+    public void setCTSegmentation(CTSegmentation value) {
+        this.ctSegmentation = value;
     }
 
     /**
-     * Obtient la valeur de la propriété specTsensitivityCalculation.
+     * Obtient la valeur de la propriété spectSensitivityCalculation.
      * 
      * @return
      *     possible object is
-     *     {@link SPECTsensitivityCalculation }
+     *     {@link SPECTSensitivityCalculation }
      *     
      */
-    public SPECTsensitivityCalculation getSPECTsensitivityCalculation() {
-        return specTsensitivityCalculation;
+    public SPECTSensitivityCalculation getSPECTSensitivityCalculation() {
+        return spectSensitivityCalculation;
     }
 
     /**
-     * Définit la valeur de la propriété specTsensitivityCalculation.
+     * Définit la valeur de la propriété spectSensitivityCalculation.
      * 
      * @param value
      *     allowed object is
-     *     {@link SPECTsensitivityCalculation }
+     *     {@link SPECTSensitivityCalculation }
      *     
      */
-    public void setSPECTsensitivityCalculation(SPECTsensitivityCalculation value) {
-        this.specTsensitivityCalculation = value;
+    public void setSPECTSensitivityCalculation(SPECTSensitivityCalculation value) {
+        this.spectSensitivityCalculation = value;
     }
 
     /**
-     * Obtient la valeur de la propriété specTrecoveryCurveCalculation.
+     * Obtient la valeur de la propriété spectRecoveryCurveCalculation.
      * 
      * @return
      *     possible object is
-     *     {@link SPECTrecoveryCurveCalculation }
+     *     {@link SPECTRecoveryCurveCalculation }
      *     
      */
-    public SPECTrecoveryCurveCalculation getSPECTrecoveryCurveCalculation() {
-        return specTrecoveryCurveCalculation;
+    public SPECTRecoveryCurveCalculation getSPECTRecoveryCurveCalculation() {
+        return spectRecoveryCurveCalculation;
     }
 
     /**
-     * Définit la valeur de la propriété specTrecoveryCurveCalculation.
+     * Définit la valeur de la propriété spectRecoveryCurveCalculation.
      * 
      * @param value
      *     allowed object is
-     *     {@link SPECTrecoveryCurveCalculation }
+     *     {@link SPECTRecoveryCurveCalculation }
      *     
      */
-    public void setSPECTrecoveryCurveCalculation(SPECTrecoveryCurveCalculation value) {
-        this.specTrecoveryCurveCalculation = value;
+    public void setSPECTRecoveryCurveCalculation(SPECTRecoveryCurveCalculation value) {
+        this.spectRecoveryCurveCalculation = value;
     }
 
 }

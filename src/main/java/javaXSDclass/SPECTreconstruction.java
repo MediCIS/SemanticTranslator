@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.10.16 à 03:58:01 PM CEST 
+// Généré le : 2018.12.11 à 04:47:30 PM CET 
 //
 
 
@@ -15,21 +15,22 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour SPECTreconstruction complex type.
+ * <p>Classe Java pour SPECTReconstruction complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="SPECTreconstruction">
+ * &lt;complexType name="SPECTReconstruction">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="Attenuation" type="{https://www.irdbb-medirad.com}complexUnknown" minOccurs="0"/>
- *         &lt;element name="Scatter" type="{https://www.irdbb-medirad.com}complexUnknown" minOccurs="0"/>
- *         &lt;element name="PVE" type="{https://www.irdbb-medirad.com}complexUnknown" minOccurs="0"/>
- *         &lt;element name="PSF" type="{https://www.irdbb-medirad.com}complexUnknown" minOccurs="0"/>
- *         &lt;element name="NMTomoRecon" type="{https://www.irdbb-medirad.com}complexUnknown"/>
- *         &lt;element name="CT" type="{https://www.irdbb-medirad.com}complexUnknown"/>
+ *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
+ *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="NMTomoUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="CTReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="ReconstructionMethodAndCorrectionsUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="CalibrationFactorUsed" type="{https://www.irdbb-medirad.com}CalibrationFactor"/>
+ *         &lt;element name="NMTomoReconProduced" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,171 +40,198 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SPECTreconstruction", propOrder = {
-    "attenuation",
-    "scatter",
-    "pve",
-    "psf",
-    "nmTomoRecon",
-    "ct"
+@XmlType(name = "SPECTReconstruction", propOrder = {
+    "processExecutionContext",
+    "timePointIdentifierUsed",
+    "nmTomoUsed",
+    "ctReconUsed",
+    "reconstructionMethodAndCorrectionsUsed",
+    "calibrationFactorUsed",
+    "nmTomoReconProduced"
 })
-public class SPECTreconstruction {
+public class SPECTReconstruction {
 
-    @XmlElement(name = "Attenuation")
-    protected ComplexUnknown attenuation;
-    @XmlElement(name = "Scatter")
-    protected ComplexUnknown scatter;
-    @XmlElement(name = "PVE")
-    protected ComplexUnknown pve;
-    @XmlElement(name = "PSF")
-    protected ComplexUnknown psf;
-    @XmlElement(name = "NMTomoRecon", required = true)
-    protected ComplexUnknown nmTomoRecon;
-    @XmlElement(name = "CT", required = true)
-    protected ComplexUnknown ct;
+    @XmlElement(name = "ProcessExecutionContext", required = true)
+    protected ProcessExecutionContext processExecutionContext;
+    @XmlElement(name = "TimePointIdentifierUsed", required = true)
+    protected String timePointIdentifierUsed;
+    @XmlElement(name = "NMTomoUsed", required = true)
+    protected DICOMData nmTomoUsed;
+    @XmlElement(name = "CTReconUsed", required = true)
+    protected DICOMData ctReconUsed;
+    @XmlElement(name = "ReconstructionMethodAndCorrectionsUsed", required = true)
+    protected String reconstructionMethodAndCorrectionsUsed;
+    @XmlElement(name = "CalibrationFactorUsed", required = true)
+    protected CalibrationFactor calibrationFactorUsed;
+    @XmlElement(name = "NMTomoReconProduced", required = true)
+    protected DICOMData nmTomoReconProduced;
 
     /**
-     * Obtient la valeur de la propriété attenuation.
+     * Obtient la valeur de la propriété processExecutionContext.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link ProcessExecutionContext }
      *     
      */
-    public ComplexUnknown getAttenuation() {
-        return attenuation;
+    public ProcessExecutionContext getProcessExecutionContext() {
+        return processExecutionContext;
     }
 
     /**
-     * Définit la valeur de la propriété attenuation.
+     * Définit la valeur de la propriété processExecutionContext.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link ProcessExecutionContext }
      *     
      */
-    public void setAttenuation(ComplexUnknown value) {
-        this.attenuation = value;
+    public void setProcessExecutionContext(ProcessExecutionContext value) {
+        this.processExecutionContext = value;
     }
 
     /**
-     * Obtient la valeur de la propriété scatter.
+     * Obtient la valeur de la propriété timePointIdentifierUsed.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link String }
      *     
      */
-    public ComplexUnknown getScatter() {
-        return scatter;
+    public String getTimePointIdentifierUsed() {
+        return timePointIdentifierUsed;
     }
 
     /**
-     * Définit la valeur de la propriété scatter.
+     * Définit la valeur de la propriété timePointIdentifierUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link String }
      *     
      */
-    public void setScatter(ComplexUnknown value) {
-        this.scatter = value;
+    public void setTimePointIdentifierUsed(String value) {
+        this.timePointIdentifierUsed = value;
     }
 
     /**
-     * Obtient la valeur de la propriété pve.
+     * Obtient la valeur de la propriété nmTomoUsed.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link DICOMData }
      *     
      */
-    public ComplexUnknown getPVE() {
-        return pve;
+    public DICOMData getNMTomoUsed() {
+        return nmTomoUsed;
     }
 
     /**
-     * Définit la valeur de la propriété pve.
+     * Définit la valeur de la propriété nmTomoUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link DICOMData }
      *     
      */
-    public void setPVE(ComplexUnknown value) {
-        this.pve = value;
+    public void setNMTomoUsed(DICOMData value) {
+        this.nmTomoUsed = value;
     }
 
     /**
-     * Obtient la valeur de la propriété psf.
+     * Obtient la valeur de la propriété ctReconUsed.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link DICOMData }
      *     
      */
-    public ComplexUnknown getPSF() {
-        return psf;
+    public DICOMData getCTReconUsed() {
+        return ctReconUsed;
     }
 
     /**
-     * Définit la valeur de la propriété psf.
+     * Définit la valeur de la propriété ctReconUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link DICOMData }
      *     
      */
-    public void setPSF(ComplexUnknown value) {
-        this.psf = value;
+    public void setCTReconUsed(DICOMData value) {
+        this.ctReconUsed = value;
     }
 
     /**
-     * Obtient la valeur de la propriété nmTomoRecon.
+     * Obtient la valeur de la propriété reconstructionMethodAndCorrectionsUsed.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link String }
      *     
      */
-    public ComplexUnknown getNMTomoRecon() {
-        return nmTomoRecon;
+    public String getReconstructionMethodAndCorrectionsUsed() {
+        return reconstructionMethodAndCorrectionsUsed;
     }
 
     /**
-     * Définit la valeur de la propriété nmTomoRecon.
+     * Définit la valeur de la propriété reconstructionMethodAndCorrectionsUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link String }
      *     
      */
-    public void setNMTomoRecon(ComplexUnknown value) {
-        this.nmTomoRecon = value;
+    public void setReconstructionMethodAndCorrectionsUsed(String value) {
+        this.reconstructionMethodAndCorrectionsUsed = value;
     }
 
     /**
-     * Obtient la valeur de la propriété ct.
+     * Obtient la valeur de la propriété calibrationFactorUsed.
      * 
      * @return
      *     possible object is
-     *     {@link ComplexUnknown }
+     *     {@link CalibrationFactor }
      *     
      */
-    public ComplexUnknown getCT() {
-        return ct;
+    public CalibrationFactor getCalibrationFactorUsed() {
+        return calibrationFactorUsed;
     }
 
     /**
-     * Définit la valeur de la propriété ct.
+     * Définit la valeur de la propriété calibrationFactorUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link ComplexUnknown }
+     *     {@link CalibrationFactor }
      *     
      */
-    public void setCT(ComplexUnknown value) {
-        this.ct = value;
+    public void setCalibrationFactorUsed(CalibrationFactor value) {
+        this.calibrationFactorUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nmTomoReconProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DICOMData }
+     *     
+     */
+    public DICOMData getNMTomoReconProduced() {
+        return nmTomoReconProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété nmTomoReconProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DICOMData }
+     *     
+     */
+    public void setNMTomoReconProduced(DICOMData value) {
+        this.nmTomoReconProduced = value;
     }
 
 }
