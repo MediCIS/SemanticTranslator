@@ -144,7 +144,7 @@ public class Memory extends OntologyPopulator {
 		listIRIMcMethod = new LinkedList<Individual>();
 		
 		listIDsHuman = new LinkedList<String>();
-		listIRIHuman= new LinkedList<Individual>();
+		listIRIHuman = new LinkedList<Individual>();
 	}
 	
 	
@@ -156,9 +156,9 @@ public class Memory extends OntologyPopulator {
 	
 	
 	public synchronized Individual getHuman(String patientID) {
-		for (int i = 0; i<listIDsHuman.size(); i++) {
+		for (int i = 0; i<listIRIHuman.size(); i++) {
 			if (listIDsHuman.get(i).equalsIgnoreCase(patientID)) {
-				return (listIRIPatient.get(i));
+				return (listIRIHuman.get(i));
 			}
 		}
 	
@@ -173,6 +173,7 @@ public class Memory extends OntologyPopulator {
 	UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
 		logger.debug("requestHumans");
 		starDogUrl = Application.starDogUrl ;	
+		if (model==null) {model=Application.model;}
 
 		String sparql = "SELECT DISTINCT ?human ?patientID WHERE {\n" + 
 				"				?human rdf:type ontomedirad:human .\n" + 

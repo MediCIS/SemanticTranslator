@@ -13,16 +13,21 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -32,6 +37,7 @@ import javax.xml.validation.Validator;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
 
 import org.json.JSONArray;
@@ -76,15 +82,14 @@ import javaXSDclass.DICOMStudyType;
 import javaXSDclass.DicomFileSetDescriptor;
 import javaXSDclass.NonDicomFileSetDescriptor;
 import querries.Querry;
-import repository.TranslateDicomData.TypeDicom;
 
 import org.dcm4che3.data.*;
 
-
 @Controller
 @RestController
-public class ImportController {	
 
+public class ImportController {	
+	
 	static String username = "admin"; 			// Credentials for StarDog
 	static String password = "admin";
 
@@ -112,6 +117,44 @@ public class ImportController {
 
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 
 	
+	@RequestMapping (value = "/getVersion", method = RequestMethod.GET)
+	public String returnVersionNumber()  {
+		String version = "0.6.3c";
+		return version;
+	}
+	
+	@RequestMapping (value = "/downloadOntology", method = RequestMethod.GET)
+	public void downloadOntology(HttpServletResponse response) throws IOException {
+		List<String> srcFiles = Arrays.asList("CHEBI_for_OntoMEDIRAD.owl",
+				"bfo.owl","FMA_for_OntoMEDIRAD.owl","IAO_for_OntoSPM.owl",
+				"MEDIRADClinicalResearchStudies.owl","ontoMedirad.owl",
+				"PATO_for_OntoMEDIRAD.owl","Radionuclides_for_OntoMEDIRAD.owl",
+				"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
+		String zipFileName = "ontoMedirad.zip";
+        FileOutputStream fos = new FileOutputStream(zipFileName);
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        for (String srcFile : srcFiles) {
+            InputStream fis = new ClassPathResource("/OntoMedirad/"+srcFile).getInputStream();
+            ZipEntry zipEntry = new ZipEntry(srcFile);
+            zipOut.putNextEntry(zipEntry);
+            byte[] bytes = new byte[1024];
+            int length;
+            while((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
+            }
+            fis.close();
+        } 
+        zipOut.close();
+        fos.close();
+        
+        File zipFile = new File(zipFileName);
+		Path p = java.nio.file.Paths.get(zipFile.getCanonicalPath().replace(zipFileName, ""), zipFileName);
+        response.setContentType("application/zip");
+        response.addHeader("Content-Disposition", "attachment; filename="+zipFileName);
+        Files.copy(p, response.getOutputStream());
+        response.getOutputStream().flush();
+	}
+
 	@RequestMapping (value = "/testAskomics", method = RequestMethod.GET)
 	public String testAbstractionAskomics()  {
 		
@@ -127,36 +170,150 @@ public class ImportController {
 		return "Tipoui !\n";
 	}
 	
-	@RequestMapping (value = "/test", method = RequestMethod.POST)
-	public String test() {
+	@RequestMapping (value = "/verifRequest", method = RequestMethod.GET)
+	public String verifRequest() {
+
+		String request = "SELECT DISTINCT ?exam ?studydescr ?human ?spectacq ?spectacqclass ?radionucl ?protocolname ?protocoldescr\n" + 
+				"	WHERE {\n" + 
+				"\n" + 
+				" ?spectacq purl:BFO_0000132 ?exam .\n" + 
+				" ?exam ontomedirad:has_description ?studydescr .\n" + 
+				" ?spectacq rdf:type ?spectacqclass .\n" + 
+				" ?spectacqclass rdfs:subClassOf* ontomedirad:SPECT_data_acquisition .\n" + 
+				" ?spectacq ontomedirad:has_protocol ?protocol .\n" + 
+				" ?protocol ontomedirad:has_name ?protocolname .\n" + 
+				" ?protocol ontomedirad:has_description ?protocoldescr .\n" + 
+				" OPTIONAL {?spectacq ontomedirad:has_target_radionuclide ?radionucl}\n" + 
+				"} \n" + 
+				"";
+
+		createAdminConnection(database.ontoMedirad, true); 		  	// Create a connection to a stardog database with reasoning
+
+		SelectQuery aQuery = starDogConnection.select(request);         // Put the request to the StarDog
+
+		TupleQueryResult aResult = aQuery.execute();							    
 		
-		logger.info("Info");
-		logger.debug("Debug");
-		logger.warn("Warn");
-		logger.error("Error");
+		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
+		try {
+			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.JSON, out);
+		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException
+				| IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		String result = out.toString();
+		System.out.println("result :");
 		
-		return "Tipoui !";
+		System.out.println(result);
+
+		System.out.println("Nombre de lignes :"+result.split("\n").length);
+		return "Tipoui !\n";
+
+	}
+
+	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
+	public String testMetadatas() throws IOException, DicomException {      
+		List<String> listeRDF = Stream.of(
+				"pet 66863 000000.dcm",
+				"pet 69357 000000.dcm",
+				"pet ct 13979 000000.dcm",
+				"pet ct 33633 000000.dcm",
+				"pet ct 77667 000000.dcm",
+				
+				"NM_1.2.826.0.1.3680043.2.1143.9044577508240762692299637257578126775.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.4166221461035278595477829423829815483.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.5291241776818564084362627452114139907.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.4439810664766913333893527940924912402.dcm",
+				"NM_1.2.840.113619.2.281.3562.103051.1493996811.123212500.dcm",
+				"NM_22739480.dcm",
+				
+				"CT_1.2.840.113619.2.281.3562.103051.1493996663.372826500.dcm",
+				"CT_1.2.840.113619.2.281.3562.103051.1493996667.372868700.dcm",
+				"CT_1.2.840.113619.2.281.3562.103051.1493996672.372829600.dcm",
+				"CT 96821 000000.dcm",
+				"CT 11200 000000.dcm").collect(Collectors.toList());
+		
+		
+		Iterator<String> RDFIter = listeRDF.iterator();
+		while (RDFIter.hasNext()) {
+			String ClinicalResearchStudyId = "2.1.2";
+			String fileName = RDFIter.next();
+			logger.debug("Reading SR (local file)");	
+			File f = new File(fileName);																	// SR file that will be read 
+
+			org.dcm4che3.io.DicomInputStream input;
+			Attributes obj = null;
+			try {
+				input = new org.dcm4che3.io.DicomInputStream(f);
+				obj = input.readDataset(-1, -1);
+				input.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("\n\n-------------------------------------------------------------------------------------");
+			
+			System.out.println("\t"+fileName);
+			if (obj!=null) {
+				TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
+			}
+
+			/*
+			AttributeList attributeList = new AttributeList();												// Crate an empty attribute that will receive SR Datas
+
+			attributeList.read(f);																			// Read SR from file and put contain in attributeList
+			SR = new StructuredReport(attributeList);														// Convert the attributeList in StructuredReport
+			TranslateDicomData.readingSR((ContentItem) SR.getRoot());										// Read and Translate the SR from the root
+			 */
+			createAdminConnection(database.ontoMedirad);
+			rdfName = fileName.replace(".dcm", ".rdf");	
+			writingRDF(rdfName);	
+			setInStarDog(rdfName);
+			System.out.println("\n\n-------------------------------------------------------------------------------------");
+
+		}
+		//logger.debug("Retrieving SR : No exception catched");
+
+		/*
+		File f = new File(fileName);																	// SR file that will be read 
+
+		org.dcm4che3.io.DicomInputStream input;
+		Attributes obj = null;
+		try {
+			input = new org.dcm4che3.io.DicomInputStream(f);
+			obj = input.readDataset(-1, -1);
+			input.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (obj!=null) {
+			TranslateDicomData.translateDicomMetaData(obj);
+		}
+
+		rdfName = fileName.replace(".dcm", ".rdf");		// Name for the RDF File (won't be overwritten)
+		try {
+			writingRDF(rdfName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}*/
+		return "Tipoui !\n";
 	}
 	
 	@RequestMapping(value = "/importDicomMetadata", method = RequestMethod.POST)	//, headers = "Accept=application/json"
-	public ResponseEntity<String> importDicomMetadata(@RequestBody String kosString) {	
-		System.out.println("importDicomMetadata");
+	public String importDicomMetadata(@RequestBody String kosString) throws IOException, JSONException, DicomException {	
+		logger.info("importDicomMetadata");
 		
-		String clinicalResearchStudyId = null; String KOSFhirId = null;
-		JSONObject kosDescriptor = null;
-		try {
-			kosDescriptor = new JSONObject(kosString);
-			clinicalResearchStudyId = kosDescriptor.getString("clinicalResearchStudyId");
-			KOSFhirId = kosDescriptor.getString("KOSFhirId");
-		} catch (JSONException e1) {
-			e1.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("JSON Exception"); 
-		}
+		String ClinicalResearchStudyId = null; String KOSFhirId = null;
+		JSONObject kosDescriptor = new JSONObject(kosString);
+		ClinicalResearchStudyId = kosDescriptor.getString("ClinicalResearchStudyId");
+		KOSFhirId = kosDescriptor.getString("KOSFhirId");
 		
 		System.out.println("kosDescriptor : ");
 		System.out.println(kosDescriptor);
 		
-		System.out.println("clinicalResearchStudyId : "+clinicalResearchStudyId);
+		System.out.println("ClinicalResearchStudyId : "+ClinicalResearchStudyId);
 		System.out.println("KOSFhirId : "+KOSFhirId);		 
 		
 		ArrayList<String> listCleCT = new ArrayList<String>();
@@ -167,47 +324,21 @@ public class ImportController {
 		String KosURL = fhirUrl+"/baseDstu3/Binary/" + KOSFhirId;  							// URL in FHiR
 		System.out.println(KosURL);
 		
-		URL url;
-		try {
-			url = new URL(KosURL);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Malformed URL : "+KosURL); 
-		}		
+		URL url = new URL(KosURL);
 		
 		HttpURLConnection fhirConnection = null;
 		
-		int code = -1;
-		try {
-			fhirConnection = (HttpURLConnection) url.openConnection();
-			fhirConnection.setRequestMethod("GET");
-			fhirConnection.setRequestProperty("Accept",  "type=application/dicom;"); //multipart/related;
-			code = fhirConnection.getResponseCode();
-		} catch (IOException e) {
-			e.printStackTrace();
-			if (code==-1) {
-				return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Error when connecting to Fhir Server. No response code returned"); 
-			} else {
-				return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Error when connecting to Fhir Server. response code :"+code); 
-			}
-		}
+		fhirConnection = (HttpURLConnection) url.openConnection();
+		fhirConnection.setRequestMethod("GET");
+		fhirConnection.setRequestProperty("Accept",  "type=application/dicom;"); //multipart/related;
 		
 		System.out.println("DicomInputStream");
-		org.dcm4che3.io.DicomInputStream dis = null;
-		Attributes attr = null;
 
-		try {
-			dis = new org.dcm4che3.io.DicomInputStream(fhirConnection.getInputStream());
-			attr = dis.readDataset(-1, -1);
-			dis.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IO Error when reading KOS"); 
-		} 
-
+		org.dcm4che3.io.DicomInputStream dis = new org.dcm4che3.io.DicomInputStream(fhirConnection.getInputStream());
+		Attributes attr  = dis.readDataset(-1, -1);
+		dis.close();
+		
 		Sequence mainSeq = attr.getSequence(Tag.CurrentRequestedProcedureEvidenceSequence);
-
-		//TranslateDicomData.translateDicomMetaData(attr);
 	
 		Iterator<Attributes> itr = mainSeq.iterator();
 
@@ -248,31 +379,12 @@ public class ImportController {
 								testCleCt = false;
 							}
 						}
-						if (testCleCt == true) {
-							
-							try {
-								retrieveDicomFile(studyId, seriesUID);
-							} catch (IOException e) {
-								e.printStackTrace();
-								return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IO Error when reading CT"); 
-
-							}
+						if (testCleCt == true) {						
+							retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
 							listCleCT.add(cleCT);
-							
 						}
-						
 					} else if (ReferencedSOPClassUID.contains("1.2.840.10008.5.1.4.1.1.88")) { // SR
-						try {
-							retrieveSR(studyId, seriesUID);
-						} catch (DicomException e) {
-							e.printStackTrace();
-							return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Dicom Error when reading SR"); 
-						} catch (IOException e) {
-							e.printStackTrace();
-							return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IO Error when reading SR"); 
-
-						}
-					
+						retrieveSR(studyId, seriesUID);
 //						1.2.840.10008.5.1.4.1.1.88.11	Basic Text SR	 
 //						1.2.840.10008.5.1.4.1.1.88.22	Enhanced SR	 
 //						1.2.840.10008.5.1.4.1.1.88.33	Comprehensive SR	 
@@ -283,35 +395,23 @@ public class ImportController {
 //						1.2.840.10008.5.1.4.1.1.88.67	X-Ray Radiation Dose SR
 
 					} else {
-						try {
-							retrieveDicomFile(studyId, seriesUID);
-						} catch (IOException e) {
-							e.printStackTrace();
-							return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IO Error when reading CT"); 
-
-						}
+						retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
 					}
 					
 				}   
 			}
 		}
-		try {
-			dis.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IO Error when reading KOS"); 
-		}
 		
-		return ResponseEntity.status(HttpStatus.OK).body("Tipoui !"); 
+		return "importDicomMetadata Request received"; 
 	}
 		
 	int compteurCT = 0;
 	
-	public void retrieveDicomFile(String studyInstanceUID, String seriesInstanceUID) throws IOException {
+	public void retrieveDicomFile(String studyInstanceUID, String seriesInstanceUID, String ClinicalResearchStudyId) throws IOException {
 		logger.info("Retrieving CT StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
 		
-		String targetURL = "http://"+pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
+		String targetURL = pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
 		handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;						// Handle to retrieve object in the Pacs
 		
 		System.out.println(targetURL);
@@ -336,8 +436,9 @@ public class ImportController {
 		}
 		
 		if (bufsize<=0) { 																				// Correction when bufsize = -1
-			logger.warn("bufsize : "+bufsize+"bufsize corrected to 50");
+			logger.warn("bufsize : "+bufsize);
 			bufsize=50;																					// Buffsize correction (50 is a random number enough big)
+			logger.warn("bufsize corrected to  "+bufsize);
 		} else {
 			logger.debug("bufsize : "+bufsize);
 		}
@@ -356,14 +457,18 @@ public class ImportController {
 			multipartStream.readBodyData(out);															// Write in the file
 		}
 		out.close();
+		if(pacsConnection != null) {pacsConnection.disconnect();}											// Close the connection to the Stardog
+		
 		logger.debug("Reading SR (local file)");	
 		File f = new File(srFilename);																	// SR file that will be read 
 		
-		org.dcm4che3.io.DicomInputStream input = new org.dcm4che3.io.DicomInputStream(f);
-		Attributes obj = input.readDataset(-1, -1);
+		org.dcm4che3.io.DicomInputStream input;
+		Attributes obj;
+		input = new org.dcm4che3.io.DicomInputStream(f);
+		obj = input.readDataset(-1, -1);
 		input.close();
 		
-		TranslateDicomData.translateDicomMetaData(obj, TypeDicom.CT);
+		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
 
 		createAdminConnection(database.ontoMedirad);
 		
@@ -372,62 +477,31 @@ public class ImportController {
 		setInStarDog(rdfName);
 		
 		logger.debug("Retrieving SR : No exception catched");
-		if(pacsConnection != null) {pacsConnection.disconnect(); }											// Close the connection to the Stardog
 	}
 	
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
 	public ResponseEntity<String> getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
-		String res = null;
-		try {
-			res = executeQuerry("  SELECT DISTINCT  ?label ?class\n" + 
-					"           WHERE {\n" + 
-					"        ?class rdf:type owl:Class .\n" + 
-					"        ?class ontomedirad:has_MIME_type ?label .\n" + 
-					"        ?class skos:prefLabel ?classlabel .\n" + 
-					"        FILTER (?classlabel = \""+nonDICOMDataFormat+"\"@en) \n" + 
-					"        }" , "false" );
-		} catch (TupleQueryResultHandlerException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("TupleQueryResultHandlerException"); 				
-		} catch (QueryEvaluationException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("QueryEvaluationException"); 				
-		} catch (UnsupportedQueryResultFormatException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UnsupportedQueryResultFormatException"); 				
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IOException"); 				
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(res); 				
-
+		ResponseEntity<String> res = null;
+		res = executeQuerry("  SELECT DISTINCT  ?label ?class\n" + 
+				"           WHERE {\n" + 
+				"        ?class rdf:type owl:Class .\n" + 
+				"        ?class ontomedirad:has_MIME_type ?label .\n" + 
+				"        ?class skos:prefLabel ?classlabel .\n" + 
+				"        FILTER (?classlabel = \""+nonDICOMDataFormat+"\"@en) \n" + 
+				"        }" , "false" );
+		return res;
 	} 
 
 	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, produces = {"application/json"})
-	public ResponseEntity<String> getResearchStudies() {   
-		String res=null;
-		try {
-			res = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
-					"          WHERE {\n" + 
-					"      ?study rdf:type ontomedirad:clinical_research_study .\n" + 
-					"      ?study ontomedirad:has_id ?id .\n" + 
-					"      ?study ontomedirad:has_name ?name .\n" + 
-					"      ?study ontomedirad:has_description ?description .\n" + 
-					"      }" , "false" );
-		} catch (TupleQueryResultHandlerException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("TupleQueryResultHandlerException"); 				
-		} catch (QueryEvaluationException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("QueryEvaluationException"); 				
-		} catch (UnsupportedQueryResultFormatException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UnsupportedQueryResultFormatException"); 				
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IOException"); 				
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(res); 			
+	public ResponseEntity<String> getResearchStudies() throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {   
+		ResponseEntity<String> res = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
+				"          WHERE {\n" + 
+				"      ?study rdf:type ontomedirad:clinical_research_study .\n" + 
+				"      ?study ontomedirad:has_id ?id .\n" + 
+				"      ?study ontomedirad:has_name ?name .\n" + 
+				"      ?study ontomedirad:has_description ?description .\n" + 
+				"      }" , "false" );
+		return res;
 	} 
 	
 	List<String> listXSDnames = Stream.of("2D-DosimetryWorkflow.xsd", "3D-DosimetrySlide1Workflow.xsd", "3D-DosimetrySlide2Workflow.xsd", 
@@ -461,9 +535,9 @@ public class ImportController {
 			e.printStackTrace();
 		}
 		
-		for (int i=0; i<listXSDnames.size(); i++) {							// Iterate on the querry's list
-							        // Add the querry to the JSON list
-		}
+		//for (int i=0; i<listXSDnames.size(); i++) {							// Iterate on the querry's list
+		//					        // Add the querry to the JSON list
+		//}
 		return listeJSON.toString();	
 	} 
 	
@@ -495,29 +569,26 @@ public class ImportController {
 	} // return request list in JSON
 
 	@RequestMapping(value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
-	public ResponseEntity<String> validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString)  {  // validate request list in JSON
+	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString)  {  // validate request list in JSON
 		logger.info("Validating DicomFileSetDescriptor");			// Log a message 
 		String tmpFilePath = "tmp.xml";
 		InputStream xsdStream;
 		Validator validator;
-		try {
-			PrintWriter out = new PrintWriter(tmpFilePath);
-			out.println(filesetDescriptorString);						// Write XML content to be validated in the file
-			out.close();
-			SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			xsdStream = new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream();
-			Source schemaSource = new StreamSource(xsdStream);
-	        Schema schema = factory.newSchema(schemaSource);
-	        validator = schema.newValidator();
-	        validator.validate(new StreamSource(new File(tmpFilePath)));
-		} catch (IOException e) {
+        try {
+    		PrintWriter out = new PrintWriter(tmpFilePath);
+    		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
+    		out.close();
+    		SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    		xsdStream = new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream();
+    		Source schemaSource = new StreamSource(xsdStream);
+            Schema schema = factory.newSchema(schemaSource);
+            validator = schema.newValidator();
+			validator.validate(new StreamSource(new File(tmpFilePath)));
+		} catch (SAXException | IOException e) {
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IO Error when reading XML or XSD File : "+e.getMessage()); 
-		} catch (SAXException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("XML doesn't match with XSD file : "+e.getMessage()); 
+			return new ValidationReport(false, e.getCause().toString()).getJson();
 		}
-		return ResponseEntity.status(HttpStatus.OK).body(""); 				
+        return new ValidationReport(true, "XML is Valid").getJson();
 	}
 
 	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
@@ -552,10 +623,10 @@ public class ImportController {
 		return true;									   				// Commands seems to be secure
 	}
 	
-	public synchronized String executeQuerry(String request, String isReasoning) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException { // Execute a querry (querry is passed as a string)
+	public synchronized ResponseEntity<String> executeQuerry(String request, String isReasoning) { // Execute a querry (querry is passed as a string)
 		if (GateKeeper(request)==false) {	
 			logger.error("Request refused for Security Reason");
-			return null;
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request refused for Security Reason");
 		} 
 		
 		switch(isReasoning) {										  	// Will create a stardog connection 
@@ -577,12 +648,27 @@ public class ImportController {
 		aResult = aQuery.execute();										// Execute Request (StarDog Exception)
 
 		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
-		QueryResultIO.writeTuple(aResult,                           // Write the request result in the ByteArrayOutputStream
-				TupleQueryResultFormat.JSON, out);
+		try {
+			QueryResultIO.writeTuple(aResult,                           // Write the request result in the ByteArrayOutputStream
+							TupleQueryResultFormat.JSON, out);
+		} catch (TupleQueryResultHandlerException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("TupleQueryResultHandlerException");
+		} catch (QueryEvaluationException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("QueryEvaluationException");
+		} catch (UnsupportedQueryResultFormatException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UnsupportedQueryResultFormatException");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IOException");
+		}	
+		
 		starDogConnection.close();										// Close The Connection to Stardog (despite the errors)
 		aResult.close();												// Close The Object (despite the errors)
 											
-		return out.toString(); // Convert the ByteArrayOutputStream as a string and return it
+		return ResponseEntity.status(HttpStatus.OK).body(out.toString()); // Convert the ByteArrayOutputStream as a string and return it
 	}
 
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
@@ -592,8 +678,8 @@ public class ImportController {
 		Querry q = Application.listQuerries.getRequest(id);             // Retrieve request from the list (can be null if request name is unknown)
 
 		if (q!=null) {											   	    // If request is NOT null
-			String a = executeQuerry(q.getRequest().replaceAll("\"", ""), isReasoning); 	    // Execute the querry and store the result as a string
-			return ResponseEntity.status(HttpStatus.OK).body(a);											        // Return Querry Result
+			ResponseEntity<String> a = executeQuerry(q.getRequest().replaceAll("\"", ""), isReasoning); 	    // Execute the querry and store the result as a string
+			return a;											        // Return Querry Result
 		} else {												        // If request is null
 			logger.error("Unknown Request");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown Request");
@@ -601,14 +687,13 @@ public class ImportController {
 	}
 
 	@RequestMapping( value = "/testRequestControle", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
-	public String TestRequestControle(@RequestParam Map<String,String> requestParams) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException {
+	public String TestRequestControle(@RequestParam Map<String,String> requestParams) throws Exception{
 		System.out.println(requestParams);
 		String name = requestParams.get("name");
 		int valueRef = Integer.parseInt(requestParams.get("valueRef"));
 		String request = "SELECT (COUNT(DISTINCT ?entity) AS ?count) WHERE {?entity rdf:type "+name+" . }";
 		System.out.println(request);
-		String res = null;
-		res = executeQuerry(request,"false");
+		String res = executeQuerry(request,"false").getBody();
 
 		try {
 			int valeur = ((JSONObject) ((JSONObject) ((JSONArray) ((JSONObject) new JSONObject(res).get("results")).getJSONArray("bindings")).get(0)).get("count")).getInt("value");
@@ -624,7 +709,9 @@ public class ImportController {
 	}
 
 	@RequestMapping( value = "/testReturnReq", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
-	public ResponseEntity<String> RequeteTestReturn(@RequestParam("isReasoning") String isReasoning) {
+	public ResponseEntity<String> RequeteTestReturn(@RequestParam("isReasoning") String isReasoning) 
+			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {
+		@SuppressWarnings("unused")
 		String sparql1 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
 				"	WHERE {\n" + 
 				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
@@ -683,19 +770,8 @@ public class ImportController {
 				"?scanner ontomedirad:has_manufacturer_name ?manufacturer .\n" + 
 				"?scanner ontomedirad:has_model_name ?model .\n" + 
 				"}\n";
-		String res = null;
-		try {
-			 res = executeQuerry(sparql1 ,isReasoning);
-		} catch (TupleQueryResultHandlerException e) {
-			e.printStackTrace();
-		} catch (QueryEvaluationException e) {
-			e.printStackTrace();
-		} catch (UnsupportedQueryResultFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(res);
+
+		return executeQuerry(sparql1 ,isReasoning);
 
 	}
 
@@ -713,15 +789,15 @@ public class ImportController {
 	}
 
 	@RequestMapping(value = "/importDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
-	public ResponseEntity<String> importDicomData(@RequestBody DicomFileSetDescriptor dicomFileSetDescriptor,  				// Import Dicom file
+	public String importDicomData(@RequestBody DicomFileSetDescriptor dicomFileSetDescriptor,  				// Import Dicom file
 			@RequestParam(value = "db", required = false) String db)  {						   				// (not required) name of the database
 		logger.info("Dicom Import request received");
 		if (pacsUrl==null) {pacsUrl = Application.pacsUrl ;}
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}
 		if (memory==null) {memory=Application.memory;}														// Memory is used for store some objects
 
-		Individual clinicalResearchStudy = OntologyPopulator.
-				retrieveClinicalResearchStudy(dicomFileSetDescriptor.getReferencedClinicalStudy().getClinicalStudyID());
+		//Individual clinicalResearchStudy = OntologyPopulator.
+		//		retrieveClinicalResearchStudy(dicomFileSetDescriptor.getReferencedClinicalStudy().getClinicalStudyID());
 
 		for (DICOMStudyType study : dicomFileSetDescriptor.getDICOMStudy()) {				   				// Iterate on the studies
 			for (DICOMSeriesType series : study.getDICOMSeries() ) {						   				// Iterate on the series
@@ -734,12 +810,12 @@ public class ImportController {
 					try {
 						retrieveSR(studyInstanceUID, seriesInstanceUID);
 					} catch (DicomException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
-						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("DicomException when reading SR");
 					} catch (IOException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
-						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IOException when reading SR");
-					}										
+					}										// Translate SR
 					starDogConnection.close();																// Close Stardog connection
 
 				} else if (series.getDICOMSeriesDescriptor().getModality00080060().equals("CT")) {			// If there is a CT 
@@ -755,18 +831,17 @@ public class ImportController {
 					try {
 						writingRDF(rdfName);
 					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
-						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FileNotFoundException when writing RDF file");
 					}																	// Write RDF in a file
-					
 					try {
 						setInStarDog(rdfName);
 					} catch (StardogException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
-						return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Error encountered in StarDog");
 					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
 						e.printStackTrace();
-						return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FileNotFoundException when push RDF file to Stardog");
 					}																	// Push RDF file to Stardog
 					starDogConnection.close();																// Close Stardog connection
 				} else {
@@ -775,12 +850,12 @@ public class ImportController {
 				}
 			}
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("ImportDicomFileSetDescriptor Request received");
+		return "ImportDicomFileSetDescriptor Request received";
 	}
 
 	@RequestMapping( value = "/importNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
-	public ResponseEntity<String> importNonDicomData(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor,  	// Import Non Dicom data XML valid file
-			@RequestParam(value = "db", required = false) String db) {						    
+	public String importNonDicomData(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor,  	// Import Non Dicom data XML valid file
+			@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {						    
 
 		if (pacsUrl==null) {pacsUrl = Application.pacsUrl ;}
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}	
@@ -792,62 +867,63 @@ public class ImportController {
 		logger.info("Retrieving NON Dicom FileSetDescriptor");
 		z++;																								// Z is a number for the file name (will avoid overwriting)
 		rdfName = "RdfBackup/nonDicom_study" + nonDicomFileSetDescriptor.getReferencedClinicalResearchStudy().getClinicalResearchStudyID() +"_"+z+".rdf";
-		try {
-			writingRDF(rdfName);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FileNotFoundException when writing RDF file");
-		}																				// Write Semantic Graph in a RDF file
+		writingRDF(rdfName);																				// Write Semantic Graph in a RDF file
 		if (db==null)  {createAdminConnection(database.ontoMedirad);}										// If no DB provided create a connection to ontoMedirad
 		else {createAdminConnection(db);}																	// If DB provided create a connection these DB setInStarDog(rdfName);
-		try {
-			setInStarDog(rdfName);
-		} catch (StardogException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body("Error encountered in StarDog");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("FileNotFoundException when push RDF file to Stardog");
-		}
+		setInStarDog(rdfName);
 		starDogConnection.close();																			// Close Stardog connection
 
-		return ResponseEntity.status(HttpStatus.OK).body("ImportNonDicomFileSetDescriptor Request received");
+		return "{\"res\": \"ImportNonDicomFileSetDescriptor Request received\"}";							// Return these message if there's no Error
 	}
 	
 	public boolean retrieveSR(String studyInstanceUID, String seriesInstanceUID) throws DicomException, IOException {							// Treat SR (before and after translation)
 		logger.info("Retrieving SR StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
-		// Execution has many exceptions
-		String targetURL = "http://"+pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
+		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
+		String targetURL = pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
+
 		handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;						// Handle to retrieve object in the Pacs
 
-		URL url = new URL(targetURL);																	// Create URLfor the connection to Retrieve the SR in DCM4CHEE
-		HttpURLConnection pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
+		logger.debug("targetURL : "+targetURL);
+		
+		HttpURLConnection pacsConnection; 
+		URL url = new URL(targetURL);
+		pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
 		pacsConnection.setRequestMethod("GET");
-		pacsConnection.setRequestProperty("Accept", "multipart/related; type=application/dicom;");
-
+		//pacsConnection.setRequestProperty("Accept",  "multipart/related; type=\"application/dicom;\"");
+		pacsConnection.setRequestProperty("Accept",  "multipart/related; type=application/dicom;");
+		//pacsConnection.setRequestProperty("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+		
+		int responseCode = pacsConnection.getResponseCode();
+        System.out.println("GET Response Code : " + responseCode);
+		
 		String boundary = "";																			// Create object for retrieve SR as a text  
 		String boundaryHeader = "boundary=";															// Same
 		String contentType = pacsConnection.getHeaderField("Content-Type");								// Get header at "Content-Type"
-		int bufsize = pacsConnection.getContentLength();												// Get Length of the SR as a text
+		int bufsize = pacsConnection.getContentLength();	
 
-		String[] contentTypeArray = contentType.split(";");												// Split the text received as a list of String
-		for (String content : contentTypeArray ) {														 
-			if (content.contains(boundaryHeader)) {
-				boundary = content.substring(content.indexOf("=")+1);									// Extract the content
-				logger.debug("Boundary found: " + boundary);
+        System.out.println("Content-Type : " + contentType);
+        System.out.println("getContentLength (bufsize) : " + pacsConnection.getContentLength());
+		
+		if (contentType!=null ) {
+			String[] contentTypeArray = contentType.split(";");											// Split the text received as a list of String
+			for (String content : contentTypeArray ) {														 
+				if (content.contains(boundaryHeader)) {
+					boundary = content.substring(content.indexOf("=")+1);								// Extract the content
+				}
 			}
 		}
-
-		logger.debug("bufsize : "+bufsize);
-		if (bufsize<=0) { 																				// Correction when bufsize = -1
-			bufsize=50;																					// Buffsize correction (50 is a random number enough big)
-			logger.debug("bufsize corrected to  "+bufsize);
+		if (bufsize<=0) { 																			// Correction when bufsize = -1
+			logger.warn("bufsize : "+bufsize);
+			bufsize=100;																				// Buffsize correction (50 is a random number enough big)
+			logger.warn("bufsize corrected to  "+bufsize);
+		} else {
+			logger.debug("bufsize : "+bufsize);
 		}
-
-		MultipartStream multipartStream = new MultipartStream(											// MultipartStream will receive the input stream containing the SR
-				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
-
+		
 		String srFilename = "SR.dcm";																	// Filename for write the SR and read it after
+		MultipartStream multipartStream;
+		multipartStream = new MultipartStream(											     // MultipartStream will receive the input stream containing the SR
+				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
 		logger.debug("Writing SR in : "+srFilename);
 		File file = new File(srFilename);																// Create the file for write the SR
 		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());							// New stream to write in the file
@@ -857,10 +933,9 @@ public class ImportController {
 			multipartStream.readHeaders();																// Header of the part won't be written
 			multipartStream.readBodyData(out);															// Write in the file
 		}
-		out.close();																					// Close the stream to the file
-
-		logger.info("Reading SR (local file)");	
-		File f = new File(srFilename);																	// SR file that will be read 
+		out.close();
+		logger.debug("Reading SR (local file)");	
+		File f = new File(srFilename);																	// SR file that will be read 																	// SR file that will be read 
 		AttributeList attributeList = new AttributeList();												// Crate an empty attribute that will receive SR Datas
 
 		attributeList.read(f);																			// Read SR from file and put contain in attributeList
@@ -932,7 +1007,7 @@ public class ImportController {
 		OntologyPopulator.populateModel.write(sortie, "RDF/XML-ABBREV");					
 
 		logger.info("Writing RDF file Sucessfull");
-	
+		OntologyPopulator.populateModel = ModelFactory.createOntologyModel();
 	}
 
 	public void setInStarDog(String path) throws StardogException, FileNotFoundException  {																	// Import a RDF file in stardog

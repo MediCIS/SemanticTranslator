@@ -10,7 +10,6 @@ import querries.ListQuerries;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.util.FileManager;
 import org.openrdf.query.QueryEvaluationException;
 import org.openrdf.query.TupleQueryResultHandlerException;
 import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
@@ -18,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.core.io.ClassPathResource;
 
 
 
@@ -52,9 +52,9 @@ public class Application {
         }
         
     	listQuerries = new ListQuerries(); 							 	 // Init a querry list (read from the excel file)
+    	loadOntology(pathOntology); 								 // load the ontlogy from file (it takes about 3-4 minutes)
 
         if (express==false) {
-        	loadOntology(pathOntology); 								 // load the ontlogy from file (it takes about 3-4 minutes)
         	memory = new Memory(); 										 // Going to request to get usefull object inside semantic database
         }
         
@@ -67,11 +67,13 @@ public class Application {
         System.out.println("\n\nSemantic Translator is ready\n\n"); 	 // Now server is ready to receive commands
     }
     
-    public static void loadOntology(String pathOntology) {
+    public static void loadOntology(String pathOntology) throws IOException {
 		System.out.println("Loading Ontology ...");
 		model = ModelFactory.createOntologyModel(); 					 // Create empty graph for the ontology
-		InputStream in = FileManager.get().open(pathOntology);      	 // Get the main file
+		//InputStream in = FileManager.get().open(pathOntology);      	 // Get the main file
+		InputStream in = new ClassPathResource(pathOntology).getInputStream();
 		model.read(in, null); 											 // Read the ontology files (it takes about 4 minutes)
+		
 		System.out.println("\nOntology has been Imported Sucesfully\n");
 	}
 	

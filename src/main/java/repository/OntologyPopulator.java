@@ -27,7 +27,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	static OntModel model;																			// Model for store the ontology graph
 	static OntModel dataModel;																		// TEST
 	
-	static String handle; static String patientID; 													
+	static String handle; 											
 	static Individual patient; static Individual patientRole;
 	static Individual i; 																			// i is used to store an indivudual
 	
@@ -54,7 +54,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		if (dataModel==null) {dataModel = Application.dataModel;}
 
 		if (patientData.getPatientID00100020()!=null) {													// if != null avoid a nullPointerException
-			patientID = patientData.getPatientID00100020();
+			String patientID = patientData.getPatientID00100020();
 			patient = memory.getHuman(patientID);														// create human
 			patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient")); // create patient role
 			addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
@@ -125,7 +125,25 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		Individual researchClinicalStudy;
 		
 		if (name.contains("2.1.2") ) {
-			researchClinicalStudy = createIndiv("clinical_research_study_subtask2.1.2", model.getResource(racineURI+"clinical_research_study"));
+			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask2.1.2", model.getResource(racineURI+"clinical_research_study"));
+			return researchClinicalStudy;
+		} else if (name.contains("2.3.2.1") ) {
+			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask2.3.2.1", model.getResource(racineURI+"clinical_research_study"));
+			return researchClinicalStudy;
+		} else if (name.contains("2.3.2.2") ) {
+			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask2.3.2.2", model.getResource(racineURI+"clinical_research_study"));
+			return researchClinicalStudy;
+		} else if (name.contains("5.3.1") ) {
+			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask5.3.1", model.getResource(racineURI+"clinical_research_study"));
+			return researchClinicalStudy;
+		} else if (name.contains("5.3.2") ) {
+			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask5.3.2", model.getResource(racineURI+"clinical_research_study"));
+			return researchClinicalStudy;
+		} else if (name.contains("3.2") ) {
+			researchClinicalStudy = createIndiv("clinical_research_study_755523_task3.2", model.getResource(racineURI+"clinical_research_study"));
+			return researchClinicalStudy;
+		} else if (name.contains("3.3") ) {
+			researchClinicalStudy = createIndiv("clinical_research_study_755523_task3.3", model.getResource(racineURI+"clinical_research_study"));
 			return researchClinicalStudy;
 		} else {
 			researchClinicalStudy = createIndiv("clinical_research_study", model.getResource(racineURI+"clinical_research_study"));
@@ -134,26 +152,40 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	}
 	
 	public static void addDataProperty(Individual ind, String propName, String value) {		// Create a Data property
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
 		if (ind==null || propName==null || value==null) {
-			logger.error("Data Property adding with subjet : "+ind+" predicat : "+propName+" object : "+value);
+			logger.error("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
 		} else {
-			logger.debug("Data Property adding with subjet : "+ind+" predicat : "+propName+" object : "+value);
+			logger.debug("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
 			Property prop = populateModel.createDatatypeProperty(propName);
 			ind.addProperty(prop, value);
 		}
 	}
+	
+	public static void addDataProperty(Individual ind, String propName, Integer value) {		// Create a Data property
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
+		if (ind==null || propName==null || value==null) {
+			logger.error("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
+		} else {
+			logger.debug("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
+			Property prop = populateModel.createDatatypeProperty(propName);
+			ind.addLiteral(prop, value);
+		}
+	}
 
 	public static void addObjectProperty(Individual ind, String propName, Individual ind2) { // Create an Object property
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
 		if (ind==null || propName==null || ind2==null) {
-			logger.error("Object Property adding with subjet : "+ind+" predicat : "+propName+" object : "+ind2);
+			logger.error("Object Property adding with subject : "+ind+" predicat : "+propName+" object : "+ind2);
 		} else {
-			logger.debug("Object Property adding with subjet : "+ind+" predicat : "+propName+" object : "+ind2);
+			logger.debug("Object Property adding with subject : "+ind+" predicat : "+propName+" object : "+ind2);
 			ObjectProperty prop = populateModel.createObjectProperty(propName);	
-			populateModel.add(ind, prop.asProperty(), ind2);
+			populateModel.add(ind, prop.asObjectProperty(), ind2);
 		}
 	}
 
 	public static Individual createIndiv(String name, Resource ressource) {					// Create an Individual
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
 		if (name==null || ressource==null) {
 			logger.error("Creating Individual named "+name+" with classs "+ressource.getLocalName());
 			return null;
@@ -165,6 +197,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	}
 	
 	public static Individual createIndiv(Resource ressource) {								// Create an Individual by punning
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
 		if (ressource==null) {
 			logger.error("Creating Individual (punning) "+" with classs ");
 			return null;
@@ -177,6 +210,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 
 	public static Individual createIndivWithUnit(String value, String name, 				// Create an Individual with a unit (linked by a object property)
 			String adresseValue, Resource ressource, String adresseProperty) {		
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
 		if (name==null || ressource==null || adresseValue==null || ressource==null || adresseProperty==null) {
 			logger.error("Creating Individual named "+name+" from "+adresseValue+" with Value and Unit : "+value);
 			return null;
@@ -189,6 +223,8 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 				indiValue.addLiteral(populateModel.createProperty(racineObo+"IAO_0000004"), Integer.parseInt(value.split("_")[0]));
 			}
 			ressource.addProperty(populateModel.createProperty(adresseProperty), indiValue);
+			logger.debug("UNIT : "+value.split("_")[1]);
+			addObjectProperty(indiValue, racineObo+"IAO_0000039", getUnit(value.split("_")[1]));
 			return indiValue;
 		}
 	}
@@ -221,7 +257,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		} return dico.get(cle);
 	}
 
-	public static ArrayList<Individual> createIndividualOrgan(String name, ContentItem e) {  // Special function used to send a list of organs (DICOM)
+	public static ArrayList<Individual> createIndividualOrgan(String name, ContentItem e, String patientID) {  // Special function used to send a list of organs (DICOM)
 		ArrayList<Individual> listOrgans = new ArrayList<Individual>();
 		Individual indOrgane = null; ContentItem lat; String latStr;
 		logger.debug("Creating Organ (Individual) from organ name : "+name);
@@ -1210,10 +1246,11 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		return listOrgans;
 	}
 
-	public static ArrayList<Individual> createIndividualOrgan(String name) {				 // Special function used to send a list of organs (non DICOM)
+	public static ArrayList<Individual> createIndividualOrgan(String name, String patientID) {				 // Special function used to send a list of organs (non DICOM)
 		ArrayList<Individual> listOrgans = new ArrayList<Individual>();
 		Individual indOrgane = null; 
 		logger.debug("Creating Organ (Individual) from organ name : "+name);
+		name=name.toLowerCase();
 		switch (name) {
 
 		// nonDicomFileSetDescriptor
@@ -1237,121 +1274,118 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			listOrgans.add(indOrgane); break;
 
 			//CID 4030
-		case "Abdominal_aorta":
+		case "abdominal_aorta":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_3789")); 
 			listOrgans.add(indOrgane); break;
-		case "Adrenal_gland":
+		case "adrenal_gland":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9604")); 
 			listOrgans.add(indOrgane); break;
-		case "Aortic_arch":
+		case "aortic_arch":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_3768")); 
 			listOrgans.add(indOrgane); break;
-		case "Brain":
+		case "brain":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_50801")); 
 			listOrgans.add(indOrgane); break;
-		case "Carotid_Artery":
+		case "carotid_Artery":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_3939"));  
 			listOrgans.add(indOrgane); break;
-		case "Cerebellum":
+		case "cerebellum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_67944")); 
 			listOrgans.add(indOrgane); break;
-		case "Circle_of_Willis":
+		case "circle_of_willis":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_50454"));  
 			listOrgans.add(indOrgane); break;
-		case "Coronary_artery":
+		case "coronary_artery":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_49893")); 
 			listOrgans.add(indOrgane); break;
-		case "Cranial_venous_system":
+		case "cranial_venous_system":
 			logger.warn("Unknown Organ Name : "+name);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineURI+"owl:nothing")); 
 			listOrgans.add(indOrgane); break;
-		case "Iliac_and/or_femoral artery":
+		case "iliac_and/or_femoral_artery":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_70248"));
 			listOrgans.add(indOrgane); break;
-		case "Kidney":
+		case "kidney":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7203")); 
 			listOrgans.add(indOrgane); break;
-		case "Liver":
+		case "liver":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7197")); 
 			listOrgans.add(indOrgane); break;
-		case "Pancreas":
+		case "pancreas":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7198")); 
 			listOrgans.add(indOrgane); break;
-		case "Parathyroid":
+		case "parathyroid":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_13890"));
 			listOrgans.add(indOrgane); break;
-		case "Pulmonary_artery":
+		case "pulmonary_artery":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_66326"));
 			listOrgans.add(indOrgane); break;
-		case "Renal_artery":
+		case "renal_artery":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_14751"));
 			listOrgans.add(indOrgane); break;
-		case "Spleen":
+		case "spleen":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7196"));
 			listOrgans.add(indOrgane); break;
-		case "Testis":
+		case "testis":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7210"));
 			listOrgans.add(indOrgane); break;
-		case "Thoracic_aorta":
+		case "thoracic_aorta":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_3786"));
 			listOrgans.add(indOrgane); break;
-		case "Thymus":
+		case "thymus":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9609")); 
 			listOrgans.add(indOrgane); break;
-		case "Thyroid":
+		case "thyroid":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9603"));
 			listOrgans.add(indOrgane); break;
-		case "Uterus":
+		case "uterus":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_17558")); 
 			listOrgans.add(indOrgane); break;
 
 			// CID 4031
-		case "Abdomen":
+		case "abdomen":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9577"));
 			listOrgans.add(indOrgane); break;
-		case "Abdomen_and_Pelvis":
+		case "abdomen_and_pelvis":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9577")); 
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9578")); 
 			listOrgans.add(indOrgane);
 			break;
-		case "Acromioclavicular_joint":
+		case "acromioclavicular_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_25898"));
 			listOrgans.add(indOrgane); break;
-		case "Ankle_joint":
+		case "ankle_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_35195"));
 			listOrgans.add(indOrgane); break;
-		case "Anus":
+		case "anus":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_15711")); 
 			listOrgans.add(indOrgane); break;
-		case "Apex_of_Lung":
+		case "apex_of_lung":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7319"));
 			listOrgans.add(indOrgane); break;
-		case "Bile_duct":
+		case "bile_duct":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9706")); 
 			listOrgans.add(indOrgane); break;
-		case "Bladder":
+		case "bladder":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_15900"));
 			listOrgans.add(indOrgane); break;
-		case "Bone_of_lower_limb":
+		case "bone_of_lower_limb":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24140"));
 			listOrgans.add(indOrgane); break;
-		case "Bone_of_upper_limb":
+		case "bone_of_upper_limb":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24139"));
 			listOrgans.add(indOrgane); break;
-		case "Breast":
-			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9601")); //aproximatif : sexe
-			listOrgans.add(indOrgane); break;
-		case "Bronchus":
+		case "bronchus":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7409"));
 			listOrgans.add(indOrgane); break;
-		case "Calcaneus":
+		case "calcaneus":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24496"));
 			listOrgans.add(indOrgane); break;
-		case "Cervical_spine":
+		case "cervical_spine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24138"));
 			listOrgans.add(indOrgane); break;
-		case "Cervico-thoracic_spine":
+		case "cervico-thoracic_spine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9140"));
 			listOrgans.add(indOrgane); break;
 		case "chest":
@@ -1371,155 +1405,149 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9578")); //aproximatif : multiple & sexe
 			listOrgans.add(indOrgane);
 			break;
-		case "Clavicle":
+		case "clavicle":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_13321"));
 			listOrgans.add(indOrgane); break;
-		case "Coccyx":
+		case "coccyx":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_20229"));
 			listOrgans.add(indOrgane); break;
-		case "Colon":
+		case "colon":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7201"));
 			listOrgans.add(indOrgane); break;
-		case "Duodenum":
+		case "cuodenum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7206"));
 			listOrgans.add(indOrgane); break;
-		case "Elbow_joint":
+		case "elbow_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_32289"));
 			listOrgans.add(indOrgane); break;
-		case "Entire_body":
+		case "entire_body":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_256135"));
 			listOrgans.add(indOrgane); break;
-		case "Esophagus":
-			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7131"));
-			listOrgans.add(indOrgane); break;
-		case "Esophagus,_stomach_and_duodenum":
+		case "esophagus,_stomach_and_duodenum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7131"));
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7148"));
 			listOrgans.add(indOrgane);	 
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7206"));
 			listOrgans.add(indOrgane); break;
-		case "Extremity":
+		case "extremity":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7182"));
 			listOrgans.add(indOrgane); break;
-		case "Eye":
+		case "eye":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_54448"));
 			listOrgans.add(indOrgane); break;
-		case "Eye_region":
+		case "eye_region":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_54237"));
 			listOrgans.add(indOrgane); break;
-		case "Femur":
+		case "femur":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9611"));
 			listOrgans.add(indOrgane); break;
-		case "Fibula":
+		case "fibula":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24479"));
 			listOrgans.add(indOrgane); break;
-		case "Finger":
+		case "finger":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9666"));
 			listOrgans.add(indOrgane); break;
-		case "Foot":
+		case "foot":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9664"));
 			listOrgans.add(indOrgane); break;
-		case "Forearm":
+		case "forearm":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9663"));
 			listOrgans.add(indOrgane); break;
-		case "Gallbladder":
+		case "gallbladder":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7202"));
 			listOrgans.add(indOrgane); break;
-		case "Hand":
+		case "hand":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9712"));
 			listOrgans.add(indOrgane); break;
-		case "Head":
+		case "head":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7154"));
 			listOrgans.add(indOrgane); break;
-		case "Head_and_Neck":
+		case "head_and_neck":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7154"));
 			listOrgans.add(indOrgane); 
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7155"));
 			listOrgans.add(indOrgane);
 			break;
-		case "Heart":
-			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7088"));
-			listOrgans.add(indOrgane); break;
-		case "Hip_joint":
+		case "hip_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_35178"));
 			listOrgans.add(indOrgane); break;
-		case "Humerus":
+		case "humerus":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_13303"));
 			listOrgans.add(indOrgane); break;
-		case "Ileum":
+		case "ileum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7208"));
 			listOrgans.add(indOrgane); break;
-		case "Ilium":
+		case "ilium":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_16589"));
 			listOrgans.add(indOrgane); break;
-		case "Internal_Auditory_Canal":
+		case "internal_auditory_canal":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_53163"));
 			listOrgans.add(indOrgane); break;
-		case "Jaw_region":
+		case "jaw_region":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_54396"));
 			listOrgans.add(indOrgane); break;
-		case "Jejunum":
+		case "jejunum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7207"));
 			listOrgans.add(indOrgane); break;
-		case "Knee":
+		case "knee":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24974"));
 			listOrgans.add(indOrgane); break;
-		case "Large_intestine":
+		case "large_intestine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7201"));
 			listOrgans.add(indOrgane); break;
-		case "Larynx":
+		case "larynx":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_55097"));
 			listOrgans.add(indOrgane); break;
-		case "Lower_leg":
+		case "lower_leg":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24979"));
 			listOrgans.add(indOrgane); break;
-		case "Lower_limb":
+		case "lower_limb":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7184"));
 			listOrgans.add(indOrgane); break;
-		case "Lumbar_spine":
+		case "lumbar_spine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_65469"));
 			listOrgans.add(indOrgane); break;
-		case "Lumbo-sacral_spine":
+		case "lumbo-sacral_spine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_65535"));
 			listOrgans.add(indOrgane); break;
-		case "Mandible":
+		case "mandible":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_52748"));
 			listOrgans.add(indOrgane); break;
-		case "Mastoid_bone":
+		case "mastoid_bone":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_56088"));
 			listOrgans.add(indOrgane); break;
-		case "Maxilla":
+		case "maxilla":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9711"));
 			listOrgans.add(indOrgane); break;
-		case "Mediastinum":
+		case "mediastinum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9826"));
 			listOrgans.add(indOrgane); break;
-		case "Muscle_of_lower_limb":
+		case "muscle_of_lower_limb":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9622"));
 			listOrgans.add(indOrgane); break;
-		case "Muscle_of_upper_limb":
+		case "muscle_of_upper_limb":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9621"));
 			listOrgans.add(indOrgane); break;
-		case "Nasal_bone":
+		case "nasal_bone":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_52745"));
 			listOrgans.add(indOrgane); break;
-		case "Neck":
+		case "neck":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7155"));
 			listOrgans.add(indOrgane); break;
-		case "Neck_and_chest	":	
+		case "neck_and_chest	":	
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7155"));
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9576"));
 			listOrgans.add(indOrgane); break;
-		case "Neck,_chest_and_Abdomen":
+		case "neck,_chest_and_abdomen":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7155"));
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9576"));
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9577")); 
 			listOrgans.add(indOrgane);break;
-		case "Neck,_chest,_Abdomen_and_Pelvis":
+		case "neck,_chest,_abdomen_and_pelvis":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7155"));
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9576")); 
@@ -1529,141 +1557,141 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9578")); // approximatif : sexe
 			listOrgans.add(indOrgane);	
 			break;
-		case "Optic_canal":
+		case "optic_canal":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_54774"));
 			listOrgans.add(indOrgane); break;
-		case "Orbital_structure":
+		case "Oorbital_structure":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_54448"));
 			listOrgans.add(indOrgane); break;
-		case "Pancreatic_duct_and_bile_duct_systems":
+		case "pancreatic_duct_and_bile_duct_systems":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_10419")); 
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9706")); 
 			listOrgans.add(indOrgane);
 			break;
-		case "Paranasal_sinus":
+		case "paranasal_sinus":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_59679"));
 			listOrgans.add(indOrgane); break;
-		case "Parotid_gland":
+		case "parotid_gland":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_59790"));
 			listOrgans.add(indOrgane); break;
-		case "Patella":
+		case "patella":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24485"));
 			listOrgans.add(indOrgane); break;
-		case "Pelvis":
+		case "pelvis":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9578")); //aproximatif : sexe
 			listOrgans.add(indOrgane); break;
-		case "Pelvis_and_lower_extremities":
+		case "pelvis_and_lower_extremities":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9578")); //aproximatif : sexe 
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7184")); 
 			listOrgans.add(indOrgane);			
 			break;
-		case "Phantom":
+		case "phantom":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineURI+"phantom_device")); 
 			listOrgans.add(indOrgane); break;
-		case "Prostate":
+		case "prostate":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9600")); 
 			listOrgans.add(indOrgane); break;
-		case "Rectum":
+		case "rectum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_14544")); 
 			listOrgans.add(indOrgane); break;
-		case "Rib":
+		case "rib":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7574"));
 			listOrgans.add(indOrgane); break;
-		case "Sacroiliac_joint":
+		case "sacroiliac_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_21440"));
 			listOrgans.add(indOrgane); break;
-		case "Sacrum":
+		case "sacrum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_16202"));
 			listOrgans.add(indOrgane); break;
-		case "Scapula":
+		case "scapula":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_13394"));
 			listOrgans.add(indOrgane); break;
-		case "Sella_turcica":
+		case "sella_turcica":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_54709"));
 			listOrgans.add(indOrgane); break;
-		case "Sesamoid_bones_of_foot":
+		case "sesamoid_bones_of_foot":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_71341"));
 			listOrgans.add(indOrgane); break;
-		case "Shoulder":
+		case "shoulder":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_25202"));
 			listOrgans.add(indOrgane); break;
-		case "Skull":
+		case "skull":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_46565")); 
 			listOrgans.add(indOrgane); break;
-		case "Small_intestine":
+		case "small_intestine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7200")); 
 			listOrgans.add(indOrgane); break;
-		case "Spine":
+		case "spine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_13478"));
 			listOrgans.add(indOrgane); break;
-		case "Sternoclavicular_joint":
+		case "sternoclavicular_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_25883"));
 			listOrgans.add(indOrgane); break;
-		case "Sternum":
+		case "sternum":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7485"));
 			listOrgans.add(indOrgane); break;
-		case "Stomach":
+		case "stomach":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7148")); 
 			listOrgans.add(indOrgane); break;
-		case "Submandibular_gland":
+		case "submandibular_gland":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_55093"));
 			listOrgans.add(indOrgane); break;
-		case "Tarsal_joint":
+		case "tarsal_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24491"));
 			listOrgans.add(indOrgane); break;
-		case "Temporomandibular_joint":
+		case "temporomandibular_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_54832"));
 			listOrgans.add(indOrgane); break;
-		case "Thigh":
+		case "thigh":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24967"));
 			listOrgans.add(indOrgane); break;
-		case "Thoracic_spine":
+		case "thoracic_spine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9140"));
 			listOrgans.add(indOrgane); break;
-		case "Thoraco-lumbar_spine":
+		case "thoraco-lumbar_spine":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9921"));
 			listOrgans.add(indOrgane); break;
-		case "Thumb":
+		case "thumb":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24938"));
 			listOrgans.add(indOrgane); break;
-		case "Toe":
+		case "toe":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_25046"));
 			listOrgans.add(indOrgane); break;
-		case "Trachea":
+		case "trachea":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7394"));
 			listOrgans.add(indOrgane); break;
-		case "Upper_arm":
+		case "upper_arm":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_24890")); 
 			listOrgans.add(indOrgane); break;
-		case "Upper_limb":
+		case "upper_limb":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_7183"));
 			listOrgans.add(indOrgane); break;
-		case "Upper_urinary_tract":
+		case "upper_urinary_tract":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_45658"));
 			listOrgans.add(indOrgane);
 			break;
-		case "Ureter":
+		case "ureter":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_9704")); 
 			listOrgans.add(indOrgane); break;
-		case "Urethra":
+		case "urethra":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_19667")); 
 			listOrgans.add(indOrgane); break;
-		case "Uterus_and_fallopian_tubes":
+		case "yterus_and_fallopian_tubes":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_17558")); // completer
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_18245"));
 			listOrgans.add(indOrgane); break;
-		case "Vertebral_column_and_cranium":
+		case "vertebral_column_and_cranium":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_13478"));
 			listOrgans.add(indOrgane);
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_46565"));
 			listOrgans.add(indOrgane); break;
-		case "Wrist_joint":
+		case "wrist_joint":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_35291"));
 			listOrgans.add(indOrgane); break;
-		case "Zygoma":
+		case "zygoma":
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_52747"));
 			listOrgans.add(indOrgane); break;	
 
@@ -1695,8 +1723,8 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		case "s":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000010")); break;
 		case "mGy.cm":
-			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_centimeter"));break;
-		case "mA":	
+			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_centimeter")); break;
+		case "mA":	case "ma":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000037")); break;
 		case "kilovolt":
 		case "kV":
@@ -1724,6 +1752,9 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		case "kiloelectronvolt":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#kiloelectronvolt")); 
 			break;	
+		case "ratio":
+			unit = null; 
+			break;
 		default:
 			unit = createIndiv(generateName("Unknown_Unit"), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));
 			logger.warn("WARN Unknown Unit : "+u);

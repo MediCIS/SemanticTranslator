@@ -158,7 +158,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							case("KVP"):
 								indivSetting = createIndiv(generateName("KVP"), model.getResource(racineDCM+"113733"));break;
 							default:
-								indivSetting = createIndiv(generateName(settingTest.getMethodSettingValue()), model.getResource(racineURI+"device_setting"));break;
+								indivSetting = createIndiv(generateName(settingTest.getMethodSettingValue()), model.getResource(racineURI+"is_device_setting"));break;
 							}
 							addObjectProperty(indivSetting, racineObo+"IAO_0000039",  getUnit(settingTest.getMethodSettingUnit()));
 							addDataProperty(indivSetting,racineObo+"IAO_0000004",settingTest.getMethodSettingUnit());
@@ -178,11 +178,11 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							patient = memory.getPatient(ctSegmentation.getDICOMImageUsed().getDICOMSeriesUID(), ctSegmentation.getDICOMImageUsed().getDICOMStudyUID()); 
 							addObjectProperty(voiIndiv, racineURI+"has_patient",patient);
 						}
-						
+												
 						addObjectProperty(imageSegmentation,racineURI+"has_specified_output", voiIndiv);
 						addObjectProperty(voiIndiv, racineURI+"is_specified_output_of", imageSegmentation);
 						
-						Individual organ = getOrgan(voiDescriptor.getOrganOrTissue());
+						Individual organ = getOrgan(voiDescriptor.getOrganOrTissue(), null);
 						addObjectProperty(voiIndiv,racineURI+"represents", organ);	
 						tableVOIorgans.put(voiDescriptor.getVOIIdentifier(), organ);
 						
@@ -297,7 +297,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								settingMC = createIndiv(generateName("KVP"), model.getResource(racineDCM+"113733"));
 								break;
 							default:
-								settingMC = createIndiv(generateName("device_setting"), model.getResource(racineURI+"device_setting"));
+								settingMC = createIndiv(generateName("device_setting"), model.getResource(racineURI+"is_device_setting"));
 								logger.warn("Unknown mcSetting : "+mcSetting.getMethodSetting());
 								System.out.println("Unknown mcSetting : "+mcSetting.getMethodSetting());
 								break;
@@ -492,7 +492,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		}
 	}
  	
- 	public static Individual getOrgan(String organName) {
+ 	public static Individual getOrgan(String organName, String patientID) {
  		Individual indOrgane = null; 
  		switch (organName) {
 		case "bone":

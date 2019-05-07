@@ -3,6 +3,7 @@ package querries;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+@SuppressWarnings("serial")
 public class Querry  implements java.io.Serializable  {
 
 	private String id; 
