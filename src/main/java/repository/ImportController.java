@@ -119,7 +119,7 @@ public class ImportController {
 	
 	@RequestMapping (value = "/getVersion", method = RequestMethod.GET)
 	public String returnVersionNumber()  {
-		String version = "0.6.3c";
+		String version = "0.6.4";
 		return version;
 	}
 	
