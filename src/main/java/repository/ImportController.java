@@ -65,6 +65,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 
+import com.complexible.common.base.Option;
 import com.complexible.stardog.StardogException;
 import com.complexible.stardog.api.Connection;
 import com.complexible.stardog.api.ConnectionConfiguration;
@@ -100,6 +101,12 @@ public class ImportController {
 	String starDogUrl = Application.starDogUrl;
 	Memory memory = Application.memory;
 
+	List<String> listXSDnames = Stream.of("2D-DosimetryWorkflow.xsd", "3D-DosimetrySlide1Workflow.xsd", "3D-DosimetrySlide2Workflow.xsd", 
+			"3D-DosimetryWorkflow.xsd", "calibrationWorkflow.xsd", "Hybrid-DosimetryWorkflow.xsd","WP2subtask212WorkflowData.xsd"
+			).collect(Collectors.toList());
+
+	int compteurCT = 0;
+	
 	StructuredReport SR;						// For store SR document
 
 	public enum database {ontoMedirad, test}; 	// StarDog Database list ()
@@ -114,6 +121,7 @@ public class ImportController {
 
 	static String handle;						// Handle is at top for being transmitted to the Import Controller
 	static String studyInstanceUID; static String seriesInstanceUID; 
+
 
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 
 	
@@ -212,6 +220,11 @@ public class ImportController {
 
 	}
 
+	@RequestMapping (value = "/test", method = RequestMethod.GET)
+	public String test() throws IOException, DicomException {   
+		return "Tipoui !\n";
+	}
+		
 	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
 	public String testMetadatas() throws IOException, DicomException {      
 		List<String> listeRDF = Stream.of(
@@ -234,13 +247,12 @@ public class ImportController {
 				"CT 96821 000000.dcm",
 				"CT 11200 000000.dcm").collect(Collectors.toList());
 		
-		
 		Iterator<String> RDFIter = listeRDF.iterator();
 		while (RDFIter.hasNext()) {
 			String ClinicalResearchStudyId = "2.1.2";
 			String fileName = RDFIter.next();
 			logger.debug("Reading SR (local file)");	
-			File f = new File(fileName);																	// SR file that will be read 
+			File f = new File("uploadFiles/Dicom/"+fileName);																	// SR file that will be read 
 
 			org.dcm4che3.io.DicomInputStream input;
 			Attributes obj = null;
@@ -266,9 +278,10 @@ public class ImportController {
 			SR = new StructuredReport(attributeList);														// Convert the attributeList in StructuredReport
 			TranslateDicomData.readingSR((ContentItem) SR.getRoot());										// Read and Translate the SR from the root
 			 */
-			createAdminConnection(database.ontoMedirad);
 			rdfName = fileName.replace(".dcm", ".rdf");	
-			writingRDF(rdfName);	
+			writingRDF(rdfName);
+			createAdminConnection(database.ontoMedirad);
+
 			setInStarDog(rdfName);
 			System.out.println("\n\n-------------------------------------------------------------------------------------");
 
@@ -305,9 +318,12 @@ public class ImportController {
 	public String importDicomMetadata(@RequestBody String kosString) throws IOException, JSONException, DicomException {	
 		logger.info("importDicomMetadata");
 		
+		logger.info("kosString : "+kosString);
+		
 		String ClinicalResearchStudyId = null; String KOSFhirId = null;
 		JSONObject kosDescriptor = new JSONObject(kosString);
-		ClinicalResearchStudyId = kosDescriptor.getString("ClinicalResearchStudyId");
+		
+		ClinicalResearchStudyId = kosDescriptor.getString("clinicalResearchStudyId");
 		KOSFhirId = kosDescriptor.getString("KOSFhirId");
 		
 		System.out.println("kosDescriptor : ");
@@ -402,11 +418,10 @@ public class ImportController {
 			}
 		}
 		
-		return "importDicomMetadata Request received"; 
+		return "{\"res\":\"importDicomMetadata Request received\"}";
+
 	}
 		
-	int compteurCT = 0;
-	
 	public void retrieveDicomFile(String studyInstanceUID, String seriesInstanceUID, String ClinicalResearchStudyId) throws IOException {
 		logger.info("Retrieving CT StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
@@ -503,11 +518,7 @@ public class ImportController {
 				"      }" , "false" );
 		return res;
 	} 
-	
-	List<String> listXSDnames = Stream.of("2D-DosimetryWorkflow.xsd", "3D-DosimetrySlide1Workflow.xsd", "3D-DosimetrySlide2Workflow.xsd", 
-			"3D-DosimetryWorkflow.xsd", "calibrationWorkflow.xsd", "Hybrid-DosimetryWorkflow.xsd","WP2subtask212WorkflowData.xsd"
-			).collect(Collectors.toList());
-					
+						
 	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET, produces = {"application/json"})
 	public String getXSDfilesName() {  
 		JSONArray listeJSON = new JSONArray();
@@ -850,7 +861,7 @@ public class ImportController {
 				}
 			}
 		}
-		return "ImportDicomFileSetDescriptor Request received";
+		return "{\"res\":\"ImportDicomFileSetDescriptor Request received\"}";
 	}
 
 	@RequestMapping( value = "/importNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
@@ -1004,8 +1015,8 @@ public class ImportController {
 		logger.info("Writing RDF file in "+pathOut);		
 
 		FileOutputStream sortie = new FileOutputStream(pathOut);
-		OntologyPopulator.populateModel.write(sortie, "RDF/XML-ABBREV");					
-
+		OntologyPopulator.populateModel.write(sortie, "RDF/XML", null);					
+		
 		logger.info("Writing RDF file Sucessfull");
 		OntologyPopulator.populateModel = ModelFactory.createOntologyModel();
 	}

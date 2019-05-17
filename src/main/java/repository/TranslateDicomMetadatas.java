@@ -1,10 +1,14 @@
 package repository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.rdf.model.Statement;
+import org.apache.jena.rdf.model.StmtIterator;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Sequence;
 import org.dcm4che3.data.Tag;
@@ -37,7 +41,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							atom = createIndiv("Uknown_Nucleotide_"+CodeMeaning, model.getResource(racineURI+"radionuclide"));
 						}
 						addObjectProperty(acquisition, racineURI+"has_target_radionuclide", atom);
-
 					}
 					if (radioNucl.getString(Tag.CodingSchemeDesignator)!=null) {
 						String CodingSchemeDesignator = radioNucl.getString(Tag.CodingSchemeDesignator);
@@ -67,7 +70,12 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		// Commmon MetaDatas
 		logger.info("Commmon MetaDatas");
 
-		Individual imagingStudy = createIndiv(generateName("imaging_study"), model.getResource(racineURI+"imaging_study"));	
+		Individual imagingStudy = createIndiv(generateName("imaging_study"), 
+				model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
+		
+		// TODO
+		System.out.println("TEST IMAGINGSTUDY");
+		System.out.println("RDF Type :"+imagingStudy.getRDFType());
 		Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy(ClinicalResearchStudyId);
 		addObjectProperty(imagingStudy, racineURI+"part_of_study", clinicalResearchStudy);			
 
@@ -78,7 +86,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			patient = memory.getHuman(PatientID);														// create human
 			patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient")); // create patient role		
 			addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
-			addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);							// link both of them
+			//addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);							// link both of them
 			addDataProperty(patient, racineURI+"has_id", PatientID);
 		}
 		
@@ -117,9 +125,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			String lettre = PatientAge.substring(PatientAge.length()-1, PatientAge.length());
 			switch (lettre) {
 			case "M":
-				addDataProperty(i, racineURI+"months", Integer.valueOf(number)); break;
+				addDataProperty(i, racineURI+"months", new BigDecimal(number) ); break;
 			case "Y":
-				addDataProperty(i, racineURI+"years", Integer.valueOf(number)); break;
+				addDataProperty(i, racineURI+"years", new BigDecimal(number)); break;
 			default:
 				addDataProperty(i, "http://purl.obolibrary.org/obo/IAO_0000004", Integer.valueOf(number)); break;
 			}
@@ -226,10 +234,11 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			}
 		} 
 		
-		addObjectProperty(imageAccRole, racineObo+"BFO_0000052", acquisition);
+		//addObjectProperty(patientRole, racineObo+"BFO_0000052", acquisition);	 !!!!!!!
+		
+		addObjectProperty(imageAccRole, racineObo+"BFO_0000054", acquisition);
 		addObjectProperty(acquisition, racineURI+"has_protocol", acquisitionProtocol);
-		addObjectProperty(patient, racineObo+"BFO_0000054", acquisition);	
-		addObjectProperty(acquisitionDevice, racineObo+"BFO_0000054", acquisition);							
+		//addObjectProperty(acquisitionDevice, racineObo+"BFO_0000054", acquisition);							
 		
 		System.out.println("acquisition : "+acquisition);
 		System.out.println("acquisitionProtocol : "+acquisitionProtocol);
@@ -244,7 +253,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		//ontomedirad:SPECT_acquisition
 
 		if (acquisition!=null) {
-			addObjectProperty(acquisition, racineObo+"BFO_0000132", imagingStudy);
+			////addObjectProperty(acquisition, racineObo+"BFO_0000132", imagingStudy); !!!!!!!!
 
 			String SeriesNumber = root.getString(Tag.SeriesNumber);
 			logger.debug("SeriesNumber : "+SeriesNumber);
@@ -278,7 +287,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				addDataProperty(acquisitionDevice, racineURI+"has_model_name", ManufacturersModelName);
 			}
 			addObjectProperty(acquisitionDevice, racineObo+"BFO_0000087", imageAccRole);
-			addObjectProperty(i, racineObo+"BFO_0000054", acquisition);
+			//addObjectProperty(i, racineObo+"BFO_0000054", acquisition);
 		}
 
 		String InstitutionName = root.getString(Tag.InstitutionName);
@@ -288,7 +297,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			Individual role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(InstitutionName);
 			addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000052", institution);
 			if (acquisition!=null) {
-				addObjectProperty(acquisition, racineObo+"BFO_0000054", role_of_responsible_organization);
+			//	addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000054", acquisition);
 			}
 		}
 
@@ -1469,6 +1478,20 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			
 			
 		}
+		
+		
+		
+		System.out.println("Test Final :");
+		System.out.println("RDF Type :"+imagingStudy.getRDFType());
+		StmtIterator propertiesIter = imagingStudy.listProperties();
+		Statement p;
+		while (propertiesIter.hasNext()) {
+			p = propertiesIter.next();
+			System.out.println(p.asTriple());
+		}
+		
+		// TODO
+		
 	} // Fin MetaData
 
 }

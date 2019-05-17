@@ -3,6 +3,7 @@ package repository;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.UUID;
@@ -172,6 +173,17 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			ind.addLiteral(prop, value);
 		}
 	}
+	
+	public static void addDataProperty(Individual ind, String propName, BigDecimal value) {		// Create a Data property
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
+		if (ind==null || propName==null || value==null) {
+			logger.error("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
+		} else {
+			logger.debug("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
+			Property prop = populateModel.createDatatypeProperty(propName);
+			ind.addLiteral(prop, value);
+		}
+	}
 
 	public static void addObjectProperty(Individual ind, String propName, Individual ind2) { // Create an Object property
 		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
@@ -191,6 +203,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			return null;
 		} else {
 			logger.debug("Creating Individual named "+name+" with classs "+ressource.getLocalName());
+			System.out.println(ressource);
 			Individual ind = populateModel.createIndividual(racineURI+name, ressource);
 			return ind;
 		}
