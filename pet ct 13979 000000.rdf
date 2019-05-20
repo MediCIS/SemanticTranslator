@@ -1,105 +1,204 @@
-<rdf:RDF
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:j.0="http://purl.obolibrary.org/obo/"
-    xmlns:owl="http://www.w3.org/2002/07/owl#"
-    xmlns:j.1="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#"
-    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#part_of_study"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_about_procedure"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_protocol"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_device_setting"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_specified_output_of"/>
-  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000177"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_target_region"/>
-  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000087"/>
-  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000054"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_setting"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_format"/>
-  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000039"/>
-  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_target_radionuclide"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_upper_limit"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#years"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_manufacturer_name"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_lower_limit"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_frame_of_reference_UID"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_description"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_study_instance_UID"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_series_instance_UID"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_time"/>
-  <owl:DatatypeProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000004"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_date"/>
-  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_model_name"/>
-  <j.1:patient_height rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_Height_00483f0c-b6a3-4015-a694-497d67e19973">
-    <j.0:IAO_0000039>
-      <j.0:UO_0000008 rdf:about="http://purl.obolibrary.org/obo/UO_0000008"/>
-    </j.0:IAO_0000039>
-    <j.0:IAO_0000004>1.6499999761581</j.0:IAO_0000004>
-    <j.1:is_about_procedure>
-      <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study_e91fa0a5-bee1-4796-88ef-6461cdb2dcb6">
-        <j.1:has_target_region>
-          <j.1:breasts rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_ACRIN-FLT-Breast_006"/>
-        </j.1:has_target_region>
-        <j.1:part_of_study>
-          <j.1:clinical_research_study rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2"/>
-        </j.1:part_of_study>
-      </rdf:Description>
-    </j.1:is_about_procedure>
-  </j.1:patient_height>
-  <j.1:PET_recon_tomo_dataset rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_recon_tomo_dataset_fb48f626-60c7-48dd-9b18-2df11a9aa889">
-    <j.1:has_DICOM_frame_of_reference_UID>1.3.6.1.4.1.14519.5.2.1.7009.2401.135752420151501487108391443889</j.1:has_DICOM_frame_of_reference_UID>
-    <j.1:is_specified_output_of>
-      <j.1:PET_data_acquisition rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_data_acquisition_5a6a36e2-e108-46b4-8437-bf5dfd26df80">
-        <j.1:has_setting>
-          <j.1:energy_window rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#energy_window_b264f1c7-9131-48da-a39b-395b4e0ba860">
-            <j.1:has_upper_limit>000000000000650</j.1:has_upper_limit>
-            <j.0:IAO_0000039>
-              <j.1:kiloelectronvolt rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#kiloelectronvolt"/>
-            </j.0:IAO_0000039>
-            <j.1:has_lower_limit>000000000000300</j.1:has_lower_limit>
-            <j.1:is_device_setting>
-              <j.1:PET_scanner rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_scanner_dd39c8d7-a7fe-4a7f-b666-a43b34312708">
-                <j.0:BFO_0000087>
-                  <j.1:image_acquisition_role rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_acquisition_role_0b744d4f-6bfc-4927-93a8-7f839643ff92">
-                    <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_data_acquisition_5a6a36e2-e108-46b4-8437-bf5dfd26df80"/>
-                  </j.1:image_acquisition_role>
-                </j.0:BFO_0000087>
-                <j.1:has_model_name>Discovery LS</j.1:has_model_name>
-                <j.1:has_manufacturer_name>GE MEDICAL SYSTEMS</j.1:has_manufacturer_name>
-              </j.1:PET_scanner>
-            </j.1:is_device_setting>
-            <j.0:BFO_0000177>
-              <j.1:PET_acquisition_protocol rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_acquisition_protocol_1ff91f8e-faca-4490-b111-730bc8eaa640">
-                <j.1:has_description>PET-CT SERIES</j.1:has_description>
-              </j.1:PET_acquisition_protocol>
-            </j.0:BFO_0000177>
-          </j.1:energy_window>
-        </j.1:has_setting>
-        <j.1:has_target_radionuclide>
-          <j.1:fluorine_18_atom rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#fluorine_18_atom"/>
-        </j.1:has_target_radionuclide>
-        <j.1:has_beginning_time>163018.00</j.1:has_beginning_time>
-        <j.1:has_beginning_date>19600101</j.1:has_beginning_date>
-        <j.1:has_DICOM_series_instance_UID>1.3.6.1.4.1.14519.5.2.1.7009.2401.320910341190078644624273113979</j.1:has_DICOM_series_instance_UID>
-        <j.1:has_protocol rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_acquisition_protocol_1ff91f8e-faca-4490-b111-730bc8eaa640"/>
-      </j.1:PET_data_acquisition>
-    </j.1:is_specified_output_of>
-    <j.1:has_DICOM_series_instance_UID>1.3.6.1.4.1.14519.5.2.1.7009.2401.320910341190078644624273113979</j.1:has_DICOM_series_instance_UID>
-    <j.1:has_format>
-      <j.1:DICOM_PET_image_storage_SOP_class rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#DICOM_PET_image_storage_SOP_class"/>
-    </j.1:has_format>
-  </j.1:PET_recon_tomo_dataset>
-  <j.1:age_of_patient_undergoing_medical_procedure rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#age_of_patient_undergoing_medical_procedure_a633d5aa-1a67-45a3-b6fb-5580ab475af0">
-    <j.1:is_about_procedure rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study_e91fa0a5-bee1-4796-88ef-6461cdb2dcb6"/>
-    <j.1:years rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"
-    >51</j.1:years>
-  </j.1:age_of_patient_undergoing_medical_procedure>
-  <j.1:patient_weight rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_Weight_3444d467-1342-45ed-9cec-d0e274e2cbd5">
-    <j.0:IAO_0000039>
-      <j.0:UO_0000009 rdf:about="http://purl.obolibrary.org/obo/UO_0000009"/>
-    </j.0:IAO_0000039>
-    <j.1:is_about_procedure rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study_e91fa0a5-bee1-4796-88ef-6461cdb2dcb6"/>
-    <j.0:IAO_0000004>66</j.0:IAO_0000004>
-  </j.1:patient_weight>
-  <j.1:patient rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_f2ee4aa5-8028-4052-9c09-15d8d3434213"/>
-</rdf:RDF>
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_data_acquisition_e1c01906-71e1-4229-966e-296883926e01>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_data_acquisition> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_series_instance_UID>
+                "1.3.6.1.4.1.14519.5.2.1.7009.2401.320910341190078644624273113979" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_date>
+                "19600101" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_time>
+                "163018.00" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_protocol>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_acquisition_protocol_0f3a4a40-5373-4050-90ae-1737123138c4> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_setting>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#energy_window_0975ae1a-4e76-4688-bb52-f74defc68549> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_target_radionuclide>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#fluorine_18_atom> ;
+        <http://purl.obolibrary.org/obo/BFO_0000132>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_target_radionuclide>
+        a       owl:ObjectProperty .
+
+<http://purl.obolibrary.org/obo/IAO_0000004>
+        a       owl:DatatypeProperty .
+
+<http://purl.obolibrary.org/obo/UO_0000009>
+        a       <http://purl.obolibrary.org/obo/UO_0000009> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_upper_limit>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_format>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_target_region>
+        a       owl:ObjectProperty .
+
+<http://purl.obolibrary.org/obo/BFO_0000177>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_lower_limit>
+        a       owl:DatatypeProperty .
+
+<http://purl.obolibrary.org/obo/UO_0000008>
+        a       <http://purl.obolibrary.org/obo/UO_0000008> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_specified_output_of>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_setting>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_about_procedure>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#DICOM_PET_image_storage_SOP_class>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#DICOM_PET_image_storage_SOP_class> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_model_name>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_protocol>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_scanner_9221d0db-149c-4950-9a8e-1894efc27aa8>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_scanner> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_manufacturer_name>
+                "GE MEDICAL SYSTEMS" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_model_name>
+                "Discovery LS" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#used_as_instrument_in>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_data_acquisition_e1c01906-71e1-4229-966e-296883926e01> ;
+        <http://purl.obolibrary.org/obo/BFO_0000087>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_acquisition_role_d52254d6-49d0-49b4-b23d-b86aa01aac2d> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_ACRIN-FLT-Breast_006>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_date>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#kiloelectronvolt>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#kiloelectronvolt> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#age_of_patient_undergoing_medical_procedure_bf81837a-a72a-4a44-9372-ec23b7861f8b>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#age_of_patient_undergoing_medical_procedure> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_about_procedure>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#years>
+                "51"^^xsd:decimal .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#used_as_instrument_in>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#part_of_study>
+        a       owl:ObjectProperty .
+
+<http://purl.obolibrary.org/obo/BFO_0000054>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_Height_197741dd-ac55-4bb5-bde0-ec5f7e6840cb>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#patient_height> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_about_procedure>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study> ;
+        <http://purl.obolibrary.org/obo/IAO_0000004>
+                "1.6499999761581" ;
+        <http://purl.obolibrary.org/obo/IAO_0000039>
+                <http://purl.obolibrary.org/obo/UO_0000008> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_bec94a11-a20c-4efa-ba5f-3d0b2cd98bdb>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#patient> ;
+        <http://purl.obolibrary.org/obo/BFO_0000054>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_data_acquisition_e1c01906-71e1-4229-966e-296883926e01> , <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#years>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_study_instance_UID>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_acquisition_role_d52254d6-49d0-49b4-b23d-b86aa01aac2d>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_acquisition_role> ;
+        <http://purl.obolibrary.org/obo/BFO_0000054>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_data_acquisition_e1c01906-71e1-4229-966e-296883926e01> .
+
+<http://purl.obolibrary.org/obo/BFO_0000087>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_frame_of_reference_UID>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_manufacturer_name>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_Weight_1ffd7815-0599-4827-b9e3-e9465835ad24>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#patient_weight> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_about_procedure>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study> ;
+        <http://purl.obolibrary.org/obo/IAO_0000004>
+                "66" ;
+        <http://purl.obolibrary.org/obo/IAO_0000039>
+                <http://purl.obolibrary.org/obo/UO_0000009> .
+
+<http://purl.obolibrary.org/obo/IAO_0000039>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#energy_window_0975ae1a-4e76-4688-bb52-f74defc68549>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#energy_window> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_lower_limit>
+                "000000000000300" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_upper_limit>
+                "000000000000650" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_device_setting>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_scanner_9221d0db-149c-4950-9a8e-1894efc27aa8> ;
+        <http://purl.obolibrary.org/obo/BFO_0000177>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_acquisition_protocol_0f3a4a40-5373-4050-90ae-1737123138c4> ;
+        <http://purl.obolibrary.org/obo/IAO_0000039>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#kiloelectronvolt> .
+
+<http://purl.obolibrary.org/obo/BFO_0000132>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_time>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_device_setting>
+        a       owl:ObjectProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_description>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_recon_tomo_dataset_acd9a751-217d-42c4-9914-8c949910cc5e>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_recon_tomo_dataset> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_frame_of_reference_UID>
+                "1.3.6.1.4.1.14519.5.2.1.7009.2401.135752420151501487108391443889" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_series_instance_UID>
+                "1.3.6.1.4.1.14519.5.2.1.7009.2401.320910341190078644624273113979" ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_format>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#DICOM_PET_image_storage_SOP_class> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_specified_output_of>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_data_acquisition_e1c01906-71e1-4229-966e-296883926e01> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_series_instance_UID>
+        a       owl:DatatypeProperty .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_acquisition_protocol_0f3a4a40-5373-4050-90ae-1737123138c4>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#PET_acquisition_protocol> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_description>
+                "PET-CT SERIES" .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study>
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_target_region>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#breasts_ACRIN-FLT-Breast_006> ;
+        <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#part_of_study>
+                <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2> .
+
+<http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#fluorine_18_atom>
+        a       <http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#fluorine_18_atom> .

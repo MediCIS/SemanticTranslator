@@ -70,8 +70,10 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		// Commmon MetaDatas
 		logger.info("Commmon MetaDatas");
 
-		Individual imagingStudy = createIndiv(generateName("imaging_study"), 
-				model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
+		Individual imagingStudy = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
+		
+		//Individual imagingStudy = createIndiv(generateName("imaging_study_TEST"), 
+		//		model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
 		
 		// TODO
 		System.out.println("TEST IMAGINGSTUDY");
@@ -234,15 +236,35 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			}
 		} 
 		
-		//addObjectProperty(patientRole, racineObo+"BFO_0000052", acquisition);	 !!!!!!!
-		
-		addObjectProperty(imageAccRole, racineObo+"BFO_0000054", acquisition);
-		addObjectProperty(acquisition, racineURI+"has_protocol", acquisitionProtocol);
-		//addObjectProperty(acquisitionDevice, racineObo+"BFO_0000054", acquisition);							
-		
 		System.out.println("acquisition : "+acquisition);
 		System.out.println("acquisitionProtocol : "+acquisitionProtocol);
 		System.out.println("acquisitionDevice : "+acquisitionDevice);
+		
+		addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);	 
+		addObjectProperty(acquisition, racineURI+"has_protocol", acquisitionProtocol);
+		addObjectProperty(patientRole, racineObo+"BFO_0000054", acquisition);	 
+		addObjectProperty(imageAccRole, racineObo+"BFO_0000054", acquisition);
+		addObjectProperty(acquisitionDevice, racineURI+"used_as_instrument_in", acquisition);	
+		
+		addObjectProperty(acquisition, racineObo+"BFO_0000132", imagingStudy); 
+
+		String SeriesNumber = root.getString(Tag.SeriesNumber);
+		logger.debug("SeriesNumber : "+SeriesNumber);
+		if (SeriesNumber!=null) {
+			addDataProperty(acquisition, racineURI+"has_id", SeriesNumber);
+		}
+
+		String SeriesDate = root.getString(Tag.SeriesDate);
+		logger.debug("SeriesDate : "+SeriesDate);
+		if (SeriesDate!=null) {
+			addDataProperty(acquisition, racineURI+"has_beginning_date", SeriesDate);
+		}
+
+		String SeriesTime = root.getString(Tag.SeriesTime);
+		logger.debug("SeriesTime : "+SeriesTime);
+		if (SeriesTime!=null) {
+			addDataProperty(acquisition, racineURI+"has_beginning_time", SeriesTime);
+		}
 
 		String SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
 		logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
@@ -251,28 +273,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		}
 		
 		//ontomedirad:SPECT_acquisition
-
-		if (acquisition!=null) {
-			////addObjectProperty(acquisition, racineObo+"BFO_0000132", imagingStudy); !!!!!!!!
-
-			String SeriesNumber = root.getString(Tag.SeriesNumber);
-			logger.debug("SeriesNumber : "+SeriesNumber);
-			if (SeriesNumber!=null) {
-				addDataProperty(acquisition, racineURI+"has_id", SeriesNumber);
-			}
-
-			String SeriesDate = root.getString(Tag.SeriesDate);
-			logger.debug("SeriesDate : "+SeriesDate);
-			if (SeriesDate!=null) {
-				addDataProperty(acquisition, racineURI+"has_beginning_date", SeriesDate);
-			}
-
-			String SeriesTime = root.getString(Tag.SeriesTime);
-			logger.debug("SeriesTime : "+SeriesTime);
-			if (SeriesTime!=null) {
-				addDataProperty(acquisition, racineURI+"has_beginning_time", SeriesTime);
-			}
-		}
 
 		if (acquisitionDevice!=null) {
 			String Manufacturer = root.getString(Tag.Manufacturer);
