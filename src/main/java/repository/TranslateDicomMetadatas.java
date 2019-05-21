@@ -70,10 +70,10 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		// Commmon MetaDatas
 		logger.info("Commmon MetaDatas");
 
-		Individual imagingStudy = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
+		//Individual imagingStudy = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
 		
-		//Individual imagingStudy = createIndiv(generateName("imaging_study_TEST"), 
-		//		model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
+		Individual imagingStudy = createIndiv(generateName("imaging_study_TEST"), 
+				model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
 		
 		// TODO
 		System.out.println("TEST IMAGINGSTUDY");

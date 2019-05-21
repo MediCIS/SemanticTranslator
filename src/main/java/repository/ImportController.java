@@ -1015,7 +1015,7 @@ public class ImportController {
 		logger.info("Writing RDF file in "+pathOut);		
 
 		FileOutputStream sortie = new FileOutputStream(pathOut);
-		OntologyPopulator.populateModel.write(sortie, "TURTLE", null);					
+		OntologyPopulator.populateModel.write(sortie, "RDF/XML", null);					
 		
 		logger.info("Writing RDF file Sucessfull");
 		OntologyPopulator.populateModel = ModelFactory.createOntologyModel();
@@ -1026,7 +1026,7 @@ public class ImportController {
 		System.out.println(starDogConnection);
 		starDogConnection.begin();																			// Begin the import action 
 		
-		starDogConnection.add().io().format(RDFFormat.TURTLE).stream(new FileInputStream(path)); 
+		starDogConnection.add().io().format(RDFFormat.RDFXML).stream(new FileInputStream(path)); 
 
 		starDogConnection.commit();																			// End of the import action (without commit the import is not valid)
 		logger.info("Transfer to stardog : Complete");
