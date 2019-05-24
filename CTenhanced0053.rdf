@@ -1,0 +1,86 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://purl.obolibrary.org/obo/"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:j.1="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#">
+  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#part_of_study"/>
+  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#is_about_procedure"/>
+  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_protocol"/>
+  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000039"/>
+  <owl:ObjectProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#used_as_instrument_in"/>
+  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000052"/>
+  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000087"/>
+  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000132"/>
+  <owl:ObjectProperty rdf:about="http://purl.obolibrary.org/obo/BFO_0000054"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#years"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_id"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_manufacturer_name"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_description"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_study_instance_UID"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_DICOM_series_instance_UID"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_time"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_beginning_date"/>
+  <owl:DatatypeProperty rdf:about="http://purl.obolibrary.org/obo/IAO_0000004"/>
+  <owl:DatatypeProperty rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_model_name"/>
+  <j.1:patient_weight rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_Weight_2427a31b-4ff7-4a4f-bed3-1c0380031fa8">
+    <j.0:IAO_0000039>
+      <j.0:UO_0000009 rdf:about="http://purl.obolibrary.org/obo/UO_0000009"/>
+    </j.0:IAO_0000039>
+    <j.1:is_about_procedure>
+      <j.1:imaging_study rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study_d010ea7e-bbca-47e9-a5e7-703af0683085">
+        <j.1:has_beginning_time>100958</j.1:has_beginning_time>
+        <j.1:has_beginning_date>20061219</j.1:has_beginning_date>
+        <j.1:has_DICOM_study_instance_UID>1.3.6.1.4.1.5962.1.2.50.1166562673.14401</j.1:has_DICOM_study_instance_UID>
+        <j.1:part_of_study>
+          <j.1:clinical_research_study rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2"/>
+        </j.1:part_of_study>
+      </j.1:imaging_study>
+    </j.1:is_about_procedure>
+    <j.0:IAO_0000004>75</j.0:IAO_0000004>
+  </j.1:patient_weight>
+  <j.1:patient_height rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_Height_d9e7bf2f-9e75-4bc7-b3ce-d0fcf65ad1ef">
+    <j.0:IAO_0000039>
+      <j.0:UO_0000008 rdf:about="http://purl.obolibrary.org/obo/UO_0000008"/>
+    </j.0:IAO_0000039>
+    <j.0:IAO_0000004>1.6</j.0:IAO_0000004>
+    <j.1:is_about_procedure rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study_d010ea7e-bbca-47e9-a5e7-703af0683085"/>
+  </j.1:patient_height>
+  <j.1:CT_scanner rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_scanner_7839bff4-8c3b-4ffa-af6f-233facfca2e4">
+    <j.0:BFO_0000087>
+      <j.1:image_acquisition_role rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#image_acquisition_role_29313861-41d8-444f-ade8-6b4151f22c79">
+        <j.0:BFO_0000054>
+          <j.1:CT_acquisition rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_8e9d76c0-dd36-4e7e-bd0a-eea572289029">
+            <j.1:has_DICOM_series_instance_UID>1.3.6.1.4.1.5962.1.3.50.1.1166562673.14401</j.1:has_DICOM_series_instance_UID>
+            <j.1:has_beginning_time>102438</j.1:has_beginning_time>
+            <j.1:has_beginning_date>20061219</j.1:has_beginning_date>
+            <j.1:has_id>1</j.1:has_id>
+            <j.0:BFO_0000132 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study_d010ea7e-bbca-47e9-a5e7-703af0683085"/>
+            <j.1:has_protocol>
+              <j.1:CT_acquisition_protocol rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_protocol_c369f070-15e3-4123-a9e1-d0d3c251e29d">
+                <j.1:has_description>Axial IACs</j.1:has_description>
+              </j.1:CT_acquisition_protocol>
+            </j.1:has_protocol>
+          </j.1:CT_acquisition>
+        </j.0:BFO_0000054>
+      </j.1:image_acquisition_role>
+    </j.0:BFO_0000087>
+    <j.1:has_model_name>Super Dooper Scanner</j.1:has_model_name>
+    <j.1:has_manufacturer_name>Acme Medical Devices</j.1:has_manufacturer_name>
+    <j.1:used_as_instrument_in rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_8e9d76c0-dd36-4e7e-bd0a-eea572289029"/>
+  </j.1:CT_scanner>
+  <j.1:age_of_patient_undergoing_medical_procedure rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#age_of_patient_undergoing_medical_procedure_bbc79929-864a-4f51-803e-776de8cc6122">
+    <j.1:is_about_procedure rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study_d010ea7e-bbca-47e9-a5e7-703af0683085"/>
+    <j.1:years rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal"
+    >52</j.1:years>
+  </j.1:age_of_patient_undergoing_medical_procedure>
+  <j.1:patient rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#Patient_181d4793-08be-45b2-ad98-f1dcdfd16d02">
+    <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition_8e9d76c0-dd36-4e7e-bd0a-eea572289029"/>
+    <j.0:BFO_0000054 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study_d010ea7e-bbca-47e9-a5e7-703af0683085"/>
+  </j.1:patient>
+  <rdf:Description rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#role_of_responsible_organization_80ca86be-f0c3-46c3-a90d-c4c981744e15">
+    <j.0:BFO_0000052 rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#institution_29d9b797-1504-4127-bd6a-a64d5a98497c"/>
+  </rdf:Description>
+  <j.0:PATO_0000384 rdf:about="http://purl.obolibrary.org/obo/PATO_0000384"/>
+</rdf:RDF>

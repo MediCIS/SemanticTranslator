@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -37,7 +38,11 @@ import javax.xml.validation.Validator;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.ObjectProperty;
+import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.Resource;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
 
 import org.json.JSONArray;
@@ -131,7 +136,7 @@ public class ImportController {
 		return version;
 	}
 	
-	@RequestMapping (value = "/downloadOntology", method = RequestMethod.GET)
+	@RequestMapping (value = "/downloadOntology", method = RequestMethod.GET, headers = "Accept=application/zip")
 	public void downloadOntology(HttpServletResponse response) throws IOException {
 		List<String> srcFiles = Arrays.asList("CHEBI_for_OntoMEDIRAD.owl",
 				"bfo.owl","FMA_for_OntoMEDIRAD.owl","IAO_for_OntoSPM.owl",
@@ -220,14 +225,75 @@ public class ImportController {
 
 	}
 
+	String racineURI = "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#";
+	String racineObo = "http://purl.obolibrary.org/obo/";
+
+	OntModel modelTest;
+	public void addDataProperty(Individual ind, String propName, String value) {		// Create a Data property
+		Property prop = modelTest.createDatatypeProperty(propName);
+		ind.addProperty(prop, value);
+	}
+	
+	public void addObjectProperty(Individual ind, String propName, Individual ind2) { // Create an Object property
+		ObjectProperty prop = modelTest.createObjectProperty(propName);	
+		modelTest.add(ind, prop.asObjectProperty(), ind2);
+	}
+	
+	public Individual createIndiv(String name, Resource ressource) {					// Create an Individual
+		Individual ind = modelTest.createIndividual(racineURI+name, ressource);
+		return ind;
+	}
+	
 	@RequestMapping (value = "/test", method = RequestMethod.GET)
 	public String test() throws IOException, DicomException {   
+		modelTest = ModelFactory.createOntologyModel();
+		OntModel model = Application.getModel();
+		Individual i;
+
+		Individual imagingStudy = modelTest.createIndividual(racineURI+"imaging_study_TEST",
+				model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));
+		
+		Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy("2.1.2");
+		addObjectProperty(imagingStudy, racineURI+"part_of_study", clinicalResearchStudy);		
+		
+		addDataProperty(imagingStudy, racineURI+"has_beginning_date", "StudyDate");
+		addDataProperty(imagingStudy, racineURI+"has_beginning_time", "StudyTime");
+		
+		i = createIndiv("age_of_patient_undergoing_medical_procedure", model.getResource(racineURI+"age_of_patient_undergoing_medical_procedure"));
+		addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
+		
+		i = createIndiv("Patient_Height", model.getResource(racineURI+"patient_height"));
+		addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
+		
+		i = createIndiv("Patient_Weight", model.getResource(racineURI+"patient_weight"));
+		addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
+		
+		addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", "StudyInstanceUID");
+
+		Individual organTest = createIndiv("breast", model.getResource(racineObo+"FMA_9601"));
+		addObjectProperty(imagingStudy, racineURI+"has_target_region", organTest);
+		
+		addDataProperty(imagingStudy, racineURI+"has_description", "StudyDescription");
+		
+		Individual patientRole = createIndiv("Patient", model.getResource(racineURI+"patient"));
+		addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);	 
+		
+		Individual acquisition = createIndiv("SPECT_data_acquisition", model.getResource(racineURI+"SPECT_data_acquisition"));
+		addObjectProperty(acquisition, racineObo+"BFO_0000132", imagingStudy); 
+//
+		
+		String pathOut = "testIS.rdf";
+		
+		FileOutputStream sortie = new FileOutputStream(pathOut);
+		modelTest.write(sortie, "RDF/XML", null);	
+		
 		return "Tipoui !\n";
 	}
 		
 	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
 	public String testMetadatas() throws IOException, DicomException {      
 		List<String> listeRDF = Stream.of(
+				/*
 				"pet 66863 000000.dcm",
 				"pet 69357 000000.dcm",
 				"pet ct 13979 000000.dcm",
@@ -245,13 +311,17 @@ public class ImportController {
 				"CT_1.2.840.113619.2.281.3562.103051.1493996667.372868700.dcm",
 				"CT_1.2.840.113619.2.281.3562.103051.1493996672.372829600.dcm",
 				"CT 96821 000000.dcm",
-				"CT 11200 000000.dcm").collect(Collectors.toList());
+				"CT 11200 000000.dcm",*/
+				
+				"CTenhanced0011.dcm",
+				"CTenhanced0050.dcm",
+				"CTenhanced0053.dcm",
+				"CTenhanced0070.dcm").collect(Collectors.toList());
 		
 		Iterator<String> RDFIter = listeRDF.iterator();
 		while (RDFIter.hasNext()) {
 			String ClinicalResearchStudyId = "2.1.2";
 			String fileName = RDFIter.next();
-			logger.debug("Reading SR (local file)");	
 			File f = new File("uploadFiles/Dicom/"+fileName);																	// SR file that will be read 
 
 			org.dcm4che3.io.DicomInputStream input;
@@ -271,13 +341,6 @@ public class ImportController {
 				TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
 			}
 
-			/*
-			AttributeList attributeList = new AttributeList();												// Crate an empty attribute that will receive SR Datas
-
-			attributeList.read(f);																			// Read SR from file and put contain in attributeList
-			SR = new StructuredReport(attributeList);														// Convert the attributeList in StructuredReport
-			TranslateDicomData.readingSR((ContentItem) SR.getRoot());										// Read and Translate the SR from the root
-			 */
 			rdfName = fileName.replace(".dcm", ".rdf");	
 			writingRDF(rdfName);
 			createAdminConnection(database.ontoMedirad);
@@ -286,31 +349,6 @@ public class ImportController {
 			System.out.println("\n\n-------------------------------------------------------------------------------------");
 
 		}
-		//logger.debug("Retrieving SR : No exception catched");
-
-		/*
-		File f = new File(fileName);																	// SR file that will be read 
-
-		org.dcm4che3.io.DicomInputStream input;
-		Attributes obj = null;
-		try {
-			input = new org.dcm4che3.io.DicomInputStream(f);
-			obj = input.readDataset(-1, -1);
-			input.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		if (obj!=null) {
-			TranslateDicomData.translateDicomMetaData(obj);
-		}
-
-		rdfName = fileName.replace(".dcm", ".rdf");		// Name for the RDF File (won't be overwritten)
-		try {
-			writingRDF(rdfName);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}*/
 		return "Tipoui !\n";
 	}
 	
@@ -386,7 +424,17 @@ public class ImportController {
 					//String referencedSOPInstancesUID = sopItem.getString(Tag.ReferencedSOPInstanceUID);
 					String ReferencedSOPClassUID = sopItem.getString(Tag.ReferencedSOPClassUID);
 					
-					if (ReferencedSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2")) { // CT
+					if (ReferencedSOPClassUID.contains("1.2.840.10008.5.1.4.1.1.88")) { // SR
+						retrieveSR(studyId, seriesUID);
+//						1.2.840.10008.5.1.4.1.1.88.11	Basic Text SR	 
+//						1.2.840.10008.5.1.4.1.1.88.22	Enhanced SR	 
+//						1.2.840.10008.5.1.4.1.1.88.33	Comprehensive SR	 
+//						1.2.840.10008.5.1.4.1.1.88.40	Procedure Log Storage	 
+//						1.2.840.10008.5.1.4.1.1.88.50	Mammography CAD SR	 
+//						1.2.840.10008.5.1.4.1.1.88.59	Key Object Selection Document	 
+//						1.2.840.10008.5.1.4.1.1.88.65	Chest CAD SR	 
+//						1.2.840.10008.5.1.4.1.1.88.67	X-Ray Radiation Dose SR
+					} else if (ReferencedSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2")) { // CT
 						String cleCT = studyInstanceUID + seriesInstanceUID;
 						boolean testCleCt = true;
 						Iterator<String> iterCleCt = listCleCT.iterator();
@@ -399,16 +447,6 @@ public class ImportController {
 							retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
 							listCleCT.add(cleCT);
 						}
-					} else if (ReferencedSOPClassUID.contains("1.2.840.10008.5.1.4.1.1.88")) { // SR
-						retrieveSR(studyId, seriesUID);
-//						1.2.840.10008.5.1.4.1.1.88.11	Basic Text SR	 
-//						1.2.840.10008.5.1.4.1.1.88.22	Enhanced SR	 
-//						1.2.840.10008.5.1.4.1.1.88.33	Comprehensive SR	 
-//						1.2.840.10008.5.1.4.1.1.88.40	Procedure Log Storage	 
-//						1.2.840.10008.5.1.4.1.1.88.50	Mammography CAD SR	 
-//						1.2.840.10008.5.1.4.1.1.88.59	Key Object Selection Document	 
-//						1.2.840.10008.5.1.4.1.1.88.65	Chest CAD SR	 
-//						1.2.840.10008.5.1.4.1.1.88.67	X-Ray Radiation Dose SR
 
 					} else {
 						retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
@@ -1076,7 +1114,7 @@ public class ImportController {
 		Application.listQuerries.deleteRequest(name);
 	}
 	
-	@RequestMapping (value = "/downloadRequests", method = RequestMethod.GET , headers = "Accept=text/xml")
+	@RequestMapping (value = "/downloadRequests", method = RequestMethod.GET , headers = "Accept=text/csv")
 	public String downloadRequests() {
 		return Application.listQuerries.getRequestListsinCSV();
 	}

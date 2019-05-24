@@ -70,17 +70,10 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		// Commmon MetaDatas
 		logger.info("Commmon MetaDatas");
 
-		//Individual imagingStudy = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
+		Individual imagingStudy = createIndiv(generateName("imaging_study"), model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));
 		
-		Individual imagingStudy = createIndiv(generateName("imaging_study_TEST"), 
-				model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));	
-		
-		// TODO
-		System.out.println("TEST IMAGINGSTUDY");
-		System.out.println("RDF Type :"+imagingStudy.getRDFType());
 		Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy(ClinicalResearchStudyId);
 		addObjectProperty(imagingStudy, racineURI+"part_of_study", clinicalResearchStudy);			
-
 		
 		String PatientID = root.getString(Tag.PatientID);
 		logger.debug("PatientID : "+PatientID);
@@ -234,7 +227,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				acquisitionProtocol = createIndiv(generateName("CT_acquisition_protocol"), model.getResource(racineURI+"CT_acquisition_protocol"));
 				imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
 			}
-		} 
+		} else {
+			return;
+		}
 		
 		System.out.println("acquisition : "+acquisition);
 		System.out.println("acquisitionProtocol : "+acquisitionProtocol);

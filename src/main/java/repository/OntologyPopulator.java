@@ -14,6 +14,7 @@ import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -117,7 +118,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	public static Individual retrieveClinicalResearchStudy(String name) {									// Retrieve the clinical research Study (individual in the ontology)				
 		name=name.trim();
 		logger.debug("retrieveClinicalResearchStudy : "+name);
-		populateModel = ModelFactory.createOntologyModel();
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
 		if (model==null) {model = Application.getModel();}
 		if (dataModel==null) {dataModel = Application.dataModel;}
 
@@ -203,7 +204,6 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			return null;
 		} else {
 			logger.debug("Creating Individual named "+name+" with classs "+ressource.getLocalName());
-			System.out.println(ressource);
 			Individual ind = populateModel.createIndividual(racineURI+name, ressource);
 			return ind;
 		}
