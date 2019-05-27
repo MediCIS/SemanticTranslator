@@ -12,13 +12,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.math.BigDecimal;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -38,11 +36,7 @@ import javax.xml.validation.Validator;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.ObjectProperty;
-import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.Resource;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
 
 import org.json.JSONArray;
@@ -70,7 +64,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.xml.sax.SAXException;
 
-import com.complexible.common.base.Option;
 import com.complexible.stardog.StardogException;
 import com.complexible.stardog.api.Connection;
 import com.complexible.stardog.api.ConnectionConfiguration;
@@ -95,58 +88,217 @@ import org.dcm4che3.data.*;
 @RestController
 
 public class ImportController {	
-	
+	String versionNumber = "0.6.4";
 	static String username = "admin"; 			// Credentials for StarDog
 	static String password = "admin";
+	public enum database {ontoMedirad, test}; 	// StarDog Database list ()
 
 	boolean reasoningDefault = false; 			// by defaut request will not use reasoning
-
-	String fhirUrl = Application.fhirUrl ;
-	String pacsUrl = Application.pacsUrl ;
-	String starDogUrl = Application.starDogUrl;
-	Memory memory = Application.memory;
 
 	List<String> listXSDnames = Stream.of("2D-DosimetryWorkflow.xsd", "3D-DosimetrySlide1Workflow.xsd", "3D-DosimetrySlide2Workflow.xsd", 
 			"3D-DosimetryWorkflow.xsd", "calibrationWorkflow.xsd", "Hybrid-DosimetryWorkflow.xsd","WP2subtask212WorkflowData.xsd"
 			).collect(Collectors.toList());
 
-	int compteurCT = 0;
-	
-	StructuredReport SR;						// For store SR document
-
-	public enum database {ontoMedirad, test}; 	// StarDog Database list ()
-
 	String rdfName;								// Name of the RDF file that wille writen before transfer to StarDog (for backup)
 	int z = 0; 									// Used for names RDF files and avoid overwriting
+	int compteurCT = 0;
 	
+	static String studyInstanceUID;
+
 	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
-
-	private static Individual patient;			// Will store the ontologic entity of the patient
-	static Individual clinicalResearchStudy;
-
-	static String handle;						// Handle is at top for being transmitted to the Import Controller
-	static String studyInstanceUID; static String seriesInstanceUID; 
-
+	String fhirUrl = Application.fhirUrl ;
+	String pacsUrl = Application.pacsUrl ;
+	String starDogUrl = Application.starDogUrl; 
+	Memory memory = Application.memory;
 
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 
 	
+	// Services de tests/debug
+	@RequestMapping (value = "/test", method = RequestMethod.GET)
+	public String test() throws IOException, DicomException {   
+		
+		return "Tipoui !\n";
+	}
+		
+	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
+	public String testMetadatas() throws IOException, DicomException {      
+		List<String> listeRDF = Stream.of(
+				
+				"pet 66863 000000.dcm",
+				"pet 69357 000000.dcm",
+				"pet ct 13979 000000.dcm",
+				"pet ct 33633 000000.dcm",
+				"pet ct 77667 000000.dcm",
+				
+				"NM_1.2.826.0.1.3680043.2.1143.9044577508240762692299637257578126775.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.4166221461035278595477829423829815483.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.5291241776818564084362627452114139907.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.4439810664766913333893527940924912402.dcm",
+				"NM_1.2.840.113619.2.281.3562.103051.1493996811.123212500.dcm",
+				"NM_22739480.dcm",
+				
+				"CT_1.2.840.113619.2.281.3562.103051.1493996663.372826500.dcm",
+				"CT_1.2.840.113619.2.281.3562.103051.1493996667.372868700.dcm",
+				"CT_1.2.840.113619.2.281.3562.103051.1493996672.372829600.dcm",
+				"CT 96821 000000.dcm",
+				"CT 11200 000000.dcm",
+				
+				"CTenhanced0011.dcm",
+				"CTenhanced0050.dcm",
+				"CTenhanced0053.dcm",
+				"CTenhanced0070.dcm").collect(Collectors.toList());
+		
+		Iterator<String> RDFIter = listeRDF.iterator();
+		while (RDFIter.hasNext()) {
+			String ClinicalResearchStudyId = "2.1.2";
+			String fileName = RDFIter.next();
+			File f = new File("uploadFiles/Dicom/"+fileName);																	// SR file that will be read 
+
+			org.dcm4che3.io.DicomInputStream input;
+			Attributes obj = null;
+			try {
+				input = new org.dcm4che3.io.DicomInputStream(f);
+				obj = input.readDataset(-1, -1);
+				input.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			System.out.println("\n\n-------------------------------------------------------------------------------------");
+			
+			System.out.println("\t"+fileName);
+			if (obj!=null) {
+				TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
+			}
+
+			rdfName = fileName.replace(".dcm", ".rdf");	
+			writingRDF(rdfName);
+			createAdminConnection(database.ontoMedirad);
+
+			setInStarDog(rdfName);
+			System.out.println("\n\n-------------------------------------------------------------------------------------");
+
+		}
+		return "Tipoui !\n";
+	}
+	
+	@RequestMapping (value = "/testAskomics", method = RequestMethod.GET)
+	public String testAbstractionAskomics()  {
+		
+		File f = new File("testAskomics.ttl");
+		FileOutputStream outStream;
+		try {
+			outStream = new FileOutputStream(f);
+			Application.dataModel.write(outStream, "Turtle");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		return "Tipoui !\n";
+	}
+	
+	@RequestMapping( value = "/testRequestControle", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
+	public String TestRequestControle(@RequestParam Map<String,String> requestParams) throws Exception{
+		System.out.println(requestParams);
+		String name = requestParams.get("name");
+		int valueRef = Integer.parseInt(requestParams.get("valueRef"));
+		String request = "SELECT (COUNT(DISTINCT ?entity) AS ?count) WHERE {?entity rdf:type "+name+" . }";
+		System.out.println(request);
+		String res = executeQuerry(request,"false").getBody();
+
+		try {
+			int valeur = ((JSONObject) ((JSONObject) ((JSONArray) ((JSONObject) new JSONObject(res).get("results")).getJSONArray("bindings")).get(0)).get("count")).getInt("value");
+			System.out.println("value : "+valeur);
+			if (valeur==valueRef) {
+				return "{\"res\": \"True\"}" ;
+			} else {
+				return "{\"res\": \"False\"}" ;
+			}
+		} catch (JSONException e) {
+			return ("{\"res\": \"Error : "+e.getMessage()+"\"}");
+		} 
+	}
+
+	@RequestMapping( value = "/testReturnReq", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
+	public ResponseEntity<String> RequeteTestReturn(@RequestParam("isReasoning") String isReasoning) 
+			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {
+		String sparql1 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
+				"	WHERE {\n" + 
+				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
+				"?dataset ontomedirad:is_specified_output_of ?ctacq .\n" + 
+				"?ctacq rdf:type ontomedirad:CT_acquisition .\n" + 
+				"?scanner rdf:type ontomedirad:CT_scanner .\n" + 
+				"?acqrole rdf:type ontomedirad:image_acquisition_role .\n" + 
+				"?acqrole purl:BFO_0000052 ?scanner.     \n" + 
+				"?acqrole purl:BFO_0000054 ?ctacq . \n" + 
+				"OPTIONAL {?ctacq ontomedirad:has_setting ?tubecurrent .\n" + 
+				"?tubecurrent rdf:type dcm:113734 .\n" + 
+				"?tubecurrent purl:IAO_0000004 ?tubecurrentvalue . \n" + 
+				"OPTIONAL {?tubecurrent purl:IAO_0000039 ?tubecurrentunit . \n" + 
+				"?tubecurrentunit rdfs:label ?tubecurrentunitlabel }}.\n" + 
+				"OPTIONAL {?ctacq ontomedirad:has_setting ?xraymodsetting .\n" + 
+				"?xraymodsetting rdf:type ?xraymodclass .\n" + 
+				"?xraymodclass rdfs:subClassOf* dcm:113842 .\n" + 
+				"?xraymodsetting purl:IAO_0000004 ?useofxraymodvalue } .\n" + 
+				"OPTIONAL {?ctacq ontomedirad:has_setting ?kvpsetting .\n" + 
+				"?kvpsetting rdf:type dcm:113733 .\n" + 
+				"?kvpsetting purl:IAO_0000004 ?kvpvalue . \n" + 
+				"OPTIONAL {?kvpsetting purl:IAO_0000039 ?kvpunit .\n" + 
+				"?kvpunit rdfs:label ?kvpunitlabel }}.\n" + 
+				"OPTIONAL {?ctacq ontomedirad:has_setting ?exptime .\n" + 
+				"?exptime rdf:type dcm:113824 .\n" + 
+				"?exptime purl:IAO_0000004 ?exptimevalue .\n" + 
+				"OPTIONAL {?exptime purl:IAO_0000039 ?exptimeunit .\n" + 
+				"?exptimeunit rdfs:label ?exptimeunitlabel }}.\n" + 
+				"?scanner ontomedirad:has_manufacturer_name ?manufacturer .\n" + 
+				"?scanner ontomedirad:has_model_name ?model .\n" + 
+				"}\n" ;
+
+		@SuppressWarnings("unused")
+		String sparql2 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
+				"	WHERE {\n" + 
+				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
+				"?dataset ontomedirad:is_specified_output_of ?ctacq .\n" + 
+				"?ctacq rdf:type ontomedirad:CT_acquisition .\n" + 
+				"?scanner rdf:type ontomedirad:CT_scanner .\n" + 
+				"?acqrole rdf:type ontomedirad:image_acquisition_role .\n" + 
+				"?acqrole purl:BFO_0000052 ?scanner.     \n" + 
+				"?acqrole purl:BFO_0000054 ?ctacq . \n" +   
+				"?scanner ontomedirad:has_manufacturer_name ?manufacturer .\n" + 
+				"?scanner ontomedirad:has_model_name ?model .\n" + 
+				"}\n";
+		@SuppressWarnings("unused")
+		String sparql3  = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
+				"	WHERE {\n" + 
+				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
+				"?dataset ontomedirad:is_specified_output_of ?ctacq .\n" + 
+				"?ctacq rdf:type ontomedirad:CT_acquisition .\n" + 
+				"?scanner rdf:type ontomedirad:CT_scanner .\n" + 
+				"?acqrole rdf:type ontomedirad:image_acquisition_role .\n" + 
+				"?acqrole purl:BFO_0000052 ?scanner.     \n" + 
+				"?acqrole purl:BFO_0000054 ?ctacq . \n" + 
+				"?scanner ontomedirad:has_manufacturer_name ?manufacturer .\n" + 
+				"?scanner ontomedirad:has_model_name ?model .\n" + 
+				"}\n";
+
+		return executeQuerry(sparql1 ,isReasoning);
+
+	}
+
+
+	
+	// Principaux Services
 	@RequestMapping (value = "/getVersion", method = RequestMethod.GET)
 	public String returnVersionNumber()  {
-		String version = "0.6.4";
-		return version;
+		return versionNumber;
 	}
 	
 	@RequestMapping (value = "/downloadOntology", method = RequestMethod.GET, headers = "Accept=application/zip")
 	public void downloadOntology(HttpServletResponse response) throws IOException {
-		List<String> srcFiles = Arrays.asList("CHEBI_for_OntoMEDIRAD.owl",
-				"bfo.owl","FMA_for_OntoMEDIRAD.owl","IAO_for_OntoSPM.owl",
-				"MEDIRADClinicalResearchStudies.owl","ontoMedirad.owl",
-				"PATO_for_OntoMEDIRAD.owl","Radionuclides_for_OntoMEDIRAD.owl",
-				"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
 		String zipFileName = "ontoMedirad.zip";
         FileOutputStream fos = new FileOutputStream(zipFileName);
         ZipOutputStream zipOut = new ZipOutputStream(fos);
-        for (String srcFile : srcFiles) {
+        for (String srcFile : Application.listeOntologyFiles) {
             InputStream fis = new ClassPathResource("/OntoMedirad/"+srcFile).getInputStream();
             ZipEntry zipEntry = new ZipEntry(srcFile);
             zipOut.putNextEntry(zipEntry);
@@ -168,21 +320,6 @@ public class ImportController {
         response.getOutputStream().flush();
 	}
 
-	@RequestMapping (value = "/testAskomics", method = RequestMethod.GET)
-	public String testAbstractionAskomics()  {
-		
-		File f = new File("testAskomics.ttl");
-		FileOutputStream outStream;
-		try {
-			outStream = new FileOutputStream(f);
-			Application.dataModel.write(outStream, "Turtle");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
-		return "Tipoui !\n";
-	}
-	
 	@RequestMapping (value = "/verifRequest", method = RequestMethod.GET)
 	public String verifRequest() {
 
@@ -223,133 +360,6 @@ public class ImportController {
 		System.out.println("Nombre de lignes :"+result.split("\n").length);
 		return "Tipoui !\n";
 
-	}
-
-	String racineURI = "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#";
-	String racineObo = "http://purl.obolibrary.org/obo/";
-
-	OntModel modelTest;
-	public void addDataProperty(Individual ind, String propName, String value) {		// Create a Data property
-		Property prop = modelTest.createDatatypeProperty(propName);
-		ind.addProperty(prop, value);
-	}
-	
-	public void addObjectProperty(Individual ind, String propName, Individual ind2) { // Create an Object property
-		ObjectProperty prop = modelTest.createObjectProperty(propName);	
-		modelTest.add(ind, prop.asObjectProperty(), ind2);
-	}
-	
-	public Individual createIndiv(String name, Resource ressource) {					// Create an Individual
-		Individual ind = modelTest.createIndividual(racineURI+name, ressource);
-		return ind;
-	}
-	
-	@RequestMapping (value = "/test", method = RequestMethod.GET)
-	public String test() throws IOException, DicomException {   
-		modelTest = ModelFactory.createOntologyModel();
-		OntModel model = Application.getModel();
-		Individual i;
-
-		Individual imagingStudy = modelTest.createIndividual(racineURI+"imaging_study_TEST",
-				model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));
-		
-		Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy("2.1.2");
-		addObjectProperty(imagingStudy, racineURI+"part_of_study", clinicalResearchStudy);		
-		
-		addDataProperty(imagingStudy, racineURI+"has_beginning_date", "StudyDate");
-		addDataProperty(imagingStudy, racineURI+"has_beginning_time", "StudyTime");
-		
-		i = createIndiv("age_of_patient_undergoing_medical_procedure", model.getResource(racineURI+"age_of_patient_undergoing_medical_procedure"));
-		addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
-		
-		i = createIndiv("Patient_Height", model.getResource(racineURI+"patient_height"));
-		addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
-		
-		i = createIndiv("Patient_Weight", model.getResource(racineURI+"patient_weight"));
-		addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
-		
-		addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", "StudyInstanceUID");
-
-		Individual organTest = createIndiv("breast", model.getResource(racineObo+"FMA_9601"));
-		addObjectProperty(imagingStudy, racineURI+"has_target_region", organTest);
-		
-		addDataProperty(imagingStudy, racineURI+"has_description", "StudyDescription");
-		
-		Individual patientRole = createIndiv("Patient", model.getResource(racineURI+"patient"));
-		addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);	 
-		
-		Individual acquisition = createIndiv("SPECT_data_acquisition", model.getResource(racineURI+"SPECT_data_acquisition"));
-		addObjectProperty(acquisition, racineObo+"BFO_0000132", imagingStudy); 
-//
-		
-		String pathOut = "testIS.rdf";
-		
-		FileOutputStream sortie = new FileOutputStream(pathOut);
-		modelTest.write(sortie, "RDF/XML", null);	
-		
-		return "Tipoui !\n";
-	}
-		
-	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
-	public String testMetadatas() throws IOException, DicomException {      
-		List<String> listeRDF = Stream.of(
-				/*
-				"pet 66863 000000.dcm",
-				"pet 69357 000000.dcm",
-				"pet ct 13979 000000.dcm",
-				"pet ct 33633 000000.dcm",
-				"pet ct 77667 000000.dcm",
-				
-				"NM_1.2.826.0.1.3680043.2.1143.9044577508240762692299637257578126775.dcm",
-				"NM_1.2.826.0.1.3680043.2.1143.4166221461035278595477829423829815483.dcm",
-				"NM_1.2.826.0.1.3680043.2.1143.5291241776818564084362627452114139907.dcm",
-				"NM_1.2.826.0.1.3680043.2.1143.4439810664766913333893527940924912402.dcm",
-				"NM_1.2.840.113619.2.281.3562.103051.1493996811.123212500.dcm",
-				"NM_22739480.dcm",
-				
-				"CT_1.2.840.113619.2.281.3562.103051.1493996663.372826500.dcm",
-				"CT_1.2.840.113619.2.281.3562.103051.1493996667.372868700.dcm",
-				"CT_1.2.840.113619.2.281.3562.103051.1493996672.372829600.dcm",
-				"CT 96821 000000.dcm",
-				"CT 11200 000000.dcm",*/
-				
-				"CTenhanced0011.dcm",
-				"CTenhanced0050.dcm",
-				"CTenhanced0053.dcm",
-				"CTenhanced0070.dcm").collect(Collectors.toList());
-		
-		Iterator<String> RDFIter = listeRDF.iterator();
-		while (RDFIter.hasNext()) {
-			String ClinicalResearchStudyId = "2.1.2";
-			String fileName = RDFIter.next();
-			File f = new File("uploadFiles/Dicom/"+fileName);																	// SR file that will be read 
-
-			org.dcm4che3.io.DicomInputStream input;
-			Attributes obj = null;
-			try {
-				input = new org.dcm4che3.io.DicomInputStream(f);
-				obj = input.readDataset(-1, -1);
-				input.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			System.out.println("\n\n-------------------------------------------------------------------------------------");
-			
-			System.out.println("\t"+fileName);
-			if (obj!=null) {
-				TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
-			}
-
-			rdfName = fileName.replace(".dcm", ".rdf");	
-			writingRDF(rdfName);
-			createAdminConnection(database.ontoMedirad);
-
-			setInStarDog(rdfName);
-			System.out.println("\n\n-------------------------------------------------------------------------------------");
-
-		}
-		return "Tipoui !\n";
 	}
 	
 	@RequestMapping(value = "/importDicomMetadata", method = RequestMethod.POST)	//, headers = "Accept=application/json"
@@ -408,6 +418,7 @@ public class ImportController {
 			System.out.println("PatientID : "+PatientID);
 			
 			String studyId = element.getString(Tag.StudyInstanceUID);
+			studyInstanceUID = studyId;
 
 			Iterator<Attributes> seriesItr = referencedSeriesSeq.iterator();
 			
@@ -435,7 +446,7 @@ public class ImportController {
 //						1.2.840.10008.5.1.4.1.1.88.65	Chest CAD SR	 
 //						1.2.840.10008.5.1.4.1.1.88.67	X-Ray Radiation Dose SR
 					} else if (ReferencedSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2")) { // CT
-						String cleCT = studyInstanceUID + seriesInstanceUID;
+						String cleCT = studyId + seriesUID;
 						boolean testCleCt = true;
 						Iterator<String> iterCleCt = listCleCT.iterator();
 						while (iterCleCt.hasNext()) {
@@ -458,78 +469,6 @@ public class ImportController {
 		
 		return "{\"res\":\"importDicomMetadata Request received\"}";
 
-	}
-		
-	public void retrieveDicomFile(String studyInstanceUID, String seriesInstanceUID, String ClinicalResearchStudyId) throws IOException {
-		logger.info("Retrieving CT StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
-		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
-		
-		String targetURL = pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
-		handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;						// Handle to retrieve object in the Pacs
-		
-		System.out.println(targetURL);
-		logger.debug(targetURL);
-		
-		HttpURLConnection pacsConnection; 
-		URL url = new URL(targetURL);
-		pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
-		pacsConnection.setRequestMethod("GET");
-		pacsConnection.setRequestProperty("Accept",  "multipart/related; type=application/dicom;");
-		
-		String boundary = "";																			// Create object for retrieve SR as a text  
-		String boundaryHeader = "boundary=";															// Same
-		String contentType = pacsConnection.getHeaderField("Content-Type");								// Get header at "Content-Type"
-		int bufsize = pacsConnection.getContentLength();	
-		
-		String[] contentTypeArray = contentType.split(";");												// Split the text received as a list of String
-		for (String content : contentTypeArray ) {														 
-			if (content.contains(boundaryHeader)) {
-				boundary = content.substring(content.indexOf("=")+1);									// Extract the content
-			}
-		}
-		
-		if (bufsize<=0) { 																				// Correction when bufsize = -1
-			logger.warn("bufsize : "+bufsize);
-			bufsize=50;																					// Buffsize correction (50 is a random number enough big)
-			logger.warn("bufsize corrected to  "+bufsize);
-		} else {
-			logger.debug("bufsize : "+bufsize);
-		}
-
-		String srFilename = "CT"+compteurCT+".dcm";																	// Filename for write the SR and read it after
-		MultipartStream multipartStream;
-		multipartStream = new MultipartStream(											// MultipartStream will receive the input stream containing the SR
-				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
-		logger.debug("Writing SR in : "+srFilename);
-		File file = new File(srFilename);																// Create the file for write the SR
-		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());							// New stream to write in the file
-		boolean nextPart = multipartStream.skipPreamble();
-
-		if (nextPart) {																					// Iterate as a while (X.hasNext())
-			multipartStream.readHeaders();																// Header of the part won't be written
-			multipartStream.readBodyData(out);															// Write in the file
-		}
-		out.close();
-		if(pacsConnection != null) {pacsConnection.disconnect();}											// Close the connection to the Stardog
-		
-		logger.debug("Reading SR (local file)");	
-		File f = new File(srFilename);																	// SR file that will be read 
-		
-		org.dcm4che3.io.DicomInputStream input;
-		Attributes obj;
-		input = new org.dcm4che3.io.DicomInputStream(f);
-		obj = input.readDataset(-1, -1);
-		input.close();
-		
-		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
-
-		createAdminConnection(database.ontoMedirad);
-		
-		rdfName = "RdfBackup/CT_metadata" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";		// Name for the RDF File (won't be overwritten)
-		writingRDF(rdfName);																			// Write the populated graph in the RDF file
-		setInStarDog(rdfName);
-		
-		logger.debug("Retrieving SR : No exception catched");
 	}
 	
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
@@ -639,7 +578,7 @@ public class ImportController {
 		}
         return new ValidationReport(true, "XML is Valid").getJson();
 	}
-
+	
 	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
 	public @ResponseBody ResponseEntity<String> validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {
 		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
@@ -666,6 +605,221 @@ public class ImportController {
 		return ResponseEntity.status(HttpStatus.OK).body(""); 				
 	}
 
+	@RequestMapping(value = "/importDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
+	public String importDicomData(@RequestBody DicomFileSetDescriptor dicomFileSetDescriptor,  				// Import Dicom file
+			@RequestParam(value = "db", required = false) String db)  {						   				// (not required) name of the database
+		logger.info("Dicom Import request received");
+		if (pacsUrl==null) {pacsUrl = Application.pacsUrl ;}
+		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}
+		if (memory==null) {memory=Application.memory;}														// Memory is used for store some objects
+
+		//Individual clinicalResearchStudy = OntologyPopulator.
+		//		retrieveClinicalResearchStudy(dicomFileSetDescriptor.getReferencedClinicalStudy().getClinicalStudyID());
+
+		for (DICOMStudyType study : dicomFileSetDescriptor.getDICOMStudy()) {				   				// Iterate on the studies
+			for (DICOMSeriesType series : study.getDICOMSeries() ) {						   				// Iterate on the series
+				String studyInstanceUID = study.getDICOMStudyDescriptor().getStudyInstanceUID0020000D();		// Get studyID
+				String seriesInstanceUID = series.getDICOMSeriesDescriptor().getSeriesInstanceUID0020000E();	// Get seriesID
+				if(series.getDICOMSeriesDescriptor().getModality00080060().equals("SR")) {	   				// If there is a SR Structured Report
+					logger.info("SR referenced");
+					if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
+					else {createAdminConnection(db);}														// If DB provided create a connection these DB
+					try {
+						retrieveSR(studyInstanceUID, seriesInstanceUID);
+					} catch (DicomException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}										// Translate SR
+					starDogConnection.close();																// Close Stardog connection
+
+				} else if (series.getDICOMSeriesDescriptor().getModality00080060().equals("CT")) {			// If there is a CT 
+					logger.info("CT referenced");
+					if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
+					else {createAdminConnection(db);}														// If DB provided create a connection these DB
+					logger.info("Retrieving CT"+" StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
+					Iterator<DICOMStudyType> iterFileSet = dicomFileSetDescriptor.getDICOMStudy().iterator();// Iterator on the root of the Dicom Study XML
+					Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy(dicomFileSetDescriptor.getReferencedClinicalStudy().getClinicalStudyID());
+					TranslateDicomData.readingCT(iterFileSet, 												// Read and translate the CT
+							studyInstanceUID, seriesInstanceUID, 
+							clinicalResearchStudy , 
+							dicomFileSetDescriptor.getPatientDescriptor());
+					rdfName = "RdfBackup/CT_study" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";// Name for the RDF file
+					try {
+						writingRDF(rdfName);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}																	// Write RDF in a file
+					try {
+						setInStarDog(rdfName);
+					} catch (StardogException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}																	// Push RDF file to Stardog
+					starDogConnection.close();																// Close Stardog connection
+				} else {
+					logger.warn("Unknown reference : "														// Log a message if there is an unknown type
+								+series.getDICOMSeriesDescriptor().getModality00080060()); 									
+				}
+			}
+		}
+		return "{\"res\":\"ImportDicomFileSetDescriptor Request received\"}";
+	}
+
+	@RequestMapping( value = "/importNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
+	public String importNonDicomData(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor,  	// Import Non Dicom data XML valid file
+			@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {						    
+
+		if (pacsUrl==null) {pacsUrl = Application.pacsUrl ;}
+		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}	
+		
+		if (nonDicomFileSetDescriptor!=null) {									    						// If there is a nonDicomFileSetDescriptor
+			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data
+		}
+
+		logger.info("Retrieving NON Dicom FileSetDescriptor");
+		z++;																								// Z is a number for the file name (will avoid overwriting)
+		rdfName = "RdfBackup/nonDicom_study" + nonDicomFileSetDescriptor.getReferencedClinicalResearchStudy().getClinicalResearchStudyID() +"_"+z+".rdf";
+		writingRDF(rdfName);																				// Write Semantic Graph in a RDF file
+		if (db==null)  {createAdminConnection(database.ontoMedirad);}										// If no DB provided create a connection to ontoMedirad
+		else {createAdminConnection(db);}																	// If DB provided create a connection these DB setInStarDog(rdfName);
+		setInStarDog(rdfName);
+		starDogConnection.close();																			// Close Stardog connection
+
+		return "{\"res\": \"ImportNonDicomFileSetDescriptor Request received\"}";							// Return these message if there's no Error
+	}
+
+	@RequestMapping (value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/rdf")
+	public @ResponseBody FileSystemResource downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {		
+		
+		String fileName; File file = null;
+		if (db==null)  {
+			createAdminConnection(database.ontoMedirad);										// If no DB provided create a connection to ontoMedirad
+			fileName = "stardogData_ontoMedirad.rdf";
+		} else {
+			createAdminConnection(db);
+			fileName = "stardogData_"+db.toString()+".rdf";
+		}
+		
+		Exporter exporter = starDogConnection.export();
+		exporter.format(org.openrdf.rio.RDFFormat.RDFXML);
+		
+		file = new File(fileName);
+		FileOutputStream output = new FileOutputStream(file);
+		exporter.to(output);
+		
+		starDogConnection.close();
+		
+		return new FileSystemResource(file); 
+	}
+	
+	@RequestMapping (value = "/downloadRequests", method = RequestMethod.GET , headers = "Accept=text/csv")
+	public String downloadRequests() {
+		return Application.listQuerries.getRequestListsinCSV();
+	}
+
+	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
+	public ResponseEntity<String> requestFromList(@RequestParam("id") String id)        // Shortcut to execute a request from the request list
+			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {    
+		String isReasoning = "false";
+		Querry q = Application.listQuerries.getRequest(id);             // Retrieve request from the list (can be null if request name is unknown)
+
+		if (q!=null) {											   	    // If request is NOT null
+			ResponseEntity<String> a = executeQuerry(q.getRequest().replaceAll("\"", ""), isReasoning); 	    // Execute the querry and store the result as a string
+			return a;											        // Return Querry Result
+		} else {												        // If request is null
+			logger.error("Unknown Request");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown Request");
+		}
+	}
+		// Services Annexes
+	
+	
+	
+	
+	
+	
+	
+	// Fonctions locales
+	
+	public void retrieveDicomFile(String studyInstanceUID, String seriesInstanceUID, String ClinicalResearchStudyId) throws IOException {
+		logger.info("Retrieving CT StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
+		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
+		
+		String targetURL = pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
+		//String handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;						// Handle to retrieve object in the Pacs
+		
+		System.out.println(targetURL);
+		logger.debug(targetURL);
+		
+		HttpURLConnection pacsConnection; 
+		URL url = new URL(targetURL);
+		pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
+		pacsConnection.setRequestMethod("GET");
+		pacsConnection.setRequestProperty("Accept",  "multipart/related; type=application/dicom;");
+		
+		String boundary = "";																			// Create object for retrieve SR as a text  
+		String boundaryHeader = "boundary=";															// Same
+		String contentType = pacsConnection.getHeaderField("Content-Type");								// Get header at "Content-Type"
+		int bufsize = pacsConnection.getContentLength();	
+		
+		String[] contentTypeArray = contentType.split(";");												// Split the text received as a list of String
+		for (String content : contentTypeArray ) {														 
+			if (content.contains(boundaryHeader)) {
+				boundary = content.substring(content.indexOf("=")+1);									// Extract the content
+			}
+		}
+		
+		if (bufsize<=0) { 																				// Correction when bufsize = -1
+			logger.warn("bufsize : "+bufsize);
+			bufsize=50;																					// Buffsize correction (50 is a random number enough big)
+			logger.warn("bufsize corrected to  "+bufsize);
+		} else {
+			logger.debug("bufsize : "+bufsize);
+		}
+
+		String srFilename = "CT"+compteurCT+".dcm";																	// Filename for write the SR and read it after
+		MultipartStream multipartStream;
+		multipartStream = new MultipartStream(											// MultipartStream will receive the input stream containing the SR
+				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
+		logger.debug("Writing SR in : "+srFilename);
+		File file = new File(srFilename);																// Create the file for write the SR
+		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());							// New stream to write in the file
+		boolean nextPart = multipartStream.skipPreamble();
+
+		if (nextPart) {																					// Iterate as a while (X.hasNext())
+			multipartStream.readHeaders();																// Header of the part won't be written
+			multipartStream.readBodyData(out);															// Write in the file
+		}
+		out.close();
+		if(pacsConnection != null) {pacsConnection.disconnect();}											// Close the connection to the Stardog
+		
+		logger.debug("Reading SR (local file)");	
+		File f = new File(srFilename);																	// SR file that will be read 
+		
+		org.dcm4che3.io.DicomInputStream input;
+		Attributes obj;
+		input = new org.dcm4che3.io.DicomInputStream(f);
+		obj = input.readDataset(-1, -1);
+		input.close();
+		
+		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
+
+		createAdminConnection(database.ontoMedirad);
+		
+		rdfName = "RdfBackup/CT_metadata" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";		// Name for the RDF File (won't be overwritten)
+		writingRDF(rdfName);																			// Write the populated graph in the RDF file
+		setInStarDog(rdfName);
+		
+		logger.debug("Retrieving SR : No exception catched");
+	}
+	
 	public static boolean GateKeeper(String request) {	   				// Security Check for request sent to StarDog
 		// All request that will degrade data in stardog will be blocked
 		if (request.contains("CONSTRUCT")) {return false;} 				// Unsecure command because Construct command can degrade data
@@ -720,110 +874,6 @@ public class ImportController {
 		return ResponseEntity.status(HttpStatus.OK).body(out.toString()); // Convert the ByteArrayOutputStream as a string and return it
 	}
 
-	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
-	public ResponseEntity<String> requestFromList(@RequestParam("id") String id)        // Shortcut to execute a request from the request list
-			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {    
-		String isReasoning = "false";
-		Querry q = Application.listQuerries.getRequest(id);             // Retrieve request from the list (can be null if request name is unknown)
-
-		if (q!=null) {											   	    // If request is NOT null
-			ResponseEntity<String> a = executeQuerry(q.getRequest().replaceAll("\"", ""), isReasoning); 	    // Execute the querry and store the result as a string
-			return a;											        // Return Querry Result
-		} else {												        // If request is null
-			logger.error("Unknown Request");
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown Request");
-		}
-	}
-
-	@RequestMapping( value = "/testRequestControle", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
-	public String TestRequestControle(@RequestParam Map<String,String> requestParams) throws Exception{
-		System.out.println(requestParams);
-		String name = requestParams.get("name");
-		int valueRef = Integer.parseInt(requestParams.get("valueRef"));
-		String request = "SELECT (COUNT(DISTINCT ?entity) AS ?count) WHERE {?entity rdf:type "+name+" . }";
-		System.out.println(request);
-		String res = executeQuerry(request,"false").getBody();
-
-		try {
-			int valeur = ((JSONObject) ((JSONObject) ((JSONArray) ((JSONObject) new JSONObject(res).get("results")).getJSONArray("bindings")).get(0)).get("count")).getInt("value");
-			System.out.println("value : "+valeur);
-			if (valeur==valueRef) {
-				return "{\"res\": \"True\"}" ;
-			} else {
-				return "{\"res\": \"False\"}" ;
-			}
-		} catch (JSONException e) {
-			return ("{\"res\": \"Error : "+e.getMessage()+"\"}");
-		} 
-	}
-
-	@RequestMapping( value = "/testReturnReq", method = RequestMethod.GET, headers = "Accept=text/xml") // For test only
-	public ResponseEntity<String> RequeteTestReturn(@RequestParam("isReasoning") String isReasoning) 
-			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {
-		@SuppressWarnings("unused")
-		String sparql1 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
-				"	WHERE {\n" + 
-				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
-				"?dataset ontomedirad:is_specified_output_of ?ctacq .\n" + 
-				"?ctacq rdf:type ontomedirad:CT_acquisition .\n" + 
-				"?scanner rdf:type ontomedirad:CT_scanner .\n" + 
-				"?acqrole rdf:type ontomedirad:image_acquisition_role .\n" + 
-				"?acqrole purl:BFO_0000052 ?scanner.     \n" + 
-				"?acqrole purl:BFO_0000054 ?ctacq . \n" + 
-				"OPTIONAL {?ctacq ontomedirad:has_setting ?tubecurrent .\n" + 
-				"?tubecurrent rdf:type dcm:113734 .\n" + 
-				"?tubecurrent purl:IAO_0000004 ?tubecurrentvalue . \n" + 
-				"OPTIONAL {?tubecurrent purl:IAO_0000039 ?tubecurrentunit . \n" + 
-				"?tubecurrentunit rdfs:label ?tubecurrentunitlabel }}.\n" + 
-				"OPTIONAL {?ctacq ontomedirad:has_setting ?xraymodsetting .\n" + 
-				"?xraymodsetting rdf:type ?xraymodclass .\n" + 
-				"?xraymodclass rdfs:subClassOf* dcm:113842 .\n" + 
-				"?xraymodsetting purl:IAO_0000004 ?useofxraymodvalue } .\n" + 
-				"OPTIONAL {?ctacq ontomedirad:has_setting ?kvpsetting .\n" + 
-				"?kvpsetting rdf:type dcm:113733 .\n" + 
-				"?kvpsetting purl:IAO_0000004 ?kvpvalue . \n" + 
-				"OPTIONAL {?kvpsetting purl:IAO_0000039 ?kvpunit .\n" + 
-				"?kvpunit rdfs:label ?kvpunitlabel }}.\n" + 
-				"OPTIONAL {?ctacq ontomedirad:has_setting ?exptime .\n" + 
-				"?exptime rdf:type dcm:113824 .\n" + 
-				"?exptime purl:IAO_0000004 ?exptimevalue .\n" + 
-				"OPTIONAL {?exptime purl:IAO_0000039 ?exptimeunit .\n" + 
-				"?exptimeunit rdfs:label ?exptimeunitlabel }}.\n" + 
-				"?scanner ontomedirad:has_manufacturer_name ?manufacturer .\n" + 
-				"?scanner ontomedirad:has_model_name ?model .\n" + 
-				"}\n" ;
-
-		@SuppressWarnings("unused")
-		String sparql2 = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
-				"	WHERE {\n" + 
-				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
-				"?dataset ontomedirad:is_specified_output_of ?ctacq .\n" + 
-				"?ctacq rdf:type ontomedirad:CT_acquisition .\n" + 
-				"?scanner rdf:type ontomedirad:CT_scanner .\n" + 
-				"?acqrole rdf:type ontomedirad:image_acquisition_role .\n" + 
-				"?acqrole purl:BFO_0000052 ?scanner.     \n" + 
-				"?acqrole purl:BFO_0000054 ?ctacq . \n" +   
-				"?scanner ontomedirad:has_manufacturer_name ?manufacturer .\n" + 
-				"?scanner ontomedirad:has_model_name ?model .\n" + 
-				"}\n";
-		@SuppressWarnings("unused")
-		String sparql3  = "SELECT DISTINCT ?dataset ?model ?manufacturer ?kvpvalue ?kvpunitlabel ?tubecurrentvalue ?tubecurrentunitlabel ?exptimevalue ?exptimeunitlabel ?useofxraymodvalue\n" + 
-				"	WHERE {\n" + 
-				"?dataset rdf:type ontomedirad:CT_image_dataset .\n" + 
-				"?dataset ontomedirad:is_specified_output_of ?ctacq .\n" + 
-				"?ctacq rdf:type ontomedirad:CT_acquisition .\n" + 
-				"?scanner rdf:type ontomedirad:CT_scanner .\n" + 
-				"?acqrole rdf:type ontomedirad:image_acquisition_role .\n" + 
-				"?acqrole purl:BFO_0000052 ?scanner.     \n" + 
-				"?acqrole purl:BFO_0000054 ?ctacq . \n" + 
-				"?scanner ontomedirad:has_manufacturer_name ?manufacturer .\n" + 
-				"?scanner ontomedirad:has_model_name ?model .\n" + 
-				"}\n";
-
-		return executeQuerry(sparql1 ,isReasoning);
-
-	}
-
 	public static boolean databaseContains(String test) { 				// Function for check if Database name provided is a real database (in the enumeration)
 		for (database b : database.values()) {							// Iterate the iteration
 			if (b.name().equals(test)) {								// Compare name provided with name in the iterartion
@@ -832,105 +882,13 @@ public class ImportController {
 		}
 		return false;													// Return False if name provided is NOT in the iterartion
 	}
-	
-	public static Individual getPatient() {
-		return patient;
-	}
 
-	@RequestMapping(value = "/importDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
-	public String importDicomData(@RequestBody DicomFileSetDescriptor dicomFileSetDescriptor,  				// Import Dicom file
-			@RequestParam(value = "db", required = false) String db)  {						   				// (not required) name of the database
-		logger.info("Dicom Import request received");
-		if (pacsUrl==null) {pacsUrl = Application.pacsUrl ;}
-		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}
-		if (memory==null) {memory=Application.memory;}														// Memory is used for store some objects
-
-		//Individual clinicalResearchStudy = OntologyPopulator.
-		//		retrieveClinicalResearchStudy(dicomFileSetDescriptor.getReferencedClinicalStudy().getClinicalStudyID());
-
-		for (DICOMStudyType study : dicomFileSetDescriptor.getDICOMStudy()) {				   				// Iterate on the studies
-			for (DICOMSeriesType series : study.getDICOMSeries() ) {						   				// Iterate on the series
-				studyInstanceUID = study.getDICOMStudyDescriptor().getStudyInstanceUID0020000D();		// Get studyID
-				seriesInstanceUID = series.getDICOMSeriesDescriptor().getSeriesInstanceUID0020000E();	// Get seriesID
-				if(series.getDICOMSeriesDescriptor().getModality00080060().equals("SR")) {	   				// If there is a SR Structured Report
-					logger.info("SR referenced");
-					if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
-					else {createAdminConnection(db);}														// If DB provided create a connection these DB
-					try {
-						retrieveSR(studyInstanceUID, seriesInstanceUID);
-					} catch (DicomException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}										// Translate SR
-					starDogConnection.close();																// Close Stardog connection
-
-				} else if (series.getDICOMSeriesDescriptor().getModality00080060().equals("CT")) {			// If there is a CT 
-					logger.info("CT referenced");
-					if (db==null)  {createAdminConnection(database.ontoMedirad);}							// If no DB provided create a connection to ontoMedirad
-					else {createAdminConnection(db);}														// If DB provided create a connection these DB
-					logger.info("Retrieving CT"+" StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
-					Iterator<DICOMStudyType> iterFileSet = dicomFileSetDescriptor.getDICOMStudy().iterator();// Iterator on the root of the Dicom Study XML
-					TranslateDicomData.readingCT(iterFileSet, 												// Read and translate the CT
-							studyInstanceUID, seriesInstanceUID, 
-							clinicalResearchStudy, dicomFileSetDescriptor.getPatientDescriptor());
-					rdfName = "RdfBackup/CT_study" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";// Name for the RDF file
-					try {
-						writingRDF(rdfName);
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}																	// Write RDF in a file
-					try {
-						setInStarDog(rdfName);
-					} catch (StardogException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}																	// Push RDF file to Stardog
-					starDogConnection.close();																// Close Stardog connection
-				} else {
-					logger.warn("Unknown reference : "														// Log a message if there is an unknown type
-								+series.getDICOMSeriesDescriptor().getModality00080060()); 									
-				}
-			}
-		}
-		return "{\"res\":\"ImportDicomFileSetDescriptor Request received\"}";
-	}
-
-	@RequestMapping( value = "/importNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
-	public String importNonDicomData(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor,  	// Import Non Dicom data XML valid file
-			@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {						    
-
-		if (pacsUrl==null) {pacsUrl = Application.pacsUrl ;}
-		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}	
-		
-		if (nonDicomFileSetDescriptor!=null) {									    						// If there is a nonDicomFileSetDescriptor
-			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data
-		}
-
-		logger.info("Retrieving NON Dicom FileSetDescriptor");
-		z++;																								// Z is a number for the file name (will avoid overwriting)
-		rdfName = "RdfBackup/nonDicom_study" + nonDicomFileSetDescriptor.getReferencedClinicalResearchStudy().getClinicalResearchStudyID() +"_"+z+".rdf";
-		writingRDF(rdfName);																				// Write Semantic Graph in a RDF file
-		if (db==null)  {createAdminConnection(database.ontoMedirad);}										// If no DB provided create a connection to ontoMedirad
-		else {createAdminConnection(db);}																	// If DB provided create a connection these DB setInStarDog(rdfName);
-		setInStarDog(rdfName);
-		starDogConnection.close();																			// Close Stardog connection
-
-		return "{\"res\": \"ImportNonDicomFileSetDescriptor Request received\"}";							// Return these message if there's no Error
-	}
-	
 	public boolean retrieveSR(String studyInstanceUID, String seriesInstanceUID) throws DicomException, IOException {							// Treat SR (before and after translation)
 		logger.info("Retrieving SR StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
 		String targetURL = pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
 
-		handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;						// Handle to retrieve object in the Pacs
+		//String handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;						// Handle to retrieve object in the Pacs
 
 		logger.debug("targetURL : "+targetURL);
 		
@@ -988,7 +946,7 @@ public class ImportController {
 		AttributeList attributeList = new AttributeList();												// Crate an empty attribute that will receive SR Datas
 
 		attributeList.read(f);																			// Read SR from file and put contain in attributeList
-		SR = new StructuredReport(attributeList);														// Convert the attributeList in StructuredReport
+		StructuredReport SR = new StructuredReport(attributeList);														// Convert the attributeList in StructuredReport
 		TranslateDicomData.readingSR((ContentItem) SR.getRoot());										// Read and Translate the SR from the root
 		
 		createAdminConnection(database.ontoMedirad);
@@ -1070,30 +1028,6 @@ public class ImportController {
 		logger.info("Transfer to stardog : Complete");
 	}
 	
-	@RequestMapping (value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/rdf")
-	public @ResponseBody FileSystemResource downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {		
-		
-		String fileName; File file = null;
-		if (db==null)  {
-			createAdminConnection(database.ontoMedirad);										// If no DB provided create a connection to ontoMedirad
-			fileName = "stardogData_ontoMedirad.rdf";
-		} else {
-			createAdminConnection(db);
-			fileName = "stardogData_"+db.toString()+".rdf";
-		}
-		
-		Exporter exporter = starDogConnection.export();
-		exporter.format(org.openrdf.rio.RDFFormat.RDFXML);
-		
-		file = new File(fileName);
-		FileOutputStream output = new FileOutputStream(file);
-		exporter.to(output);
-		
-		starDogConnection.close();
-		
-		return new FileSystemResource(file); 
-	}
-	
 	@RequestMapping (value = "/shutDownServer", method = RequestMethod.GET , headers = "Accept=text/xml")
 	public void shutDownServer() {
 		logger.info("Shutting Down Server");
@@ -1114,9 +1048,6 @@ public class ImportController {
 		Application.listQuerries.deleteRequest(name);
 	}
 	
-	@RequestMapping (value = "/downloadRequests", method = RequestMethod.GET , headers = "Accept=text/csv")
-	public String downloadRequests() {
-		return Application.listQuerries.getRequestListsinCSV();
-	}
+
 	
 }

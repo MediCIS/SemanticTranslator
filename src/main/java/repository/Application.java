@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import querries.ListQuerries;
@@ -41,6 +43,12 @@ public class Application {
 			LoggerFactory.getLogger(Application.class);
 	
 	public static OntModel dataModel;
+	
+	public static List<String> listeOntologyFiles = Arrays.asList("CHEBI_for_OntoMEDIRAD.owl",
+			"bfo.owl","FMA_for_OntoMEDIRAD.owl","IAO_for_OntoSPM.owl",
+			"MEDIRADClinicalResearchStudies.owl","ontoMedirad.owl",
+			"PATO_for_OntoMEDIRAD.owl","Radionuclides_for_OntoMEDIRAD.owl",
+			"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
 		
     public static void main(String[] args) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
         SpringApplication.run(Application.class, args);					 // Spring Boot
@@ -70,10 +78,11 @@ public class Application {
     public static void loadOntology(String pathOntology) throws IOException {
 		System.out.println("Loading Ontology ...");
 		model = ModelFactory.createOntologyModel(); 					 // Create empty graph for the ontology
-		//InputStream in = FileManager.get().open(pathOntology);      	 // Get the main file
-		InputStream in = new ClassPathResource(pathOntology).getInputStream();
-		model.read(in, null); 											 // Read the ontology files (it takes about 4 minutes)
-		
+		InputStream in;      	 
+		for (String file : listeOntologyFiles) {
+			in = new ClassPathResource("OntoMedirad/"+file).getInputStream();
+			model.read(in, null); 											 // Read the ontology files (it takes about 4 minutes)
+		}
 		System.out.println("\nOntology has been Imported Sucesfully\n");
 	}
 	

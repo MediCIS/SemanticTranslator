@@ -6,9 +6,6 @@ import java.util.Iterator;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Sequence;
 import org.dcm4che3.data.Tag;
@@ -185,7 +182,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		if (StudyDescription!=null) {
 			addDataProperty(imagingStudy, racineURI+"has_description", StudyDescription);
 		}
-
+		
 		Individual acquisition = null;
 		Individual acquisitionProtocol = null;
 		Individual acquisitionDevice = null;
@@ -196,18 +193,22 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		logger.debug("SOPClassUID : "+SOPClassUID);
 		
 		String[] ImageType = root.getStrings(Tag.ImageType);
-		logger.debug("ImageType : "+ImageType);
+		String ImageTypeLog = "";
+		for (int i = 0; i<ImageType.length; i++) {
+			ImageTypeLog+=ImageType[i]+" | ";
+		}
+		logger.debug("ImageType : "+ImageTypeLog);
 		System.out.println("---------------------------------");
 
 		
-		if (SOPClassUID.contains("1.2.840.10008.5.1.4.1.1.128") || SOPClassUID.contains("1.2.840.10008.5.1.4.1.1.130")) {
+		if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.128") || SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.130")) {
 			logger.debug("Type : PET");
 			//ontomedirad:PET_acquisition
 			acquisition = createIndiv(generateName("PET_data_acquisition"), model.getResource(racineURI+"PET_data_acquisition"));
 			acquisitionDevice = createIndiv(generateName("PET_scanner"), model.getResource(racineURI+"PET_scanner"));
 			acquisitionProtocol = createIndiv(generateName("PET_acquisition_protocol"), model.getResource(racineURI+"PET_acquisition_protocol"));
 			imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
-		} else if (SOPClassUID.contains("1.2.840.10008.5.1.4.1.1.2") || SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2")) {
+		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.20")) {
 			if (ImageType!=null && ImageType.length>=2) {
 				if ( ImageType[2].contains("TOMO")  || ImageType[2].contains("STATIC") || ImageType[2].contains("WHOLE BODY") ) { //NM
 					logger.debug("Type : NM");
@@ -216,17 +217,17 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					acquisitionDevice = createIndiv(generateName("SPECT_scanner"), model.getResource(racineURI+"SPECT_scanner"));
 					acquisitionProtocol = createIndiv(generateName("NM_acquisition_protocol"), model.getResource(racineURI+"NM_acquisition_protocol"));
 					imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
+				} else {
+					return;
 				}
 			}
-			
-			if (acquisition == null) {
-				logger.debug("Type : CT");
-				//ontomedirad:CT_acquisition
-				acquisition = createIndiv(generateName("CT_acquisition"), model.getResource(racineURI+"CT_acquisition"));
-				acquisitionDevice = createIndiv(generateName("CT_scanner"), model.getResource(racineURI+"CT_scanner"));
-				acquisitionProtocol = createIndiv(generateName("CT_acquisition_protocol"), model.getResource(racineURI+"CT_acquisition_protocol"));
-				imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
-			}
+		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2") || SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1") ) {
+			logger.debug("Type : CT");
+			//ontomedirad:CT_acquisition
+			acquisition = createIndiv(generateName("CT_acquisition"), model.getResource(racineURI+"CT_acquisition"));
+			acquisitionDevice = createIndiv(generateName("CT_scanner"), model.getResource(racineURI+"CT_scanner"));
+			acquisitionProtocol = createIndiv(generateName("CT_acquisition_protocol"), model.getResource(racineURI+"CT_acquisition_protocol"));
+			imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
 		} else {
 			return;
 		}
@@ -234,7 +235,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		System.out.println("acquisition : "+acquisition);
 		System.out.println("acquisitionProtocol : "+acquisitionProtocol);
 		System.out.println("acquisitionDevice : "+acquisitionDevice);
-		
+	
 		addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);	 
 		addObjectProperty(acquisition, racineURI+"has_protocol", acquisitionProtocol);
 		addObjectProperty(patientRole, racineObo+"BFO_0000054", acquisition);	 
@@ -309,11 +310,17 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				addDataProperty(acquisitionProtocol, racineURI+"has_description", SeriesDescription);
 			}
 		}
-				
-		if (SOPClassUID.contains("1.2.840.10008.5.1.4.1.1.2") && ImageType[2].contains("AXIAL")) { // 3.1
-			logger.debug("CT_image_dataset");
-			Individual dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
+		
 			
+		if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2") && (ImageType[2].contains("AXIAL") || ImageType[2].contains("LOCALIZER"))) { // 3.1  
+			logger.debug("CT_image_dataset");
+			Individual dataSet = null;
+			if (ImageType[2].contains("LOCALIZER")) {
+				dataSet = createIndiv(generateName("CT_localizer"), model.getResource(racineURI+"CT_localizer"));
+			} else if (ImageType[2].contains("AXIAL")) {
+				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
+			}
+				
 			logger.debug("SOPClassUID : "+SOPClassUID);
 			addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_CT_image_storage_SOP_class")));
 
@@ -418,7 +425,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			if (ExposureInmAs!=null) {
 				i = createIndiv(generateName("exposure"),model.getResource(racineURI+"exposure"));
 				addDataProperty(i, racineObo+"IAO_0000004", ExposureInmAs);
-				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma/s"));
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("milliampere"));
 				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
 				//addObjectProperty(acquisition, racineURI+"has_setting", i);
@@ -440,6 +447,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				} else {
 					filter = createIndiv(generateName("x-ray_filter"), model.getResource(racineDCM+"113771"));
 				}
+				addObjectProperty(filter, racineURI+"BFO_0000177", acquisitionDevice);
 			}
 			
 			String FilterMaterial = root.getString(Tag.FilterMaterial);
@@ -548,7 +556,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						logger.debug("ExposureInMAs : "+ExposureInMAs);
 						i = createIndiv(generateName("exposure_time"),model.getResource(racineDCM+"113824"));
 						addDataProperty(i, racineObo+"IAO_0000004", ExposureInMAs);
-						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma/s"));
+						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("milliampere"));
 						addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 						addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
 					}
@@ -685,9 +693,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					}
 				}
 			}
-
-
-		} else if (SOPClassUID.contains("1.2.840.10008.5.1.4.1.1.2.1") && ImageType[2].contains("AXIAL")) { //3.2
+		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1") && ImageType[2].contains("AXIAL")) { //3.2
 			Individual dataSet = createIndiv(generateName("CT_image_dataset"),model.getResource(racineURI+"CT_image_dataset"));
 
 			logger.debug("SOPClassUID : "+SOPClassUID);
@@ -747,7 +753,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						acquisition.addOntClass(model.getResource(racineDCM+"free_CT_acquisition"));
 						break;
 					}
-				}
+				} 
+				// Sinon aller dans : 
+				// SharedFunctionnal // CTAcquisitionTypeSeq //A quisitionType
 			}
 
 			Sequence CTAcquisitionDetailsSequence = root.getSequence(Tag.CTAcquisitionDetailsSequence);
@@ -899,7 +907,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					logger.debug("ExposureInmAs : "+ExposureInmAs);
 					i = createIndiv(generateName("exposure_time"),model.getResource(racineDCM+"113824"));
 					addDataProperty(i, racineObo+"IAO_0000004", ExposureInmAs);
-					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma/s"));
+					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("millampere"));
 					addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 					addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
 					addObjectProperty(acquisition, racineURI+"has_setting", i);
@@ -1283,7 +1291,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				
 			}
 			
-		} else if (SOPClassUID.contains("1.2.840.10008.5.1.4.1.1.128")) { // 5.1
+		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.128")) { // 5.1
 			logger.debug("Positron Emission Tomography Image Storage");
 			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));
 			
@@ -1369,7 +1377,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				} 
 			}
 
-		} else if (SOPClassUID.contains("1.2.840.10008.5.1.4.1.1.130")) { // 5.2
+		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.130")) { // 5.2
 			logger.debug("Enhanced PET Image Storage");
 			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));			
 			
@@ -1470,23 +1478,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					PETDataAcquisition.addOntClass(model.getResource(racineURI+"clamshell_PET_data_acquisition"));
 				}
 			}
-			
-			
 		}
-		
-		
-		
-		System.out.println("Test Final :");
-		System.out.println("RDF Type :"+imagingStudy.getRDFType());
-		StmtIterator propertiesIter = imagingStudy.listProperties();
-		Statement p;
-		while (propertiesIter.hasNext()) {
-			p = propertiesIter.next();
-			System.out.println(p.asTriple());
-		}
-		
-		// TODO
-		
 	} // Fin MetaData
 
 }

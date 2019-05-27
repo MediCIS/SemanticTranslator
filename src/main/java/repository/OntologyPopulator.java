@@ -1737,7 +1737,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000010")); break;
 		case "mGy.cm":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_centimeter")); break;
-		case "mA":	case "ma":
+		case "mA":	case "ma": case "milliampere":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000037")); break;
 		case "kilovolt":
 		case "kV":

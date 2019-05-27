@@ -6,10 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.jena.ontology.Individual;
-import org.apache.jena.rdf.model.ModelFactory;
 import org.dcm4che3.data.Attributes;
-import org.dcm4che3.data.Sequence;
-import org.dcm4che3.data.Tag;
 
 import com.pixelmed.dicom.ContentItem;
 
@@ -179,7 +176,7 @@ public class TranslateDicomData extends OntologyPopulator {
 			switch (value) {
 			case "Computed_Tomography_X-Ray":
 				CTradSR = createIndiv(generateName(value), getResource("CT_radiation_dose_SR"));
-				addDataProperty(CTradSR, racineURI+"has_IRDBB_WADO_handle", ImportController.handle);
+				addDataProperty(CTradSR, racineURI+"has_IRDBB_WADO_handle", handle);
 				break;
 			default:
 				logger.warn("Field "+name+" with Unknown Value "+value);
