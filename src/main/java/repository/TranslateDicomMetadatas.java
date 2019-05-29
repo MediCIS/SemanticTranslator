@@ -14,6 +14,20 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 	static Iterator<Attributes> iter;
 	
+	static Individual acquisition = null;
+	static Individual acquisitionProtocol = null;
+	static Individual acquisitionDevice = null;
+	static Individual imageAccRole = null;
+	static String ExposureModulationType;
+	static String TotalCollimationWidth;
+	static String SpiralPitchFactor;
+	static Individual filter;
+	static String KVP;
+	static String FilterType;
+	static String FilterMaterial;
+	static String FocalSpots;
+
+	
 	public static void translateCodingSchemeDesignator(Sequence RadiopharmaceuticalInformationSequence, Individual acquisition) {
 		System.out.println("-----------------------------------------------");
 		logger.debug("RadiopharmaceuticalInformationSequence : "+RadiopharmaceuticalInformationSequence);
@@ -56,6 +70,171 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		}
 		System.out.println("-----------------------------------------------");
 	}
+	
+	public static void translateCTXRayDetailsSequence(Iterator<Attributes> iter) {
+		while (iter.hasNext()) {
+			Attributes t = iter.next();
+			if (KVP==null &&  t.getString(Tag.KVP)!=null) {
+				KVP = t.getString(Tag.KVP);
+				logger.debug("KVP : "+KVP);
+				i = createIndiv(generateName("KVP"),model.getResource(racineDCM+"113733"));
+				addDataProperty(i, racineObo+"IAO_0000004", KVP);
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("kilovolt"));
+				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+				addObjectProperty(acquisition, racineURI+"has_setting", i);
+			}
+			
+			// FilterType
+			if (FilterType==null  && t.getString(Tag.FilterType)!=null) {
+				FilterType = t.getString(Tag.FilterType);
+				logger.debug("FilterType : "+FilterType);
+				filter = null;
+
+				if (FilterType!=null) {
+					if (FilterType.toLowerCase().contains("butterfly")) {
+						filter = createIndiv(generateName("butterfly_filter"), model.getResource(racineDCM+"113652"));
+					} else if (FilterType.toLowerCase().contains("flat")) {
+						filter = createIndiv(generateName("flat_filter"), model.getResource(racineDCM+"113653"));
+					} else if (FilterType.toLowerCase().contains("strip")) {
+						filter = createIndiv(generateName("strip_filter"), model.getResource(racineDCM+"113650"));
+					} else if (FilterType.toLowerCase().contains("wedge")) {
+						filter = createIndiv(generateName("wedge_filter"), model.getResource(racineDCM+"113651"));
+					} else {
+						filter = createIndiv(generateName("x-ray_filter"), model.getResource(racineDCM+"113771"));
+					}
+				}
+			}
+			if (FilterMaterial==null && t.getString(Tag.FilterMaterial)!=null) {
+				FilterMaterial = t.getString(Tag.FilterMaterial);
+				logger.debug("FilterMaterial : "+FilterMaterial);
+				if (FilterMaterial!=null) {
+					Individual filterMaterial;
+					if (FilterMaterial.toLowerCase().contains("aluminium")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"aluminum_or_aluminum_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("carbon")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"carbon_fiber"));
+					} else if (FilterMaterial.toLowerCase().contains("copper")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"copper_or_copper_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("europium")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"europium_or_europium_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("lead")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"lead_or_lead_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("molybdenum")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"molybdenum_or_molybdenum_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("niobium")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"niobium_or_niobium_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("rhodium")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"rhodium_or_rhodium_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("silver")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"silver_or_silver_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("tantalum")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"tantalum_or_tantalum_compound"));
+					} else if (FilterMaterial.toLowerCase().contains("tin")) {
+						filterMaterial = createIndiv(model.getResource(racineURI+"tin_or_tin_compound"));
+					} else {
+						filterMaterial = createIndiv(generateName(FilterMaterial),model.getResource(racineDCM+"113757"));
+					}
+					if (filter!=null) {
+						addObjectProperty(filter,racineObo+"BFO_0000110",filterMaterial);
+					}
+				}
+			}
+			
+			if (FocalSpots==null && t.getString(Tag.FocalSpots)!=null) {
+				FocalSpots = t.getString(Tag.FocalSpots);
+				i = createIndiv(generateName("focal_spot"),model.getResource(racineURI+"focal_spot"));
+				addDataProperty(i, racineObo+"IAO_0000004", FocalSpots);
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma/s"));
+				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+				addObjectProperty(acquisition, racineURI+"has_setting", i);
+			}
+		}
+		
+	}
+	
+	
+	public static void translateCTAcquisitionDetailsSequence(Iterator<Attributes> iter) {
+		while (iter.hasNext()) {
+			Attributes t = iter.next();
+			// RevolutionTime
+
+			if (TotalCollimationWidth==null && t.getString(Tag.TotalCollimationWidth)!=null) {
+				TotalCollimationWidth = t.getString(Tag.TotalCollimationWidth);
+				i = createIndiv(generateName("Nominal_Total_Collimation_Width"),model.getResource(racineDCM+"113827"));
+				addDataProperty(i, racineObo+"IAO_0000004", TotalCollimationWidth);
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("mm"));
+				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+				addObjectProperty(acquisition, racineURI+"has_setting", i);
+			}
+
+			// GantryDetectorTilt
+
+			// TableFeedPerRotation
+
+			if (SpiralPitchFactor==null && t.getString(Tag.SpiralPitchFactor)!=null) {
+				SpiralPitchFactor = t.getString(Tag.SpiralPitchFactor);
+				i = createIndiv(generateName("Pitch_Factor"),model.getResource(racineDCM+"113828"));
+				addDataProperty(i, racineObo+"IAO_0000004", SpiralPitchFactor);
+				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+				addObjectProperty(acquisition, racineURI+"has_setting", i);
+			}
+		}
+	}
+	
+	
+	public static void translateCTExposureSequence(Iterator<Attributes> iter) {
+		while (iter.hasNext()) {
+			Attributes t = iter.next();
+			if (t.getString(Tag.ExposureTimeInms)!=null) {
+				String ExposureTimeInms = t.getString(Tag.ExposureTimeInms);
+				logger.debug("ExposureTimeInms : "+ExposureTimeInms);
+				i = createIndiv(generateName("KVP"),model.getResource(racineDCM+"113733"));
+				addDataProperty(i, racineObo+"IAO_0000004", ExposureTimeInms);
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ms"));
+				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+				addObjectProperty(acquisition, racineURI+"has_setting", i);
+			}
+
+			if (t.getString(Tag.XRayTubeCurrentInmA)!=null) {
+				String XRayTubeCurrentInMA = t.getString(Tag.XRayTubeCurrentInmA);
+				logger.debug("XRayTubeCurrentInMA : "+XRayTubeCurrentInMA);
+				i = createIndiv(generateName("XRayTubeCurrent"),model.getResource(racineDCM+"113734"));
+				addDataProperty(i, racineObo+"IAO_0000004", XRayTubeCurrentInMA);
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma"));
+				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+				addObjectProperty(acquisition, racineURI+"has_setting", i);
+			}
+
+			if (t.getString(Tag.ExposureInmAs)!=null) {
+				String ExposureInMAs = t.getString(Tag.ExposureInmAs);
+				logger.debug("ExposureInMAs : "+ExposureInMAs);
+				i = createIndiv(generateName("exposure_time"),model.getResource(racineDCM+"113824"));
+				addDataProperty(i, racineObo+"IAO_0000004", ExposureInMAs);
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("milliampere"));
+				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+			}
+			if (t.getString(Tag.ExposureModulationType)!=null) {
+				ExposureModulationType = t.getString(Tag.ExposureModulationType);
+				if (ExposureModulationType.equalsIgnoreCase("none")) {
+					addObjectProperty(createIndiv(model.getResource(racineURI+"no_use_of_X_ray_modulation")), racineObo+"BFO_0000177", acquisitionProtocol);
+				} else {
+					logger.debug("ExposureModulationType : "+ExposureModulationType);
+					i = createIndiv(model.getResource(racineURI+"use_of_x_ray_modulation"));
+					addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+					addDataProperty(i,racineURI+"has_name",ExposureModulationType);
+				}
+			}
+		}
+	}
+	
+	
 	
 	public static void translateDicomMetaData(Attributes root, String ClinicalResearchStudyId) {
 		logger.info("translateDicomMetaData");
@@ -182,11 +361,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		if (StudyDescription!=null) {
 			addDataProperty(imagingStudy, racineURI+"has_description", StudyDescription);
 		}
-		
-		Individual acquisition = null;
-		Individual acquisitionProtocol = null;
-		Individual acquisitionDevice = null;
-		Individual imageAccRole = null;
 
 		System.out.println("---------------------------------");
 		String SOPClassUID = root.getString(Tag.SOPClassUID);
@@ -197,6 +371,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		for (int i = 0; i<ImageType.length; i++) {
 			ImageTypeLog+=ImageType[i]+" | ";
 		}
+		ImageTypeLog=ImageTypeLog.substring(0, ImageTypeLog.length()-3);
 		logger.debug("ImageType : "+ImageTypeLog);
 		System.out.println("---------------------------------");
 
@@ -311,8 +486,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			}
 		}
 		
-			
-		if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2") && (ImageType[2].contains("AXIAL") || ImageType[2].contains("LOCALIZER"))) { // 3.1  
+		if ((SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2") || SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1")) && (ImageType[0].contains("ORIGINAL") || ImageType[2].contains("AXIAL") || ImageType[2].contains("LOCALIZER"))) { // 3.1  
 			logger.debug("CT_image_dataset");
 			Individual dataSet = null;
 			if (ImageType[2].contains("LOCALIZER")) {
@@ -320,6 +494,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			} else if (ImageType[2].contains("AXIAL")) {
 				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
 			}
+			addDataProperty(dataSet ,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+
 				
 			logger.debug("SOPClassUID : "+SOPClassUID);
 			addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_CT_image_storage_SOP_class")));
@@ -525,176 +701,65 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			}
 			
 			Sequence CTExposureSequence = root.getSequence(Tag.CTExposureSequence);
+			logger.debug("CTExposureSequence : "+CTExposureSequence);
 			if (CTExposureSequence != null) {
 				iter = CTExposureSequence.iterator();
+				translateCTExposureSequence(iter);
+			} else if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
+				Sequence SharedFunctionalGroupsSequence = root.getSequence(Tag.SharedFunctionalGroupsSequence);
+				logger.debug("SharedFunctionalGroupsSequence : "+SharedFunctionalGroupsSequence);
+				iter = SharedFunctionalGroupsSequence.iterator();
+				Attributes SharedFunctionalGroups;
 				while (iter.hasNext()) {
-					Attributes t = iter.next();
-					if (ExposureTime==null && t.getString(Tag.ExposureTimeInms)!=null) {
-						String ExposureTimeInms = t.getString(Tag.ExposureTimeInms);
-						logger.debug("ExposureTimeInms : "+ExposureTimeInms);
-						i = createIndiv(generateName("KVP"),model.getResource(racineDCM+"113733"));
-						addDataProperty(i, racineObo+"IAO_0000004", ExposureTimeInms);
-						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ms"));
-						addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-						addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-						addObjectProperty(acquisition, racineURI+"has_setting", i);
-					}
-
-					if (XRayTubeCurrent==null && t.getString(Tag.XRayTubeCurrentInmA)!=null) {
-						String XRayTubeCurrentInMA = t.getString(Tag.XRayTubeCurrentInmA);
-						logger.debug("XRayTubeCurrentInMA : "+XRayTubeCurrentInMA);
-						i = createIndiv(generateName("XRayTubeCurrent"),model.getResource(racineDCM+"113734"));
-						addDataProperty(i, racineObo+"IAO_0000004", XRayTubeCurrentInMA);
-						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma"));
-						addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-						addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-						addObjectProperty(acquisition, racineURI+"has_setting", i);
-					}
-
-					if (ExposureInmAs==null && t.getString(Tag.ExposureInmAs)!=null) {
-						String ExposureInMAs = t.getString(Tag.ExposureInmAs);
-						logger.debug("ExposureInMAs : "+ExposureInMAs);
-						i = createIndiv(generateName("exposure_time"),model.getResource(racineDCM+"113824"));
-						addDataProperty(i, racineObo+"IAO_0000004", ExposureInMAs);
-						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("milliampere"));
-						addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-						addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-					}
-					if (ExposureModulationType==null && t.getString(Tag.ExposureModulationType)!=null) {
-						ExposureModulationType = t.getString(Tag.ExposureModulationType);
-						if (ExposureModulationType.equalsIgnoreCase("none")) {
-							addObjectProperty(createIndiv(model.getResource(racineURI+"no_use_of_X_ray_modulation")), racineObo+"BFO_0000177", acquisitionProtocol);
-						} else {
-							logger.debug("ExposureModulationType : "+ExposureModulationType);
-							i = createIndiv(model.getResource(racineURI+"use_of_x_ray_modulation"));
-							addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-							addDataProperty(i,racineURI+"has_name",ExposureModulationType);
-						}
-					}
-				}
-				
-				Sequence CTAcquisitionDetailsSequence = root.getSequence(Tag.CTAcquisitionDetailsSequence);
-				if (CTAcquisitionDetailsSequence != null) {
-					iter = CTAcquisitionDetailsSequence.iterator();
-					while (iter.hasNext()) {
-						Attributes t = iter.next();
-
-						// RevolutionTime
-
-						if (TotalCollimationWidth==null && t.getString(Tag.TotalCollimationWidth)!=null) {
-							TotalCollimationWidth = t.getString(Tag.TotalCollimationWidth);
-							i = createIndiv(generateName("Nominal_Total_Collimation_Width"),model.getResource(racineDCM+"113827"));
-							addDataProperty(i, racineObo+"IAO_0000004", TotalCollimationWidth);
-							addObjectProperty(i, racineObo+"IAO_0000039", getUnit("mm"));
-							addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-							addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-							addObjectProperty(acquisition, racineURI+"has_setting", i);
-						}
-
-						// GantryDetectorTilt
-
-						// TableFeedPerRotation
-
-						if (SpiralPitchFactor==null && t.getString(Tag.SpiralPitchFactor)!=null) {
-							SpiralPitchFactor = t.getString(Tag.SpiralPitchFactor);
-							i = createIndiv(generateName("Pitch_Factor"),model.getResource(racineDCM+"113828"));
-							addDataProperty(i, racineObo+"IAO_0000004", SpiralPitchFactor);
-							addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-							addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-							addObjectProperty(acquisition, racineURI+"has_setting", i);
-						}
-					}
-				}
-				
-				// CTXRayDetailsSequence
-				Sequence CTXRayDetailsSequence = root.getSequence(Tag.CTXRayDetailsSequence);
-				if (CTXRayDetailsSequence != null) {
-					if (CTXRayDetailsSequence != null) {
-						iter = CTXRayDetailsSequence.iterator();
-						while (iter.hasNext()) {
-							Attributes t = iter.next();
-							if (KVP==null &&  t.getString(Tag.KVP)!=null) {
-								KVP = t.getString(Tag.KVP);
-								logger.debug("KVP : "+KVP);
-								i = createIndiv(generateName("KVP"),model.getResource(racineDCM+"113733"));
-								addDataProperty(i, racineObo+"IAO_0000004", KVP);
-								addObjectProperty(i, racineObo+"IAO_0000039", getUnit("kilovolt"));
-								addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-								addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-								addObjectProperty(acquisition, racineURI+"has_setting", i);
-							}
-							
-							// FilterType
-							if (FilterType==null  && t.getString(Tag.FilterType)!=null) {
-								FilterType = t.getString(Tag.FilterType);
-								logger.debug("FilterType : "+FilterType);
-								filter = null;
-
-								if (FilterType!=null) {
-									if (FilterType.toLowerCase().contains("butterfly")) {
-										filter = createIndiv(generateName("butterfly_filter"), model.getResource(racineDCM+"113652"));
-									} else if (FilterType.toLowerCase().contains("flat")) {
-										filter = createIndiv(generateName("flat_filter"), model.getResource(racineDCM+"113653"));
-									} else if (FilterType.toLowerCase().contains("strip")) {
-										filter = createIndiv(generateName("strip_filter"), model.getResource(racineDCM+"113650"));
-									} else if (FilterType.toLowerCase().contains("wedge")) {
-										filter = createIndiv(generateName("wedge_filter"), model.getResource(racineDCM+"113651"));
-									} else {
-										filter = createIndiv(generateName("x-ray_filter"), model.getResource(racineDCM+"113771"));
-									}
-								}
-							}
-							if (FilterMaterial==null && t.getString(Tag.FilterMaterial)!=null) {
-								FilterMaterial = t.getString(Tag.FilterMaterial);
-								logger.debug("FilterMaterial : "+FilterMaterial);
-								if (FilterMaterial!=null) {
-									Individual filterMaterial;
-									if (FilterMaterial.toLowerCase().contains("aluminium")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"aluminum_or_aluminum_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("carbon")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"carbon_fiber"));
-									} else if (FilterMaterial.toLowerCase().contains("copper")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"copper_or_copper_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("europium")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"europium_or_europium_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("lead")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"lead_or_lead_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("molybdenum")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"molybdenum_or_molybdenum_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("niobium")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"niobium_or_niobium_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("rhodium")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"rhodium_or_rhodium_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("silver")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"silver_or_silver_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("tantalum")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"tantalum_or_tantalum_compound"));
-									} else if (FilterMaterial.toLowerCase().contains("tin")) {
-										filterMaterial = createIndiv(model.getResource(racineURI+"tin_or_tin_compound"));
-									} else {
-										filterMaterial = createIndiv(generateName(FilterMaterial),model.getResource(racineDCM+"113757"));
-									}
-									if (filter!=null) {
-										addObjectProperty(filter,racineObo+"BFO_0000110",filterMaterial);
-									}
-								}
-							}
-							
-							if (FocalSpots==null && t.getString(Tag.FocalSpots)!=null) {
-								FocalSpots = t.getString(Tag.FocalSpots);
-								i = createIndiv(generateName("focal_spot"),model.getResource(racineURI+"focal_spot"));
-								addDataProperty(i, racineObo+"IAO_0000004", FocalSpots);
-								addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma/s"));
-								addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-								addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-								addObjectProperty(acquisition, racineURI+"has_setting", i);
-							}
-						}
+					SharedFunctionalGroups = iter.next();
+					if (SharedFunctionalGroups.getSequence(Tag.CTExposureSequence)!=null) {
+						translateCTExposureSequence(SharedFunctionalGroups.getSequence(Tag.CTExposureSequence).iterator());
 					}
 				}
 			}
+			
+			Sequence CTAcquisitionDetailsSequence = root.getSequence(Tag.CTAcquisitionDetailsSequence);
+			logger.debug("CTAcquisitionDetailsSequence : "+CTAcquisitionDetailsSequence);
+			if (CTAcquisitionDetailsSequence != null) {
+				iter = CTAcquisitionDetailsSequence.iterator();
+				translateCTAcquisitionDetailsSequence(iter);
+			} else if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
+				Sequence SharedFunctionalGroupsSequence = root.getSequence(Tag.SharedFunctionalGroupsSequence);
+				logger.debug("SharedFunctionalGroupsSequence : "+SharedFunctionalGroupsSequence);
+				iter = SharedFunctionalGroupsSequence.iterator();
+				Attributes SharedFunctionalGroups;
+				while (iter.hasNext()) {
+					SharedFunctionalGroups = iter.next();
+					if (SharedFunctionalGroups.getSequence(Tag.CTAcquisitionDetailsSequence)!=null) {
+						translateCTAcquisitionDetailsSequence(SharedFunctionalGroups.getSequence(Tag.CTAcquisitionDetailsSequence).iterator());
+					}
+				}
+			}
+			
+			// CTXRayDetailsSequence
+			Sequence CTXRayDetailsSequence = root.getSequence(Tag.CTXRayDetailsSequence);
+			logger.debug("CTXRayDetailsSequence : "+CTXRayDetailsSequence);
+			if (CTXRayDetailsSequence != null) {
+				if (CTXRayDetailsSequence != null) {
+					iter = CTXRayDetailsSequence.iterator();
+					translateCTXRayDetailsSequence(iter);
+				}
+			}  else if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
+				Sequence SharedFunctionalGroupsSequence = root.getSequence(Tag.SharedFunctionalGroupsSequence);
+				logger.debug("SharedFunctionalGroupsSequence : "+SharedFunctionalGroupsSequence);
+				iter = SharedFunctionalGroupsSequence.iterator();
+				Attributes SharedFunctionalGroups;
+				while (iter.hasNext()) {
+					SharedFunctionalGroups = iter.next();
+					if (SharedFunctionalGroups.getSequence(Tag.CTXRayDetailsSequence)!=null) {
+						translateCTXRayDetailsSequence(SharedFunctionalGroups.getSequence(Tag.CTXRayDetailsSequence).iterator());
+					}
+				}
+			}
+			
 		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1") && ImageType[2].contains("AXIAL")) { //3.2
 			Individual dataSet = createIndiv(generateName("CT_image_dataset"),model.getResource(racineURI+"CT_image_dataset"));
+			addDataProperty(dataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 
 			logger.debug("SOPClassUID : "+SOPClassUID);
 			i = createIndiv(model.getResource(racineURI+"DICOM_enhanced_CT_image_storage_SOP_class"));
@@ -767,7 +832,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					logger.debug("RevolutionTime : "+RevolutionTime);
 				}
 				if (t.getString(Tag.TotalCollimationWidth)!=null) {
-					String TotalCollimationWidth = t.getString(Tag.TotalCollimationWidth);
+					TotalCollimationWidth = t.getString(Tag.TotalCollimationWidth);
 					logger.debug("TotalCollimationWidth : "+TotalCollimationWidth);
 					if (TotalCollimationWidth!=null) {
 						i = createIndiv(generateName("Nominal_Total_Collimation_Width"),model.getResource(racineDCM+"113827"));
@@ -787,7 +852,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					logger.debug("TableFeedPerRotation : "+TableFeedPerRotation);
 				}
 				if (t.getString(Tag.SpiralPitchFactor)!=null) {
-					String SpiralPitchFactor = t.getString(Tag.SpiralPitchFactor);
+					SpiralPitchFactor = t.getString(Tag.SpiralPitchFactor);
 					logger.debug("SpiralPitchFactor : "+SpiralPitchFactor);
 					if (SpiralPitchFactor!=null) {
 						i = createIndiv(generateName("Pitch_Factor"),model.getResource(racineDCM+"113828"));
@@ -913,7 +978,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					addObjectProperty(acquisition, racineURI+"has_setting", i);
 				}
 				if (t.getString(Tag.ExposureModulationType)!=null) {
-					String ExposureModulationType = t.getString(Tag.ExposureModulationType);
+					ExposureModulationType = t.getString(Tag.ExposureModulationType);
 					logger.debug("ExposureModulationType : "+ExposureModulationType);
 					if (ExposureModulationType==null || ExposureModulationType.equalsIgnoreCase("none")) {
 						addObjectProperty(createIndiv(model.getResource(racineURI+"no_use_of_X_ray_modulation")), racineObo+"BFO_0000177", acquisition);
@@ -946,7 +1011,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				//logger.debug("SOPClassUID : "+SOPClassUID);
 				Individual dataset = createIndiv(generateName("NM_tomo_dataset"), model.getResource(racineURI+"NM_tomo_dataset"));
 				addObjectProperty(dataset, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class")));
-				
+				addDataProperty(dataset,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+
 				SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
 				logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
 				addDataProperty(dataset, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
@@ -1082,7 +1148,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			} else if (ImageType[2].contains("TOMO RECON")  || ImageType[2].contains("RECON TOMO")) { // 4.2 NM
 				logger.debug("Positron Emission Tomography Image Storage");
 				Individual NMDataSet = createIndiv(generateName("NM_recon_tomo_dataset"), model.getResource(racineURI+"NM_recon_tomo_dataset"));
-				
+				addDataProperty(NMDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+
 				logger.debug("SOPClassUID : "+SOPClassUID);
 				i = createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class"));
 				addObjectProperty(NMDataSet, racineURI+"has_format", i);
@@ -1186,6 +1253,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				
 			} else if (ImageType[2].contains("STATIC") || ImageType[2].contains("WHOLE BODY")) { // 4.3 NM
 				Individual NMDataSet = createIndiv(generateName("NM_recon_tomo_dataset"), model.getResource(racineURI+"NM_static_dataset"));
+				addDataProperty(NMDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 
 				logger.debug("SOPClassUID : "+SOPClassUID);
 				i = createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class"));
@@ -1294,7 +1362,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.128")) { // 5.1
 			logger.debug("Positron Emission Tomography Image Storage");
 			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));
-			
+			addDataProperty(PETDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+
 			logger.debug("SOPClassUID : "+SOPClassUID);
 			i = createIndiv(model.getResource(racineURI+"DICOM_PET_image_storage_SOP_class"));
 			addObjectProperty(PETDataSet, racineURI+"has_format", i);
@@ -1380,7 +1449,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.130")) { // 5.2
 			logger.debug("Enhanced PET Image Storage");
 			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));			
-			
+			addDataProperty(PETDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+
 			logger.debug("SOPClassUID : "+SOPClassUID);
 			i = createIndiv(generateName("DICOM_enhanced_PET_image_storage_SOP_class"), model.getResource(racineURI+"DICOM_enhanced_PET_image_storage_SOP_class"));
 			addObjectProperty(PETDataSet, racineURI+"has_format", i);

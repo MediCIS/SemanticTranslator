@@ -123,6 +123,9 @@ public class ImportController {
 	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
 	public String testMetadatas() throws IOException, DicomException {      
 		List<String> listeRDF = Stream.of(
+				"CTlocalizer 0000003.dcm",
+				"CTlocalizer 000000.dcm",
+				"CTlocalizer 000001.dcm",
 				
 				"pet 66863 000000.dcm",
 				"pet 69357 000000.dcm",
@@ -285,83 +288,7 @@ public class ImportController {
 
 	}
 
-
-	
 	// Principaux Services
-	@RequestMapping (value = "/getVersion", method = RequestMethod.GET)
-	public String returnVersionNumber()  {
-		return versionNumber;
-	}
-	
-	@RequestMapping (value = "/downloadOntology", method = RequestMethod.GET, headers = "Accept=application/zip")
-	public void downloadOntology(HttpServletResponse response) throws IOException {
-		String zipFileName = "ontoMedirad.zip";
-        FileOutputStream fos = new FileOutputStream(zipFileName);
-        ZipOutputStream zipOut = new ZipOutputStream(fos);
-        for (String srcFile : Application.listeOntologyFiles) {
-            InputStream fis = new ClassPathResource("/OntoMedirad/"+srcFile).getInputStream();
-            ZipEntry zipEntry = new ZipEntry(srcFile);
-            zipOut.putNextEntry(zipEntry);
-            byte[] bytes = new byte[1024];
-            int length;
-            while((length = fis.read(bytes)) >= 0) {
-                zipOut.write(bytes, 0, length);
-            }
-            fis.close();
-        } 
-        zipOut.close();
-        fos.close();
-        
-        File zipFile = new File(zipFileName);
-		Path p = java.nio.file.Paths.get(zipFile.getCanonicalPath().replace(zipFileName, ""), zipFileName);
-        response.setContentType("application/zip");
-        response.addHeader("Content-Disposition", "attachment; filename="+zipFileName);
-        Files.copy(p, response.getOutputStream());
-        response.getOutputStream().flush();
-	}
-
-	@RequestMapping (value = "/verifRequest", method = RequestMethod.GET)
-	public String verifRequest() {
-
-		String request = "SELECT DISTINCT ?exam ?studydescr ?human ?spectacq ?spectacqclass ?radionucl ?protocolname ?protocoldescr\n" + 
-				"	WHERE {\n" + 
-				"\n" + 
-				" ?spectacq purl:BFO_0000132 ?exam .\n" + 
-				" ?exam ontomedirad:has_description ?studydescr .\n" + 
-				" ?spectacq rdf:type ?spectacqclass .\n" + 
-				" ?spectacqclass rdfs:subClassOf* ontomedirad:SPECT_data_acquisition .\n" + 
-				" ?spectacq ontomedirad:has_protocol ?protocol .\n" + 
-				" ?protocol ontomedirad:has_name ?protocolname .\n" + 
-				" ?protocol ontomedirad:has_description ?protocoldescr .\n" + 
-				" OPTIONAL {?spectacq ontomedirad:has_target_radionuclide ?radionucl}\n" + 
-				"} \n" + 
-				"";
-
-		createAdminConnection(database.ontoMedirad, true); 		  	// Create a connection to a stardog database with reasoning
-
-		SelectQuery aQuery = starDogConnection.select(request);         // Put the request to the StarDog
-
-		TupleQueryResult aResult = aQuery.execute();							    
-		
-		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
-		try {
-			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.JSON, out);
-		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException
-				| IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
-		String result = out.toString();
-		System.out.println("result :");
-		
-		System.out.println(result);
-
-		System.out.println("Nombre de lignes :"+result.split("\n").length);
-		return "Tipoui !\n";
-
-	}
-	
 	@RequestMapping(value = "/importDicomMetadata", method = RequestMethod.POST)	//, headers = "Accept=application/json"
 	public String importDicomMetadata(@RequestBody String kosString) throws IOException, JSONException, DicomException {	
 		logger.info("importDicomMetadata");
@@ -470,140 +397,6 @@ public class ImportController {
 		return "{\"res\":\"importDicomMetadata Request received\"}";
 
 	}
-	
-	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
-	public ResponseEntity<String> getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
-		ResponseEntity<String> res = null;
-		res = executeQuerry("  SELECT DISTINCT  ?label ?class\n" + 
-				"           WHERE {\n" + 
-				"        ?class rdf:type owl:Class .\n" + 
-				"        ?class ontomedirad:has_MIME_type ?label .\n" + 
-				"        ?class skos:prefLabel ?classlabel .\n" + 
-				"        FILTER (?classlabel = \""+nonDICOMDataFormat+"\"@en) \n" + 
-				"        }" , "false" );
-		return res;
-	} 
-
-	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, produces = {"application/json"})
-	public ResponseEntity<String> getResearchStudies() throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {   
-		ResponseEntity<String> res = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
-				"          WHERE {\n" + 
-				"      ?study rdf:type ontomedirad:clinical_research_study .\n" + 
-				"      ?study ontomedirad:has_id ?id .\n" + 
-				"      ?study ontomedirad:has_name ?name .\n" + 
-				"      ?study ontomedirad:has_description ?description .\n" + 
-				"      }" , "false" );
-		return res;
-	} 
-						
-	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET, produces = {"application/json"})
-	public String getXSDfilesName() {  
-		JSONArray listeJSON = new JSONArray();
-		try {
-			InputStream stream = new ClassPathResource("xsdTableau.txt").getInputStream();
-			String line; String name; String fileName;  String description;
-			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-			while ((line = br.readLine()) != null) {
-				name = line.split(";")[0];
-				fileName = line.split(";")[1];
-				description = line.split(";")[2];
-				
-				JSONObject obj = new JSONObject();
-				try {
-					obj.put("label", name);
-					obj.put("fileName", fileName);
-					obj.put("description", description);
-					listeJSON.put(obj);		
-				} catch (JSONException e) {e.printStackTrace();}
-			}
-			
-			stream.close();
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		//for (int i=0; i<listXSDnames.size(); i++) {							// Iterate on the querry's list
-		//					        // Add the querry to the JSON list
-		//}
-		return listeJSON.toString();	
-	} 
-	
-	@RequestMapping (value = "/getXSD", method = RequestMethod.GET, produces = {"text/xml"} )
-	public String getXSD(@RequestParam("fileName") String fileName) {  
-		System.out.println("getXSD");
-		String path = "/xsdSimple/"+fileName;
-		try {
-			ClassPathResource res = new ClassPathResource(path);
-			System.out.println(res.getFilename());
-			InputStream stream = res.getInputStream();
-			StringWriter writer = new StringWriter();
-			IOUtils.copy(stream, writer, "UTF-8");
-			String theString = writer.toString();
-			return(theString);
-		} catch (IOException e) {
-			System.out.print("IOException");
-			System.out.print(e.getMessage());
-			e.printStackTrace();
-			return null;
-		}
-		//return null;
-	} 
-	
-	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, produces = {"application/json"})
-	public String getRequestList()  throws JSONException  {
-		JSONArray res = Application.listQuerries.getJsonString();
-		return res.toString();
-	} // return request list in JSON
-
-	@RequestMapping(value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
-	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString)  {  // validate request list in JSON
-		logger.info("Validating DicomFileSetDescriptor");			// Log a message 
-		String tmpFilePath = "tmp.xml";
-		InputStream xsdStream;
-		Validator validator;
-        try {
-    		PrintWriter out = new PrintWriter(tmpFilePath);
-    		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
-    		out.close();
-    		SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    		xsdStream = new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream();
-    		Source schemaSource = new StreamSource(xsdStream);
-            Schema schema = factory.newSchema(schemaSource);
-            validator = schema.newValidator();
-			validator.validate(new StreamSource(new File(tmpFilePath)));
-		} catch (SAXException | IOException e) {
-			e.printStackTrace();
-			return new ValidationReport(false, e.getCause().toString()).getJson();
-		}
-        return new ValidationReport(true, "XML is Valid").getJson();
-	}
-	
-	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
-	public @ResponseBody ResponseEntity<String> validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {
-		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
-		String tmpFilePath = "tmp.xml";
-		InputStream xsdStream;
-		Validator validator;
-		try {
-			PrintWriter out = new PrintWriter(tmpFilePath);
-			out.println(filesetDescriptorString);						// Write XML content to be validated in the file
-			out.close();
-			SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			xsdStream = new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream();
-			Source schemaSource = new StreamSource(xsdStream);
-	        Schema schema = factory.newSchema(schemaSource);
-	        validator = schema.newValidator();
-	        validator.validate(new StreamSource(new File(tmpFilePath)));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IO Error when reading XML or XSD File : "+e.getMessage()); 
-		} catch (SAXException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("XML doesn't match with XSD file : "+e.getMessage()); 
-		}
-		return ResponseEntity.status(HttpStatus.OK).body(""); 				
-	}
 
 	@RequestMapping(value = "/importDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
 	public String importDicomData(@RequestBody DicomFileSetDescriptor dicomFileSetDescriptor,  				// Import Dicom file
@@ -695,6 +488,88 @@ public class ImportController {
 		return "{\"res\": \"ImportNonDicomFileSetDescriptor Request received\"}";							// Return these message if there's no Error
 	}
 
+	@RequestMapping(value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
+	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString)  {  // validate request list in JSON
+		logger.info("Validating DicomFileSetDescriptor");			// Log a message 
+		String tmpFilePath = "tmp.xml";
+		InputStream xsdStream;
+		Validator validator;
+        try {
+    		PrintWriter out = new PrintWriter(tmpFilePath);
+    		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
+    		out.close();
+    		SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    		xsdStream = new ClassPathResource("/xsd/dicomFileSetDescriptor.xsd").getInputStream();
+    		Source schemaSource = new StreamSource(xsdStream);
+            Schema schema = factory.newSchema(schemaSource);
+            validator = schema.newValidator();
+			validator.validate(new StreamSource(new File(tmpFilePath)));
+		} catch (SAXException | IOException e) {
+			e.printStackTrace();
+			return new ValidationReport(false, e.getCause().toString()).getJson();
+		}
+        return new ValidationReport(true, "XML is Valid").getJson();
+	}
+	
+	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
+	public @ResponseBody ResponseEntity<String> validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {
+		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
+		String tmpFilePath = "tmp.xml";
+		InputStream xsdStream;
+		Validator validator;
+		try {
+			PrintWriter out = new PrintWriter(tmpFilePath);
+			out.println(filesetDescriptorString);						// Write XML content to be validated in the file
+			out.close();
+			SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+			xsdStream = new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream();
+			Source schemaSource = new StreamSource(xsdStream);
+	        Schema schema = factory.newSchema(schemaSource);
+	        validator = schema.newValidator();
+	        validator.validate(new StreamSource(new File(tmpFilePath)));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IO Error when reading XML or XSD File : "+e.getMessage()); 
+		} catch (SAXException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("XML doesn't match with XSD file : "+e.getMessage()); 
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(""); 				
+	}
+
+	// Services Annexes
+	@RequestMapping (value = "/getVersion", method = RequestMethod.GET)
+	public String returnVersionNumber()  {
+		return versionNumber;
+	}
+	
+	@RequestMapping (value = "/downloadOntology", method = RequestMethod.GET, headers = "Accept=application/zip")
+	public void downloadOntology(HttpServletResponse response) throws IOException {
+		String zipFileName = "ontoMedirad.zip";
+        FileOutputStream fos = new FileOutputStream(zipFileName);
+        ZipOutputStream zipOut = new ZipOutputStream(fos);
+        for (String srcFile : Application.listeOntologyFiles) {
+            InputStream fis = new ClassPathResource("/OntoMedirad/"+srcFile).getInputStream();
+            ZipEntry zipEntry = new ZipEntry(srcFile);
+            zipOut.putNextEntry(zipEntry);
+            byte[] bytes = new byte[1024];
+            int length;
+            while((length = fis.read(bytes)) >= 0) {
+                zipOut.write(bytes, 0, length);
+            }
+            fis.close();
+        } 
+        zipOut.close();
+        fos.close();
+        
+        File zipFile = new File(zipFileName);
+		Path p = java.nio.file.Paths.get(zipFile.getCanonicalPath().replace(zipFileName, ""), zipFileName);
+        response.setContentType("application/zip");
+        response.addHeader("Content-Disposition", "attachment; filename="+zipFileName);
+        Files.copy(p, response.getOutputStream());
+        response.getOutputStream().flush();
+	}
+	
 	@RequestMapping (value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/rdf")
 	public @ResponseBody FileSystemResource downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {		
 		
@@ -724,6 +599,48 @@ public class ImportController {
 		return Application.listQuerries.getRequestListsinCSV();
 	}
 
+	@RequestMapping (value = "/verifRequest", method = RequestMethod.GET)
+	public String verifRequest() {
+
+		String request = "SELECT DISTINCT ?exam ?studydescr ?human ?spectacq ?spectacqclass ?radionucl ?protocolname ?protocoldescr\n" + 
+				"	WHERE {\n" + 
+				"\n" + 
+				" ?spectacq purl:BFO_0000132 ?exam .\n" + 
+				" ?exam ontomedirad:has_description ?studydescr .\n" + 
+				" ?spectacq rdf:type ?spectacqclass .\n" + 
+				" ?spectacqclass rdfs:subClassOf* ontomedirad:SPECT_data_acquisition .\n" + 
+				" ?spectacq ontomedirad:has_protocol ?protocol .\n" + 
+				" ?protocol ontomedirad:has_name ?protocolname .\n" + 
+				" ?protocol ontomedirad:has_description ?protocoldescr .\n" + 
+				" OPTIONAL {?spectacq ontomedirad:has_target_radionuclide ?radionucl}\n" + 
+				"} \n" + 
+				"";
+
+		createAdminConnection(database.ontoMedirad, true); 		  	// Create a connection to a stardog database with reasoning
+
+		SelectQuery aQuery = starDogConnection.select(request);         // Put the request to the StarDog
+
+		TupleQueryResult aResult = aQuery.execute();							    
+		
+		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
+		try {
+			QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.JSON, out);
+		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException
+				| IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		String result = out.toString();
+		System.out.println("result :");
+		
+		System.out.println(result);
+
+		System.out.println("Nombre de lignes :"+result.split("\n").length);
+		return "Tipoui !\n";
+
+	}
+	
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
 	public ResponseEntity<String> requestFromList(@RequestParam("id") String id)        // Shortcut to execute a request from the request list
 			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {    
@@ -738,16 +655,93 @@ public class ImportController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unknown Request");
 		}
 	}
-		// Services Annexes
 	
+	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
+	public ResponseEntity<String> getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
+		ResponseEntity<String> res = null;
+		res = executeQuerry("  SELECT DISTINCT  ?label ?class\n" + 
+				"           WHERE {\n" + 
+				"        ?class rdf:type owl:Class .\n" + 
+				"        ?class ontomedirad:has_MIME_type ?label .\n" + 
+				"        ?class skos:prefLabel ?classlabel .\n" + 
+				"        FILTER (?classlabel = \""+nonDICOMDataFormat+"\"@en) \n" + 
+				"        }" , "false" );
+		return res;
+	} 
+
+	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, produces = {"application/json"})
+	public ResponseEntity<String> getResearchStudies() throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {   
+		ResponseEntity<String> res = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
+				"          WHERE {\n" + 
+				"      ?study rdf:type ontomedirad:clinical_research_study .\n" + 
+				"      ?study ontomedirad:has_id ?id .\n" + 
+				"      ?study ontomedirad:has_name ?name .\n" + 
+				"      ?study ontomedirad:has_description ?description .\n" + 
+				"      }" , "false" );
+		return res;
+	} 
+						
+	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET, produces = {"application/json"})
+	public String getXSDfilesName() {  
+		JSONArray listeJSON = new JSONArray();
+		try {
+			InputStream stream = new ClassPathResource("xsdTableau.txt").getInputStream();
+			String line; String name; String fileName;  String description;
+			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+			while ((line = br.readLine()) != null) {
+				name = line.split(";")[0];
+				fileName = line.split(";")[1];
+				description = line.split(";")[2];
+				
+				JSONObject obj = new JSONObject();
+				try {
+					obj.put("label", name);
+					obj.put("fileName", fileName);
+					obj.put("description", description);
+					listeJSON.put(obj);		
+				} catch (JSONException e) {e.printStackTrace();}
+			}
+			
+			stream.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//for (int i=0; i<listXSDnames.size(); i++) {							// Iterate on the querry's list
+		//					        // Add the querry to the JSON list
+		//}
+		return listeJSON.toString();	
+	} 
 	
+	@RequestMapping (value = "/getXSD", method = RequestMethod.GET, produces = {"text/xml"} )
+	public String getXSD(@RequestParam("fileName") String fileName) {  
+		System.out.println("getXSD");
+		String path = "/xsdSimple/"+fileName;
+		try {
+			ClassPathResource res = new ClassPathResource(path);
+			System.out.println(res.getFilename());
+			InputStream stream = res.getInputStream();
+			StringWriter writer = new StringWriter();
+			IOUtils.copy(stream, writer, "UTF-8");
+			String theString = writer.toString();
+			return(theString);
+		} catch (IOException e) {
+			System.out.print("IOException");
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+			return null;
+		}
+		//return null;
+	} 
 	
-	
-	
-	
-	
+	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, produces = {"application/json"})
+	public String getRequestList()  throws JSONException  {
+		JSONArray res = Application.listQuerries.getJsonString();
+		return res.toString();
+	} // return request list in JSON
+
 	// Fonctions locales
-	
 	public void retrieveDicomFile(String studyInstanceUID, String seriesInstanceUID, String ClinicalResearchStudyId) throws IOException {
 		logger.info("Retrieving CT StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
