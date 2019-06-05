@@ -10,9 +10,11 @@ public class Querry  implements java.io.Serializable  {
 	private String request;
 	private String label;
 	private String description; 
+	private Boolean reasoning; 
 
-	public Querry(String pid, String plabel,String prequest, String pdescription) { // Querry constructor
-		id=pid; label=plabel; description=pdescription; request=prequest;
+
+	public Querry(String pid, String plabel,String prequest, String pdescription, Boolean preasoning) { // Querry constructor
+		id=pid; label=plabel; description=pdescription; request=prequest; reasoning=preasoning;
 	}
 	
 	public String getJSON() {						//return JSON informations of the querry
@@ -30,6 +32,8 @@ public class Querry  implements java.io.Serializable  {
 	public String getRequest() {return request;}
 	
 	public String getLabel() {return label;}
+	
+	public Boolean isReasonong() {return reasoning;}
 		
 	public String toString() {
 		return id+"\t"+label+"\t"+request+"\t"+description;

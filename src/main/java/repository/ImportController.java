@@ -88,7 +88,7 @@ import org.dcm4che3.data.*;
 @RestController
 
 public class ImportController {	
-	String versionNumber = "0.6.4";
+	String versionNumber = "0.6.4a";
 	static String username = "admin"; 			// Credentials for StarDog
 	static String password = "admin";
 	public enum database {ontoMedirad, test}; 	// StarDog Database list ()
@@ -115,8 +115,7 @@ public class ImportController {
 	
 	// Services de tests/debug
 	@RequestMapping (value = "/test", method = RequestMethod.GET)
-	public String test() throws IOException, DicomException {   
-		
+	public String test() throws JSONException  {  
 		return "Tipoui !\n";
 	}
 		
@@ -149,7 +148,8 @@ public class ImportController {
 				"CTenhanced0011.dcm",
 				"CTenhanced0050.dcm",
 				"CTenhanced0053.dcm",
-				"CTenhanced0070.dcm").collect(Collectors.toList());
+				"CTenhanced0070.dcm"
+				).collect(Collectors.toList());
 		
 		Iterator<String> RDFIter = listeRDF.iterator();
 		while (RDFIter.hasNext()) {
@@ -337,12 +337,6 @@ public class ImportController {
 			
 			Attributes element = itr.next();
 			Sequence referencedSeriesSeq = element.getSequence(Tag.ReferencedSeriesSequence);
-			
-			String PatientPseudo = element.getString(Tag.PatientName);
-			System.out.println("PatientPseudo : "+PatientPseudo);
-			
-			String PatientID = element.getString(Tag.PatientID);
-			System.out.println("PatientID : "+PatientID);
 			
 			String studyId = element.getString(Tag.StudyInstanceUID);
 			studyInstanceUID = studyId;
@@ -644,11 +638,12 @@ public class ImportController {
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
 	public ResponseEntity<String> requestFromList(@RequestParam("id") String id)        // Shortcut to execute a request from the request list
 			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {    
-		String isReasoning = "false";
+		//String isReasoning = "false";
 		Querry q = Application.listQuerries.getRequest(id);             // Retrieve request from the list (can be null if request name is unknown)
-
 		if (q!=null) {											   	    // If request is NOT null
-			ResponseEntity<String> a = executeQuerry(q.getRequest().replaceAll("\"", ""), isReasoning); 	    // Execute the querry and store the result as a string
+			System.out.println("Request : "+q.getLabel());
+			System.out.println("Reasoning : "+q.isReasonong());
+			ResponseEntity<String> a = executeQuerry(q.getRequest().replaceAll("\"", ""), q.isReasonong().toString().toLowerCase()); 	    // Execute the querry and store the result as a string
 			return a;											        // Return Querry Result
 		} else {												        // If request is null
 			logger.error("Unknown Request");
@@ -737,6 +732,7 @@ public class ImportController {
 	
 	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, produces = {"application/json"})
 	public String getRequestList()  throws JSONException  {
+		System.out.println("getRequestList");
 		JSONArray res = Application.listQuerries.getJsonString();
 		return res.toString();
 	} // return request list in JSON
@@ -1029,18 +1025,6 @@ public class ImportController {
 		System.exit(0);
 	}
 	
-	@RequestMapping (value = "/addRequest", method = RequestMethod.GET , headers = "Accept=text/xml")
-	public void addRequest(@RequestParam("name") String name,
-			@RequestParam("label") String label,
-			@RequestParam("request") String request,
-			@RequestParam("description") String description) {
-		Application.listQuerries.addRequest(name, label, request, description);
-	}
-	
-	@RequestMapping (value = "/deleteRequest", method = RequestMethod.GET , headers = "Accept=text/xml")
-	public void deleteRequest(@RequestParam("name") String name) {
-		Application.listQuerries.deleteRequest(name);
-	}
 	
 
 	

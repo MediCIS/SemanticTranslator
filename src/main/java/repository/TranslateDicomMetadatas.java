@@ -17,6 +17,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 	static Individual acquisition = null;
 	static Individual acquisitionProtocol = null;
 	static Individual acquisitionDevice = null;
+	static Individual dataSet = null;
 	static Individual imageAccRole = null;
 	static String ExposureModulationType;
 	static String TotalCollimationWidth;
@@ -44,11 +45,143 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						String CodeMeaning = radioNucl.getString(Tag.CodeMeaning);
 						logger.debug("CodeMeaning : "+CodeMeaning);
 						Individual atom;
-						if (CodeMeaning.contains("18F")) {
-							atom = createIndiv(model.getResource(racineURI+"fluorine_18_atom"));
-						} else if (CodeMeaning.contains("^177^Lutetium")) {
-							atom = createIndiv(model.getResource(racineURI+"lutetium_177_atom"));
-						} else {
+						switch (CodeMeaning) {
+						case("^14^Carbon"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"carbon_14_atom"));
+							break;
+						case("^18^Fluorine"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"fluorine_18_atom"));
+							break;
+						case("^22^Sodium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"sodium_22_atom"));
+							break;
+						case("^24^Sodium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"sodium_24_atom"));
+							break;
+						case("^32^Phosphorus"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"phosphorus_32_atom"));
+							break;
+						case("^42^Potassium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"potassium_42_atom"));
+							break;
+						case("^43^Potassium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"potassium_43_atom"));
+							break;
+						case("^51^Chromium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"chromium_51_atom"));
+							break;
+						case("^57^Cobalt"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"cobalt_57_atom"));
+							break;
+						case("^58^Cobalt"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"cobalt_58_atom"));
+							break;
+						case("^59^Iron"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"iron_59_atom"));
+							break;
+						case("^60^Cobalt"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"cobalt_60_atom"));
+							break;
+						case("^64^Copper"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"copper_64_atom"));
+							break;
+						case("^67^Copper"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"copper_67_atom"));
+							break;
+						case("^67^Gallium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"gallium_67_atom"));
+							break;
+						case("^75^Selenium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"selenium_75_atom"));
+							break;
+						case("^81m^Krypton"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"krypton_81m_atom"));
+							break;
+						case("^85^Krypton"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"krypton_85_atom"));
+							break;
+						case("^85^Strontium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"strontium_85_atom"));
+							break;
+						case("^87m^Strontium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"strontium_87m_atom"));
+							break;
+						case("^89^Strontium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"strontium_89_atom"));
+							break;
+						case("^90^Yttrium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"yttrium_90_atom"));
+							break;
+						case("^97^Ruthenium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"ruthenium_97_atom"));
+							break;
+						case("^99m^Technetium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"technetium_99m_atom"));
+							break;
+						case("^111^Indium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"indium_111_atom"));
+							break;
+						case("^113m^Indium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"indium_113m_atom"));
+							break;
+						case("^123^Iodine"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"iodine_123_atom"));
+							break;
+						case("^125^Iodine"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"iodine_125_atom"));
+							break;
+						case("^127^Xenon"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"xenon_127_atom"));
+							break;
+						case("^131^Iodine"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"iodine_131_atom"));
+							break;
+						case("^133^Barium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"barium_133_atom"));
+							break;
+						case("^133^Xenon"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"xenon_133_atom"));
+							break;
+						case("^153^Gadolinium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"gadolinium_153_atom"));
+							break;
+						case("^153^Samarium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"samarium_153_atom"));
+							break;
+						case("^169^Ytterbium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"ytterbium_169_atom"));
+							break;
+						case("^177^Lutetium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"lutetium_177_atom"));
+							break;
+						case("^178^Tantalum"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"tantalum_178_atom"));
+							break;
+						case("^186^Rhenium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"rhenium_186_atom"));
+							break;
+						case("^188^Rhenium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"rhenium_188_atom"));
+							break;
+						case("^191m^Iridium"):
+							atom = createIndiv(model.getResource(racineObo+"CHEBI_49666"));
+							break;
+						case("^198^Gold"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"gold_198_atom"));
+							break;
+						case("^199^Gold"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"gold_199_atom"));
+							break;
+						case("^201^Thallium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"thallium_201_atom"));
+							break;
+						case("^203^Lead"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"lead_203_atom"));
+							break;
+						case("^223^Radium"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"radium_223_atom"));
+							break;
+						default:
 							atom = createIndiv("Uknown_Nucleotide_"+CodeMeaning, model.getResource(racineURI+"radionuclide"));
 						}
 						addObjectProperty(acquisition, racineURI+"has_target_radionuclide", atom);
@@ -145,7 +278,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				FocalSpots = t.getString(Tag.FocalSpots);
 				i = createIndiv(generateName("focal_spot"),model.getResource(racineURI+"focal_spot"));
 				addDataProperty(i, racineObo+"IAO_0000004", FocalSpots);
-				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma/s"));
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("mm"));
 				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
 				addObjectProperty(acquisition, racineURI+"has_setting", i);
@@ -153,7 +286,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		}
 		
 	}
-	
 	
 	public static void translateCTAcquisitionDetailsSequence(Iterator<Attributes> iter) {
 		while (iter.hasNext()) {
@@ -185,14 +317,13 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		}
 	}
 	
-	
 	public static void translateCTExposureSequence(Iterator<Attributes> iter) {
 		while (iter.hasNext()) {
 			Attributes t = iter.next();
 			if (t.getString(Tag.ExposureTimeInms)!=null) {
 				String ExposureTimeInms = t.getString(Tag.ExposureTimeInms);
 				logger.debug("ExposureTimeInms : "+ExposureTimeInms);
-				i = createIndiv(generateName("KVP"),model.getResource(racineDCM+"113733"));
+				i = createIndiv(generateName("Exposure_Time"),model.getResource(racineDCM+"113824"));
 				addDataProperty(i, racineObo+"IAO_0000004", ExposureTimeInms);
 				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ms"));
 				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
@@ -214,11 +345,12 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			if (t.getString(Tag.ExposureInmAs)!=null) {
 				String ExposureInMAs = t.getString(Tag.ExposureInmAs);
 				logger.debug("ExposureInMAs : "+ExposureInMAs);
-				i = createIndiv(generateName("exposure_time"),model.getResource(racineDCM+"113824"));
+				i = createIndiv(generateName("Exposure"),model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#exposure"));
 				addDataProperty(i, racineObo+"IAO_0000004", ExposureInMAs);
-				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("milliampere"));
+				addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma.s"));
 				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 				addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+				addObjectProperty(acquisition, racineURI+"has_setting", i);
 			}
 			if (t.getString(Tag.ExposureModulationType)!=null) {
 				ExposureModulationType = t.getString(Tag.ExposureModulationType);
@@ -233,8 +365,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			}
 		}
 	}
-	
-	
 	
 	public static void translateDicomMetaData(Attributes root, String ClinicalResearchStudyId) {
 		logger.info("translateDicomMetaData");
@@ -403,6 +533,26 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			acquisitionDevice = createIndiv(generateName("CT_scanner"), model.getResource(racineURI+"CT_scanner"));
 			acquisitionProtocol = createIndiv(generateName("CT_acquisition_protocol"), model.getResource(racineURI+"CT_acquisition_protocol"));
 			imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
+			if (ImageTypeLog.contains("LOCALIZER")) {
+				dataSet = createIndiv(generateName("CT_localizer"), model.getResource(racineURI+"CT_localizer"));
+			} else {
+				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
+			}
+			
+			addDataProperty(dataSet ,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+			if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1")) {
+				addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_enhanced_CT_image_storage_SOP_class")));
+			} else {
+				addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_CT_image_storage_SOP_class")));
+			}
+			String SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
+			logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+			addDataProperty(dataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
+			addObjectProperty(dataSet, racineURI+"is_specified_output_of", acquisition);
+
+			String FrameOfReferenceUID = root.getString(Tag.FrameOfReferenceUID);
+			logger.debug("FrameOfReferenceUID : "+FrameOfReferenceUID);
+			addDataProperty(dataSet, racineURI+"has_DICOM_frame_of_reference_UID", FrameOfReferenceUID);
 		} else {
 			return;
 		}
@@ -467,9 +617,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			Individual institution = memory.getInstitution(InstitutionName);
 			Individual role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(InstitutionName);
 			addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000052", institution);
-			if (acquisition!=null) {
-			//	addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000054", acquisition);
-			}
+			addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000054", acquisition);
+			addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000054", imagingStudy);
 		}
 
 		if (acquisitionProtocol!=null) {
@@ -488,26 +637,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		
 		if ((SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2") || SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1")) && (ImageType[0].contains("ORIGINAL") || ImageType[2].contains("AXIAL") || ImageType[2].contains("LOCALIZER"))) { // 3.1  
 			logger.debug("CT_image_dataset");
-			Individual dataSet = null;
 			if (ImageType[2].contains("LOCALIZER")) {
-				dataSet = createIndiv(generateName("CT_localizer"), model.getResource(racineURI+"CT_localizer"));
-			} else if (ImageType[2].contains("AXIAL")) {
-				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
+				dataSet.addOntClass(model.getResource(racineURI+"CT_localizer"));
 			}
-			addDataProperty(dataSet ,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
-
-				
-			logger.debug("SOPClassUID : "+SOPClassUID);
-			addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_CT_image_storage_SOP_class")));
-
-			SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
-			logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
-			addDataProperty(dataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
-			addObjectProperty(dataSet, racineURI+"is_specified_output_of", acquisition);
-
-			String FrameOfReferenceUID = root.getString(Tag.FrameOfReferenceUID);
-			logger.debug("FrameOfReferenceUID : "+FrameOfReferenceUID);
-			addDataProperty(dataSet, racineURI+"has_DICOM_frame_of_reference_UID", FrameOfReferenceUID);
 
 			String AcquisitionDate = root.getString(Tag.AcquisitionDate);
 			logger.debug("AcquisitionDate : "+AcquisitionDate);
@@ -716,6 +848,17 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						translateCTExposureSequence(SharedFunctionalGroups.getSequence(Tag.CTExposureSequence).iterator());
 					}
 				}
+			} else if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
+				Sequence PerFrameFunctionalGroupsSequence = root.getSequence(Tag.PerFrameFunctionalGroupsSequence);
+				logger.debug("PerFrameFunctionalGroupsSequence : "+PerFrameFunctionalGroupsSequence);
+				iter = PerFrameFunctionalGroupsSequence.iterator();
+				Attributes PerFrameFunctionalGroups;
+				while (iter.hasNext()) {
+					PerFrameFunctionalGroups = iter.next();
+					if (PerFrameFunctionalGroups.getSequence(Tag.CTExposureSequence)!=null) {
+						translateCTExposureSequence(PerFrameFunctionalGroups.getSequence(Tag.CTExposureSequence).iterator());
+					}
+				}
 			}
 			
 			Sequence CTAcquisitionDetailsSequence = root.getSequence(Tag.CTAcquisitionDetailsSequence);
@@ -734,6 +877,17 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						translateCTAcquisitionDetailsSequence(SharedFunctionalGroups.getSequence(Tag.CTAcquisitionDetailsSequence).iterator());
 					}
 				}
+			} else if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
+				Sequence PerFrameFunctionalGroupsSequence = root.getSequence(Tag.PerFrameFunctionalGroupsSequence);
+				logger.debug("PerFrameFunctionalGroupsSequence : "+PerFrameFunctionalGroupsSequence);
+				iter = PerFrameFunctionalGroupsSequence.iterator();
+				Attributes PerFrameFunctionalGroups;
+				while (iter.hasNext()) {
+					PerFrameFunctionalGroups = iter.next();
+					if (PerFrameFunctionalGroups.getSequence(Tag.CTExposureSequence)!=null) {
+						translateCTAcquisitionDetailsSequence(PerFrameFunctionalGroups.getSequence(Tag.CTExposureSequence).iterator());
+					}
+				}
 			}
 			
 			// CTXRayDetailsSequence
@@ -744,7 +898,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					iter = CTXRayDetailsSequence.iterator();
 					translateCTXRayDetailsSequence(iter);
 				}
-			}  else if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
+			} else if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
 				Sequence SharedFunctionalGroupsSequence = root.getSequence(Tag.SharedFunctionalGroupsSequence);
 				logger.debug("SharedFunctionalGroupsSequence : "+SharedFunctionalGroupsSequence);
 				iter = SharedFunctionalGroupsSequence.iterator();
@@ -755,10 +909,26 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						translateCTXRayDetailsSequence(SharedFunctionalGroups.getSequence(Tag.CTXRayDetailsSequence).iterator());
 					}
 				}
+			} else if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
+				Sequence PerFrameFunctionalGroupsSequence = root.getSequence(Tag.PerFrameFunctionalGroupsSequence);
+				logger.debug("PerFrameFunctionalGroupsSequence : "+PerFrameFunctionalGroupsSequence);
+				iter = PerFrameFunctionalGroupsSequence.iterator();
+				Attributes PerFrameFunctionalGroups;
+				while (iter.hasNext()) {
+					PerFrameFunctionalGroups = iter.next();
+					if (PerFrameFunctionalGroups.getSequence(Tag.CTXRayDetailsSequence)!=null) {
+						translateCTXRayDetailsSequence(PerFrameFunctionalGroups.getSequence(Tag.CTXRayDetailsSequence).iterator());
+					}
+				}
 			}
 			
 		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1") && ImageType[2].contains("AXIAL")) { //3.2
-			Individual dataSet = createIndiv(generateName("CT_image_dataset"),model.getResource(racineURI+"CT_image_dataset"));
+			Individual dataSet;
+			if (ImageTypeLog.contains("LOCALIZER")) {
+				dataSet = createIndiv(generateName("CT_localizer"), model.getResource(racineURI+"CT_localizer"));
+			} else {
+				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
+			}
 			addDataProperty(dataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 
 			logger.debug("SOPClassUID : "+SOPClassUID);
@@ -1064,6 +1234,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							String EnergyWindowLowerLimit = t.getString(Tag.EnergyWindowLowerLimit);
 							logger.debug("EnergyWindowLowerLimit : "+EnergyWindowLowerLimit);
 							if (EnergyWindowLowerLimit!=null) {
+								while (EnergyWindowLowerLimit.charAt(0)=='0') {
+									EnergyWindowLowerLimit=EnergyWindowLowerLimit.substring(1);
+								}	
 								addDataProperty(energyWindow, racineURI+"has_lower_limit", EnergyWindowLowerLimit);
 								addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 							}
@@ -1072,6 +1245,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							String EnergyWindowUpperLimit = t.getString(Tag.EnergyWindowUpperLimit);
 							logger.debug("EnergyWindowUpperLimit : "+EnergyWindowUpperLimit);
 							if (EnergyWindowUpperLimit!=null) {
+								while (EnergyWindowUpperLimit.charAt(0)=='0') {
+									EnergyWindowUpperLimit=EnergyWindowUpperLimit.substring(1);
+								}	
 								addDataProperty(energyWindow, racineURI+"has_upper_limit", EnergyWindowUpperLimit);
 								addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 							} 
@@ -1199,6 +1375,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							String EnergyWindowLowerLimit = t.getString(Tag.EnergyWindowLowerLimit);
 							logger.debug("EnergyWindowLowerLimit : "+EnergyWindowLowerLimit);
 							if (EnergyWindowLowerLimit!=null) {
+								while (EnergyWindowLowerLimit.charAt(0)=='0') {
+									EnergyWindowLowerLimit=EnergyWindowLowerLimit.substring(1);
+								}	
 								addDataProperty(energyWindow, racineURI+"has_lower_limit", EnergyWindowLowerLimit);
 								addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 							}
@@ -1207,6 +1386,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							String EnergyWindowUpperLimit = t.getString(Tag.EnergyWindowUpperLimit);
 							logger.debug("EnergyWindowUpperLimit : "+EnergyWindowUpperLimit);
 							if (EnergyWindowUpperLimit!=null) {
+								while (EnergyWindowUpperLimit.charAt(0)=='0') {
+									EnergyWindowUpperLimit=EnergyWindowUpperLimit.substring(1);
+								}	
 								addDataProperty(energyWindow, racineURI+"has_upper_limit", EnergyWindowUpperLimit);
 								addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 							}
@@ -1302,6 +1484,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							String EnergyWindowLowerLimit = t.getString(Tag.EnergyWindowLowerLimit);
 							logger.debug("EnergyWindowLowerLimit : "+EnergyWindowLowerLimit);
 							if (EnergyWindowLowerLimit!=null) {
+								while (EnergyWindowLowerLimit.charAt(0)=='0') {
+									EnergyWindowLowerLimit=EnergyWindowLowerLimit.substring(1);
+								}
 								addDataProperty(energyWindow, racineURI+"has_lower_limit", EnergyWindowLowerLimit);
 								addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 							}
@@ -1310,6 +1495,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							String EnergyWindowUpperLimit = t.getString(Tag.EnergyWindowUpperLimit);
 							logger.debug("EnergyWindowUpperLimit : "+EnergyWindowUpperLimit);
 							if (EnergyWindowUpperLimit!=null) {
+								while (EnergyWindowUpperLimit.charAt(0)=='0') {
+									EnergyWindowUpperLimit=EnergyWindowUpperLimit.substring(1);
+								}
 								addDataProperty(energyWindow, racineURI+"has_upper_limit", EnergyWindowUpperLimit);
 								addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 							}
@@ -1411,6 +1599,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						String EnergyWindowLowerLimit = t.getString(Tag.EnergyWindowLowerLimit);
 						logger.debug("EnergyWindowLowerLimit : "+EnergyWindowLowerLimit);
 						if (EnergyWindowLowerLimit!=null) {
+							while (EnergyWindowLowerLimit.charAt(0)=='0') {
+								EnergyWindowLowerLimit=EnergyWindowLowerLimit.substring(1);
+							}
 							addDataProperty(energyWindow, racineURI+"has_lower_limit", EnergyWindowLowerLimit);
 							addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 						}
@@ -1419,6 +1610,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						String EnergyWindowUpperLimit = t.getString(Tag.EnergyWindowUpperLimit);
 						logger.debug("EnergyWindowUpperLimit : "+EnergyWindowUpperLimit);
 						if (EnergyWindowUpperLimit!=null) {
+							while (EnergyWindowUpperLimit.charAt(0)=='0') {
+								EnergyWindowUpperLimit=EnergyWindowUpperLimit.substring(1);
+							}
 							addDataProperty(energyWindow, racineURI+"has_upper_limit", EnergyWindowUpperLimit);
 							addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 						}
@@ -1486,18 +1680,35 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			Sequence EnergyWindowInformationSequence = root.getSequence(Tag.EnergyWindowInformationSequence);
 			iter = EnergyWindowInformationSequence.iterator();
 			while (iter.hasNext()) {
+				Individual energyWindow = createIndiv(generateName("energy_window"), model.getResource(racineURI+"energy_window"));
+				addObjectProperty(energyWindow, racineObo+"BFO_0000177", acquisitionProtocol);
+				addObjectProperty(energyWindow, racineURI+"is_device_setting", acquisitionDevice);
+				addObjectProperty(acquisition, racineURI+"has_setting", energyWindow);
 				Attributes t = iter.next();
 				if (t.getString(Tag.EnergyWindowName)!=null) {
 					String EnergyWindowName = t.getString(Tag.EnergyWindowName);
 					logger.debug("EnergyWindowName : "+EnergyWindowName);
+					if (EnergyWindowName!=null) {
+						addDataProperty(energyWindow, racineURI+"has_name", EnergyWindowName);
+					}
 				}
 				if (t.getString(Tag.EnergyWindowLowerLimit)!=null) {
 					String EnergyWindowLowerLimit = t.getString(Tag.EnergyWindowLowerLimit);
+					while (EnergyWindowLowerLimit.charAt(0)=='0') {
+						EnergyWindowLowerLimit=EnergyWindowLowerLimit.substring(1);
+					}
 					logger.debug("EnergyWindowLowerLimit : "+EnergyWindowLowerLimit);
+					addDataProperty(energyWindow, racineURI+"has_lower_limit", EnergyWindowLowerLimit);
+					addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 				}
 				if (t.getString(Tag.EnergyWindowUpperLimit)!=null) {
 					String EnergyWindowUpperLimit = t.getString(Tag.EnergyWindowUpperLimit);
+					while (EnergyWindowUpperLimit.charAt(0)=='0') {
+						EnergyWindowUpperLimit=EnergyWindowUpperLimit.substring(1);
+					}
 					logger.debug("EnergyWindowUpperLimit : "+EnergyWindowUpperLimit);
+					addDataProperty(energyWindow, racineURI+"has_upper_limit", EnergyWindowUpperLimit);
+					addObjectProperty(energyWindow, "http://purl.obolibrary.org/obo/IAO_0000039", getUnit("kiloelectronvolt"));
 				} 
 			}
 			

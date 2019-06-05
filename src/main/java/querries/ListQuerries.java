@@ -1,12 +1,10 @@
 package querries;
 
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -15,43 +13,51 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 public class ListQuerries {
 	
 	private ArrayList<Querry> ListQuerry; 
-	private String fileName = "requestList.ser";
+	private String fileName = "RequestList.csv";
 	
-	@SuppressWarnings("unchecked")
 	public ListQuerries() {													// Constructor (by reading querries in an excel file) 
-		
+		ListQuerry = new ArrayList<Querry>();
+		CSVReader reader = null;
+		InputStream fileIn;
+        Boolean requestReasoning;
 		try {
-			InputStream fileIn = new ClassPathResource(fileName).getInputStream();
-	        ObjectInputStream in = new ObjectInputStream(fileIn);
-	        ListQuerry = (ArrayList<Querry>) in.readObject();
-	        in.close();
-	        fileIn.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			fileIn = new ClassPathResource(fileName).getInputStream();
+			reader = new CSVReader(new BufferedReader(new InputStreamReader(fileIn)), ';');
+			String [] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+            	String requestNum = nextLine[0];
+				System.out.println("requestNum : "+requestNum);
+				
+				String requestTitle = nextLine[1];
+				System.out.println("requestTitle : "+requestTitle);
+
+				String requestDescription = nextLine[2];
+				System.out.println("requestDescription : "+requestDescription);
+				
+				String requestReasoningString = nextLine[3];
+				if (requestReasoningString.contains("FALSE")) {
+					requestReasoning = false;
+				} else {
+					requestReasoning = true;
+				}
+				
+				System.out.println("requestReasoning (csv) : "+requestReasoningString);
+				System.out.println("requestReasoning : "+requestReasoning);
+
+				String request = nextLine[4];
+				System.out.println("request : "+request);
+
+				addRequest(requestNum, requestTitle, request, requestDescription, requestReasoning);
+            }
 		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-	}
-	
-	public void serializeRequests() {
-		try {
-			ClassPathResource res = new ClassPathResource(fileName);
-			FileOutputStream fos = new FileOutputStream(res.getFile());
-	        ObjectOutputStream out = new ObjectOutputStream(fos);
-	        out.writeObject(ListQuerry);
-			out.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 	
 	public Querry getRequest(String nameRequest) {							// Return a Querry as a Java Object
@@ -65,9 +71,8 @@ public class ListQuerries {
 		return null;														// If no request matches return null
 	}
 	
-	public void addRequest(String name, String label, String request, String description) {
-		ListQuerry.add(new Querry(name, label, request, description));		// Create a querry Object and add it to the list
-		serializeRequests();
+	public void addRequest(String name, String label, String request, String description, boolean reasoning) {
+		ListQuerry.add(new Querry(name, label, request, description, reasoning));		// Create a querry Object and add it to the list
 	}
 	
 	public void deleteRequest(String nameOrLabel) {
@@ -83,16 +88,16 @@ public class ListQuerries {
 		if (requestToDelete!=null) {
 			ListQuerry.remove(requestToDelete);
 		}
-		serializeRequests();
 	}
 	
-	public  JSONArray getJsonString() throws JSONException {											// Return Querry in JSON format
+	public JSONArray getJsonString() throws JSONException {				// Return Querry in JSON format
+		System.out.println("getJsonString");
 		JSONArray listeJSON = new JSONArray();								// Create an array in JSON format
-		for (int i=0; i<ListQuerry.size(); i++) {							// Iterate on the querry's list
-			String strJson = ListQuerry.get(i).getJSON();
-			JSONObject jsonQuerry = null;
-			jsonQuerry = new JSONObject(strJson);
-			listeJSON.put(jsonQuerry);								// Add the querry to the JSON list
+		System.out.println("Number Request : "+listeJSON.length());
+		Iterator<Querry> iter = ListQuerry.iterator();
+		while (iter.hasNext()) {
+			JSONObject jsonQuerry = new JSONObject(iter.next().getJSON());
+			listeJSON.put(jsonQuerry);	
 		}
 		return listeJSON;										// Return the JSON list
 	}

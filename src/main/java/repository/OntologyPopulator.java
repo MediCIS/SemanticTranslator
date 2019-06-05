@@ -39,6 +39,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	static String racineObo = "http://purl.obolibrary.org/obo/";
 	static String racineMol = "http://purl.bioontology.org/ontology/SNMI/";
 	static String racineURI = "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#";
+	static String racineRadionuclides = "http://medicis.univ-rennes1.fr/ontologies/ontospm/Radionuclides_for_OntoMEDIRAD.owl#";
 
 	protected static final Logger logger = LoggerFactory.getLogger(repository.OntologyPopulator.class);	//logger
 	
@@ -1767,6 +1768,9 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			break;	
 		case "ratio":
 			unit = null; 
+			break;
+		case "ma.s":
+			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milliampere_second"));
 			break;
 		default:
 			unit = createIndiv(generateName("Unknown_Unit"), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));
