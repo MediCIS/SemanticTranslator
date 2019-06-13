@@ -18,46 +18,45 @@ import au.com.bytecode.opencsv.CSVReader;
 public class ListQuerries {
 	
 	private ArrayList<Querry> ListQuerry; 
+	//private String fileName = "hgdhgd.csv";
 	private String fileName = "RequestList.csv";
+
 	
-	public ListQuerries() {													// Constructor (by reading querries in an excel file) 
+	public ListQuerries() throws IOException {													// Constructor (by reading querries in an excel file) 
 		ListQuerry = new ArrayList<Querry>();
-		CSVReader reader = null;
-		InputStream fileIn;
+		CSVReader readerCSV = null;
+		InputStream fileStream;
         Boolean requestReasoning;
-		try {
-			fileIn = new ClassPathResource(fileName).getInputStream();
-			reader = new CSVReader(new BufferedReader(new InputStreamReader(fileIn)), ';');
-			String [] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-            	String requestNum = nextLine[0];
-				System.out.println("requestNum : "+requestNum);
-				
-				String requestTitle = nextLine[1];
-				System.out.println("requestTitle : "+requestTitle);
+        fileStream = new ClassPathResource(fileName).getInputStream();
+		readerCSV = new CSVReader(new BufferedReader(new InputStreamReader(fileStream)), ';');
+		String [] nextLine;
+        while ((nextLine = readerCSV.readNext()) != null) {
+        	String requestNum = nextLine[0];
+			//System.out.println("requestNum : "+requestNum);
+			
+			String requestTitle = nextLine[1];
+			//System.out.println("requestTitle : "+requestTitle);
 
-				String requestDescription = nextLine[2];
-				System.out.println("requestDescription : "+requestDescription);
-				
-				String requestReasoningString = nextLine[3];
-				if (requestReasoningString.contains("FALSE")) {
-					requestReasoning = false;
-				} else {
-					requestReasoning = true;
-				}
-				
-				System.out.println("requestReasoning (csv) : "+requestReasoningString);
-				System.out.println("requestReasoning : "+requestReasoning);
+			String requestDescription = nextLine[2];
+			//System.out.println("requestDescription : "+requestDescription);
+			
+			String requestReasoningString = nextLine[3];
+			if (requestReasoningString.contains("FALSE")) {
+				requestReasoning = false;
+			} else {
+				requestReasoning = true;
+			}
+			
+			//System.out.println("requestReasoning (csv) : "+requestReasoningString);
+			//System.out.println("requestReasoning : "+requestReasoning);
 
-				String request = nextLine[4];
-				System.out.println("request : "+request);
+			String request = nextLine[4];
+			//System.out.println("request : "+request);
 
-				addRequest(requestNum, requestTitle, request, requestDescription, requestReasoning);
-            }
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			addRequest(requestNum, requestTitle, request, requestDescription, requestReasoning);
+        }
+        fileStream.close();
+        readerCSV.close();
 	}
 	
 	public Querry getRequest(String nameRequest) {							// Return a Querry as a Java Object
@@ -91,9 +90,7 @@ public class ListQuerries {
 	}
 	
 	public JSONArray getJsonString() throws JSONException {				// Return Querry in JSON format
-		System.out.println("getJsonString");
 		JSONArray listeJSON = new JSONArray();								// Create an array in JSON format
-		System.out.println("Number Request : "+listeJSON.length());
 		Iterator<Querry> iter = ListQuerry.iterator();
 		while (iter.hasNext()) {
 			JSONObject jsonQuerry = new JSONObject(iter.next().getJSON());

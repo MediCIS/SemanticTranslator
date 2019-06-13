@@ -236,6 +236,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					} else {
 						filter = createIndiv(generateName("x-ray_filter"), model.getResource(racineDCM+"113771"));
 					}
+					addObjectProperty(filter, racineObo+"BFO_0000177", acquisitionDevice);
 				}
 			}
 			if (FilterMaterial==null && t.getString(Tag.FilterMaterial)!=null) {
@@ -287,7 +288,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		
 	}
 	
-	public static void translateCTAcquisitionDetailsSequence(Iterator<Attributes> iter) {
+    public static void translateCTAcquisitionDetailsSequence(Iterator<Attributes> iter) {
 		while (iter.hasNext()) {
 			Attributes t = iter.next();
 			// RevolutionTime
@@ -366,7 +367,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		}
 	}
 	
-	public static void translateDicomMetaData(Attributes root, String ClinicalResearchStudyId) {
+	public static void translateDicomMetaData(Attributes root, String ClinicalResearchStudyId, String handle) {
 		logger.info("translateDicomMetaData");
 		if (model==null) {model = Application.getModel();}
 		if (dataModel==null) {model = Application.dataModel;}
@@ -534,12 +535,13 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			acquisitionProtocol = createIndiv(generateName("CT_acquisition_protocol"), model.getResource(racineURI+"CT_acquisition_protocol"));
 			imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
 			if (ImageTypeLog.contains("LOCALIZER")) {
-				dataSet = createIndiv(generateName("CT_localizer"), model.getResource(racineURI+"CT_localizer"));
+				dataSet = createIndiv(generateName("CT_localizer"), model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_localizer"));
 			} else {
 				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
 			}
-			
 			addDataProperty(dataSet ,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+			addDataProperty(dataSet, racineURI+"has_IRDBB_WADO_handle", handle);
+			
 			if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1")) {
 				addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_enhanced_CT_image_storage_SOP_class")));
 			} else {
@@ -638,7 +640,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		if ((SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2") || SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1")) && (ImageType[0].contains("ORIGINAL") || ImageType[2].contains("AXIAL") || ImageType[2].contains("LOCALIZER"))) { // 3.1  
 			logger.debug("CT_image_dataset");
 			if (ImageType[2].contains("LOCALIZER")) {
-				dataSet.addOntClass(model.getResource(racineURI+"CT_localizer"));
+				dataSet.addOntClass(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_localizer"));
 			}
 
 			String AcquisitionDate = root.getString(Tag.AcquisitionDate);
@@ -755,7 +757,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				} else {
 					filter = createIndiv(generateName("x-ray_filter"), model.getResource(racineDCM+"113771"));
 				}
-				addObjectProperty(filter, racineURI+"BFO_0000177", acquisitionDevice);
+				addObjectProperty(filter, racineObo+"BFO_0000177", acquisitionDevice);
 			}
 			
 			String FilterMaterial = root.getString(Tag.FilterMaterial);
@@ -925,11 +927,12 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		} else if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1") && ImageType[2].contains("AXIAL")) { //3.2
 			Individual dataSet;
 			if (ImageTypeLog.contains("LOCALIZER")) {
-				dataSet = createIndiv(generateName("CT_localizer"), model.getResource(racineURI+"CT_localizer"));
+				dataSet = createIndiv(generateName("CT_localizer"), model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_localizer"));
 			} else {
 				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
 			}
 			addDataProperty(dataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+			addDataProperty(dataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
 			logger.debug("SOPClassUID : "+SOPClassUID);
 			i = createIndiv(model.getResource(racineURI+"DICOM_enhanced_CT_image_storage_SOP_class"));
@@ -1172,16 +1175,19 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			//TODO : DistanceSourceToPatient 
 
 		} else if (ImageType!=null && ImageType.length>=3) {
-			if (ImageType[2].contains("TOMO PROJ") ) { // 4.1 NM
+			if (ImageType[2].equalsIgnoreCase("TOMO") ) { // 4.1 NM
 				logger.debug("\n");
 				logger.debug("Nuclear Medicine Image Storage");
 				logger.debug("\n");
 	
 				//String SOPClassUID = root.getString(Tag.SOPClassUID);
 				//logger.debug("SOPClassUID : "+SOPClassUID);
+				
+				
 				Individual dataset = createIndiv(generateName("NM_tomo_dataset"), model.getResource(racineURI+"NM_tomo_dataset"));
 				addObjectProperty(dataset, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class")));
 				addDataProperty(dataset,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+				addDataProperty(dataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
 				SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
 				logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
@@ -1192,12 +1198,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				logger.debug("FrameOfReferenceUID : "+FrameOfReferenceUID);
 				if (FrameOfReferenceUID!=null) {
 					addDataProperty(dataset, racineURI+"has_DICOM_frame_of_reference_UID", FrameOfReferenceUID);
-				}
-				
-				ImageType = root.getStrings(Tag.ImageType);
-				logger.debug("ImageType : "+ImageType);
-				if (ImageType[2].contains("TOMO PROJ")) {
-					//TODO
 				}
 				
 				String AcquisitionDate = root.getString(Tag.AcquisitionDate);
@@ -1289,6 +1289,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							} else {
 								collimator = createIndiv(generateName("collimator_"+CollimatorType), model.getResource(racineURI+"collimator"));
 							}
+							addObjectProperty(collimator, racineObo+"BFO_0000177", acquisitionDevice);
 						}
 					}
 				}
@@ -1325,6 +1326,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				logger.debug("Positron Emission Tomography Image Storage");
 				Individual NMDataSet = createIndiv(generateName("NM_recon_tomo_dataset"), model.getResource(racineURI+"NM_recon_tomo_dataset"));
 				addDataProperty(NMDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+				addDataProperty(NMDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
 				logger.debug("SOPClassUID : "+SOPClassUID);
 				i = createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class"));
@@ -1429,6 +1431,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							} else {
 								collimator = createIndiv(generateName("collimator_"+CollimatorType), model.getResource(racineURI+"collimator"));
 							}
+							addObjectProperty(collimator, racineObo+"BFO_0000177", acquisitionDevice);
 						}
 					}
 				}
@@ -1436,6 +1439,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			} else if (ImageType[2].contains("STATIC") || ImageType[2].contains("WHOLE BODY")) { // 4.3 NM
 				Individual NMDataSet = createIndiv(generateName("NM_recon_tomo_dataset"), model.getResource(racineURI+"NM_static_dataset"));
 				addDataProperty(NMDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+				addDataProperty(NMDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
 				logger.debug("SOPClassUID : "+SOPClassUID);
 				i = createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class"));
@@ -1538,6 +1542,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							} else {
 								collimator = createIndiv(generateName("collimator_"+CollimatorType), model.getResource(racineURI+"collimator"));
 							}
+							addObjectProperty(collimator, racineObo+"BFO_0000177", acquisitionDevice);
 						}
 					} else if (t.getString(Tag.StartAngle)!=null) {
 						String StartAngle = t.getString(Tag.StartAngle);
@@ -1551,6 +1556,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			logger.debug("Positron Emission Tomography Image Storage");
 			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));
 			addDataProperty(PETDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+			addDataProperty(PETDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
 			logger.debug("SOPClassUID : "+SOPClassUID);
 			i = createIndiv(model.getResource(racineURI+"DICOM_PET_image_storage_SOP_class"));
@@ -1622,9 +1628,11 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			
 			String ReconstructionMethod = root.getString(Tag.ReconstructionMethod);
 			logger.debug("ReconstructionMethod : "+ReconstructionMethod);
+			// TODO completer
 			
 			String CollimatorType = root.getString(Tag.CollimatorType);
 			logger.debug("CollimatorType : "+CollimatorType);
+			// TODO completer
 			
 			String TypeOfDetectorMotion = root.getString(Tag.TypeOfDetectorMotion);
 			logger.debug("TypeOfDetectorMotion : "+TypeOfDetectorMotion);
@@ -1644,6 +1652,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			logger.debug("Enhanced PET Image Storage");
 			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));			
 			addDataProperty(PETDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
+			addDataProperty(PETDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
 			logger.debug("SOPClassUID : "+SOPClassUID);
 			i = createIndiv(generateName("DICOM_enhanced_PET_image_storage_SOP_class"), model.getResource(racineURI+"DICOM_enhanced_PET_image_storage_SOP_class"));
@@ -1715,6 +1724,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			String CollimatorType = root.getString(Tag.CollimatorType);
 			logger.debug("CollimatorType : "+CollimatorType);
 			if (CollimatorType!=null) {
+				// TODO COMPLETER
 				//if (CollimatorType.contains("RING"))
 			}
 			

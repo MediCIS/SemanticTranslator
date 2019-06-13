@@ -39,6 +39,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	static String racineObo = "http://purl.obolibrary.org/obo/";
 	static String racineMol = "http://purl.bioontology.org/ontology/SNMI/";
 	static String racineURI = "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#";
+
 	static String racineRadionuclides = "http://medicis.univ-rennes1.fr/ontologies/ontospm/Radionuclides_for_OntoMEDIRAD.owl#";
 
 	protected static final Logger logger = LoggerFactory.getLogger(repository.OntologyPopulator.class);	//logger

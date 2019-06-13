@@ -66,22 +66,18 @@ public class Memory extends OntologyPopulator {
 				UnsupportedQueryResultFormatException, IOException, StardogException {
 		
 		createAdminConnection(database.ontoMedirad);
-		
-		logger.debug("Request"+request);
+		logger.debug("Request "+request);
 	
 		SelectQuery aQuery = starDogConnection.select(request);
-		//aQuery.limit(10);
 		
 		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
 
 		aResult = aQuery.execute();
-
 		out = new ByteArrayOutputStream();
 		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
 		String[] resultats = out.toString().split("\n");
 		
 		if (aResult!=null) {aResult.close();}
-		
 		return resultats;
 	}
 	
@@ -154,7 +150,6 @@ public class Memory extends OntologyPopulator {
 		}
 	}
 	
-	
 	public synchronized Individual getHuman(String patientID) {
 		for (int i = 0; i<listIRIHuman.size(); i++) {
 			if (listIDsHuman.get(i).equalsIgnoreCase(patientID)) {
@@ -181,7 +176,6 @@ public class Memory extends OntologyPopulator {
 				"				} ORDER BY ?human";
 
 		String[] resultats = executeRequest(sparql);	
-
 		String[] ContenuLignes; String id; String human;
 
 		for (int i=1; i<resultats.length; i++) {
@@ -207,7 +201,6 @@ public class Memory extends OntologyPopulator {
 		listSeriesPatient.add(SeriesID.trim());
 		listStudyPatient.add(StudyID.trim());
 		listIRIPatient.add(patient);
-
 	}
 	
 	public synchronized Individual getPatient(String SeriesID, String StudyID) {
@@ -303,7 +296,6 @@ public class Memory extends OntologyPopulator {
 				"} ORDER BY ?software";
 		
 		String[] resultats = executeRequest(sparql);	
-		
 		String[] ContenuLignes; String iri; String name;
 		
 		for (int i=1; i<resultats.length; i++) {
@@ -314,9 +306,7 @@ public class Memory extends OntologyPopulator {
 						
 			setSoftware(name, iri);
 		}
-		
 		starDogConnection.close();
-		
 		logger.debug("requestSoftware OK");
 	}
 	
@@ -329,21 +319,16 @@ public class Memory extends OntologyPopulator {
 				"	?method ontomedirad:has_name ?nameMethod ." + 
 				"} ORDER BY ?method";
 		String[] resultats = executeRequest(sparql);	
-		
 		String[] ContenuLignes; String iri; String name;
 		
 		for (int i=1; i<resultats.length; i++) {
-			
 			ContenuLignes = resultats[i].split(",");
 			iri = ContenuLignes[0];
-			name = ContenuLignes[1];
-						
+			name = ContenuLignes[1];		
 			setMCMethod(name, iri);
-			
 		}
 		
 		starDogConnection.close();
-		
 		logger.debug("requestMCMethod OK");
 	}
 	
@@ -363,17 +348,14 @@ public class Memory extends OntologyPopulator {
 		String iriInstit; String nameInstit;
 		
 		for (int i=1; i<resultats.length; i++) {
-			
 			ContenuLignes = resultats[i].split(",");
 			iriInstit = ContenuLignes[0];
 			nameInstit = ContenuLignes[1];
-			iriRole = ContenuLignes[2];
-										
+			iriRole = ContenuLignes[2];						
 			setInstit(nameInstit, iriInstit, iriRole);
 		}
 		
 		starDogConnection.close();
-		
 		logger.debug("requestInstit OK");
 	}
 	
@@ -389,7 +371,6 @@ public class Memory extends OntologyPopulator {
 				"} ORDER BY ?software";
 	
 		String[] resultats = executeRequest(sparql);	
-		
 		String[] ContenuLignes; String patientIRI; String CTImageDsIRI; String handle;
 		
 		for (int i=1; i<resultats.length; i++) {
@@ -411,7 +392,6 @@ public class Memory extends OntologyPopulator {
 		}
 		
 		starDogConnection.close();
-		
 		logger.debug("requestPatientCTImageDS OK");
 	}
 	

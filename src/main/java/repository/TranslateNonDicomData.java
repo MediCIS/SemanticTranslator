@@ -265,7 +265,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 
 						Individual modelAttenuator = createIndiv(generateName("Attenuator_Model"), model.createResource(racineDCM+"128472"));
 						addDataProperty(attenuator, racineURI+"has_name", attenuatorParam.getEquivalentAttenuatorModel());
-						//addObjectProperty(attenuator, racineURI+"has_setting", attenuatorParam.equivalentAttenuatorMaterial);
+						addObjectProperty(attenuator, racineURI+"has_setting", modelAttenuator);
 						//TODO décommneter au dessus et compléter
 
 						i = createIndiv(generateName("Attenuator_Thickness"), model.getResource(racineDCM+"128469"));

@@ -28,6 +28,9 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -62,6 +65,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.complexible.stardog.StardogException;
@@ -88,7 +92,7 @@ import org.dcm4che3.data.*;
 @RestController
 
 public class ImportController {	
-	String versionNumber = "0.6.4a";
+
 	static String username = "admin"; 			// Credentials for StarDog
 	static String password = "admin";
 	public enum database {ontoMedirad, test}; 	// StarDog Database list ()
@@ -115,7 +119,10 @@ public class ImportController {
 	
 	// Services de tests/debug
 	@RequestMapping (value = "/test", method = RequestMethod.GET)
-	public String test() throws JSONException  {  
+	public String test() throws JSONException, IOException, ParserConfigurationException, SAXException  {  
+		
+		
+		
 		return "Tipoui !\n";
 	}
 		
@@ -171,7 +178,7 @@ public class ImportController {
 			
 			System.out.println("\t"+fileName);
 			if (obj!=null) {
-				TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
+				TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, "exampleHandle");
 			}
 
 			rdfName = fileName.replace(".dcm", ".rdf");	
@@ -534,7 +541,32 @@ public class ImportController {
 	// Services Annexes
 	@RequestMapping (value = "/getVersion", method = RequestMethod.GET)
 	public String returnVersionNumber()  {
-		return versionNumber;
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder = null;
+		Document doc = null;
+		String version = "0";
+		
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {e.printStackTrace();}
+		
+		if (dBuilder!=null) {
+			if ((new File("pom.xml")).exists()) {
+				try {
+					doc = dBuilder.parse(new File("pom.xml"));
+				} catch (SAXException | IOException e) {e.printStackTrace();}
+			} else {
+				try {
+					doc = dBuilder.parse(Application.class.getResourceAsStream("/META-INF/maven/org.springframework⁩/semanticTranslator⁩/pom.xml"));
+				} catch (SAXException | IOException e) {e.printStackTrace();}
+			}
+			if (doc!=null) {
+				doc.getDocumentElement().normalize();
+				version = doc.getElementsByTagName("version").item(0).getTextContent() ;
+				System.out.println(version);
+			}
+		}
+		return version;
 	}
 	
 	@RequestMapping (value = "/downloadOntology", method = RequestMethod.GET, headers = "Accept=application/zip")
@@ -743,7 +775,6 @@ public class ImportController {
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
 		
 		String targetURL = pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
-		//String handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;						// Handle to retrieve object in the Pacs
 		
 		System.out.println(targetURL);
 		logger.debug(targetURL);
@@ -752,7 +783,7 @@ public class ImportController {
 		URL url = new URL(targetURL);
 		pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
 		pacsConnection.setRequestMethod("GET");
-		pacsConnection.setRequestProperty("Accept",  "multipart/related; type=application/dicom;");
+		pacsConnection.setRequestProperty("Accept", "multipart/related; type=application/dicom;");
 		
 		String boundary = "";																			// Create object for retrieve SR as a text  
 		String boundaryHeader = "boundary=";															// Same
@@ -778,7 +809,7 @@ public class ImportController {
 		MultipartStream multipartStream;
 		multipartStream = new MultipartStream(											// MultipartStream will receive the input stream containing the SR
 				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
-		logger.debug("Writing SR in : "+srFilename);
+		logger.debug("Writing File in : "+srFilename);
 		File file = new File(srFilename);																// Create the file for write the SR
 		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());							// New stream to write in the file
 		boolean nextPart = multipartStream.skipPreamble();
@@ -799,7 +830,7 @@ public class ImportController {
 		obj = input.readDataset(-1, -1);
 		input.close();
 		
-		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId);
+		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, targetURL);
 
 		createAdminConnection(database.ontoMedirad);
 		
@@ -807,7 +838,7 @@ public class ImportController {
 		writingRDF(rdfName);																			// Write the populated graph in the RDF file
 		setInStarDog(rdfName);
 		
-		logger.debug("Retrieving SR : No exception catched");
+		logger.debug("Retrieving File : No exception catched");
 	}
 	
 	public static boolean GateKeeper(String request) {	   				// Security Check for request sent to StarDog
@@ -834,6 +865,9 @@ public class ImportController {
 			break;
 		}
 
+		logger.debug("request : ");
+		logger.debug(request);
+		
 		SelectQuery aQuery = starDogConnection.select(request);         // Put the request to the StarDog
 
 		TupleQueryResult aResult = null;							    // Create an object to receive the result
@@ -860,6 +894,10 @@ public class ImportController {
 		
 		starDogConnection.close();										// Close The Connection to Stardog (despite the errors)
 		aResult.close();												// Close The Object (despite the errors)
+		
+		logger.debug("result : ");
+		logger.debug(out.toString());
+		
 											
 		return ResponseEntity.status(HttpStatus.OK).body(out.toString()); // Convert the ByteArrayOutputStream as a string and return it
 	}

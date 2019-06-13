@@ -19,8 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-
 
 
 @SpringBootApplication
@@ -37,7 +37,6 @@ public class Application {
 	public static ListQuerries listQuerries;							 // Object to store the querries list
 				
 	public static boolean hideLogs = true; 								 // Will hide most of the logs because loading ontology provide too many logs
-	private static boolean express = false;
 
 	private final static Logger logger = 								 // Object to make logs
 			LoggerFactory.getLogger(Application.class);
@@ -50,22 +49,42 @@ public class Application {
 			"PATO_for_OntoMEDIRAD.owl","Radionuclides_for_OntoMEDIRAD.owl",
 			"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
 		
-    public static void main(String[] args) throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
-        SpringApplication.run(Application.class, args);					 // Spring Boot
-    	loadProperties();											     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
+    public static void main(String[] args) {
+        ConfigurableApplicationContext ct = SpringApplication.run(Application.class, args);					 // Spring Boot
+    	try {
+			loadProperties();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			SpringApplication.exit(ct);
+			System.exit(10);
+		}											     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
 		System.out.println("Hello World !");
 
-        for (int i = 0; i<args.length; i++) {							 // Iter on arguments
-        	if (args[i].contains("express")) {express=true;}			 // Allow a quick boot (without ontology loading)
-        }
-        
-    	listQuerries = new ListQuerries(); 							 	 // Init a querry list (read from the excel file)
-    	loadOntology(pathOntology); 								 // load the ontlogy from file (it takes about 3-4 minutes)
+    	try {
+			listQuerries = new ListQuerries(); 							// Init a querry list (read from the excel file)
+		} catch (IOException e) {
+			e.printStackTrace();
+			SpringApplication.exit(ct);
+			System.exit(11);
+		} 		
 
-        if (express==false) {
-        	memory = new Memory(); 										 // Going to request to get usefull object inside semantic database
-        }
-        
+    	try {
+			loadOntology(pathOntology);
+		} catch (IOException e) {
+			e.printStackTrace();
+			SpringApplication.exit(ct);
+			System.exit(12);
+		} 								 								// load the ontlogy from file (it takes about 3-4 minutes)
+
+    	try {
+			memory = new Memory();										// Going to request to get usefull object inside semantic database
+		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException
+				| InvocationTargetException | IOException e) {
+			e.printStackTrace();
+			SpringApplication.exit(ct);
+			System.exit(13);
+		} 										 	
+
 		dataModel = ModelFactory.createOntologyModel();
 
         hideLogs = false; 									 			 // Will allow logs to be show
@@ -88,30 +107,20 @@ public class Application {
 	
 	public static OntModel getModel() {return model;}					// Used to provide the ontology to other classes
     
-    public static void loadProperties() {								 // Load some settings from a text file for configure sever 
+    public static void loadProperties() throws IOException {								 // Load some settings from a text file for configure sever 
     	Properties prop = new Properties();                   		     // Object to store the properties
     	InputStream input = null;										 // Stream for read the file
-    	try {
-    		input = new FileInputStream("config.properties");   		 // Load file as a stream
-    		prop.load(input);								    		 // Extract properties
-    		logger.info("pacsUrl : "+prop.getProperty("pacsUrl")); // Log the property read in the file
-    		pacsUrl = prop.getProperty("pacsUrl");				 // Set the property
-    		logger.info("starDogUrl : "+prop.getProperty("starDogUrl"));
-    		starDogUrl = prop.getProperty("starDogUrl");
-    		logger.info("pathOntology : "+prop.getProperty("pathOntology"));
-    		pathOntology = prop.getProperty("pathOntology");
-    		logger.info("fhirUrl : "+prop.getProperty("fhirUrl"));
-    		fhirUrl = prop.getProperty("fhirUrl");
-    	} catch (IOException ex) {ex.printStackTrace();}				 // Catch read errors
-    	finally {
-    		if (input != null) {
-    			try {
-    				input.close();										 // Close the stream used to read the file
-    			} catch (IOException e) {								 // Catch read errors
-    				e.printStackTrace();
-    			}
-    		}
-    	}
+		input = new FileInputStream("config.properties");   		 // Load file as a stream
+		prop.load(input);								    		 // Extract properties
+		logger.info("pacsUrl : "+prop.getProperty("pacsUrl")); // Log the property read in the file
+		pacsUrl = prop.getProperty("pacsUrl");				 // Set the property
+		logger.info("starDogUrl : "+prop.getProperty("starDogUrl"));
+		starDogUrl = prop.getProperty("starDogUrl");
+		logger.info("pathOntology : "+prop.getProperty("pathOntology"));
+		pathOntology = prop.getProperty("pathOntology");
+		logger.info("fhirUrl : "+prop.getProperty("fhirUrl"));
+		fhirUrl = prop.getProperty("fhirUrl");
+		input.close();										 // Close the stream used to read the file
     }
     
 }
