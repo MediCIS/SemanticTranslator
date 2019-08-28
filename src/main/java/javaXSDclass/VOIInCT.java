@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -31,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="VOIVolumeUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="PhantomPartIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="DICOMVOIContainer" type="{https://www.irdbb-medirad.com}DICOMData" minOccurs="0"/>
- *         &lt;element name="NonDICOMVOIContainer" type="{https://www.irdbb-medirad.com}NonDICOMData" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="NonDICOMVOIContainer" type="{https://www.irdbb-medirad.com}NonDICOMData" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -62,7 +60,7 @@ public class VOIInCT {
     @XmlElement(name = "DICOMVOIContainer")
     protected DICOMData dicomvoiContainer;
     @XmlElement(name = "NonDICOMVOIContainer")
-    protected List<NonDICOMData> nonDICOMVOIContainer;
+    protected NonDICOMData nonDICOMVOIContainer;
 
     /**
      * Obtient la valeur de la propriété voiIdentifier.
@@ -177,32 +175,27 @@ public class VOIInCT {
     }
 
     /**
-     * Gets the value of the nonDICOMVOIContainer property.
+     * Obtient la valeur de la propriété nonDICOMVOIContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the nonDICOMVOIContainer property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getNonDICOMVOIContainer().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link NonDICOMData }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link NonDICOMData }
+     *     
      */
-    public List<NonDICOMData> getNonDICOMVOIContainer() {
-        if (nonDICOMVOIContainer == null) {
-            nonDICOMVOIContainer = new ArrayList<NonDICOMData>();
-        }
-        return this.nonDICOMVOIContainer;
+    public NonDICOMData getNonDICOMVOIContainer() {
+        return nonDICOMVOIContainer;
+    }
+
+    /**
+     * Définit la valeur de la propriété nonDICOMVOIContainer.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link NonDICOMData }
+     *     
+     */
+    public void setNonDICOMVOIContainer(NonDICOMData value) {
+        this.nonDICOMVOIContainer = value;
     }
 
 }

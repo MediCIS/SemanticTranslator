@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="ActivityScaling" type="{https://www.irdbb-medirad.com}ActivityScaling"/>
  *         &lt;element name="TimeActivityCurveFit" type="{https://www.irdbb-medirad.com}TimeActivityCurveFit"/>
- *         &lt;element name="AbsorbedDoseCalculation" type="{https://www.irdbb-medirad.com}AbsorbedDoseCalculation"/>
+ *         &lt;element name="AbsorbedDoseCalculationInROIInHybridDosimetry" type="{https://www.irdbb-medirad.com}AbsorbedDoseCalculationInROIInHybridDosimetry"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "HybridDosimetryViaTimeActivityCurveFit", propOrder = {
     "activityScaling",
     "timeActivityCurveFit",
-    "absorbedDoseCalculation"
+    "absorbedDoseCalculationInROIInHybridDosimetry"
 })
 public class HybridDosimetryViaTimeActivityCurveFit {
 
@@ -47,8 +47,8 @@ public class HybridDosimetryViaTimeActivityCurveFit {
     protected ActivityScaling activityScaling;
     @XmlElement(name = "TimeActivityCurveFit", required = true)
     protected TimeActivityCurveFit timeActivityCurveFit;
-    @XmlElement(name = "AbsorbedDoseCalculation", required = true)
-    protected AbsorbedDoseCalculation absorbedDoseCalculation;
+    @XmlElement(name = "AbsorbedDoseCalculationInROIInHybridDosimetry", required = true)
+    protected AbsorbedDoseCalculationInROIInHybridDosimetry absorbedDoseCalculationInROIInHybridDosimetry;
 
     /**
      * Obtient la valeur de la propriété activityScaling.
@@ -99,27 +99,27 @@ public class HybridDosimetryViaTimeActivityCurveFit {
     }
 
     /**
-     * Obtient la valeur de la propriété absorbedDoseCalculation.
+     * Obtient la valeur de la propriété absorbedDoseCalculationInROIInHybridDosimetry.
      * 
      * @return
      *     possible object is
-     *     {@link AbsorbedDoseCalculation }
+     *     {@link AbsorbedDoseCalculationInROIInHybridDosimetry }
      *     
      */
-    public AbsorbedDoseCalculation getAbsorbedDoseCalculation() {
-        return absorbedDoseCalculation;
+    public AbsorbedDoseCalculationInROIInHybridDosimetry getAbsorbedDoseCalculationInROIInHybridDosimetry() {
+        return absorbedDoseCalculationInROIInHybridDosimetry;
     }
 
     /**
-     * Définit la valeur de la propriété absorbedDoseCalculation.
+     * Définit la valeur de la propriété absorbedDoseCalculationInROIInHybridDosimetry.
      * 
      * @param value
      *     allowed object is
-     *     {@link AbsorbedDoseCalculation }
+     *     {@link AbsorbedDoseCalculationInROIInHybridDosimetry }
      *     
      */
-    public void setAbsorbedDoseCalculation(AbsorbedDoseCalculation value) {
-        this.absorbedDoseCalculation = value;
+    public void setAbsorbedDoseCalculationInROIInHybridDosimetry(AbsorbedDoseCalculationInROIInHybridDosimetry value) {
+        this.absorbedDoseCalculationInROIInHybridDosimetry = value;
     }
 
 }

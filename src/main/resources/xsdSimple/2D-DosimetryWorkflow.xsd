@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<!--Version 009-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -53,7 +52,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 
 	<xs:complexType name="TwoDimDosimetryViaAbsorbedDoseRateCalculation">
 		<xs:sequence>
-				<xs:element name="AbsorbedDoseRateCalculation" type="irdbb:AbsorbedDoseRateCalculation" maxOccurs="unbounded" />
+				<xs:element name="AbsorbedDoseRateCalculationIn2DDosimetry" type="irdbb:AbsorbedDoseRateCalculationIn2DDosimetry" maxOccurs="unbounded" />
 				<xs:element name="TimeAbsorbedDoseCurveFit" type="irdbb:TimeAbsorbedDoseCurveFit"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -61,7 +60,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 	<xs:complexType name="TwoDimDosimetryViaTimeActivityCurveFit">
 		<xs:sequence>
 				<xs:element name="TimeActivityCurveFit" type="irdbb:TimeActivityCurveFit"/>
-				<xs:element name="AbsorbedDoseCalculation" type="irdbb:AbsorbedDoseCalculation"/>
+				<xs:element name="AbsorbedDoseCalculationInROIIn2DDosimetry" type="irdbb:AbsorbedDoseCalculationInROIIn2DDosimetry"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -117,7 +116,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="AbsorbedDoseRateCalculation">
+	<xs:complexType name="AbsorbedDoseRateCalculationIn2DDosimetry">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
@@ -126,7 +125,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
 				<xs:element name="OrganSValueUsed" type="xs:string"/>
 				<xs:element name="ReferenceOrganMassUsed" type="xs:string"/>
-				<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMass" maxOccurs="unbounded" />
+				<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassIn2DDosimetry" maxOccurs="unbounded" />
 				<xs:element name="MeanAbsorbedDoseRateInROIProduced" type="irdbb:MeanAbsorbedDoseRateInROI" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
@@ -154,12 +153,12 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="AbsorbedDoseCalculation">
+	<xs:complexType name="AbsorbedDoseCalculationInROIIn2DDosimetry">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="OrganSValueUsed" type="xs:string"/>
-				<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMass" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassIn2DDosimetry" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="MeanAbsorbedDoseInROIProduced" type="irdbb:MeanAbsorbedDoseInROI" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
@@ -167,7 +166,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 	<xs:complexType name="RadioBiologicalCalculation">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-				<xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="VOIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="VoxelAbsorbedDoseMapIdentifierUsed" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="RadioBiologicalCalculationMethod" type="xs:string"/>
 				<xs:element name="RadioBiologicalCalculationParameters" type="xs:string"/>
 				<xs:element name="BiologicalEffectiveDose" type="xs:string"/>
@@ -250,7 +250,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="PatientOrganMass">
+	<xs:complexType name="PatientOrganMassIn2DDosimetry">
 		<xs:sequence>
 				<xs:element name="PatientOrganMassValue" type="xs:float"/>
 				<xs:element name="PatientOrganMassUnit" type="xs:string"/>
@@ -314,6 +314,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 					<xs:enumeration value="zipped imageJ contours format"/>
 					<xs:enumeration value="TIFF format embedding imageJ contours"/>
 					<xs:enumeration value="zipped pseudo_DICOM ImpactMC"/>
+					<xs:enumeration value="GIF format embedding imageJ contours"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:element>

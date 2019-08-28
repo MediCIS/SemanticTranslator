@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -17,12 +17,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour AbsorbedDoseRateCalculation complex type.
+ * <p>Classe Java pour AbsorbedDoseRateCalculationInHybridDosimetry complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="AbsorbedDoseRateCalculation">
+ * &lt;complexType name="AbsorbedDoseRateCalculationInHybridDosimetry">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="PreAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
  *         &lt;element name="PostAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
- *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMass" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMassInHybridDosimetry" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="MeanAbsorbedDoseRateInVOIProduced" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseRateInVOI" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AbsorbedDoseRateCalculation", propOrder = {
+@XmlType(name = "AbsorbedDoseRateCalculationInHybridDosimetry", propOrder = {
     "processExecutionContext",
     "timePointIdentifierUsed",
     "voiIdentifierUsed",
@@ -51,7 +51,7 @@ import javax.xml.bind.annotation.XmlType;
     "patientOrganMassUsed",
     "meanAbsorbedDoseRateInVOIProduced"
 })
-public class AbsorbedDoseRateCalculation {
+public class AbsorbedDoseRateCalculationInHybridDosimetry {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
@@ -64,7 +64,7 @@ public class AbsorbedDoseRateCalculation {
     @XmlElement(name = "PostAdministeredActivityUsed", required = true)
     protected AdministeredActivity postAdministeredActivityUsed;
     @XmlElement(name = "PatientOrganMassUsed")
-    protected List<PatientOrganMass> patientOrganMassUsed;
+    protected List<PatientOrganMassInHybridDosimetry> patientOrganMassUsed;
     @XmlElement(name = "MeanAbsorbedDoseRateInVOIProduced", required = true)
     protected List<MeanAbsorbedDoseRateInVOI> meanAbsorbedDoseRateInVOIProduced;
 
@@ -211,13 +211,13 @@ public class AbsorbedDoseRateCalculation {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link PatientOrganMass }
+     * {@link PatientOrganMassInHybridDosimetry }
      * 
      * 
      */
-    public List<PatientOrganMass> getPatientOrganMassUsed() {
+    public List<PatientOrganMassInHybridDosimetry> getPatientOrganMassUsed() {
         if (patientOrganMassUsed == null) {
-            patientOrganMassUsed = new ArrayList<PatientOrganMass>();
+            patientOrganMassUsed = new ArrayList<PatientOrganMassInHybridDosimetry>();
         }
         return this.patientOrganMassUsed;
     }

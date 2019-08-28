@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<!--Version 009-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -34,11 +33,11 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 	<xs:complexType name="SPECTCTCalibrationWorkflow">
 		<xs:sequence>
 				<xs:element name="CTNumberCalibrationWorkfow" type="irdbb:CTNumberCalibrationWorkfow" minOccurs="0" />
-				<xs:element name="SPECTAcqCTAcqAndReconstruction" type="irdbb:SPECTAcqCTAcqAndReconstruction"/>
-				<xs:element name="SPECTReconstruction" type="irdbb:SPECTReconstruction"/>
-				<xs:element name="CTSegmentation" type="irdbb:CTSegmentation"/>
+				<xs:element name="SPECTAcqCTAcqAndReconstructionInCalibration" type="irdbb:SPECTAcqCTAcqAndReconstructionInCalibration"/>
+				<xs:element name="SPECTReconstructionInCalibration" type="irdbb:SPECTReconstructionInCalibration"/>
+				<xs:element name="CTSegmentationInCalibration" type="irdbb:CTSegmentationInCalibration"/>
 				<xs:element name="SPECTSensitivityCalculation" type="irdbb:SPECTSensitivityCalculation"/>
-				<xs:element name="SPECTRecoveryCurveCalculation" type="irdbb:SPECTRecoveryCurveCalculation" minOccurs="0" />
+				<xs:element name="SPECTRecoveryCoefficientCurveCalculation" type="irdbb:SPECTRecoveryCoefficientCurveCalculation" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -73,7 +72,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="SPECTAcqCTAcqAndReconstruction">
+	<xs:complexType name="SPECTAcqCTAcqAndReconstructionInCalibration">
 		<xs:sequence>
 				<xs:element name="PhantomUsed" type="irdbb:NMPhantom"/>
 				<xs:element name="NMTomoProduced" type="irdbb:DICOMData"/>
@@ -81,7 +80,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="SPECTReconstruction">
+	<xs:complexType name="SPECTReconstructionInCalibration">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="NMTomoUsed" type="irdbb:DICOMData"/>
@@ -92,7 +91,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="CTSegmentation">
+	<xs:complexType name="CTSegmentationInCalibration">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
@@ -112,14 +111,14 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="SPECTRecoveryCurveCalculation">
+	<xs:complexType name="SPECTRecoveryCoefficientCurveCalculation">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="VOIInCTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="VOIInSPECTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="PhantomIdentifierUsed" type="xs:string"/>
 				<xs:element name="CalibrationCoefficientIdentifierUsed" type="xs:string"/>
-				<xs:element name="SPECTRecoveryCoefficientCurve" type="irdbb:SPECTRecoveryCoefficientCurve"/>
+				<xs:element name="SPECTRecoveryCoefficientCurveInCalibration" type="irdbb:SPECTRecoveryCoefficientCurveInCalibration"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -173,8 +172,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 
 	<xs:complexType name="ElementOfCTNumberCalibrationCurve">
 		<xs:sequence>
-				<xs:element name="MeasuredDensityValue" type="xs:float"/>
-				<xs:element name="MeasuredDensityUnit" type="xs:string"/>
+				<xs:element name="HounsfieldMeasuredValue" type="xs:integer"/>
 				<xs:element name="RealDensityOfMaterialValue" type="xs:float"/>
 				<xs:element name="RealDensityOfMaterialUnit" type="xs:string"/>
 				<xs:element name="MaterialIdentifier" type="xs:string" minOccurs="0" />
@@ -265,7 +263,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="VOIVolumeUnit" type="xs:string"/>
 				<xs:element name="PhantomPartIdentifier" type="xs:string"/>
 				<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
-				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -276,7 +274,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="CountsInVOIUnit" type="xs:string"/>
 				<xs:element name="PhantomPartIdentifier" type="xs:string"/>
 				<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
-				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -311,7 +309,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="SPECTRecoveryCoefficientCurve">
+	<xs:complexType name="SPECTRecoveryCoefficientCurveInCalibration">
 		<xs:sequence>
 				<xs:element name="ElementOfSPECTRecoveryCoefficientCurve" type="irdbb:ElementOfSPECTRecoveryCoefficientCurve" maxOccurs="unbounded" />
 				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
@@ -363,6 +361,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 					<xs:enumeration value="zipped imageJ contours format"/>
 					<xs:enumeration value="TIFF format embedding imageJ contours"/>
 					<xs:enumeration value="zipped pseudo_DICOM ImpactMC"/>
+					<xs:enumeration value="GIF format embedding imageJ contours"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:element>

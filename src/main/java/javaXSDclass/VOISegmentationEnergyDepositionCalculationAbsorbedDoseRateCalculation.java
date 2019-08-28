@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="VOISegmentationVOIMassDetermination" type="{https://www.irdbb-medirad.com}VOISegmentationVOIMassDetermination"/>
  *         &lt;element name="VOIActivityDetermination" type="{https://www.irdbb-medirad.com}VOIActivityDetermination"/>
- *         &lt;element name="EnergyDepositionRateCalculation" type="{https://www.irdbb-medirad.com}EnergyDepositionRateCalculation"/>
+ *         &lt;element name="EnergyDepositionRateCalculationIn3DDosimetry" type="{https://www.irdbb-medirad.com}EnergyDepositionRateCalculationIn3DDosimetry"/>
  *         &lt;element name="SumAndScalingAbsorbedDoseRateCalculation" type="{https://www.irdbb-medirad.com}SumAndScalingAbsorbedDoseRateCalculation"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation", propOrder = {
     "voiSegmentationVOIMassDetermination",
     "voiActivityDetermination",
-    "energyDepositionRateCalculation",
+    "energyDepositionRateCalculationIn3DDosimetry",
     "sumAndScalingAbsorbedDoseRateCalculation"
 })
 public class VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation {
@@ -49,8 +49,8 @@ public class VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculati
     protected VOISegmentationVOIMassDetermination voiSegmentationVOIMassDetermination;
     @XmlElement(name = "VOIActivityDetermination", required = true)
     protected VOIActivityDetermination voiActivityDetermination;
-    @XmlElement(name = "EnergyDepositionRateCalculation", required = true)
-    protected EnergyDepositionRateCalculation energyDepositionRateCalculation;
+    @XmlElement(name = "EnergyDepositionRateCalculationIn3DDosimetry", required = true)
+    protected EnergyDepositionRateCalculationIn3DDosimetry energyDepositionRateCalculationIn3DDosimetry;
     @XmlElement(name = "SumAndScalingAbsorbedDoseRateCalculation", required = true)
     protected SumAndScalingAbsorbedDoseRateCalculation sumAndScalingAbsorbedDoseRateCalculation;
 
@@ -103,27 +103,27 @@ public class VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculati
     }
 
     /**
-     * Obtient la valeur de la propriété energyDepositionRateCalculation.
+     * Obtient la valeur de la propriété energyDepositionRateCalculationIn3DDosimetry.
      * 
      * @return
      *     possible object is
-     *     {@link EnergyDepositionRateCalculation }
+     *     {@link EnergyDepositionRateCalculationIn3DDosimetry }
      *     
      */
-    public EnergyDepositionRateCalculation getEnergyDepositionRateCalculation() {
-        return energyDepositionRateCalculation;
+    public EnergyDepositionRateCalculationIn3DDosimetry getEnergyDepositionRateCalculationIn3DDosimetry() {
+        return energyDepositionRateCalculationIn3DDosimetry;
     }
 
     /**
-     * Définit la valeur de la propriété energyDepositionRateCalculation.
+     * Définit la valeur de la propriété energyDepositionRateCalculationIn3DDosimetry.
      * 
      * @param value
      *     allowed object is
-     *     {@link EnergyDepositionRateCalculation }
+     *     {@link EnergyDepositionRateCalculationIn3DDosimetry }
      *     
      */
-    public void setEnergyDepositionRateCalculation(EnergyDepositionRateCalculation value) {
-        this.energyDepositionRateCalculation = value;
+    public void setEnergyDepositionRateCalculationIn3DDosimetry(EnergyDepositionRateCalculationIn3DDosimetry value) {
+        this.energyDepositionRateCalculationIn3DDosimetry = value;
     }
 
     /**

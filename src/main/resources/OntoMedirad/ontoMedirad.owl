@@ -3873,6 +3873,7 @@ range of densities.</obo:IAO_0000115>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2.840.10008.5.1.4.1.1.2</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">application/dicom</has_MIME_type>
         <skos:prefLabel xml:lang="en">DICOM CT image storage SOP class</skos:prefLabel>
     </owl:Class>
     
@@ -3888,6 +3889,7 @@ range of densities.</obo:IAO_0000115>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2.840.10008.5.1.4.1.1.20</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">application/dicom</has_MIME_type>
         <skos:prefLabel xml:lang="en">DICOM NM image storage SOP class</skos:prefLabel>
     </owl:Class>
     
@@ -3903,6 +3905,7 @@ range of densities.</obo:IAO_0000115>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2.840.10008.5.1.4.1.1.128</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">application/dicom</has_MIME_type>
         <skos:prefLabel xml:lang="en">DICOM PET image storage SOP class</skos:prefLabel>
     </owl:Class>
     
@@ -3918,6 +3921,7 @@ range of densities.</obo:IAO_0000115>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2.840.10008.5.1.4.1.1.2.1</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">application/dicom</has_MIME_type>
         <skos:prefLabel xml:lang="en">DICOM enhanced CT image storage SOP class</skos:prefLabel>
     </owl:Class>
     
@@ -3933,6 +3937,7 @@ range of densities.</obo:IAO_0000115>
                 <owl:hasValue rdf:datatype="http://www.w3.org/2001/XMLSchema#string">1.2.840.10008.5.1.4.1.1.130</owl:hasValue>
             </owl:Restriction>
         </rdfs:subClassOf>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">application/dicom</has_MIME_type>
         <skos:prefLabel xml:lang="en">DICOM enhanced PET image storage SOP class</skos:prefLabel>
     </owl:Class>
     
@@ -3986,6 +3991,28 @@ range of densities.</obo:IAO_0000115>
         <obo:IAO_0000115 xml:lang="en">format specification that is part of the DICOM standard; it is further specified by the SOP class UID</obo:IAO_0000115>
         <skos:note xml:lang="en">MEDIRAD: used in WP3</skos:note>
         <skos:prefLabel xml:lang="en">DICOM format</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#GIF_format -->
+
+    <owl:Class rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#GIF_format">
+        <rdfs:subClassOf rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#format_specification"/>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">image/gif</has_MIME_type>
+        <obo:IAO_0000115 xml:lang="en">format specification used for the representation of images</obo:IAO_0000115>
+        <skos:prefLabel xml:lang="en">GIF format</skos:prefLabel>
+    </owl:Class>
+    
+
+
+    <!-- http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#GIF_format_embedding_imageJ_contours -->
+
+    <owl:Class rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#GIF_format_embedding_imageJ_contours">
+        <rdfs:subClassOf rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#GIF_format"/>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">image/gif</has_MIME_type>
+        <obo:IAO_0000115 xml:lang="en">GIF format that also supports the representation of contours produced using the imageJ software</obo:IAO_0000115>
+        <skos:prefLabel xml:lang="en">GIF format embedding imageJ contours</skos:prefLabel>
     </owl:Class>
     
 
@@ -4137,6 +4164,7 @@ range of densities.</obo:IAO_0000115>
 
     <owl:Class rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#NRRD_format">
         <rdfs:subClassOf rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#format_specification"/>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">application/octet-stream</has_MIME_type>
         <obo:IAO_0000115 xml:lang="en">format specification developed for the representation of n-dimensional raster data</obo:IAO_0000115>
         <skos:note xml:lang="en">MEDIRAD: used in WP3</skos:note>
         <skos:prefLabel xml:lang="en">NRRD format</skos:prefLabel>
@@ -4371,6 +4399,7 @@ range of densities.</obo:IAO_0000115>
 
     <owl:Class rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#STL_format">
         <rdfs:subClassOf rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#format_specification"/>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">model/stl</has_MIME_type>
         <obo:IAO_0000115 xml:lang="en">format specification initially developed for stereolithography CAD software, used to represent triangulated surfaces</obo:IAO_0000115>
         <skos:note xml:lang="en">MEDIRAD: used in WP3</skos:note>
         <skos:prefLabel xml:lang="en">STL format</skos:prefLabel>
@@ -4382,7 +4411,7 @@ range of densities.</obo:IAO_0000115>
 
     <owl:Class rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format">
         <rdfs:subClassOf rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#format_specification"/>
-        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">application/tiff</has_MIME_type>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">image/tiff</has_MIME_type>
         <obo:IAO_0000115 xml:lang="en">format specification used for the representation of images</obo:IAO_0000115>
         <skos:prefLabel xml:lang="en">TIFF format</skos:prefLabel>
     </owl:Class>
@@ -4393,7 +4422,7 @@ range of densities.</obo:IAO_0000115>
 
     <owl:Class rdf:about="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format_embedding_imageJ_contours">
         <rdfs:subClassOf rdf:resource="http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#TIFF_format"/>
-        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">application/tiff</has_MIME_type>
+        <has_MIME_type rdf:datatype="http://www.w3.org/2001/XMLSchema#string">image/tiff</has_MIME_type>
         <obo:IAO_0000115 xml:lang="en">TIFF format that also supports the representation of contours produced using the imageJ software</obo:IAO_0000115>
         <skos:prefLabel xml:lang="en">TIFF format embedding imageJ contours</skos:prefLabel>
     </owl:Class>

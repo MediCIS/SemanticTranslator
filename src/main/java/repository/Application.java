@@ -8,8 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import querries.ListQuerries;
-
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.openrdf.query.QueryEvaluationException;
@@ -21,6 +19,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+
+import querries.ListQuerries;
 
 
 @SpringBootApplication
@@ -95,7 +95,7 @@ public class Application {
     }
     
     public static void loadOntology(String pathOntology) throws IOException {
-		System.out.println("Loading Ontology ...");
+    	logger.debug("Loading Ontology ...");
 		model = ModelFactory.createOntologyModel(); 					 // Create empty graph for the ontology
 		InputStream in;      	 
 		for (String file : listeOntologyFiles) {

@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -17,19 +17,19 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour AbsorbedDoseCalculation complex type.
+ * <p>Classe Java pour AbsorbedDoseCalculationInROIInHybridDosimetry complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="AbsorbedDoseCalculation">
+ * &lt;complexType name="AbsorbedDoseCalculationInROIInHybridDosimetry">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="ROIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="OrganSValueUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMass" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMassInHybridDosimetry" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="MeanAbsorbedDoseInVOIProduced" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseInVOI" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -40,14 +40,14 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AbsorbedDoseCalculation", propOrder = {
+@XmlType(name = "AbsorbedDoseCalculationInROIInHybridDosimetry", propOrder = {
     "processExecutionContext",
     "roiIdentifierUsed",
     "organSValueUsed",
     "patientOrganMassUsed",
     "meanAbsorbedDoseInVOIProduced"
 })
-public class AbsorbedDoseCalculation {
+public class AbsorbedDoseCalculationInROIInHybridDosimetry {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
@@ -56,7 +56,7 @@ public class AbsorbedDoseCalculation {
     @XmlElement(name = "OrganSValueUsed", required = true)
     protected String organSValueUsed;
     @XmlElement(name = "PatientOrganMassUsed")
-    protected List<PatientOrganMass> patientOrganMassUsed;
+    protected List<PatientOrganMassInHybridDosimetry> patientOrganMassUsed;
     @XmlElement(name = "MeanAbsorbedDoseInVOIProduced", required = true)
     protected List<MeanAbsorbedDoseInVOI> meanAbsorbedDoseInVOIProduced;
 
@@ -155,13 +155,13 @@ public class AbsorbedDoseCalculation {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link PatientOrganMass }
+     * {@link PatientOrganMassInHybridDosimetry }
      * 
      * 
      */
-    public List<PatientOrganMass> getPatientOrganMassUsed() {
+    public List<PatientOrganMassInHybridDosimetry> getPatientOrganMassUsed() {
         if (patientOrganMassUsed == null) {
-            patientOrganMassUsed = new ArrayList<PatientOrganMass>();
+            patientOrganMassUsed = new ArrayList<PatientOrganMassInHybridDosimetry>();
         }
         return this.patientOrganMassUsed;
     }

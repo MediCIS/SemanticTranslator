@@ -30,7 +30,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 	
 	public static void translateCodingSchemeDesignator(Sequence RadiopharmaceuticalInformationSequence, Individual acquisition) {
-		System.out.println("-----------------------------------------------");
 		logger.debug("RadiopharmaceuticalInformationSequence : "+RadiopharmaceuticalInformationSequence);
 		iter = RadiopharmaceuticalInformationSequence.iterator();
 		while (iter.hasNext()) {
@@ -41,148 +40,194 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				Iterator<Attributes> iterRadioNucl = RadionuclideCodeSequence.iterator();
 				while (iterRadioNucl.hasNext()) {
 					Attributes radioNucl = iterRadioNucl.next();
-					if (radioNucl.getString(Tag.CodeMeaning)!=null) {
-						String CodeMeaning = radioNucl.getString(Tag.CodeMeaning);
-						logger.debug("CodeMeaning : "+CodeMeaning);
+					if (radioNucl.getString(Tag.CodeValue)!=null) {
+						String CodeValue = radioNucl.getString(Tag.CodeValue);
+						logger.debug("CodeValue : "+CodeValue);
 						Individual atom;
-						switch (CodeMeaning) {
-						case("^14^Carbon"):
+						switch (CodeValue) {
+						case("71647005"):
+						case("C-105A2"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"carbon_14_atom"));
 							break;
-						case("^18^Fluorine"):
+						case("77004003"):
+						case("C-111A1"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"fluorine_18_atom"));
 							break;
-						case("^22^Sodium"):
+						case("71633006"):
+						case("C-155A1"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"sodium_22_atom"));
 							break;
-						case("^24^Sodium"):
+						case("58541008"):
+						case("C-155A2"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"sodium_24_atom"));
 							break;
-						case("^32^Phosphorus"):
+						case("32505007"):
+						case("C-106A1"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"phosphorus_32_atom"));
 							break;
-						case("^42^Potassium"):
+						case("59844004"):
+						case("C-135A2"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"potassium_42_atom"));
 							break;
-						case("^43^Potassium"):
+						case("8202008"):
+						case("C-135A3"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"potassium_43_atom"));
 							break;
-						case("^51^Chromium"):
+						case("52745005"):
+						case("C-129A2"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"chromium_51_atom"));
 							break;
-						case("^57^Cobalt"):
+						case("27054007"):
+						case("C-144A3"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"cobalt_57_atom"));
 							break;
-						case("^58^Cobalt"):
+						case("89272005"):
+						case("C-144A4"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"cobalt_58_atom"));
 							break;
-						case("^59^Iron"):
+						case("68580003"):
+						case("C-130A3"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"iron_59_atom"));
 							break;
-						case("^60^Cobalt"):
+						case("5405008"):
+						case("C-144A6"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"cobalt_60_atom"));
 							break;
-						case("^64^Copper"):
+						case("3932008"):
+						case("C-127A2"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"copper_64_atom"));
 							break;
-						case("^67^Copper"):
+						case("53700003"):
+						case("C-127A3"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"copper_67_atom"));
 							break;
-						case("^67^Gallium"):
+						case("2008008"):
+						case("C-131A2"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"gallium_67_atom"));
 							break;
-						case("^75^Selenium"):
+						case("43239002"):
+						case("C-116A3"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"selenium_75_atom"));
 							break;
-						case("^81m^Krypton"):
+						case("61716009"):
+						case("C-173A5"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"krypton_81m_atom"));
 							break;
-						case("^85^Krypton"):
+						case("34127007"):
+						case("C-173A7"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"krypton_85_atom"));
 							break;
-						case("^85^Strontium"):
+						case("111084009"):
+						case("C-158A3"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"strontium_85_atom"));
 							break;
-						case("^87m^Strontium"):
+						case("78023008"):
+						case("C-158A5"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"strontium_87m_atom"));
 							break;
-						case("^89^Strontium"):
+						case("7770004"):
+						case("C-158A6"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"strontium_89_atom"));
 							break;
-						case("^90^Yttrium"):
+						case("14691008"):
+						case("C-162A7"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"yttrium_90_atom"));
 							break;
-						case("^97^Ruthenium"):
+						case("23788009"):
+						case("C-180A2"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"ruthenium_97_atom"));
 							break;
-						case("^99m^Technetium"):
+						case("72454006"):
+						case("C-163A8"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"technetium_99m_atom"));
 							break;
-						case("^111^Indium"):
+						case("56609000"):
+						case("C-145A4"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"indium_111_atom"));
 							break;
-						case("^113m^Indium"):
-							atom = createIndiv(model.getResource(racineRadionuclides+"indium_113m_atom"));
+						case("48895003"):
+						case("C-145A5"):
+							atom = createIndiv(model.getResource(racineRadionuclides+"indium_111_atom"));
 							break;
-						case("^123^Iodine"):
+						case("21572004"):
+						case("C-114A4"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"iodine_123_atom"));
 							break;
-						case("^125^Iodine"):
+						case("68630002"):
+						case("C-114A6"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"iodine_125_atom"));
 							break;
-						case("^127^Xenon"):
+						case("27081007"):
+						case("C-172A5"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"xenon_127_atom"));
 							break;
-						case("^131^Iodine"):
+						case("1368003"):
+						case("C-114B1"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"iodine_131_atom"));
 							break;
-						case("^133^Barium"):
+						case("3027009"):
+						case("C-122A5"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"barium_133_atom"));
 							break;
-						case("^133^Xenon"):
+						case("80751004"):
+						case("C-172A8"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"xenon_133_atom"));
 							break;
-						case("^153^Gadolinium"):
+						case("14529005"):
+						case("C-178A8"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"gadolinium_153_atom"));
 							break;
-						case("^153^Samarium"):
+						case("419804008"):
+						case("C-B1134"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"samarium_153_atom"));
 							break;
-						case("^169^Ytterbium"):
+						case("41758004"):
+						case("C-181A3"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"ytterbium_169_atom"));
 							break;
-						case("^177^Lutetium"):
+						case("447553000"):
+						case("C-101ED"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"lutetium_177_atom"));
 							break;
-						case("^178^Tantalum"):
+						case("6301006"):
+						case("C-156A6"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"tantalum_178_atom"));
 							break;
-						case("^186^Rhenium"):
+						case("395865006"):
+						case("C-11906"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"rhenium_186_atom"));
 							break;
-						case("^188^Rhenium"):
+						case("423578007"):
+						case("C-1018D"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"rhenium_188_atom"));
 							break;
-						case("^191m^Iridium"):
+						case("126604"):
+						case(""):
 							atom = createIndiv(model.getResource(racineObo+"CHEBI_49666"));
 							break;
-						case("^198^Gold"):
+						case("24301009"):
+						case("C-146A9"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"gold_198_atom"));
 							break;
-						case("^199^Gold"):
+						case("70544003"):
+						case("C-146B1"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"gold_199_atom"));
 							break;
-						case("^201^Thallium"):
+						case("60057003"):
+						case("C-138A9"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"thallium_201_atom"));
 							break;
-						case("^203^Lead"):
+						case("47588004"):
+						case("C-132A8"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"lead_203_atom"));
 							break;
-						case("^223^Radium"):
+						case("24853006"):
+						case("C-136A2"):
 							atom = createIndiv(model.getResource(racineRadionuclides+"radium_223_atom"));
 							break;
+
 						default:
-							atom = createIndiv("Uknown_Nucleotide_"+CodeMeaning, model.getResource(racineURI+"radionuclide"));
+							atom = createIndiv("Unknown_Radionuclide_"+CodeValue, model.getResource(racineURI+"radionuclide"));
 						}
 						addObjectProperty(acquisition, racineURI+"has_target_radionuclide", atom);
 					}
@@ -201,7 +246,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				logger.debug("RadionuclideTotalDose : "+RadionuclideTotalDose);
 			}
 		}
-		System.out.println("-----------------------------------------------");
 	}
 	
 	public static void translateCTXRayDetailsSequence(Iterator<Attributes> iter) {
@@ -377,7 +421,14 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		// Commmon MetaDatas
 		logger.info("Commmon MetaDatas");
 
-		Individual imagingStudy = createIndiv(generateName("imaging_study"), model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));
+		imagingStudy = createIndiv(generateName("imaging_study"), model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));
+		
+		String StudyInstanceUID = root.getString(Tag.StudyInstanceUID);
+		logger.debug("StudyInstanceUID : "+StudyInstanceUID);
+		if (StudyInstanceUID!=null) {
+			addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
+			memory.setImagingStudy(StudyInstanceUID, imagingStudy);
+		}
 		
 		Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy(ClinicalResearchStudyId);
 		addObjectProperty(imagingStudy, racineURI+"part_of_study", clinicalResearchStudy);			
@@ -393,7 +444,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		}
 		
 		String PatientName = root.getString(Tag.PatientName);
-		logger.debug("PatientBirthDate : "+PatientName);
+		logger.debug("PatientName : "+PatientName);
 		if (PatientName!=null) {
 			addDataProperty(patient, racineURI+"has_name", PatientName);
 		}
@@ -457,12 +508,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			addObjectProperty(i, "http://purl.obolibrary.org/obo/IAO_0000039", createIndiv(model.getResource(racineObo+"UO_0000009")));
 		}
 
-		String StudyInstanceUID = root.getString(Tag.StudyInstanceUID);
-		logger.debug("StudyInstanceUID : "+StudyInstanceUID);
-		if (StudyInstanceUID!=null) {
-			addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
-		}
-
 		String StudyDate = root.getString(Tag.StudyDate);
 		logger.debug("StudyDate : "+StudyDate);
 		if (StudyDate!=null) {
@@ -493,19 +538,18 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			addDataProperty(imagingStudy, racineURI+"has_description", StudyDescription);
 		}
 
-		System.out.println("---------------------------------");
 		String SOPClassUID = root.getString(Tag.SOPClassUID);
 		logger.debug("SOPClassUID : "+SOPClassUID);
 		
 		String[] ImageType = root.getStrings(Tag.ImageType);
 		String ImageTypeLog = "";
-		for (int i = 0; i<ImageType.length; i++) {
-			ImageTypeLog+=ImageType[i]+" | ";
+		if (ImageType!=null) {
+			for (int i = 0; i<ImageType.length; i++) {
+				ImageTypeLog+=ImageType[i]+" | ";
+			}
+			ImageTypeLog=ImageTypeLog.substring(0, ImageTypeLog.length()-3);
+			logger.debug("ImageType : "+ImageTypeLog);
 		}
-		ImageTypeLog=ImageTypeLog.substring(0, ImageTypeLog.length()-3);
-		logger.debug("ImageType : "+ImageTypeLog);
-		System.out.println("---------------------------------");
-
 		
 		if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.128") || SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.130")) {
 			logger.debug("Type : PET");
@@ -558,10 +602,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		} else {
 			return;
 		}
-		
-		System.out.println("acquisition : "+acquisition);
-		System.out.println("acquisitionProtocol : "+acquisitionProtocol);
-		System.out.println("acquisitionDevice : "+acquisitionDevice);
 	
 		addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);	 
 		addObjectProperty(acquisition, racineURI+"has_protocol", acquisitionProtocol);

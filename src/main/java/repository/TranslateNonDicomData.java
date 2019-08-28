@@ -61,10 +61,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		if (nonDicomFileSetDescriptor.getThreeDimDosimetrySlide2Workflow()!=null) {
 			
 		}
-		
-		if (nonDicomFileSetDescriptor.getRegistrationVOISegmentation()!=null) {
-			
-		}
+
 		
 		// to be completed when with other subtasks
 
@@ -213,13 +210,13 @@ public class TranslateNonDicomData extends OntologyPopulator {
 									i = createIndiv(model.getResource(racineURI+"TIFF_format_embedding_imageJ_contours"));
 								addObjectProperty(voiIndiv, racineURI+"has_format", i);
 								break;	
+								case ("zipped pseudo_DICOM ImpactMC"):
 								case ("zipped pseudo DICOM ImpactMC"):
 									i = createIndiv(model.getResource(racineURI+"zipped_pseudo_DICOM_ImpactMC"));
 								addObjectProperty(voiIndiv, racineURI+"has_format", i);
 								break;		
 								default: 
 									logger.warn("Unknown nonDICOMDataFormat : "+voicontainer.getNonDICOMDataFormat());
-									System.out.println("Unknown nonDICOMDataFormat : "+voicontainer.getNonDICOMDataFormat());
 									break;
 								}
 							}
@@ -299,7 +296,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							default:
 								settingMC = createIndiv(generateName("device_setting"), model.getResource(racineURI+"is_device_setting"));
 								logger.warn("Unknown mcSetting : "+mcSetting.getMethodSetting());
-								System.out.println("Unknown mcSetting : "+mcSetting.getMethodSetting());
 								break;
 							}
 							if (mcSetting.getMethodSettingUnit()!=null) {
@@ -364,7 +360,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								break;
 							default:
 								logger.warn("Unknown : voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().nonDICOMDataClass");
-								System.out.println("Unknown : voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().nonDICOMDataClass");
 							}	
 							if(voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getFHIRIdentifier()!=null) {
 								addDataProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_IRDBB_FHIR_handle", 
@@ -391,7 +386,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								break;	
 							default: 
 								logger.warn("Unknown nonDICOMDataFormat : "+voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFormat());
-								System.out.println("Unknown nonDICOMDataFormat : "+voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getNonDICOMDataFormat());
 								break;
 							}
 						}
@@ -419,7 +413,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					if (ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getAbsorbedDosePerVOIProduced()!=null) {
 						absorbedDosePerVOIlist = ctMonteCarloDosimetry.getCalculationOfAbsorbedDosesInVOIs().getAbsorbedDosePerVOIProduced().iterator();
 						while (absorbedDosePerVOIlist.hasNext()) {
-							//System.out.println("\nabsorbedDosePerVOIlist.next\n");
 							absorbedDosePerVOI = absorbedDosePerVOIlist.next();
 							switch (absorbedDosePerVOI.getAbsorbedDoseCategory()) {
 							case "mean absorbed dose normalized to CTDI free in air normalized to tube load":
@@ -447,7 +440,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								break;
 							default : 
 								logger.warn("Unknown absorbedDosePerVOICategory : "+absorbedDosePerVOI.getAbsorbedDoseCategory());
-								System.out.println("Unknown absorbedDosePerVOICategory : "+absorbedDosePerVOI.getAbsorbedDoseCategory());
 								absorbedDoseVoi = createIndiv(generateName("Absorbed_Dose"), model.getResource(racineDCM+"128513"));
 								break;
 							}

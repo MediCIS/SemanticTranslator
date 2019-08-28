@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="VoxelAbsorbedDoseMapIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="RadioBiologicalCalculationMethod" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="RadioBiologicalCalculationParameters" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="BiologicalEffectiveDose" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -43,6 +44,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "RadioBiologicalCalculation", propOrder = {
     "processExecutionContext",
     "voiIdentifierUsed",
+    "voxelAbsorbedDoseMapIdentifierUsed",
     "radioBiologicalCalculationMethod",
     "radioBiologicalCalculationParameters",
     "biologicalEffectiveDose"
@@ -53,6 +55,8 @@ public class RadioBiologicalCalculation {
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "VOIIdentifierUsed", required = true)
     protected List<String> voiIdentifierUsed;
+    @XmlElement(name = "VoxelAbsorbedDoseMapIdentifierUsed")
+    protected List<String> voxelAbsorbedDoseMapIdentifierUsed;
     @XmlElement(name = "RadioBiologicalCalculationMethod", required = true)
     protected String radioBiologicalCalculationMethod;
     @XmlElement(name = "RadioBiologicalCalculationParameters", required = true)
@@ -111,6 +115,35 @@ public class RadioBiologicalCalculation {
             voiIdentifierUsed = new ArrayList<String>();
         }
         return this.voiIdentifierUsed;
+    }
+
+    /**
+     * Gets the value of the voxelAbsorbedDoseMapIdentifierUsed property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the voxelAbsorbedDoseMapIdentifierUsed property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getVoxelAbsorbedDoseMapIdentifierUsed().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
+     */
+    public List<String> getVoxelAbsorbedDoseMapIdentifierUsed() {
+        if (voxelAbsorbedDoseMapIdentifierUsed == null) {
+            voxelAbsorbedDoseMapIdentifierUsed = new ArrayList<String>();
+        }
+        return this.voxelAbsorbedDoseMapIdentifierUsed;
     }
 
     /**

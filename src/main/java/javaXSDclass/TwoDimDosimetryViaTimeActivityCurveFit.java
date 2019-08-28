@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="TimeActivityCurveFit" type="{https://www.irdbb-medirad.com}TimeActivityCurveFit"/>
- *         &lt;element name="AbsorbedDoseCalculation" type="{https://www.irdbb-medirad.com}AbsorbedDoseCalculation"/>
+ *         &lt;element name="AbsorbedDoseCalculationInROIIn2DDosimetry" type="{https://www.irdbb-medirad.com}AbsorbedDoseCalculationInROIIn2DDosimetry"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,14 +37,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TwoDimDosimetryViaTimeActivityCurveFit", propOrder = {
     "timeActivityCurveFit",
-    "absorbedDoseCalculation"
+    "absorbedDoseCalculationInROIIn2DDosimetry"
 })
 public class TwoDimDosimetryViaTimeActivityCurveFit {
 
     @XmlElement(name = "TimeActivityCurveFit", required = true)
     protected TimeActivityCurveFit timeActivityCurveFit;
-    @XmlElement(name = "AbsorbedDoseCalculation", required = true)
-    protected AbsorbedDoseCalculation absorbedDoseCalculation;
+    @XmlElement(name = "AbsorbedDoseCalculationInROIIn2DDosimetry", required = true)
+    protected AbsorbedDoseCalculationInROIIn2DDosimetry absorbedDoseCalculationInROIIn2DDosimetry;
 
     /**
      * Obtient la valeur de la propriété timeActivityCurveFit.
@@ -71,27 +71,27 @@ public class TwoDimDosimetryViaTimeActivityCurveFit {
     }
 
     /**
-     * Obtient la valeur de la propriété absorbedDoseCalculation.
+     * Obtient la valeur de la propriété absorbedDoseCalculationInROIIn2DDosimetry.
      * 
      * @return
      *     possible object is
-     *     {@link AbsorbedDoseCalculation }
+     *     {@link AbsorbedDoseCalculationInROIIn2DDosimetry }
      *     
      */
-    public AbsorbedDoseCalculation getAbsorbedDoseCalculation() {
-        return absorbedDoseCalculation;
+    public AbsorbedDoseCalculationInROIIn2DDosimetry getAbsorbedDoseCalculationInROIIn2DDosimetry() {
+        return absorbedDoseCalculationInROIIn2DDosimetry;
     }
 
     /**
-     * Définit la valeur de la propriété absorbedDoseCalculation.
+     * Définit la valeur de la propriété absorbedDoseCalculationInROIIn2DDosimetry.
      * 
      * @param value
      *     allowed object is
-     *     {@link AbsorbedDoseCalculation }
+     *     {@link AbsorbedDoseCalculationInROIIn2DDosimetry }
      *     
      */
-    public void setAbsorbedDoseCalculation(AbsorbedDoseCalculation value) {
-        this.absorbedDoseCalculation = value;
+    public void setAbsorbedDoseCalculationInROIIn2DDosimetry(AbsorbedDoseCalculationInROIIn2DDosimetry value) {
+        this.absorbedDoseCalculationInROIIn2DDosimetry = value;
     }
 
 }

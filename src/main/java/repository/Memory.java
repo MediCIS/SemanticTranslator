@@ -53,6 +53,9 @@ public class Memory extends OntologyPopulator {
 	private LinkedList<String> listIDsHuman;
 	private LinkedList<Individual> listIRIHuman;
 	
+	private LinkedList<String> listDicomUID;
+	private LinkedList<Individual> listIRIimagingStudies;
+	
 	public Memory() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
 		initVoidMemory();
 		requestSoftware();
@@ -141,13 +144,9 @@ public class Memory extends OntologyPopulator {
 		
 		listIDsHuman = new LinkedList<String>();
 		listIRIHuman = new LinkedList<Individual>();
-	}
-	
-	
-	public synchronized void testHumans() {
-		for (int i = 0; i<listIDsHuman.size(); i++) {
-			System.out.println(listIDsHuman.get(i)+" ;"+listIRIHuman.get(i));
-		}
+		
+		listDicomUID = new LinkedList<String>();
+		listIRIimagingStudies = new LinkedList<Individual>();
 	}
 	
 	public synchronized Individual getHuman(String patientID) {
@@ -191,7 +190,25 @@ public class Memory extends OntologyPopulator {
 
 		logger.debug("requestHuman OK");
 	}
-
+	
+	public synchronized void setImagingStudy(String DicomUID, Individual imagingStudy) {
+		System.out.println("setImagingStudy");
+		int n = listDicomUID.size();
+		listIRIimagingStudies.add(n, imagingStudy);
+		listDicomUID.add(n, DicomUID);
+	}
+	
+	public synchronized Individual getImagingStudy(String DicomUID) {
+		System.out.println("getImagingStudy : "+DicomUID);
+		for (int i = 0; i<listDicomUID.size(); i++) {
+			System.out.println(listDicomUID.get(i));
+			if (listDicomUID.get(i).trim().equals(DicomUID.trim())) {
+				return listIRIimagingStudies.get(i);
+			}
+		}
+		return null;
+	}
+	
 	public synchronized void setPatient(String SeriesID, String StudyID, Individual patient) {
 		for (int i = 0; i<listSeriesPatient.size(); i++) {
 			if (listSeriesPatient.get(i).equalsIgnoreCase(SeriesID.trim()) && listStudyPatient.get(i).equalsIgnoreCase(StudyID.trim())) {
@@ -379,16 +396,21 @@ public class Memory extends OntologyPopulator {
 			patientIRI = ContenuLignes[0];
 			CTImageDsIRI = ContenuLignes[1];
 			handle = ContenuLignes[2]; 
+			System.out.println(handle);
+			if (handle.contains("/studies/")) {
+				handle = handle.split("/studies/")[1];
+			}
 			
-			handle = handle.split("/studies/")[1];
+			if (handle.contains("/series/")) {
+				String study = handle.split("/series/")[0];
+				String series = handle.split("/series/")[1];
+				if (model==null) {model=Application.model;}
+				
+				setPatient(series, study, model.createIndividual(patientIRI, model.getResource(racineURI+"human")));
+				setCtDataSet(series, study, model.createIndividual(CTImageDsIRI, model.getResource(racineURI+"CT_image_dataset")));
+
+			}
 			
-			String study = handle.split("/series/")[0];
-			String series = handle.split("/series/")[1];
-			
-			if (model==null) {model=Application.model;}
-			
-			setPatient(series, study, model.createIndividual(patientIRI, model.getResource(racineURI+"human")));
-			setCtDataSet(series, study, model.createIndividual(CTImageDsIRI, model.getResource(racineURI+"CT_image_dataset")));
 		}
 		
 		starDogConnection.close();

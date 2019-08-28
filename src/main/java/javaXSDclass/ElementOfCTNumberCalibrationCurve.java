@@ -2,12 +2,13 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
 package javaXSDclass;
 
+import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,8 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="MeasuredDensityValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="MeasuredDensityUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="HounsfieldMeasuredValue" type="{http://www.w3.org/2001/XMLSchema}integer"/>
  *         &lt;element name="RealDensityOfMaterialValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
  *         &lt;element name="RealDensityOfMaterialUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="MaterialIdentifier" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
@@ -39,18 +39,15 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ElementOfCTNumberCalibrationCurve", propOrder = {
-    "measuredDensityValue",
-    "measuredDensityUnit",
+    "hounsfieldMeasuredValue",
     "realDensityOfMaterialValue",
     "realDensityOfMaterialUnit",
     "materialIdentifier"
 })
 public class ElementOfCTNumberCalibrationCurve {
 
-    @XmlElement(name = "MeasuredDensityValue")
-    protected float measuredDensityValue;
-    @XmlElement(name = "MeasuredDensityUnit", required = true)
-    protected String measuredDensityUnit;
+    @XmlElement(name = "HounsfieldMeasuredValue", required = true)
+    protected BigInteger hounsfieldMeasuredValue;
     @XmlElement(name = "RealDensityOfMaterialValue")
     protected float realDensityOfMaterialValue;
     @XmlElement(name = "RealDensityOfMaterialUnit", required = true)
@@ -59,43 +56,27 @@ public class ElementOfCTNumberCalibrationCurve {
     protected String materialIdentifier;
 
     /**
-     * Obtient la valeur de la propriété measuredDensityValue.
-     * 
-     */
-    public float getMeasuredDensityValue() {
-        return measuredDensityValue;
-    }
-
-    /**
-     * Définit la valeur de la propriété measuredDensityValue.
-     * 
-     */
-    public void setMeasuredDensityValue(float value) {
-        this.measuredDensityValue = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété measuredDensityUnit.
+     * Obtient la valeur de la propriété hounsfieldMeasuredValue.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link BigInteger }
      *     
      */
-    public String getMeasuredDensityUnit() {
-        return measuredDensityUnit;
+    public BigInteger getHounsfieldMeasuredValue() {
+        return hounsfieldMeasuredValue;
     }
 
     /**
-     * Définit la valeur de la propriété measuredDensityUnit.
+     * Définit la valeur de la propriété hounsfieldMeasuredValue.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link BigInteger }
      *     
      */
-    public void setMeasuredDensityUnit(String value) {
-        this.measuredDensityUnit = value;
+    public void setHounsfieldMeasuredValue(BigInteger value) {
+        this.hounsfieldMeasuredValue = value;
     }
 
     /**

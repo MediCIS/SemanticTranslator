@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -24,9 +24,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="EnergyDepositionRateCalculation" type="{https://www.irdbb-medirad.com}EnergyDepositionRateCalculation"/>
+ *         &lt;element name="EnergyDepositionRateCalculationInHybridDosimetry" type="{https://www.irdbb-medirad.com}EnergyDepositionRateCalculationInHybridDosimetry"/>
  *         &lt;element name="SumAndScalingEnergyDepositionRate" type="{https://www.irdbb-medirad.com}SumAndScalingEnergyDepositionRate"/>
- *         &lt;element name="AbsorbedDoseRateCalculation" type="{https://www.irdbb-medirad.com}AbsorbedDoseRateCalculation"/>
+ *         &lt;element name="AbsorbedDoseRateCalculationInHybridDosimetry" type="{https://www.irdbb-medirad.com}AbsorbedDoseRateCalculationInHybridDosimetry"/>
  *         &lt;element name="TimeAbsorbedDoseRateCurveFit" type="{https://www.irdbb-medirad.com}TimeAbsorbedDoseRateCurveFit"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -38,44 +38,44 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HybridDosimetryViaAbsorbedDoseRateCalculation", propOrder = {
-    "energyDepositionRateCalculation",
+    "energyDepositionRateCalculationInHybridDosimetry",
     "sumAndScalingEnergyDepositionRate",
-    "absorbedDoseRateCalculation",
+    "absorbedDoseRateCalculationInHybridDosimetry",
     "timeAbsorbedDoseRateCurveFit"
 })
 public class HybridDosimetryViaAbsorbedDoseRateCalculation {
 
-    @XmlElement(name = "EnergyDepositionRateCalculation", required = true)
-    protected EnergyDepositionRateCalculation energyDepositionRateCalculation;
+    @XmlElement(name = "EnergyDepositionRateCalculationInHybridDosimetry", required = true)
+    protected EnergyDepositionRateCalculationInHybridDosimetry energyDepositionRateCalculationInHybridDosimetry;
     @XmlElement(name = "SumAndScalingEnergyDepositionRate", required = true)
     protected SumAndScalingEnergyDepositionRate sumAndScalingEnergyDepositionRate;
-    @XmlElement(name = "AbsorbedDoseRateCalculation", required = true)
-    protected AbsorbedDoseRateCalculation absorbedDoseRateCalculation;
+    @XmlElement(name = "AbsorbedDoseRateCalculationInHybridDosimetry", required = true)
+    protected AbsorbedDoseRateCalculationInHybridDosimetry absorbedDoseRateCalculationInHybridDosimetry;
     @XmlElement(name = "TimeAbsorbedDoseRateCurveFit", required = true)
     protected TimeAbsorbedDoseRateCurveFit timeAbsorbedDoseRateCurveFit;
 
     /**
-     * Obtient la valeur de la propriété energyDepositionRateCalculation.
+     * Obtient la valeur de la propriété energyDepositionRateCalculationInHybridDosimetry.
      * 
      * @return
      *     possible object is
-     *     {@link EnergyDepositionRateCalculation }
+     *     {@link EnergyDepositionRateCalculationInHybridDosimetry }
      *     
      */
-    public EnergyDepositionRateCalculation getEnergyDepositionRateCalculation() {
-        return energyDepositionRateCalculation;
+    public EnergyDepositionRateCalculationInHybridDosimetry getEnergyDepositionRateCalculationInHybridDosimetry() {
+        return energyDepositionRateCalculationInHybridDosimetry;
     }
 
     /**
-     * Définit la valeur de la propriété energyDepositionRateCalculation.
+     * Définit la valeur de la propriété energyDepositionRateCalculationInHybridDosimetry.
      * 
      * @param value
      *     allowed object is
-     *     {@link EnergyDepositionRateCalculation }
+     *     {@link EnergyDepositionRateCalculationInHybridDosimetry }
      *     
      */
-    public void setEnergyDepositionRateCalculation(EnergyDepositionRateCalculation value) {
-        this.energyDepositionRateCalculation = value;
+    public void setEnergyDepositionRateCalculationInHybridDosimetry(EnergyDepositionRateCalculationInHybridDosimetry value) {
+        this.energyDepositionRateCalculationInHybridDosimetry = value;
     }
 
     /**
@@ -103,27 +103,27 @@ public class HybridDosimetryViaAbsorbedDoseRateCalculation {
     }
 
     /**
-     * Obtient la valeur de la propriété absorbedDoseRateCalculation.
+     * Obtient la valeur de la propriété absorbedDoseRateCalculationInHybridDosimetry.
      * 
      * @return
      *     possible object is
-     *     {@link AbsorbedDoseRateCalculation }
+     *     {@link AbsorbedDoseRateCalculationInHybridDosimetry }
      *     
      */
-    public AbsorbedDoseRateCalculation getAbsorbedDoseRateCalculation() {
-        return absorbedDoseRateCalculation;
+    public AbsorbedDoseRateCalculationInHybridDosimetry getAbsorbedDoseRateCalculationInHybridDosimetry() {
+        return absorbedDoseRateCalculationInHybridDosimetry;
     }
 
     /**
-     * Définit la valeur de la propriété absorbedDoseRateCalculation.
+     * Définit la valeur de la propriété absorbedDoseRateCalculationInHybridDosimetry.
      * 
      * @param value
      *     allowed object is
-     *     {@link AbsorbedDoseRateCalculation }
+     *     {@link AbsorbedDoseRateCalculationInHybridDosimetry }
      *     
      */
-    public void setAbsorbedDoseRateCalculation(AbsorbedDoseRateCalculation value) {
-        this.absorbedDoseRateCalculation = value;
+    public void setAbsorbedDoseRateCalculationInHybridDosimetry(AbsorbedDoseRateCalculationInHybridDosimetry value) {
+        this.absorbedDoseRateCalculationInHybridDosimetry = value;
     }
 
     /**

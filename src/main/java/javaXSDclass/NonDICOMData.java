@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -41,6 +41,7 @@ import javax.xml.bind.annotation.XmlType;
  *               &lt;enumeration value="zipped imageJ contours format"/>
  *               &lt;enumeration value="TIFF format embedding imageJ contours"/>
  *               &lt;enumeration value="zipped pseudo_DICOM ImpactMC"/>
+ *               &lt;enumeration value="GIF format embedding imageJ contours"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>

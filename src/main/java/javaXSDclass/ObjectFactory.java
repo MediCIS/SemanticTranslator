@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -61,14 +61,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NonDicomFileSetDescriptor.ElementOfSPECTRecoveryCoefficientCurve }
-     * 
-     */
-    public NonDicomFileSetDescriptor.ElementOfSPECTRecoveryCoefficientCurve createNonDicomFileSetDescriptorElementOfSPECTRecoveryCoefficientCurve() {
-        return new NonDicomFileSetDescriptor.ElementOfSPECTRecoveryCoefficientCurve();
-    }
-
-    /**
      * Create an instance of {@link NonDicomFileSetDescriptor.WP2Subtask212WorkflowData }
      * 
      */
@@ -82,22 +74,6 @@ public class ObjectFactory {
      */
     public NonDicomFileSetDescriptor.ThreeDimDosimetrySlide1Workflow createNonDicomFileSetDescriptorThreeDimDosimetrySlide1Workflow() {
         return new NonDicomFileSetDescriptor.ThreeDimDosimetrySlide1Workflow();
-    }
-
-    /**
-     * Create an instance of {@link NonDicomFileSetDescriptor.TimeIntegratedActivityCoefficientPerVOI }
-     * 
-     */
-    public NonDicomFileSetDescriptor.TimeIntegratedActivityCoefficientPerVOI createNonDicomFileSetDescriptorTimeIntegratedActivityCoefficientPerVOI() {
-        return new NonDicomFileSetDescriptor.TimeIntegratedActivityCoefficientPerVOI();
-    }
-
-    /**
-     * Create an instance of {@link NonDicomFileSetDescriptor.TimeIntegratedActivityPerVOI }
-     * 
-     */
-    public NonDicomFileSetDescriptor.TimeIntegratedActivityPerVOI createNonDicomFileSetDescriptorTimeIntegratedActivityPerVOI() {
-        return new NonDicomFileSetDescriptor.TimeIntegratedActivityPerVOI();
     }
 
     /**
@@ -117,14 +93,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NonDicomFileSetDescriptor.RegistrationVOISegmentation }
-     * 
-     */
-    public NonDicomFileSetDescriptor.RegistrationVOISegmentation createNonDicomFileSetDescriptorRegistrationVOISegmentation() {
-        return new NonDicomFileSetDescriptor.RegistrationVOISegmentation();
-    }
-
-    /**
      * Create an instance of {@link NonDicomFileSetDescriptor.ThreeDimDosimetrySlide2Workflow }
      * 
      */
@@ -141,27 +109,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link EnergyDepositionRateCalculation }
+     * Create an instance of {@link AbsorbedDoseRateCalculationIn2DDosimetry }
      * 
      */
-    public EnergyDepositionRateCalculation createEnergyDepositionRateCalculation() {
-        return new EnergyDepositionRateCalculation();
-    }
-
-    /**
-     * Create an instance of {@link ROIPlanarActivityDetermination }
-     * 
-     */
-    public ROIPlanarActivityDetermination createROIPlanarActivityDetermination() {
-        return new ROIPlanarActivityDetermination();
-    }
-
-    /**
-     * Create an instance of {@link CTNumberCalibrationWorkfow }
-     * 
-     */
-    public CTNumberCalibrationWorkfow createCTNumberCalibrationWorkfow() {
-        return new CTNumberCalibrationWorkfow();
+    public AbsorbedDoseRateCalculationIn2DDosimetry createAbsorbedDoseRateCalculationIn2DDosimetry() {
+        return new AbsorbedDoseRateCalculationIn2DDosimetry();
     }
 
     /**
@@ -170,22 +122,6 @@ public class ObjectFactory {
      */
     public PlanarDataAcquisition createPlanarDataAcquisition() {
         return new PlanarDataAcquisition();
-    }
-
-    /**
-     * Create an instance of {@link NMRelevantCalibrationReference }
-     * 
-     */
-    public NMRelevantCalibrationReference createNMRelevantCalibrationReference() {
-        return new NMRelevantCalibrationReference();
-    }
-
-    /**
-     * Create an instance of {@link VoxelBasedDistributionOfAbsorbedDoseType }
-     * 
-     */
-    public VoxelBasedDistributionOfAbsorbedDoseType createVoxelBasedDistributionOfAbsorbedDoseType() {
-        return new VoxelBasedDistributionOfAbsorbedDoseType();
     }
 
     /**
@@ -210,70 +146,6 @@ public class ObjectFactory {
      */
     public DensityPhantom createDensityPhantom() {
         return new DensityPhantom();
-    }
-
-    /**
-     * Create an instance of {@link MethodSettingType }
-     * 
-     */
-    public MethodSettingType createMethodSettingType() {
-        return new MethodSettingType();
-    }
-
-    /**
-     * Create an instance of {@link RadioBiologicalCalculation }
-     * 
-     */
-    public RadioBiologicalCalculation createRadioBiologicalCalculation() {
-        return new RadioBiologicalCalculation();
-    }
-
-    /**
-     * Create an instance of {@link PatientOrganMass }
-     * 
-     */
-    public PatientOrganMass createPatientOrganMass() {
-        return new PatientOrganMass();
-    }
-
-    /**
-     * Create an instance of {@link SumAndScalingAbsorbedDoseRateCalculation }
-     * 
-     */
-    public SumAndScalingAbsorbedDoseRateCalculation createSumAndScalingAbsorbedDoseRateCalculation() {
-        return new SumAndScalingAbsorbedDoseRateCalculation();
-    }
-
-    /**
-     * Create an instance of {@link ActivityScaling }
-     * 
-     */
-    public ActivityScaling createActivityScaling() {
-        return new ActivityScaling();
-    }
-
-    /**
-     * Create an instance of {@link CTRelevantCalibrationReference }
-     * 
-     */
-    public CTRelevantCalibrationReference createCTRelevantCalibrationReference() {
-        return new CTRelevantCalibrationReference();
-    }
-
-    /**
-     * Create an instance of {@link HybridDosimetryViaAbsorbedDoseRateCalculation }
-     * 
-     */
-    public HybridDosimetryViaAbsorbedDoseRateCalculation createHybridDosimetryViaAbsorbedDoseRateCalculation() {
-        return new HybridDosimetryViaAbsorbedDoseRateCalculation();
-    }
-
-    /**
-     * Create an instance of {@link CTNumberCalibrationCurve }
-     * 
-     */
-    public CTNumberCalibrationCurve createCTNumberCalibrationCurve() {
-        return new CTNumberCalibrationCurve();
     }
 
     /**
@@ -317,19 +189,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link ElementOfSPECTRecoveryCoefficientCurve }
+     * 
+     */
+    public ElementOfSPECTRecoveryCoefficientCurve createElementOfSPECTRecoveryCoefficientCurve() {
+        return new ElementOfSPECTRecoveryCoefficientCurve();
+    }
+
+    /**
      * Create an instance of {@link AbsorbedDoseRatePerVOIAtTimePoint }
      * 
      */
     public AbsorbedDoseRatePerVOIAtTimePoint createAbsorbedDoseRatePerVOIAtTimePoint() {
         return new AbsorbedDoseRatePerVOIAtTimePoint();
-    }
-
-    /**
-     * Create an instance of {@link CalibrationFactor }
-     * 
-     */
-    public CalibrationFactor createCalibrationFactor() {
-        return new CalibrationFactor();
     }
 
     /**
@@ -341,27 +213,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ROI }
+     * Create an instance of {@link PatientOrganMassInHybridDosimetry }
      * 
      */
-    public ROI createROI() {
-        return new ROI();
+    public PatientOrganMassInHybridDosimetry createPatientOrganMassInHybridDosimetry() {
+        return new PatientOrganMassInHybridDosimetry();
     }
 
     /**
-     * Create an instance of {@link VOI }
+     * Create an instance of {@link SPECTReconstructionInCalibration }
      * 
      */
-    public VOI createVOI() {
-        return new VOI();
-    }
-
-    /**
-     * Create an instance of {@link DataActivityPerROIAtTimePoint }
-     * 
-     */
-    public DataActivityPerROIAtTimePoint createDataActivityPerROIAtTimePoint() {
-        return new DataActivityPerROIAtTimePoint();
+    public SPECTReconstructionInCalibration createSPECTReconstructionInCalibration() {
+        return new SPECTReconstructionInCalibration();
     }
 
     /**
@@ -370,14 +234,6 @@ public class ObjectFactory {
      */
     public TimeActivityCurveFit createTimeActivityCurveFit() {
         return new TimeActivityCurveFit();
-    }
-
-    /**
-     * Create an instance of {@link SumAndScalingEnergyDepositionRate }
-     * 
-     */
-    public SumAndScalingEnergyDepositionRate createSumAndScalingEnergyDepositionRate() {
-        return new SumAndScalingEnergyDepositionRate();
     }
 
     /**
@@ -397,27 +253,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link DataActivityPerVOIAtTimePoint }
+     * Create an instance of {@link SPECTAcqCTAcqAndReconstructionInCalibration }
      * 
      */
-    public DataActivityPerVOIAtTimePoint createDataActivityPerVOIAtTimePoint() {
-        return new DataActivityPerVOIAtTimePoint();
-    }
-
-    /**
-     * Create an instance of {@link AbsorbedDosePerVOIType }
-     * 
-     */
-    public AbsorbedDosePerVOIType createAbsorbedDosePerVOIType() {
-        return new AbsorbedDosePerVOIType();
-    }
-
-    /**
-     * Create an instance of {@link RegistrationVOISegmentationAndPropagation }
-     * 
-     */
-    public RegistrationVOISegmentationAndPropagation createRegistrationVOISegmentationAndPropagation() {
-        return new RegistrationVOISegmentationAndPropagation();
+    public SPECTAcqCTAcqAndReconstructionInCalibration createSPECTAcqCTAcqAndReconstructionInCalibration() {
+        return new SPECTAcqCTAcqAndReconstructionInCalibration();
     }
 
     /**
@@ -429,35 +269,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PlanarImageCorrections }
+     * Create an instance of {@link AbsorbedDoseCalculationInROIIn2DDosimetry }
      * 
      */
-    public PlanarImageCorrections createPlanarImageCorrections() {
-        return new PlanarImageCorrections();
-    }
-
-    /**
-     * Create an instance of {@link SPECTDataAcquisitionAndProcessing }
-     * 
-     */
-    public SPECTDataAcquisitionAndProcessing createSPECTDataAcquisitionAndProcessing() {
-        return new SPECTDataAcquisitionAndProcessing();
-    }
-
-    /**
-     * Create an instance of {@link SPECTAcqCTAcqAndReconstruction }
-     * 
-     */
-    public SPECTAcqCTAcqAndReconstruction createSPECTAcqCTAcqAndReconstruction() {
-        return new SPECTAcqCTAcqAndReconstruction();
-    }
-
-    /**
-     * Create an instance of {@link AttenuatorType }
-     * 
-     */
-    public AttenuatorType createAttenuatorType() {
-        return new AttenuatorType();
+    public AbsorbedDoseCalculationInROIIn2DDosimetry createAbsorbedDoseCalculationInROIIn2DDosimetry() {
+        return new AbsorbedDoseCalculationInROIIn2DDosimetry();
     }
 
     /**
@@ -466,14 +282,6 @@ public class ObjectFactory {
      */
     public PlanarCalibrationFactor createPlanarCalibrationFactor() {
         return new PlanarCalibrationFactor();
-    }
-
-    /**
-     * Create an instance of {@link CalculationOfAbsorbedDosesInVOIs }
-     * 
-     */
-    public CalculationOfAbsorbedDosesInVOIs createCalculationOfAbsorbedDosesInVOIs() {
-        return new CalculationOfAbsorbedDosesInVOIs();
     }
 
     /**
@@ -490,30 +298,6 @@ public class ObjectFactory {
      */
     public ROIInSPECT createROIInSPECT() {
         return new ROIInSPECT();
-    }
-
-    /**
-     * Create an instance of {@link NMPhantom }
-     * 
-     */
-    public NMPhantom createNMPhantom() {
-        return new NMPhantom();
-    }
-
-    /**
-     * Create an instance of {@link SPECTRecoveryCurveCalculation }
-     * 
-     */
-    public SPECTRecoveryCurveCalculation createSPECTRecoveryCurveCalculation() {
-        return new SPECTRecoveryCurveCalculation();
-    }
-
-    /**
-     * Create an instance of {@link TimeAbsorbedDoseRateCurveFit }
-     * 
-     */
-    public TimeAbsorbedDoseRateCurveFit createTimeAbsorbedDoseRateCurveFit() {
-        return new TimeAbsorbedDoseRateCurveFit();
     }
 
     /**
@@ -549,35 +333,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NonDICOMData }
-     * 
-     */
-    public NonDICOMData createNonDICOMData() {
-        return new NonDICOMData();
-    }
-
-    /**
-     * Create an instance of {@link PlanarImageSegmentation }
-     * 
-     */
-    public PlanarImageSegmentation createPlanarImageSegmentation() {
-        return new PlanarImageSegmentation();
-    }
-
-    /**
      * Create an instance of {@link AdministeredActivity }
      * 
      */
     public AdministeredActivity createAdministeredActivity() {
         return new AdministeredActivity();
-    }
-
-    /**
-     * Create an instance of {@link MassPerVOIAtTimePoint }
-     * 
-     */
-    public MassPerVOIAtTimePoint createMassPerVOIAtTimePoint() {
-        return new MassPerVOIAtTimePoint();
     }
 
     /**
@@ -589,6 +349,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link TimeIntegratedActivityPerVOI }
+     * 
+     */
+    public TimeIntegratedActivityPerVOI createTimeIntegratedActivityPerVOI() {
+        return new TimeIntegratedActivityPerVOI();
+    }
+
+    /**
      * Create an instance of {@link DICOMData }
      * 
      */
@@ -597,19 +365,19 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link AbsorbedDoseCalculationInVOI }
+     * 
+     */
+    public AbsorbedDoseCalculationInVOI createAbsorbedDoseCalculationInVOI() {
+        return new AbsorbedDoseCalculationInVOI();
+    }
+
+    /**
      * Create an instance of {@link CalculationOfVoxelMap }
      * 
      */
     public CalculationOfVoxelMap createCalculationOfVoxelMap() {
         return new CalculationOfVoxelMap();
-    }
-
-    /**
-     * Create an instance of {@link AbsorbedDoseCalculation }
-     * 
-     */
-    public AbsorbedDoseCalculation createAbsorbedDoseCalculation() {
-        return new AbsorbedDoseCalculation();
     }
 
     /**
@@ -661,14 +429,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link PlanarAcquisition }
-     * 
-     */
-    public PlanarAcquisition createPlanarAcquisition() {
-        return new PlanarAcquisition();
-    }
-
-    /**
      * Create an instance of {@link CountsPerVOIAtTimePoint }
      * 
      */
@@ -685,27 +445,19 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link TimeAbsorbedDoseCurveFit }
-     * 
-     */
-    public TimeAbsorbedDoseCurveFit createTimeAbsorbedDoseCurveFit() {
-        return new TimeAbsorbedDoseCurveFit();
-    }
-
-    /**
-     * Create an instance of {@link HybridDosimetryViaTimeActivityCurveFit }
-     * 
-     */
-    public HybridDosimetryViaTimeActivityCurveFit createHybridDosimetryViaTimeActivityCurveFit() {
-        return new HybridDosimetryViaTimeActivityCurveFit();
-    }
-
-    /**
      * Create an instance of {@link VOISegmentationVOIMassDetermination }
      * 
      */
     public VOISegmentationVOIMassDetermination createVOISegmentationVOIMassDetermination() {
         return new VOISegmentationVOIMassDetermination();
+    }
+
+    /**
+     * Create an instance of {@link TimeIntegratedActivityCoefficientPerVOI }
+     * 
+     */
+    public TimeIntegratedActivityCoefficientPerVOI createTimeIntegratedActivityCoefficientPerVOI() {
+        return new TimeIntegratedActivityCoefficientPerVOI();
     }
 
     /**
@@ -741,11 +493,387 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link EnergyDepositionRateCalculationIn3DDosimetry }
+     * 
+     */
+    public EnergyDepositionRateCalculationIn3DDosimetry createEnergyDepositionRateCalculationIn3DDosimetry() {
+        return new EnergyDepositionRateCalculationIn3DDosimetry();
+    }
+
+    /**
+     * Create an instance of {@link SPECTRecoveryCoefficientCurveInCalibration }
+     * 
+     */
+    public SPECTRecoveryCoefficientCurveInCalibration createSPECTRecoveryCoefficientCurveInCalibration() {
+        return new SPECTRecoveryCoefficientCurveInCalibration();
+    }
+
+    /**
+     * Create an instance of {@link ColdInsert }
+     * 
+     */
+    public ColdInsert createColdInsert() {
+        return new ColdInsert();
+    }
+
+    /**
+     * Create an instance of {@link SPECTSensitivityCalculation }
+     * 
+     */
+    public SPECTSensitivityCalculation createSPECTSensitivityCalculation() {
+        return new SPECTSensitivityCalculation();
+    }
+
+    /**
+     * Create an instance of {@link SimpleCTMonteCarloDosimetry }
+     * 
+     */
+    public SimpleCTMonteCarloDosimetry createSimpleCTMonteCarloDosimetry() {
+        return new SimpleCTMonteCarloDosimetry();
+    }
+
+    /**
+     * Create an instance of {@link SegmentationMethodType }
+     * 
+     */
+    public SegmentationMethodType createSegmentationMethodType() {
+        return new SegmentationMethodType();
+    }
+
+    /**
+     * Create an instance of {@link AbsorbedDoseCalculationInROIInHybridDosimetry }
+     * 
+     */
+    public AbsorbedDoseCalculationInROIInHybridDosimetry createAbsorbedDoseCalculationInROIInHybridDosimetry() {
+        return new AbsorbedDoseCalculationInROIInHybridDosimetry();
+    }
+
+    /**
+     * Create an instance of {@link ROIPlanarActivityDetermination }
+     * 
+     */
+    public ROIPlanarActivityDetermination createROIPlanarActivityDetermination() {
+        return new ROIPlanarActivityDetermination();
+    }
+
+    /**
+     * Create an instance of {@link CTNumberCalibrationWorkfow }
+     * 
+     */
+    public CTNumberCalibrationWorkfow createCTNumberCalibrationWorkfow() {
+        return new CTNumberCalibrationWorkfow();
+    }
+
+    /**
+     * Create an instance of {@link CTSegmentationInCalibration }
+     * 
+     */
+    public CTSegmentationInCalibration createCTSegmentationInCalibration() {
+        return new CTSegmentationInCalibration();
+    }
+
+    /**
+     * Create an instance of {@link NMRelevantCalibrationReference }
+     * 
+     */
+    public NMRelevantCalibrationReference createNMRelevantCalibrationReference() {
+        return new NMRelevantCalibrationReference();
+    }
+
+    /**
+     * Create an instance of {@link VoxelBasedDistributionOfAbsorbedDoseType }
+     * 
+     */
+    public VoxelBasedDistributionOfAbsorbedDoseType createVoxelBasedDistributionOfAbsorbedDoseType() {
+        return new VoxelBasedDistributionOfAbsorbedDoseType();
+    }
+
+    /**
+     * Create an instance of {@link MethodSettingType }
+     * 
+     */
+    public MethodSettingType createMethodSettingType() {
+        return new MethodSettingType();
+    }
+
+    /**
+     * Create an instance of {@link RadioBiologicalCalculation }
+     * 
+     */
+    public RadioBiologicalCalculation createRadioBiologicalCalculation() {
+        return new RadioBiologicalCalculation();
+    }
+
+    /**
+     * Create an instance of {@link SumAndScalingAbsorbedDoseRateCalculation }
+     * 
+     */
+    public SumAndScalingAbsorbedDoseRateCalculation createSumAndScalingAbsorbedDoseRateCalculation() {
+        return new SumAndScalingAbsorbedDoseRateCalculation();
+    }
+
+    /**
+     * Create an instance of {@link ActivityScaling }
+     * 
+     */
+    public ActivityScaling createActivityScaling() {
+        return new ActivityScaling();
+    }
+
+    /**
+     * Create an instance of {@link CTRelevantCalibrationReference }
+     * 
+     */
+    public CTRelevantCalibrationReference createCTRelevantCalibrationReference() {
+        return new CTRelevantCalibrationReference();
+    }
+
+    /**
+     * Create an instance of {@link HybridDosimetryViaAbsorbedDoseRateCalculation }
+     * 
+     */
+    public HybridDosimetryViaAbsorbedDoseRateCalculation createHybridDosimetryViaAbsorbedDoseRateCalculation() {
+        return new HybridDosimetryViaAbsorbedDoseRateCalculation();
+    }
+
+    /**
+     * Create an instance of {@link CTNumberCalibrationCurve }
+     * 
+     */
+    public CTNumberCalibrationCurve createCTNumberCalibrationCurve() {
+        return new CTNumberCalibrationCurve();
+    }
+
+    /**
+     * Create an instance of {@link AbsorbedDoseRateCalculationInHybridDosimetry }
+     * 
+     */
+    public AbsorbedDoseRateCalculationInHybridDosimetry createAbsorbedDoseRateCalculationInHybridDosimetry() {
+        return new AbsorbedDoseRateCalculationInHybridDosimetry();
+    }
+
+    /**
+     * Create an instance of {@link CalibrationFactor }
+     * 
+     */
+    public CalibrationFactor createCalibrationFactor() {
+        return new CalibrationFactor();
+    }
+
+    /**
+     * Create an instance of {@link ROI }
+     * 
+     */
+    public ROI createROI() {
+        return new ROI();
+    }
+
+    /**
+     * Create an instance of {@link VOI }
+     * 
+     */
+    public VOI createVOI() {
+        return new VOI();
+    }
+
+    /**
+     * Create an instance of {@link DataActivityPerROIAtTimePoint }
+     * 
+     */
+    public DataActivityPerROIAtTimePoint createDataActivityPerROIAtTimePoint() {
+        return new DataActivityPerROIAtTimePoint();
+    }
+
+    /**
+     * Create an instance of {@link SumAndScalingEnergyDepositionRate }
+     * 
+     */
+    public SumAndScalingEnergyDepositionRate createSumAndScalingEnergyDepositionRate() {
+        return new SumAndScalingEnergyDepositionRate();
+    }
+
+    /**
+     * Create an instance of {@link DataActivityPerVOIAtTimePoint }
+     * 
+     */
+    public DataActivityPerVOIAtTimePoint createDataActivityPerVOIAtTimePoint() {
+        return new DataActivityPerVOIAtTimePoint();
+    }
+
+    /**
+     * Create an instance of {@link AbsorbedDosePerVOIType }
+     * 
+     */
+    public AbsorbedDosePerVOIType createAbsorbedDosePerVOIType() {
+        return new AbsorbedDosePerVOIType();
+    }
+
+    /**
+     * Create an instance of {@link RegistrationVOISegmentationAndPropagation }
+     * 
+     */
+    public RegistrationVOISegmentationAndPropagation createRegistrationVOISegmentationAndPropagation() {
+        return new RegistrationVOISegmentationAndPropagation();
+    }
+
+    /**
+     * Create an instance of {@link PlanarImageCorrections }
+     * 
+     */
+    public PlanarImageCorrections createPlanarImageCorrections() {
+        return new PlanarImageCorrections();
+    }
+
+    /**
+     * Create an instance of {@link SPECTRecoveryCoefficientCurveCalculation }
+     * 
+     */
+    public SPECTRecoveryCoefficientCurveCalculation createSPECTRecoveryCoefficientCurveCalculation() {
+        return new SPECTRecoveryCoefficientCurveCalculation();
+    }
+
+    /**
+     * Create an instance of {@link RegistrationVOISegmentation }
+     * 
+     */
+    public RegistrationVOISegmentation createRegistrationVOISegmentation() {
+        return new RegistrationVOISegmentation();
+    }
+
+    /**
+     * Create an instance of {@link SPECTDataAcquisitionAndProcessing }
+     * 
+     */
+    public SPECTDataAcquisitionAndProcessing createSPECTDataAcquisitionAndProcessing() {
+        return new SPECTDataAcquisitionAndProcessing();
+    }
+
+    /**
+     * Create an instance of {@link SPECTAcqCTAcqAndReconstruction }
+     * 
+     */
+    public SPECTAcqCTAcqAndReconstruction createSPECTAcqCTAcqAndReconstruction() {
+        return new SPECTAcqCTAcqAndReconstruction();
+    }
+
+    /**
+     * Create an instance of {@link AttenuatorType }
+     * 
+     */
+    public AttenuatorType createAttenuatorType() {
+        return new AttenuatorType();
+    }
+
+    /**
+     * Create an instance of {@link CalculationOfAbsorbedDosesInVOIs }
+     * 
+     */
+    public CalculationOfAbsorbedDosesInVOIs createCalculationOfAbsorbedDosesInVOIs() {
+        return new CalculationOfAbsorbedDosesInVOIs();
+    }
+
+    /**
+     * Create an instance of {@link NMPhantom }
+     * 
+     */
+    public NMPhantom createNMPhantom() {
+        return new NMPhantom();
+    }
+
+    /**
+     * Create an instance of {@link TimeAbsorbedDoseRateCurveFit }
+     * 
+     */
+    public TimeAbsorbedDoseRateCurveFit createTimeAbsorbedDoseRateCurveFit() {
+        return new TimeAbsorbedDoseRateCurveFit();
+    }
+
+    /**
+     * Create an instance of {@link PatientOrganMassIn2DDosimetry }
+     * 
+     */
+    public PatientOrganMassIn2DDosimetry createPatientOrganMassIn2DDosimetry() {
+        return new PatientOrganMassIn2DDosimetry();
+    }
+
+    /**
+     * Create an instance of {@link NonDICOMData }
+     * 
+     */
+    public NonDICOMData createNonDICOMData() {
+        return new NonDICOMData();
+    }
+
+    /**
+     * Create an instance of {@link PlanarImageSegmentation }
+     * 
+     */
+    public PlanarImageSegmentation createPlanarImageSegmentation() {
+        return new PlanarImageSegmentation();
+    }
+
+    /**
+     * Create an instance of {@link EnergyDepositionRateCalculationInHybridDosimetry }
+     * 
+     */
+    public EnergyDepositionRateCalculationInHybridDosimetry createEnergyDepositionRateCalculationInHybridDosimetry() {
+        return new EnergyDepositionRateCalculationInHybridDosimetry();
+    }
+
+    /**
+     * Create an instance of {@link MassPerVOIAtTimePoint }
+     * 
+     */
+    public MassPerVOIAtTimePoint createMassPerVOIAtTimePoint() {
+        return new MassPerVOIAtTimePoint();
+    }
+
+    /**
+     * Create an instance of {@link SPECTDataAcquisitionAndReconstruction }
+     * 
+     */
+    public SPECTDataAcquisitionAndReconstruction createSPECTDataAcquisitionAndReconstruction() {
+        return new SPECTDataAcquisitionAndReconstruction();
+    }
+
+    /**
+     * Create an instance of {@link PlanarAcquisition }
+     * 
+     */
+    public PlanarAcquisition createPlanarAcquisition() {
+        return new PlanarAcquisition();
+    }
+
+    /**
+     * Create an instance of {@link TimeAbsorbedDoseCurveFit }
+     * 
+     */
+    public TimeAbsorbedDoseCurveFit createTimeAbsorbedDoseCurveFit() {
+        return new TimeAbsorbedDoseCurveFit();
+    }
+
+    /**
+     * Create an instance of {@link HybridDosimetryViaTimeActivityCurveFit }
+     * 
+     */
+    public HybridDosimetryViaTimeActivityCurveFit createHybridDosimetryViaTimeActivityCurveFit() {
+        return new HybridDosimetryViaTimeActivityCurveFit();
+    }
+
+    /**
      * Create an instance of {@link MeanAbsorbedDoseRateInVOI }
      * 
      */
     public MeanAbsorbedDoseRateInVOI createMeanAbsorbedDoseRateInVOI() {
         return new MeanAbsorbedDoseRateInVOI();
+    }
+
+    /**
+     * Create an instance of {@link TimeActivityCurveFitIn3DDosimetry }
+     * 
+     */
+    public TimeActivityCurveFitIn3DDosimetry createTimeActivityCurveFitIn3DDosimetry() {
+        return new TimeActivityCurveFitIn3DDosimetry();
     }
 
     /**
@@ -778,46 +906,6 @@ public class ObjectFactory {
      */
     public VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation createVOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation() {
         return new VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation();
-    }
-
-    /**
-     * Create an instance of {@link ColdInsert }
-     * 
-     */
-    public ColdInsert createColdInsert() {
-        return new ColdInsert();
-    }
-
-    /**
-     * Create an instance of {@link SPECTSensitivityCalculation }
-     * 
-     */
-    public SPECTSensitivityCalculation createSPECTSensitivityCalculation() {
-        return new SPECTSensitivityCalculation();
-    }
-
-    /**
-     * Create an instance of {@link AbsorbedDoseRateCalculation }
-     * 
-     */
-    public AbsorbedDoseRateCalculation createAbsorbedDoseRateCalculation() {
-        return new AbsorbedDoseRateCalculation();
-    }
-
-    /**
-     * Create an instance of {@link SimpleCTMonteCarloDosimetry }
-     * 
-     */
-    public SimpleCTMonteCarloDosimetry createSimpleCTMonteCarloDosimetry() {
-        return new SimpleCTMonteCarloDosimetry();
-    }
-
-    /**
-     * Create an instance of {@link SegmentationMethodType }
-     * 
-     */
-    public SegmentationMethodType createSegmentationMethodType() {
-        return new SegmentationMethodType();
     }
 
 }

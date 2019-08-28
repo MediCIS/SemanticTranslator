@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="AbsorbedDoseRateCalculation" type="{https://www.irdbb-medirad.com}AbsorbedDoseRateCalculation" maxOccurs="unbounded"/>
+ *         &lt;element name="AbsorbedDoseRateCalculationIn2DDosimetry" type="{https://www.irdbb-medirad.com}AbsorbedDoseRateCalculationIn2DDosimetry" maxOccurs="unbounded"/>
  *         &lt;element name="TimeAbsorbedDoseCurveFit" type="{https://www.irdbb-medirad.com}TimeAbsorbedDoseCurveFit"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -38,43 +38,43 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TwoDimDosimetryViaAbsorbedDoseRateCalculation", propOrder = {
-    "absorbedDoseRateCalculation",
+    "absorbedDoseRateCalculationIn2DDosimetry",
     "timeAbsorbedDoseCurveFit"
 })
 public class TwoDimDosimetryViaAbsorbedDoseRateCalculation {
 
-    @XmlElement(name = "AbsorbedDoseRateCalculation", required = true)
-    protected List<AbsorbedDoseRateCalculation> absorbedDoseRateCalculation;
+    @XmlElement(name = "AbsorbedDoseRateCalculationIn2DDosimetry", required = true)
+    protected List<AbsorbedDoseRateCalculationIn2DDosimetry> absorbedDoseRateCalculationIn2DDosimetry;
     @XmlElement(name = "TimeAbsorbedDoseCurveFit", required = true)
     protected TimeAbsorbedDoseCurveFit timeAbsorbedDoseCurveFit;
 
     /**
-     * Gets the value of the absorbedDoseRateCalculation property.
+     * Gets the value of the absorbedDoseRateCalculationIn2DDosimetry property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the absorbedDoseRateCalculation property.
+     * This is why there is not a <CODE>set</CODE> method for the absorbedDoseRateCalculationIn2DDosimetry property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getAbsorbedDoseRateCalculation().add(newItem);
+     *    getAbsorbedDoseRateCalculationIn2DDosimetry().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link AbsorbedDoseRateCalculation }
+     * {@link AbsorbedDoseRateCalculationIn2DDosimetry }
      * 
      * 
      */
-    public List<AbsorbedDoseRateCalculation> getAbsorbedDoseRateCalculation() {
-        if (absorbedDoseRateCalculation == null) {
-            absorbedDoseRateCalculation = new ArrayList<AbsorbedDoseRateCalculation>();
+    public List<AbsorbedDoseRateCalculationIn2DDosimetry> getAbsorbedDoseRateCalculationIn2DDosimetry() {
+        if (absorbedDoseRateCalculationIn2DDosimetry == null) {
+            absorbedDoseRateCalculationIn2DDosimetry = new ArrayList<AbsorbedDoseRateCalculationIn2DDosimetry>();
         }
-        return this.absorbedDoseRateCalculation;
+        return this.absorbedDoseRateCalculationIn2DDosimetry;
     }
 
     /**

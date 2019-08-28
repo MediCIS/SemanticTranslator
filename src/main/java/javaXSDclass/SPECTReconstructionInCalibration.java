@@ -1,0 +1,209 @@
+//
+// Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
+// Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
+// Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
+//
+
+
+package javaXSDclass;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+
+/**
+ * <p>Classe Java pour SPECTReconstructionInCalibration complex type.
+ * 
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
+ * 
+ * <pre>
+ * &lt;complexType name="SPECTReconstructionInCalibration">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
+ *         &lt;element name="NMTomoUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="CTReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="ReconstructionMethodAndCorrectionsUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="CTNumberCalibrationCurveUsed" type="{https://www.irdbb-medirad.com}CTNumberCalibrationCurve"/>
+ *         &lt;element name="NMTomoReconProduced" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "SPECTReconstructionInCalibration", propOrder = {
+    "processExecutionContext",
+    "nmTomoUsed",
+    "ctReconUsed",
+    "reconstructionMethodAndCorrectionsUsed",
+    "ctNumberCalibrationCurveUsed",
+    "nmTomoReconProduced"
+})
+public class SPECTReconstructionInCalibration {
+
+    @XmlElement(name = "ProcessExecutionContext", required = true)
+    protected ProcessExecutionContext processExecutionContext;
+    @XmlElement(name = "NMTomoUsed", required = true)
+    protected DICOMData nmTomoUsed;
+    @XmlElement(name = "CTReconUsed", required = true)
+    protected DICOMData ctReconUsed;
+    @XmlElement(name = "ReconstructionMethodAndCorrectionsUsed", required = true)
+    protected String reconstructionMethodAndCorrectionsUsed;
+    @XmlElement(name = "CTNumberCalibrationCurveUsed", required = true)
+    protected CTNumberCalibrationCurve ctNumberCalibrationCurveUsed;
+    @XmlElement(name = "NMTomoReconProduced", required = true)
+    protected DICOMData nmTomoReconProduced;
+
+    /**
+     * Obtient la valeur de la propriété processExecutionContext.
+     * 
+     * @return
+     *     possible object is
+     *     {@link ProcessExecutionContext }
+     *     
+     */
+    public ProcessExecutionContext getProcessExecutionContext() {
+        return processExecutionContext;
+    }
+
+    /**
+     * Définit la valeur de la propriété processExecutionContext.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ProcessExecutionContext }
+     *     
+     */
+    public void setProcessExecutionContext(ProcessExecutionContext value) {
+        this.processExecutionContext = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nmTomoUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DICOMData }
+     *     
+     */
+    public DICOMData getNMTomoUsed() {
+        return nmTomoUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété nmTomoUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DICOMData }
+     *     
+     */
+    public void setNMTomoUsed(DICOMData value) {
+        this.nmTomoUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété ctReconUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DICOMData }
+     *     
+     */
+    public DICOMData getCTReconUsed() {
+        return ctReconUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété ctReconUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DICOMData }
+     *     
+     */
+    public void setCTReconUsed(DICOMData value) {
+        this.ctReconUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété reconstructionMethodAndCorrectionsUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getReconstructionMethodAndCorrectionsUsed() {
+        return reconstructionMethodAndCorrectionsUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété reconstructionMethodAndCorrectionsUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setReconstructionMethodAndCorrectionsUsed(String value) {
+        this.reconstructionMethodAndCorrectionsUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété ctNumberCalibrationCurveUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CTNumberCalibrationCurve }
+     *     
+     */
+    public CTNumberCalibrationCurve getCTNumberCalibrationCurveUsed() {
+        return ctNumberCalibrationCurveUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété ctNumberCalibrationCurveUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CTNumberCalibrationCurve }
+     *     
+     */
+    public void setCTNumberCalibrationCurveUsed(CTNumberCalibrationCurve value) {
+        this.ctNumberCalibrationCurveUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nmTomoReconProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DICOMData }
+     *     
+     */
+    public DICOMData getNMTomoReconProduced() {
+        return nmTomoReconProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété nmTomoReconProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DICOMData }
+     *     
+     */
+    public void setNMTomoReconProduced(DICOMData value) {
+        this.nmTomoReconProduced = value;
+    }
+
+}

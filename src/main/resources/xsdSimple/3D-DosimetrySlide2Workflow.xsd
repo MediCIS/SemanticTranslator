@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<!--Version 009-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -22,7 +21,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 	<xs:element name="ThreeDimDosimetrySlide2workflow" minOccurs="0" maxOccurs="unbounded">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="SPECTDataAcquisitionAndProcessing" type="irdbb:SPECTDataAcquisitionAndProcessing" maxOccurs="unbounded" />
+				<xs:element name="SPECTDataAcquisitionAndReconstruction" type="irdbb:SPECTDataAcquisitionAndReconstruction" maxOccurs="unbounded" />
 				<xs:element name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation" type="irdbb:VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation" maxOccurs="unbounded" />
 				<xs:element name="DoseRateCurveFitVOITimeIntegration" type="irdbb:DoseRateCurveFitVOITimeIntegration"/>
 				<xs:element name="RadioBiologicalCalculation" type="irdbb:RadioBiologicalCalculation" minOccurs="0" />
@@ -43,7 +42,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:complexType>
 	</xs:element>
 
-	<xs:complexType name="SPECTDataAcquisitionAndProcessing">
+	<xs:complexType name="SPECTDataAcquisitionAndReconstruction">
 		<xs:sequence>
 				<xs:element name="SPECTAcqCTAcqAndReconstruction" type="irdbb:SPECTAcqCTAcqAndReconstruction"/>
 				<xs:element name="SPECTReconstruction" type="irdbb:SPECTReconstruction"/>
@@ -54,7 +53,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:sequence>
 				<xs:element name="VOISegmentationVOIMassDetermination" type="irdbb:VOISegmentationVOIMassDetermination"/>
 				<xs:element name="VOIActivityDetermination" type="irdbb:VOIActivityDetermination"/>
-				<xs:element name="EnergyDepositionRateCalculation" type="irdbb:EnergyDepositionRateCalculation"/>
+				<xs:element name="EnergyDepositionRateCalculationIn3DDosimetry" type="irdbb:EnergyDepositionRateCalculationIn3DDosimetry"/>
 				<xs:element name="SumAndScalingAbsorbedDoseRateCalculation" type="irdbb:SumAndScalingAbsorbedDoseRateCalculation"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -106,7 +105,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="EnergyDepositionRateCalculation">
+	<xs:complexType name="EnergyDepositionRateCalculationIn3DDosimetry">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="VOIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
@@ -143,6 +142,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="VOIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+				<xs:element name="VoxelAbsorbedDoseMapIdentifierUsed" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="RadioBiologicalCalculationMethod" type="xs:string"/>
 				<xs:element name="RadioBiologicalCalculationParameters" type="xs:string"/>
 				<xs:element name="BiologicalEffectiveDose" type="xs:string"/>
@@ -201,8 +201,20 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 	<xs:complexType name="VOI">
 		<xs:sequence>
 				<xs:element name="VOIIdentifier" type="xs:string"/>
-				<xs:element name="OrganOrTissue" type="xs:string"/>
-				<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
+		<xs:element name="OrganOrTissue">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="bone"/>
+					<xs:enumeration value="breast"/>
+					<xs:enumeration value="esophagus"/>
+					<xs:enumeration value="heart"/>
+					<xs:enumeration value="lungs"/>
+					<xs:enumeration value="skin"/>
+					<xs:enumeration value="human body"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
+				<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" maxOccurs="unbounded" />
 				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
@@ -278,6 +290,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 					<xs:enumeration value="zipped imageJ contours format"/>
 					<xs:enumeration value="TIFF format embedding imageJ contours"/>
 					<xs:enumeration value="zipped pseudo_DICOM ImpactMC"/>
+					<xs:enumeration value="GIF format embedding imageJ contours"/>
 				</xs:restriction>
 			</xs:simpleType>
 		</xs:element>

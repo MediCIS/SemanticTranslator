@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -17,12 +17,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour SPECTRecoveryCurveCalculation complex type.
+ * <p>Classe Java pour SPECTRecoveryCoefficientCurveCalculation complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="SPECTRecoveryCurveCalculation">
+ * &lt;complexType name="SPECTRecoveryCoefficientCurveCalculation">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="VOIInSPECTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="PhantomIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="CalibrationCoefficientIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="SPECTRecoveryCoefficientCurve" type="{https://www.irdbb-medirad.com}SPECTRecoveryCoefficientCurve"/>
+ *         &lt;element name="SPECTRecoveryCoefficientCurveInCalibration" type="{https://www.irdbb-medirad.com}SPECTRecoveryCoefficientCurveInCalibration"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -41,15 +41,15 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SPECTRecoveryCurveCalculation", propOrder = {
+@XmlType(name = "SPECTRecoveryCoefficientCurveCalculation", propOrder = {
     "processExecutionContext",
     "voiInCTIdentifierUsed",
     "voiInSPECTIdentifierUsed",
     "phantomIdentifierUsed",
     "calibrationCoefficientIdentifierUsed",
-    "spectRecoveryCoefficientCurve"
+    "spectRecoveryCoefficientCurveInCalibration"
 })
-public class SPECTRecoveryCurveCalculation {
+public class SPECTRecoveryCoefficientCurveCalculation {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
@@ -61,8 +61,8 @@ public class SPECTRecoveryCurveCalculation {
     protected String phantomIdentifierUsed;
     @XmlElement(name = "CalibrationCoefficientIdentifierUsed", required = true)
     protected String calibrationCoefficientIdentifierUsed;
-    @XmlElement(name = "SPECTRecoveryCoefficientCurve", required = true)
-    protected SPECTRecoveryCoefficientCurve spectRecoveryCoefficientCurve;
+    @XmlElement(name = "SPECTRecoveryCoefficientCurveInCalibration", required = true)
+    protected SPECTRecoveryCoefficientCurveInCalibration spectRecoveryCoefficientCurveInCalibration;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -195,27 +195,27 @@ public class SPECTRecoveryCurveCalculation {
     }
 
     /**
-     * Obtient la valeur de la propriété spectRecoveryCoefficientCurve.
+     * Obtient la valeur de la propriété spectRecoveryCoefficientCurveInCalibration.
      * 
      * @return
      *     possible object is
-     *     {@link SPECTRecoveryCoefficientCurve }
+     *     {@link SPECTRecoveryCoefficientCurveInCalibration }
      *     
      */
-    public SPECTRecoveryCoefficientCurve getSPECTRecoveryCoefficientCurve() {
-        return spectRecoveryCoefficientCurve;
+    public SPECTRecoveryCoefficientCurveInCalibration getSPECTRecoveryCoefficientCurveInCalibration() {
+        return spectRecoveryCoefficientCurveInCalibration;
     }
 
     /**
-     * Définit la valeur de la propriété spectRecoveryCoefficientCurve.
+     * Définit la valeur de la propriété spectRecoveryCoefficientCurveInCalibration.
      * 
      * @param value
      *     allowed object is
-     *     {@link SPECTRecoveryCoefficientCurve }
+     *     {@link SPECTRecoveryCoefficientCurveInCalibration }
      *     
      */
-    public void setSPECTRecoveryCoefficientCurve(SPECTRecoveryCoefficientCurve value) {
-        this.spectRecoveryCoefficientCurve = value;
+    public void setSPECTRecoveryCoefficientCurveInCalibration(SPECTRecoveryCoefficientCurveInCalibration value) {
+        this.spectRecoveryCoefficientCurveInCalibration = value;
     }
 
 }

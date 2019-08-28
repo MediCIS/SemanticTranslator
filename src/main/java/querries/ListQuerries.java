@@ -32,26 +32,16 @@ public class ListQuerries {
 		String [] nextLine;
         while ((nextLine = readerCSV.readNext()) != null) {
         	String requestNum = nextLine[0];
-			//System.out.println("requestNum : "+requestNum);
-			
 			String requestTitle = nextLine[1];
-			//System.out.println("requestTitle : "+requestTitle);
-
 			String requestDescription = nextLine[2];
-			//System.out.println("requestDescription : "+requestDescription);
-			
 			String requestReasoningString = nextLine[3];
 			if (requestReasoningString.contains("FALSE")) {
 				requestReasoning = false;
 			} else {
 				requestReasoning = true;
 			}
-			
-			//System.out.println("requestReasoning (csv) : "+requestReasoningString);
-			//System.out.println("requestReasoning : "+requestReasoning);
 
 			String request = nextLine[4];
-			//System.out.println("request : "+request);
 
 			addRequest(requestNum, requestTitle, request, requestDescription, requestReasoning);
         }
@@ -105,7 +95,6 @@ public class ListQuerries {
 		while (iter.hasNext()) {
 			csv+=iter.next().toString()+"\n";
 		}
-		System.out.println("csv : "+csv);
 		return csv;
 	}
 	

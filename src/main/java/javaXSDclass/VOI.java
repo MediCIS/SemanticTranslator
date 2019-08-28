@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -27,8 +27,20 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="VOIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="OrganOrTissue" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="DICOMVOIContainer" type="{https://www.irdbb-medirad.com}DICOMData" minOccurs="0"/>
+ *         &lt;element name="OrganOrTissue">
+ *           &lt;simpleType>
+ *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *               &lt;enumeration value="bone"/>
+ *               &lt;enumeration value="breast"/>
+ *               &lt;enumeration value="esophagus"/>
+ *               &lt;enumeration value="heart"/>
+ *               &lt;enumeration value="lungs"/>
+ *               &lt;enumeration value="skin"/>
+ *               &lt;enumeration value="human body"/>
+ *             &lt;/restriction>
+ *           &lt;/simpleType>
+ *         &lt;/element>
+ *         &lt;element name="DICOMVOIContainer" type="{https://www.irdbb-medirad.com}DICOMData" maxOccurs="unbounded" minOccurs="0"/>
  *         &lt;element name="NonDICOMVOIContainer" type="{https://www.irdbb-medirad.com}NonDICOMData" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -52,7 +64,7 @@ public class VOI {
     @XmlElement(name = "OrganOrTissue", required = true)
     protected String organOrTissue;
     @XmlElement(name = "DICOMVOIContainer")
-    protected DICOMData dicomvoiContainer;
+    protected List<DICOMData> dicomvoiContainer;
     @XmlElement(name = "NonDICOMVOIContainer")
     protected List<NonDICOMData> nonDICOMVOIContainer;
 
@@ -105,27 +117,32 @@ public class VOI {
     }
 
     /**
-     * Obtient la valeur de la propriété dicomvoiContainer.
+     * Gets the value of the dicomvoiContainer property.
      * 
-     * @return
-     *     possible object is
-     *     {@link DICOMData }
-     *     
-     */
-    public DICOMData getDICOMVOIContainer() {
-        return dicomvoiContainer;
-    }
-
-    /**
-     * Définit la valeur de la propriété dicomvoiContainer.
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the dicomvoiContainer property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link DICOMData }
-     *     
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getDICOMVOIContainer().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link DICOMData }
+     * 
+     * 
      */
-    public void setDICOMVOIContainer(DICOMData value) {
-        this.dicomvoiContainer = value;
+    public List<DICOMData> getDICOMVOIContainer() {
+        if (dicomvoiContainer == null) {
+            dicomvoiContainer = new ArrayList<DICOMData>();
+        }
+        return this.dicomvoiContainer;
     }
 
     /**

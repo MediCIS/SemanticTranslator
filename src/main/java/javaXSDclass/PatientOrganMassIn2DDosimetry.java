@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -15,18 +15,18 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour PatientOrganMass complex type.
+ * <p>Classe Java pour PatientOrganMassIn2DDosimetry complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="PatientOrganMass">
+ * &lt;complexType name="PatientOrganMassIn2DDosimetry">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="PatientOrganMassValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
  *         &lt;element name="PatientOrganMassUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VOIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="ROIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,19 +36,19 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PatientOrganMass", propOrder = {
+@XmlType(name = "PatientOrganMassIn2DDosimetry", propOrder = {
     "patientOrganMassValue",
     "patientOrganMassUnit",
-    "voiIdentifier"
+    "roiIdentifier"
 })
-public class PatientOrganMass {
+public class PatientOrganMassIn2DDosimetry {
 
     @XmlElement(name = "PatientOrganMassValue")
     protected float patientOrganMassValue;
     @XmlElement(name = "PatientOrganMassUnit", required = true)
     protected String patientOrganMassUnit;
-    @XmlElement(name = "VOIIdentifier", required = true)
-    protected String voiIdentifier;
+    @XmlElement(name = "ROIIdentifier", required = true)
+    protected String roiIdentifier;
 
     /**
      * Obtient la valeur de la propriété patientOrganMassValue.
@@ -91,27 +91,27 @@ public class PatientOrganMass {
     }
 
     /**
-     * Obtient la valeur de la propriété voiIdentifier.
+     * Obtient la valeur de la propriété roiIdentifier.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getVOIIdentifier() {
-        return voiIdentifier;
+    public String getROIIdentifier() {
+        return roiIdentifier;
     }
 
     /**
-     * Définit la valeur de la propriété voiIdentifier.
+     * Définit la valeur de la propriété roiIdentifier.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setVOIIdentifier(String value) {
-        this.voiIdentifier = value;
+    public void setROIIdentifier(String value) {
+        this.roiIdentifier = value;
     }
 
 }

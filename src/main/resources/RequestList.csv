@@ -34,7 +34,11 @@ Requestx3;PET Datasets and main acquisition parameters;Lists PET Datasets and ma
  ?Dataset ontomedirad:is_specified_output_of ?PETAcq .
  ?Dataset ontomedirad:has_DICOM_image_type_description ?ImageTypeDescription .
  ?Dataset rdf:type ontomedirad:PET_recon_tomo_dataset .
- OPTIONAL { ?PETAcq ontomedirad:has_protocol ?Protocol . 	    OPTIONAL { ?Protocol ontomedirad:has_name ?ProtocolName .}	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }
+ ?Dataset rdf:type ?Datasetclass . 
+ ?Datasetclass skos:prefLabel ?DatasetClassLabel .
+ OPTIONAL { ?PETAcq ontomedirad:has_protocol ?Protocol .
+ 	    OPTIONAL { ?Protocol ontomedirad:has_name ?ProtocolName .}
+	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }
  OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .
             ?Exam ontomedirad:has_beginning_time ?ExamTime . }
  OPTIONAL {?Exam ontomedirad:has_description ?StudyDescr }
@@ -77,7 +81,11 @@ Requestx4;PET Datasets and all  acquisition parameters;Lists PET Datasets and al
  ?Dataset ontomedirad:is_specified_output_of ?PETAcq .
  ?Dataset ontomedirad:has_DICOM_image_type_description ?ImageTypeDescription .
  ?Dataset rdf:type ontomedirad:PET_recon_tomo_dataset .
- OPTIONAL { ?PETAcq ontomedirad:has_protocol ?Protocol . 	    OPTIONAL { ?Protocol ontomedirad:has_name ?ProtocolName .}	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }
+ ?Dataset rdf:type ?Datasetclass . 
+ ?Datasetclass skos:prefLabel ?DatasetClassLabel .
+ OPTIONAL { ?PETAcq ontomedirad:has_protocol ?Protocol .
+ 	    OPTIONAL { ?Protocol ontomedirad:has_name ?ProtocolName .}
+	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }
  OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .
             ?Exam ontomedirad:has_beginning_time ?ExamTime . }
  OPTIONAL {?Exam ontomedirad:has_description ?StudyDescr }
@@ -165,12 +173,64 @@ Requestx5;NM Datasets and main acquisition parameters;Lists NM Datasets and main
  ?Scanner ontomedirad:has_manufacturer_name ?Manufacturer .
  ?Scanner ontomedirad:has_model_name ?Model .}
 } ORDER BY ?PatientName"
-Requestx6;NM Datasets and all  acquisition parameters;Lists NM Datasets and all acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?StudyDescr ?LabelOrgan ?ExamDate ?ExamTime ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?ValueHeight ?LabelUnitHeight ?SPECTAcqClass ?NameRespInstitution ?RadioNuclLabel ?ProtocolName ?ProtocolDescr ?CollimatorClassLabel ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?ImageFormat ?Model ?Manufacturer WHERE { ?SPECTAcq purl:BFO_0000132 ?Exam . ?SPECTAcq rdf:type ?SPECTAcqClass . ?SPECTAcqClass rdfs:subClassOf* ontomedirad:SPECT_data_acquisition . ?RolePat purl:BFO_0000054 ?Exam . ?Human purl:BFO_0000087 ?RolePat . ?Dataset ontomedirad:is_specified_output_of ?SPECTAcq . ?Dataset ontomedirad:has_DICOM_image_type_description ?ImageTypeDescription .
+Requestx6;NM Datasets and all  acquisition parameters;Lists NM Datasets and all acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?StudyDescr ?LabelOrgan ?ExamDate ?ExamTime ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?ValueHeight ?LabelUnitHeight ?SPECTAcqClass ?NameRespInstitution ?RadioNuclLabel ?ProtocolName ?ProtocolDescr ?CollimatorClassLabel ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?ImageFormat ?Model ?Manufacturer
+ WHERE {
+ ?SPECTAcq purl:BFO_0000132 ?Exam .
+ ?SPECTAcq rdf:type ?SPECTAcqClass .
+ ?SPECTAcqClass rdfs:subClassOf* ontomedirad:SPECT_data_acquisition .
+ ?RolePat purl:BFO_0000054 ?Exam .
+ ?Human purl:BFO_0000087 ?RolePat .
+ ?Dataset ontomedirad:is_specified_output_of ?SPECTAcq .
+ ?Dataset ontomedirad:has_DICOM_image_type_description ?ImageTypeDescription .
  ?Dataset rdf:type ?Datasetclass . 
- ?Datasetclass skos:prefLabel ?DatasetClassLabel . OPTIONAL { ?SPECTAcq ontomedirad:has_protocol ?Protocol . 	    OPTIONAL { ?Protocol ontomedirad:has_name ?ProtocolName .}	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .            ?Exam ontomedirad:has_beginning_time ?ExamTime . } OPTIONAL {?Exam ontomedirad:has_description ?StudyDescr .} OPTIONAL { ?Exam ontomedirad:has_target_region ?targetregion .     ?targetregion rdf:type ?OrganClass .     ?OrganClass rdfs:label ?LabelOrgan . } OPTIONAL { ?Human ontomedirad:has_name ?PatientName } OPTIONAL { ?PatientWeight rdf:type ontomedirad:patient_weight .            ?PatientWeight ontomedirad:is_about_procedure ?Exam .            ?PatientWeight ontomedirad:is_about ?Human .            ?PatientWeight purl:IAO_0000004 ?ValueWeight .            ?PatientWeight purl:IAO_0000039 ?UnitWeight .            ?UnitWeight rdfs:label ?LabelUnitWeight . } OPTIONAL { ?PatientHeight rdf:type ontomedirad:patient_height .            ?PatientHeight ontomedirad:is_about_procedure ?Exam .            ?PatientHeight ontomedirad:is_about ?Human .            ?PatientHeight purl:IAO_0000004 ?ValueHeight .            ?PatientHeight purl:IAO_0000039 ?UnitHeight .            ?UnitHeight rdfs:label ?LabelUnitHeight . } OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .            ?PatientSex rdfs:label ?LabelSex . } OPTIONAL { ?PatientAge rdf:type ontomedirad:age_of_patient_undergoing_medical_procedure .            ?PatientAge ontomedirad:is_about_procedure ?Exam .            ?PatientAge ontomedirad:is_about ?Human .            ?PatientAge ontomedirad:years ?AgeInYears . } OPTIONAL {?SPECTAcq ontomedirad:has_target_radionuclide ?RadioNucl} OPTIONAL {?Dataset ontomedirad:has_IRDBB_WADO_handle ?DatasetHandle .} OPTIONAL {?Dataset ontomedirad:has_format ?ImageFormat .} OPTIONAL { ?Scanner rdf:type ontomedirad:SPECT_scanner . ?AcqRole rdf:type ontomedirad:image_acquisition_role . ?Scanner purl:BFO_0000087 ?AcqRole.      ?AcqRole purl:BFO_0000054 ?SPECTAcq . ?Scanner ontomedirad:has_manufacturer_name ?Manufacturer . ?Scanner ontomedirad:has_model_name ?Model .}
- OPTIONAL { ?Collimator purl:BFO_0000177  ?Scanner .            ?Collimator rdf:type ?CollimatorClass .
+ ?Datasetclass skos:prefLabel ?DatasetClassLabel .
+ OPTIONAL { ?SPECTAcq ontomedirad:has_protocol ?Protocol .
+ 	    OPTIONAL { ?Protocol ontomedirad:has_name ?ProtocolName .}
+	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .
+            ?Exam ontomedirad:has_beginning_time ?ExamTime . }
+ OPTIONAL {?Exam ontomedirad:has_description ?StudyDescr .}
+ OPTIONAL { ?Exam ontomedirad:has_target_region ?targetregion .
+     ?targetregion rdf:type ?OrganClass .
+     ?OrganClass rdfs:label ?LabelOrgan . }
+ OPTIONAL { ?Human ontomedirad:has_name ?PatientName }
+ OPTIONAL { ?PatientWeight rdf:type ontomedirad:patient_weight .
+            ?PatientWeight ontomedirad:is_about_procedure ?Exam .
+            ?PatientWeight ontomedirad:is_about ?Human .
+            ?PatientWeight purl:IAO_0000004 ?ValueWeight .
+            ?PatientWeight purl:IAO_0000039 ?UnitWeight .
+            ?UnitWeight rdfs:label ?LabelUnitWeight . }
+ OPTIONAL { ?PatientHeight rdf:type ontomedirad:patient_height .
+            ?PatientHeight ontomedirad:is_about_procedure ?Exam .
+            ?PatientHeight ontomedirad:is_about ?Human .
+            ?PatientHeight purl:IAO_0000004 ?ValueHeight .
+            ?PatientHeight purl:IAO_0000039 ?UnitHeight .
+            ?UnitHeight rdfs:label ?LabelUnitHeight . }
+ OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .
+            ?PatientSex rdfs:label ?LabelSex . }
+ OPTIONAL { ?PatientAge rdf:type ontomedirad:age_of_patient_undergoing_medical_procedure .
+            ?PatientAge ontomedirad:is_about_procedure ?Exam .
+            ?PatientAge ontomedirad:is_about ?Human .
+            ?PatientAge ontomedirad:years ?AgeInYears . }
+ OPTIONAL {?SPECTAcq ontomedirad:has_target_radionuclide ?RadioNucl .
+           ?RadioNucl rdfs:label ?RadioNuclLabel . }
+ OPTIONAL {?Dataset ontomedirad:has_IRDBB_WADO_handle ?DatasetHandle .}
+ OPTIONAL {?Dataset ontomedirad:has_format ?ImageFormat .}
+ OPTIONAL { ?Scanner rdf:type ontomedirad:SPECT_scanner .
+ ?AcqRole rdf:type ontomedirad:image_acquisition_role .
+ ?Scanner purl:BFO_0000087 ?AcqRole.     
+ ?AcqRole purl:BFO_0000054 ?SPECTAcq .
+ ?Scanner ontomedirad:has_manufacturer_name ?Manufacturer .
+ ?Scanner ontomedirad:has_model_name ?Model .}
+ OPTIONAL { ?Collimator purl:BFO_0000177  ?Scanner .
+            ?Collimator rdf:type ?CollimatorClass .
 	    ?CollimatorClass rdfs:subClassOf* ontomedirad:collimator .
- 	    ?CollimatorClass skos:prefLabel ?CollimatorClassLabel . }       OPTIONAL { ?RespInstitution rdf:type ontomedirad:institution . ?RespInstitution ontomedirad:has_name ?NameRespInstitution .  ?RespInstitutionrole rdf:type ontomedirad:role_of_responsible_organization .  ?RespInstitutionrole purl:BFO_0000054 ?SPECTAcq .     ?RespInstitutionrole purl:BFO_0000052 ?RespInstitution .}} ORDER BY ?PatientName"
+ 	    ?CollimatorClass skos:prefLabel ?CollimatorClassLabel . }      
+ OPTIONAL { ?RespInstitution rdf:type ontomedirad:institution .
+ ?RespInstitution ontomedirad:has_name ?NameRespInstitution .
+  ?RespInstitutionrole rdf:type ontomedirad:role_of_responsible_organization .
+  ?RespInstitutionrole purl:BFO_0000054 ?SPECTAcq .   
+  ?RespInstitutionrole purl:BFO_0000052 ?RespInstitution .}
+} ORDER BY ?PatientName"
 Requestx7;Relations image datasets with Clinical research studies;Lists all datasets and related patients, ordered by MEDIRAD Clinical Research Studies;TRUE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?StudyDescr ?ExamDate ?ExamTime ?ProtocolName ?ProtocolDescr ?Dataset
  WHERE {
  ?RolePat purl:BFO_0000054 ?Exam .
@@ -201,7 +261,7 @@ Requestx7;Relations image datasets with Clinical research studies;Lists all data
             ?PatientWeight purl:IAO_0000039 ?UnitWeight .
             ?UnitWeight rdfs:label ?LabelUnitWeight . }
 } ORDER BY ?ClinResearchStudyId ?PatientName"
-Requestx8;DICOM CT Dose reports:doses of  individual acquisitions;List of doses related to individual CT acquisitions recorded in DICOM CT Radiation Dose reports;FALSE;"SELECT DISTINCT ?StructuredReport ?StructuredReportClassLabel ?Exam ?StudyDescr ?ExamDate ?ExamTime ?Human ?PatientName ?LabelSex ?IrradEvent ?Dose ?DoseClassLabel ?ValueDose ?UnitDoseLabel ?ValueKVP ?LabelUnitKVP ?ValueTubeCur ?LabelUnitTubeCur
+Requestx8;DICOM SR Dose reports:doses of  individual acquisitions;List of doses related to individual CT acquisitions recorded in DICOM CT Radiation Dose reports;FALSE;"SELECT DISTINCT ?StructuredReport ?StructuredReportClassLabel ?Exam ?StudyDescr ?ExamDate ?ExamTime ?Human ?PatientName ?LabelSex ?IrradEvent ?Dose ?DoseClassLabel ?ValueDose ?UnitDoseLabel ?ValueKVP ?LabelUnitKVP ?ValueTubeCur ?LabelUnitTubeCur
 	WHERE {
  ?StructuredReport ontomedirad:has_dose ?Dose .
  ?StructuredReport rdf:type ?StructuredReportClass .
@@ -236,7 +296,7 @@ Requestx8;DICOM CT Dose reports:doses of  individual acquisitions;List of doses 
  ?TubeCur purl:IAO_0000039 ?UnitTubeCur.
  ?UnitTubeCur rdfs:label ?LabelUnitTubeCur .
 } ORDER BY ?Human ?Exam ?IrradEvent"
-Requestx9;DICOM CT Dose reports: Cumulated doses;List of cumulated doses recorded in DICOM CT Radiation Dose reports ;FALSE;"SELECT DISTINCT ?StructuredReport ?StructuredReportClassLabel ?ScopeOfAccumul ?ScopeOfAccumul ?StudyDescr ?ExamDate ?ExamTime ?Human ?PatientName ?LabelSex ?Dose ?DoseClassLabel ?ValueDose ?UnitDoseLabel 
+Requestx9;DICOM SR Dose reports: Cumulated doses;List of cumulated doses recorded in DICOM CT Radiation Dose reports ;FALSE;"SELECT DISTINCT ?StructuredReport ?StructuredReportClassLabel ?ScopeOfAccumul ?ScopeOfAccumul ?StudyDescr ?ExamDate ?ExamTime ?Human ?PatientName ?LabelSex ?Dose ?DoseClassLabel ?ValueDose ?UnitDoseLabel 
 	WHERE {
  ?StructuredReport ontomedirad:has_dose ?Dose .
  ?StructuredReport rdf:type ?StructuredReportClass .

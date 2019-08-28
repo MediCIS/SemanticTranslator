@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2018.12.11 à 04:47:30 PM CET 
+// Généré le : 2019.06.25 à 10:38:25 AM CEST 
 //
 
 
@@ -26,6 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="SPECTAcqCTAcqAndReconstruction" type="{https://www.irdbb-medirad.com}SPECTAcqCTAcqAndReconstruction"/>
  *         &lt;element name="SPECTReconstruction" type="{https://www.irdbb-medirad.com}SPECTReconstruction"/>
+ *         &lt;element name="RegistrationVOISegmentation" type="{https://www.irdbb-medirad.com}RegistrationVOISegmentation"/>
+ *         &lt;element name="VOIActivityDetermination" type="{https://www.irdbb-medirad.com}VOIActivityDetermination"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,7 +39,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SPECTDataAcquisitionAndProcessing", propOrder = {
     "spectAcqCTAcqAndReconstruction",
-    "spectReconstruction"
+    "spectReconstruction",
+    "registrationVOISegmentation",
+    "voiActivityDetermination"
 })
 public class SPECTDataAcquisitionAndProcessing {
 
@@ -45,6 +49,10 @@ public class SPECTDataAcquisitionAndProcessing {
     protected SPECTAcqCTAcqAndReconstruction spectAcqCTAcqAndReconstruction;
     @XmlElement(name = "SPECTReconstruction", required = true)
     protected SPECTReconstruction spectReconstruction;
+    @XmlElement(name = "RegistrationVOISegmentation", required = true)
+    protected RegistrationVOISegmentation registrationVOISegmentation;
+    @XmlElement(name = "VOIActivityDetermination", required = true)
+    protected VOIActivityDetermination voiActivityDetermination;
 
     /**
      * Obtient la valeur de la propriété spectAcqCTAcqAndReconstruction.
@@ -92,6 +100,54 @@ public class SPECTDataAcquisitionAndProcessing {
      */
     public void setSPECTReconstruction(SPECTReconstruction value) {
         this.spectReconstruction = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété registrationVOISegmentation.
+     * 
+     * @return
+     *     possible object is
+     *     {@link RegistrationVOISegmentation }
+     *     
+     */
+    public RegistrationVOISegmentation getRegistrationVOISegmentation() {
+        return registrationVOISegmentation;
+    }
+
+    /**
+     * Définit la valeur de la propriété registrationVOISegmentation.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link RegistrationVOISegmentation }
+     *     
+     */
+    public void setRegistrationVOISegmentation(RegistrationVOISegmentation value) {
+        this.registrationVOISegmentation = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété voiActivityDetermination.
+     * 
+     * @return
+     *     possible object is
+     *     {@link VOIActivityDetermination }
+     *     
+     */
+    public VOIActivityDetermination getVOIActivityDetermination() {
+        return voiActivityDetermination;
+    }
+
+    /**
+     * Définit la valeur de la propriété voiActivityDetermination.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIActivityDetermination }
+     *     
+     */
+    public void setVOIActivityDetermination(VOIActivityDetermination value) {
+        this.voiActivityDetermination = value;
     }
 
 }

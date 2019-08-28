@@ -1,8 +1,5 @@
 package repository;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -17,7 +14,6 @@ import org.apache.jena.rdf.model.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 
 import com.pixelmed.dicom.ContentItem;
 
@@ -31,6 +27,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	
 	static String handle; 											
 	static Individual patient; static Individual patientRole;
+	static Individual imagingStudy; 
 	static Individual i; 																			// i is used to store an indivudual
 	
 	static Memory memory = Application.memory;														// memory store a few objects that will be used again
@@ -39,7 +36,6 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	static String racineObo = "http://purl.obolibrary.org/obo/";
 	static String racineMol = "http://purl.bioontology.org/ontology/SNMI/";
 	static String racineURI = "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#";
-
 	static String racineRadionuclides = "http://medicis.univ-rennes1.fr/ontologies/ontospm/Radionuclides_for_OntoMEDIRAD.owl#";
 
 	protected static final Logger logger = LoggerFactory.getLogger(repository.OntologyPopulator.class);	//logger
@@ -242,34 +238,6 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			addObjectProperty(indiValue, racineObo+"IAO_0000039", getUnit(value.split("_")[1]));
 			return indiValue;
 		}
-	}
-
-	public static void loadDico() throws IOException { 									// Load shortcuts for IRI from a file
-		BufferedReader br; String cle; String iri;
-		String dicoFileName = "dico.txt";
-		dico = new Hashtable<String, String>();						// Create an empty dictionary
-		ClassPathResource res = new ClassPathResource(dicoFileName);// Load the file as a resource
-		br = new BufferedReader(new FileReader(res.getFile()));		// Read (as a stream) the file
-        for(String line; (line = br.readLine()) != null; ) {		// Read line by line
-            cle = line.split(":")[0];								// Get name (used as a key for the dict)
-            iri = line.replace(cle+":", "");						// Get IRI 
-            dico.put(cle, iri);										// Put in the dictionary
-        }
-        br.close();
-	}
-
-	public static Resource getResource(String cle) throws IOException {					// Get resource from dictionary with the shortcut
-		if (dico==null) {loadDico();}
-		cle = cle.replace(" ", "_");
-		return model.getResource(dico.get(cle));
-	}
-	
-	public static String getURI(String cle) throws IOException {							// Get URI from dictionary with the shortcut
-		if (dico==null) {loadDico();}
-		cle = cle.replace(" ", "_");
-		if (!dico.containsKey(cle)) {
-			logger.error("has key ("+cle+") : "+dico.containsKey(cle));
-		} return dico.get(cle);
 	}
 
 	public static ArrayList<Individual> createIndividualOrgan(String name, ContentItem e, String patientID) {  // Special function used to send a list of organs (DICOM)
@@ -1758,6 +1726,9 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000016")); break;
 		case "mS": case "ms":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000028")); break;	
+		case "milligray per (milligray per (1 milliampere second))":
+			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(1_milliampere_second))")); 
+			break;
 		case "milligray per (milligray per (100 milliampere second))":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))")); 
 			break;
