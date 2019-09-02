@@ -19,8 +19,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
@@ -39,11 +37,7 @@ import javax.xml.validation.Validator;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
-import org.apache.jena.util.iterator.ExtendedIterator;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
 
 import org.json.JSONArray;
@@ -61,10 +55,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -75,10 +67,6 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.complexible.stardog.StardogException;
-import com.complexible.stardog.api.Connection;
-import com.complexible.stardog.api.ConnectionConfiguration;
-import com.complexible.stardog.api.ConnectionPool;
-import com.complexible.stardog.api.ConnectionPoolConfig;
 import com.complexible.stardog.api.Exporter;
 import com.complexible.stardog.api.SelectQuery;
 import com.pixelmed.dicom.AttributeList;
@@ -91,7 +79,6 @@ import javaXSDclass.DICOMStudyType;
 import javaXSDclass.DicomFileSetDescriptor;
 import javaXSDclass.NonDicomFileSetDescriptor;
 import querries.Querry;
-import repository.ImportController.database;
 
 import org.dcm4che3.data.*;
 
@@ -659,7 +646,7 @@ public class ImportController extends CommonFunctions {
 		URL url = new URL(targetURL);
 		pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
 		pacsConnection.setRequestMethod("GET");
-		pacsConnection.setRequestProperty("Accept", "multipart/related; type=application/dicom;");
+		pacsConnection.setRequestProperty("Accept", "multipart/related; type=\"application/dicom\";");
 
 		String boundary = "";																			// Create object for retrieve SR as a text  
 		String boundaryHeader = "boundary=";															// Same
