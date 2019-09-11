@@ -420,14 +420,21 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 		// Commmon MetaDatas
 		logger.info("Commmon MetaDatas");
-
-		imagingStudy = createIndiv(generateName("imaging_study"), model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));
 		
 		String StudyInstanceUID = root.getString(Tag.StudyInstanceUID);
 		logger.debug("StudyInstanceUID : "+StudyInstanceUID);
 		if (StudyInstanceUID!=null) {
+			imagingStudy = memory.getImagingStudy(StudyInstanceUID);
 			addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
-			memory.setImagingStudy(StudyInstanceUID, imagingStudy);
+			//memory.setImagingStudy(StudyInstanceUID, imagingStudy);
+		}
+		
+		if (imagingStudy==null) {
+			imagingStudy = createIndiv(generateName("imaging_study"), model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#imaging_study"));
+			if (StudyInstanceUID!=null) {
+				addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
+				memory.setImagingStudy(StudyInstanceUID, imagingStudy);
+			}
 		}
 		
 		Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy(ClinicalResearchStudyId);
@@ -585,6 +592,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			}
 			addDataProperty(dataSet ,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 			addDataProperty(dataSet, racineURI+"has_IRDBB_WADO_handle", handle);
+			addObjectProperty(acquisition, racineObo+"BFO_0000132", imagingStudy); 
 			
 			if (SOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2.1")) {
 				addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_enhanced_CT_image_storage_SOP_class")));

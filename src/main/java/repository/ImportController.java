@@ -36,7 +36,6 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
 
@@ -74,9 +73,6 @@ import com.pixelmed.dicom.ContentItem;
 import com.pixelmed.dicom.DicomException;
 import com.pixelmed.dicom.StructuredReport;
 
-import javaXSDclass.DICOMSeriesType;
-import javaXSDclass.DICOMStudyType;
-import javaXSDclass.DicomFileSetDescriptor;
 import javaXSDclass.NonDicomFileSetDescriptor;
 import querries.Querry;
 
@@ -96,9 +92,8 @@ public class ImportController extends CommonFunctions {
 
 	Memory memory = Application.memory;
 
-	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 
-
-
+	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 	
+	
 	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
 	public String testMetadatas() throws IOException, DicomException {      
 		List<String> listeRDF = Stream.of(
@@ -264,6 +259,7 @@ public class ImportController extends CommonFunctions {
 
 	}
 
+	/*
 	@RequestMapping(value = "/importDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
 	public String importDicomData(@RequestBody DicomFileSetDescriptor dicomFileSetDescriptor,  				// Import Dicom file
 			@RequestParam(value = "db", required = false) String db)  {						   				// (not required) name of the database
@@ -329,7 +325,7 @@ public class ImportController extends CommonFunctions {
 			}
 		}
 		return "{\"res\":\"ImportDicomFileSetDescriptor Request received\"}";
-	}
+	}*/
 
 	@RequestMapping( value = "/importNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
 	public String importNonDicomData(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor,  	// Import Non Dicom data XML valid file
@@ -639,7 +635,8 @@ public class ImportController extends CommonFunctions {
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
 
 		String targetURL = pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
-
+		String handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID;
+		
 		logger.debug(targetURL);
 
 		HttpURLConnection pacsConnection; 
@@ -693,7 +690,7 @@ public class ImportController extends CommonFunctions {
 		obj = input.readDataset(-1, -1);
 		input.close();
 
-		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, targetURL);
+		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, handle);
 
 		createAdminConnection(database.ontoMedirad);
 
