@@ -240,6 +240,11 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							addObjectProperty(voiFile,racineURI+"represents", organ);
 							
 							NonDICOMData voiContainer = voiContainerIter.next();
+							if (voiContainer.getFHIRIdentifier()!=null) {
+								addDataProperty(voiFile, racineURI+"has_IRDBB_FHIR_handle",voiContainer.getFHIRIdentifier());
+							} else {
+								logger.warn("NonDICOMVOIContainer has no FHIRIdentifier");
+							}
 							Iterator<String> fileNameIter = voiContainer.getNonDICOMDataFileName().iterator();
 							while (fileNameIter.hasNext()) {
 								String fileName = fileNameIter.next();
@@ -256,7 +261,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								voiFile.addOntClass(model.getResource(racineDCM+"128487"));
 							default:
 								logger.warn("Unknown : voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().nonDICOMDataClass");
-							}							switch (voiContainer.getNonDICOMDataFormat()) {
+							}
+							switch (voiContainer.getNonDICOMDataFormat()) {
 							case ("zipped imageJ contours format"):
 								i = createIndiv(model.getResource(racineURI+"zipped_imageJ_contours_format"));
 								addObjectProperty(voiFile, racineURI+"has_format", i);

@@ -91,8 +91,19 @@ public class ImportController extends CommonFunctions {
 	static String studyInstanceUID;
 
 	Memory memory = Application.memory;
+	
+	String lastXML = null;
 
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 	
+	
+	@RequestMapping (value = "/downloadLastXML", method = RequestMethod.GET, headers = "Accept=text/plain")
+	public String getLastXML() {		
+		if (lastXML==null) {
+			return "Vide";
+		} else {
+			return lastXML;
+		}
+	}
 	
 	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
 	public String testMetadatas() throws IOException, DicomException {      
@@ -335,6 +346,9 @@ public class ImportController extends CommonFunctions {
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}	
 
 		if (nonDicomFileSetDescriptor!=null) {									    						// If there is a nonDicomFileSetDescriptor
+			
+			lastXML = nonDicomFileSetDescriptor.toString();
+			
 			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data
 		}
 
