@@ -15,12 +15,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour CTRelevantCalibrationReference complex type.
+ * <p>Classe Java pour CTNumberCalibrationCurveReference complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="CTRelevantCalibrationReference">
+ * &lt;complexType name="CTNumberCalibrationCurveReference">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
@@ -34,10 +34,10 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CTRelevantCalibrationReference", propOrder = {
+@XmlType(name = "CTNumberCalibrationCurveReference", propOrder = {
     "referenceCalibrationDate"
 })
-public class CTRelevantCalibrationReference {
+public class CTNumberCalibrationCurveReference {
 
     @XmlElement(name = "ReferenceCalibrationDate", required = true)
     protected String referenceCalibrationDate;

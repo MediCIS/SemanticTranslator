@@ -86,7 +86,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="NMTomoUsed" type="irdbb:DICOMData"/>
 				<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
 				<xs:element name="ReconstructionMethodAndCorrectionsUsed" type="xs:string"/>
-				<xs:element name="CTNumberCalibrationCurveUsed" type="irdbb:CTNumberCalibrationCurve"/>
+				<xs:element name="CTNumberCalibrationCurveUsed" type="irdbb:CTNumberCalibrationCurve" minOccurs="0" />
+				<xs:element name="CTNumberCalibrationCurveReference" type="irdbb:CTNumberCalibrationCurveReference" minOccurs="0" />
 				<xs:element name="NMTomoReconProduced" type="irdbb:DICOMData"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -107,7 +108,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="VOIInCTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="VOIInSPECTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
-				<xs:element name="CalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
+				<xs:element name="SPECTCalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -117,8 +118,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="VOIInCTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="VOIInSPECTIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="PhantomIdentifierUsed" type="xs:string"/>
-				<xs:element name="CalibrationCoefficientIdentifierUsed" type="xs:string"/>
-				<xs:element name="SPECTRecoveryCoefficientCurveInCalibration" type="irdbb:SPECTRecoveryCoefficientCurveInCalibration"/>
+				<xs:element name="SPECTCalibrationCoefficientReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
+				<xs:element name="SPECTRecoveryCoefficientCurveInCalibrationProduced" type="irdbb:SPECTRecoveryCoefficientCurveInCalibration"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -152,7 +153,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMData"/>
-				<xs:element name="CalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
+				<xs:element name="PlanarCalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -160,6 +161,12 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:sequence>
 				<xs:element name="DensityPhantomName" type="xs:string"/>
 				<xs:element name="DensityPhantomIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTNumberCalibrationCurveReference">
+		<xs:sequence>
+				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -176,6 +183,24 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="RealDensityOfMaterialValue" type="xs:float"/>
 				<xs:element name="RealDensityOfMaterialUnit" type="xs:string"/>
 				<xs:element name="MaterialIdentifier" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NMRelevantCalibrationReference">
+		<xs:sequence>
+				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		<xs:element name="Isotope">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="iodine131"/>
+					<xs:enumeration value="lutetium177"/>
+					<xs:enumeration value="yttrium90"/>
+					<xs:enumeration value="radium223"/>
+					<xs:enumeration value="rhenium188"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -360,7 +385,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:restriction base="xs:string">
 					<xs:enumeration value="zipped imageJ contours format"/>
 					<xs:enumeration value="TIFF format embedding imageJ contours"/>
-					<xs:enumeration value="zipped pseudo_DICOM ImpactMC"/>
+					<xs:enumeration value="zipped pseudo DICOM ImpactMC"/>
 					<xs:enumeration value="GIF format embedding imageJ contours"/>
 				</xs:restriction>
 			</xs:simpleType>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
+import java.util.Hashtable;
 
 import org.apache.jena.ontology.Individual;
 import org.openrdf.query.QueryEvaluationException;
@@ -56,6 +57,15 @@ public class Memory extends OntologyPopulator {
 	private LinkedList<String> listDicomUID;
 	private LinkedList<Individual> listIRIimagingStudies;
 	
+	private Hashtable<String, Individual> tablePatientNames;
+	private Hashtable<String, Individual> tablePatientID;
+	
+	private Hashtable<String, Individual> tableStudyInstance;
+
+	private Hashtable<String, Individual> tableAuthorName;
+
+
+	
 	public Memory() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
 		initVoidMemory();
 		requestSoftware();
@@ -65,65 +75,8 @@ public class Memory extends OntologyPopulator {
 		requestHuman();
 	}
 	
-	private synchronized String[] executeRequest(String request) throws TupleQueryResultHandlerException, QueryEvaluationException, 
-				UnsupportedQueryResultFormatException, IOException, StardogException {
-		
-		createAdminConnection(database.ontoMedirad);
-		logger.debug("Request "+request);
-	
-		SelectQuery aQuery = starDogConnection.select(request);
-		
-		TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
-
-		aResult = aQuery.execute();
-		out = new ByteArrayOutputStream();
-		QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
-		String[] resultats = out.toString().split("\n");
-		
-		if (aResult!=null) {aResult.close();}
-		return resultats;
-	}
-	
-	public synchronized String toString() {
-		String str = "Tableau Patient : \n";
-		for (int i = 0; i<listSeriesPatient.size();i++) {
-			str+=listSeriesPatient.get(i);
-			str+=";"+listStudyPatient.get(i);
-			if (listIRIPatient.get(i)!=null) {str+=";"+listIRIPatient.get(i);}
-			else {str+=";"+"NULL";}
-			str+="\n";
-		}
-		str += "\nTableau CTImageDataSet : \n";
-		for (int i = 0; i<listSeriesctDataset.size();i++) {
-			str+=listSeriesctDataset.get(i);
-			str+=";"+listStudyctDataset.get(i);
-			if (listIRIctDataset.get(i)!=null) {str+=";"+listIRIctDataset.get(i);}
-			else {str+=";"+"NULL";}
-			str+="\n";
-		}
-		str += "\nTableau Institutions : \n";
-		for (int i = 0; i<listInstitutions.size();i++) {
-			str+=listInstitutions.get(i);
-			str+=";"+listIRIinstitutions.get(i);
-			str+=";"+listIRIroleOfResponsibleOrganization.get(i);
-			str+="\n";
-		}
-		str += "\nTableau Software : \n";
-		for (int i = 0; i<listSoftware.size();i++) {
-			str+=listSoftware.get(i);
-			str+=";"+listIRIsoftware.get(i);
-			str+="\n";
-		}
-		str += "\nTableau McMethod : \n";
-		for (int i = 0; i<listMcMethod.size();i++) {
-			str+=listMcMethod.get(i);
-			str+=";"+listIRIMcMethod.get(i);
-			str+="\n";
-		}
-		return str;
-	}
-	
 	public synchronized void initVoidMemory() {
+		System.out.println("initVoidMemory");
 		listSeriesctDataset = new LinkedList<String>();
 		listStudyctDataset = new LinkedList<String>();
 		listIRIctDataset = new LinkedList<Individual>();	
@@ -147,6 +100,14 @@ public class Memory extends OntologyPopulator {
 		
 		listDicomUID = new LinkedList<String>();
 		listIRIimagingStudies = new LinkedList<Individual>();
+		
+		tablePatientNames = new Hashtable<String, Individual>();
+		tablePatientID = new Hashtable<String, Individual>();
+		
+		tableStudyInstance = new Hashtable<String, Individual>();
+		
+		tableAuthorName  = new Hashtable<String, Individual>();
+
 	}
 	
 	public synchronized Individual getHuman(String patientID) {
@@ -191,11 +152,107 @@ public class Memory extends OntologyPopulator {
 		logger.debug("requestHuman OK");
 	}
 	
+	public synchronized Individual getAuthorByName(String name) {
+		Individual author = tableAuthorName.get(name);
+		if (author==null) {
+			author = createIndiv(generateName("author"), model.getResource(racineURI+"author"));
+			addDataProperty(author, racineURI+"has_name", name);
+		}
+		return author;
+	} 
+	
+	public synchronized void requestStudyInstanceUID() throws TupleQueryResultHandlerException, QueryEvaluationException, 
+	UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
+		logger.debug("requestHumans");
+		starDogUrl = Application.starDogUrl ;	
+		if (model==null) {model=Application.model;}
+
+		String sparql = "SELECT DISTINCT ?imagingStudy ?StudyUID WHERE {\n" + 
+				"  		?imagingStudy rdf:type ontomedirad:imaging_study .\n" + 
+				"  		?imagingStudy ontomedirad:has_DICOM_study_instance_UID ?StudyUID .\n" + 
+				"} ORDER BY ?imagingStudy" ;
+
+		String[] resultats = executeRequest(sparql);	
+		String[] ContenuLignes; String imagingStudyIri; String StudyUID; 
+
+		for (int i=1; i<resultats.length; i++) {
+			ContenuLignes = resultats[i].split(",");
+			imagingStudyIri = ContenuLignes[0];
+			StudyUID = ContenuLignes[1];
+
+			tableStudyInstance.put(StudyUID, model.createIndividual(imagingStudyIri, model.getResource(racineURI+"imaging_study")));
+		}
+
+		starDogConnection.close();
+
+		logger.debug("requestHuman OK");
+	}
+	
+	//public synchronized void setStudyInstance(String UID, Individual studyInstance) {
+	//	tableStudyInstance.put(UID, studyInstance);
+	//}
+	
+	public synchronized Individual getStudyInstanceByUID(String UID) {
+		Individual study = tableStudyInstance.get(UID);	
+		return study;
+	}
+	
+	public synchronized void requestPatientNameIDs() throws TupleQueryResultHandlerException, QueryEvaluationException, 
+	UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
+		logger.debug("requestHumans");
+		starDogUrl = Application.starDogUrl ;	
+		if (model==null) {model=Application.model;}
+
+		String sparql = "SELECT DISTINCT ?human ?patientID ?patientName WHERE {\n" + 
+				"  ?human rdf:type ontomedirad:human .\n" + 
+				"  ?human ontomedirad:has_id ?patientID .\n" + 
+				"  ?human ontomedirad:has_name ?patientName .\n" + 
+				"} ORDER BY ?human" ;
+
+		String[] resultats = executeRequest(sparql);	
+		String[] ContenuLignes; String name; String human; String Id;
+
+		for (int i=1; i<resultats.length; i++) {
+			ContenuLignes = resultats[i].split(",");
+			human = ContenuLignes[0];
+			Id = ContenuLignes[1];
+			name = ContenuLignes[2];
+
+			tablePatientNames.put(name, model.createIndividual(human, model.getResource(racineURI+"human")));
+			tablePatientID.put(Id, model.createIndividual(human, model.getResource(racineURI+"human")));
+		}
+
+		starDogConnection.close();
+
+		logger.debug("requestHuman OK");
+	}
+	
+	public synchronized void setPatientName(String name, Individual human) {
+		tablePatientNames.put(name, human);
+	}
+	
+	public synchronized Individual getPatientByName(String name) {
+		return tablePatientNames.get(name);
+	}
+	
+	public synchronized void setPatientId(String Id, Individual human) {
+		System.out.println("setPatientId");
+		System.out.println("Id : "+Id);
+		System.out.println("human : "+human);
+		System.out.println("tablePatientID : "+tablePatientID);
+		tablePatientID.put(Id, human);
+	}
+	
+	public synchronized Individual getPatientbyId(String Id) {
+		return tablePatientID.get(Id);
+	}
+	
 	public synchronized void setImagingStudy(String DicomUID, Individual imagingStudy) {
 		System.out.println("setImagingStudy");
 		int n = listDicomUID.size();
 		listIRIimagingStudies.add(n, imagingStudy);
 		listDicomUID.add(n, DicomUID);
+		tableStudyInstance.put(DicomUID, imagingStudy);
 	}
 	
 	public synchronized Individual getImagingStudy(String DicomUID) {
@@ -446,6 +503,65 @@ public class Memory extends OntologyPopulator {
 		listIRIinstitutions.add(instit);
 		listIRIroleOfResponsibleOrganization.add(roleInstit);
 	}
+	
+	private synchronized String[] executeRequest(String request) throws TupleQueryResultHandlerException, QueryEvaluationException, 
+	UnsupportedQueryResultFormatException, IOException, StardogException {
+
+createAdminConnection(database.ontoMedirad);
+logger.debug("Request "+request);
+
+SelectQuery aQuery = starDogConnection.select(request);
+
+TupleQueryResult aResult=null; ByteArrayOutputStream out=null;
+
+aResult = aQuery.execute();
+out = new ByteArrayOutputStream();
+QueryResultIO.writeTuple(aResult, TupleQueryResultFormat.CSV, out);
+String[] resultats = out.toString().split("\n");
+
+if (aResult!=null) {aResult.close();}
+return resultats;
+}
+
+public synchronized String toString() {
+String str = "Tableau Patient : \n";
+for (int i = 0; i<listSeriesPatient.size();i++) {
+str+=listSeriesPatient.get(i);
+str+=";"+listStudyPatient.get(i);
+if (listIRIPatient.get(i)!=null) {str+=";"+listIRIPatient.get(i);}
+else {str+=";"+"NULL";}
+str+="\n";
+}
+str += "\nTableau CTImageDataSet : \n";
+for (int i = 0; i<listSeriesctDataset.size();i++) {
+str+=listSeriesctDataset.get(i);
+str+=";"+listStudyctDataset.get(i);
+if (listIRIctDataset.get(i)!=null) {str+=";"+listIRIctDataset.get(i);}
+else {str+=";"+"NULL";}
+str+="\n";
+}
+str += "\nTableau Institutions : \n";
+for (int i = 0; i<listInstitutions.size();i++) {
+str+=listInstitutions.get(i);
+str+=";"+listIRIinstitutions.get(i);
+str+=";"+listIRIroleOfResponsibleOrganization.get(i);
+str+="\n";
+}
+str += "\nTableau Software : \n";
+for (int i = 0; i<listSoftware.size();i++) {
+str+=listSoftware.get(i);
+str+=";"+listIRIsoftware.get(i);
+str+="\n";
+}
+str += "\nTableau McMethod : \n";
+for (int i = 0; i<listMcMethod.size();i++) {
+str+=listMcMethod.get(i);
+str+=";"+listIRIMcMethod.get(i);
+str+="\n";
+}
+return str;
+}
+
 	
 	private synchronized void createAdminConnection(database db) {
 		if (starDogUrl==null) {starDogUrl=Application.starDogUrl;}

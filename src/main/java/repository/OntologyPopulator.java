@@ -123,31 +123,39 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		if (memory==null) {memory = Application.memory;}
 		
 		Individual researchClinicalStudy;
+		Resource classStudy = model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study");
 		
-		if (name.contains("2.1.2") ) {
-			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask2.1.2", model.getResource(racineURI+"clinical_research_study"));
+		if (name.contains("2.1.2") || name.contains("212") ) {
+			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2", classStudy);
+			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("2.3.2.1") ) {
-			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask2.3.2.1", model.getResource(racineURI+"clinical_research_study"));
+		} else if (name.contains("2.3.2.1") || name.contains("2321")  ) {
+			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask2.3.2.1", classStudy);
+			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("2.3.2.2") ) {
-			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask2.3.2.2", model.getResource(racineURI+"clinical_research_study"));
+			} else if (name.contains("2.3.2.2") || name.contains("2322")  ) {
+			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask2.3.2.2", classStudy);
+			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("5.3.1") ) {
-			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask5.3.1", model.getResource(racineURI+"clinical_research_study"));
+		} else if (name.contains("5.3.1") || name.contains("531")  ) {
+			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask5.3.1", classStudy);
+			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("5.3.2") ) {
-			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask5.3.2", model.getResource(racineURI+"clinical_research_study"));
+		} else if (name.contains("5.3.2") || name.contains("532")  ) {
+			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask5.3.2", classStudy);
+			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("3.2") ) {
-			researchClinicalStudy = createIndiv("clinical_research_study_755523_task3.2", model.getResource(racineURI+"clinical_research_study"));
+		} else if (name.contains("3.2") || name.contains("32")  ) {
+			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_task3.2", classStudy);
+			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("3.3") ) {
-			researchClinicalStudy = createIndiv("clinical_research_study_755523_task3.3", model.getResource(racineURI+"clinical_research_study"));
+		} else if (name.contains("3.3") || name.contains("33")  ) {
+			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_task3.3", classStudy);
+			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
 		} else {
-			researchClinicalStudy = createIndiv("clinical_research_study", model.getResource(racineURI+"clinical_research_study"));
-			return researchClinicalStudy;
+			logger.error("No clinical Research Study for value : "+name);
+			return null;
 		}
 	}
 	

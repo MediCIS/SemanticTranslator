@@ -26,7 +26,15 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="VOIActivityDetermination" type="irdbb:VOIActivityDetermination" maxOccurs="unbounded" />
 				<xs:element name="TimeActivityCurveFitIn3DDosimetry" type="irdbb:TimeActivityCurveFitIn3DDosimetry" maxOccurs="unbounded" />
 				<xs:element name="AbsorbedDoseCalculationInVOI" type="irdbb:AbsorbedDoseCalculationInVOI"/>
-				<xs:element name="RadioBiologicalCalculation" type="irdbb:RadioBiologicalCalculation" minOccurs="0" />
+				<xs:element name="RadioBiologicalCalculationIn3DSlide1Dosimetry" type="irdbb:RadioBiologicalCalculationIn3DSlide1Dosimetry" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="SPECTRecoveryCoefficientCurve" minOccurs="0" maxOccurs="unbounded">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SPECTRecoveryCoefficientCurve" type="xs:string"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -58,7 +66,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="NMTomoUsed" type="irdbb:DICOMData"/>
 				<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
 				<xs:element name="ReconstructionMethodAndCorrectionsUsed" type="xs:string"/>
-				<xs:element name="CalibrationFactorUsed" type="irdbb:CalibrationFactor"/>
+				<xs:element name="CTNumberCalibrationCurveUsed" type="irdbb:CTNumberCalibrationCurve" minOccurs="0" />
+				<xs:element name="CTNumberCalibrationCurveReference" type="irdbb:CTNumberCalibrationCurveReference" minOccurs="0" />
 				<xs:element name="NMTomoReconProduced" type="irdbb:DICOMData"/>
 		</xs:sequence>
 	</xs:complexType>
@@ -82,8 +91,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="VOIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-				<xs:element name="CalibrationFactorUsed" type="irdbb:CalibrationFactor"/>
-				<xs:element name="SPECTRecoveryCoefficientCurveUsed" type="irdbb:SPECTRecoveryCoefficientCurve"/>
+				<xs:element name="SPECTCalibrationFactorReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
+				<xs:element name="SPECTRecoveryCoefficientCurveReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
 				<xs:element name="DataActivityPerVOIAtTimePointProduced" type="irdbb:DataActivityPerVOIAtTimePoint" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
@@ -113,7 +122,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="RadioBiologicalCalculation">
+	<xs:complexType name="RadioBiologicalCalculationIn3DSlide1Dosimetry">
 		<xs:sequence>
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="VOIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
@@ -141,6 +150,12 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 	</xs:complexType>
 
 	<xs:complexType name="CTRelevantCalibrationReference">
+		<xs:sequence>
+				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTNumberCalibrationCurveReference">
 		<xs:sequence>
 				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
 		</xs:sequence>
@@ -194,16 +209,19 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="CalibrationFactor">
+	<xs:complexType name="CTNumberCalibrationCurve">
 		<xs:sequence>
-				<xs:element name="CalibrationFactorValue" type="xs:float"/>
-				<xs:element name="CalibrationFactorUnit" type="xs:string"/>
+				<xs:element name="ElementOfCTNumberCalibrationCurve" type="irdbb:ElementOfCTNumberCalibrationCurve" maxOccurs="unbounded" />
+				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="SPECTRecoveryCoefficientCurve">
+	<xs:complexType name="ElementOfCTNumberCalibrationCurve">
 		<xs:sequence>
-				<xs:element name="SPECTRecoveryCoefficientCurve" type="xs:string"/>
+				<xs:element name="HounsfieldMeasuredValue" type="xs:integer"/>
+				<xs:element name="RealDensityOfMaterialValue" type="xs:float"/>
+				<xs:element name="RealDensityOfMaterialUnit" type="xs:string"/>
+				<xs:element name="MaterialIdentifier" type="xs:string" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -271,7 +289,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:restriction base="xs:string">
 					<xs:enumeration value="zipped imageJ contours format"/>
 					<xs:enumeration value="TIFF format embedding imageJ contours"/>
-					<xs:enumeration value="zipped pseudo_DICOM ImpactMC"/>
+					<xs:enumeration value="zipped pseudo DICOM ImpactMC"/>
 					<xs:enumeration value="GIF format embedding imageJ contours"/>
 				</xs:restriction>
 			</xs:simpleType>

@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.06.25 à 10:38:25 AM CEST 
+// Généré le : 2019.09.16 à 04:44:10 PM CEST 
 //
 
 
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="ROIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="NMStaticCorrectedUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
- *         &lt;element name="CalibrationCoefficientProduced" type="{https://www.irdbb-medirad.com}CalibrationCoefficient"/>
+ *         &lt;element name="PlanarCalibrationCoefficientProduced" type="{https://www.irdbb-medirad.com}CalibrationCoefficient"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
     "processExecutionContext",
     "roiIdentifierUsed",
     "nmStaticCorrectedUsed",
-    "calibrationCoefficientProduced"
+    "planarCalibrationCoefficientProduced"
 })
 public class PlanarSensitivityCalculation {
 
@@ -53,8 +53,8 @@ public class PlanarSensitivityCalculation {
     protected List<String> roiIdentifierUsed;
     @XmlElement(name = "NMStaticCorrectedUsed", required = true)
     protected DICOMData nmStaticCorrectedUsed;
-    @XmlElement(name = "CalibrationCoefficientProduced", required = true)
-    protected CalibrationCoefficient calibrationCoefficientProduced;
+    @XmlElement(name = "PlanarCalibrationCoefficientProduced", required = true)
+    protected CalibrationCoefficient planarCalibrationCoefficientProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -134,27 +134,27 @@ public class PlanarSensitivityCalculation {
     }
 
     /**
-     * Obtient la valeur de la propriété calibrationCoefficientProduced.
+     * Obtient la valeur de la propriété planarCalibrationCoefficientProduced.
      * 
      * @return
      *     possible object is
      *     {@link CalibrationCoefficient }
      *     
      */
-    public CalibrationCoefficient getCalibrationCoefficientProduced() {
-        return calibrationCoefficientProduced;
+    public CalibrationCoefficient getPlanarCalibrationCoefficientProduced() {
+        return planarCalibrationCoefficientProduced;
     }
 
     /**
-     * Définit la valeur de la propriété calibrationCoefficientProduced.
+     * Définit la valeur de la propriété planarCalibrationCoefficientProduced.
      * 
      * @param value
      *     allowed object is
      *     {@link CalibrationCoefficient }
      *     
      */
-    public void setCalibrationCoefficientProduced(CalibrationCoefficient value) {
-        this.calibrationCoefficientProduced = value;
+    public void setPlanarCalibrationCoefficientProduced(CalibrationCoefficient value) {
+        this.planarCalibrationCoefficientProduced = value;
     }
 
 }

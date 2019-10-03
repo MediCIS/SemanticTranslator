@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.06.25 à 10:38:25 AM CEST 
+// Généré le : 2019.09.16 à 04:44:10 PM CEST 
 //
 
 
@@ -29,7 +29,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="NMTomoUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="CTReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="ReconstructionMethodAndCorrectionsUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="CalibrationFactorUsed" type="{https://www.irdbb-medirad.com}CalibrationFactor"/>
+ *         &lt;element name="CTNumberCalibrationCurveUsed" type="{https://www.irdbb-medirad.com}CTNumberCalibrationCurve" minOccurs="0"/>
+ *         &lt;element name="CTNumberCalibrationCurveReference" type="{https://www.irdbb-medirad.com}CTNumberCalibrationCurveReference" minOccurs="0"/>
  *         &lt;element name="NMTomoReconProduced" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -46,7 +47,8 @@ import javax.xml.bind.annotation.XmlType;
     "nmTomoUsed",
     "ctReconUsed",
     "reconstructionMethodAndCorrectionsUsed",
-    "calibrationFactorUsed",
+    "ctNumberCalibrationCurveUsed",
+    "ctNumberCalibrationCurveReference",
     "nmTomoReconProduced"
 })
 public class SPECTReconstruction {
@@ -61,8 +63,10 @@ public class SPECTReconstruction {
     protected DICOMData ctReconUsed;
     @XmlElement(name = "ReconstructionMethodAndCorrectionsUsed", required = true)
     protected String reconstructionMethodAndCorrectionsUsed;
-    @XmlElement(name = "CalibrationFactorUsed", required = true)
-    protected CalibrationFactor calibrationFactorUsed;
+    @XmlElement(name = "CTNumberCalibrationCurveUsed")
+    protected CTNumberCalibrationCurve ctNumberCalibrationCurveUsed;
+    @XmlElement(name = "CTNumberCalibrationCurveReference")
+    protected CTNumberCalibrationCurveReference ctNumberCalibrationCurveReference;
     @XmlElement(name = "NMTomoReconProduced", required = true)
     protected DICOMData nmTomoReconProduced;
 
@@ -187,27 +191,51 @@ public class SPECTReconstruction {
     }
 
     /**
-     * Obtient la valeur de la propriété calibrationFactorUsed.
+     * Obtient la valeur de la propriété ctNumberCalibrationCurveUsed.
      * 
      * @return
      *     possible object is
-     *     {@link CalibrationFactor }
+     *     {@link CTNumberCalibrationCurve }
      *     
      */
-    public CalibrationFactor getCalibrationFactorUsed() {
-        return calibrationFactorUsed;
+    public CTNumberCalibrationCurve getCTNumberCalibrationCurveUsed() {
+        return ctNumberCalibrationCurveUsed;
     }
 
     /**
-     * Définit la valeur de la propriété calibrationFactorUsed.
+     * Définit la valeur de la propriété ctNumberCalibrationCurveUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link CalibrationFactor }
+     *     {@link CTNumberCalibrationCurve }
      *     
      */
-    public void setCalibrationFactorUsed(CalibrationFactor value) {
-        this.calibrationFactorUsed = value;
+    public void setCTNumberCalibrationCurveUsed(CTNumberCalibrationCurve value) {
+        this.ctNumberCalibrationCurveUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété ctNumberCalibrationCurveReference.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CTNumberCalibrationCurveReference }
+     *     
+     */
+    public CTNumberCalibrationCurveReference getCTNumberCalibrationCurveReference() {
+        return ctNumberCalibrationCurveReference;
+    }
+
+    /**
+     * Définit la valeur de la propriété ctNumberCalibrationCurveReference.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CTNumberCalibrationCurveReference }
+     *     
+     */
+    public void setCTNumberCalibrationCurveReference(CTNumberCalibrationCurveReference value) {
+        this.ctNumberCalibrationCurveReference = value;
     }
 
     /**

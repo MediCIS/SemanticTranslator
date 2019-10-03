@@ -116,36 +116,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		if (memory==null) {memory = Application.memory;}
 		
 		String patientID = nonDicomFileSetDescriptor.getPatientId();
-		String resPatient = executeQuerry("SELECT DISTINCT ?human ?id ?patient WHERE {\n" + 
-				"	?human rdf:type ontomedirad:human .\n" + 
-				"  	?human ontomedirad:has_id ?id .\n" + 
-				"    ?human purl:BFO_0000087 ?patient .\n" + 
-				"} ORDER BY ?human", "false");
-		
-		try {
-			JSONArray resJsonPatient = new JSONObject(resPatient).getJSONObject("results").getJSONArray("bindings");
-			JSONObject objPatient; String id; String human; String patientJson;
-			for (int i=0; i<resJsonPatient.length(); i++) {
-				objPatient = resJsonPatient.getJSONObject(i);
-				id = objPatient.getJSONObject("id").getString("value");
-				human = objPatient.getJSONObject("human").getString("value");
-				patientJson = objPatient.getJSONObject("patient").getString("value");
-				System.out.println("human : "+human);
-				System.out.println("patient : "+patientJson);
-				System.out.println("id : "+id);
-				
-				if (id.contains(patientID)) {
-					patient = model.getIndividual(patientJson);
-				}
-
-			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-		System.out.println("patient : "+patient);
-		
+		memory.getPatientbyId(patientID);
 		
 		Iterator<WP2Subtask212WorkflowData> subtask212Iter = nonDicomFileSetDescriptor.getWP2Subtask212WorkflowData().iterator();
 		while (subtask212Iter.hasNext()) {
@@ -228,6 +199,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						VOI voiInformations= voiIterator.next();
 						String voiId = voiInformations.getVOIIdentifier();
 						Individual organ = getOrgan(voiInformations.getOrganOrTissue());
+						tableVOIorgans.put(voiId, organ);
 
 						Iterator<NonDICOMData> voiContainerIter = voiInformations.getNonDICOMVOIContainer().iterator();
 						while (voiContainerIter.hasNext()) {
@@ -241,7 +213,11 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							
 							NonDICOMData voiContainer = voiContainerIter.next();
 							if (voiContainer.getFHIRIdentifier()!=null) {
-								addDataProperty(voiFile, racineURI+"has_IRDBB_FHIR_handle",voiContainer.getFHIRIdentifier());
+								String fhirID = voiContainer.getFHIRIdentifier();
+								if (fhirID.contains("/fhir/Binary/")==false) {
+									fhirID="/fhir/Binary/"+fhirID;
+								}
+								addDataProperty(voiFile, racineURI+"has_IRDBB_FHIR_handle",fhirID);
 							} else {
 								logger.warn("NonDICOMVOIContainer has no FHIRIdentifier");
 							}
@@ -578,65 +554,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
  		return indOrgane;
  	}
  	
- 	static Connection starDogConnection;
-
-	public static String executeQuerry(String request, String isReasoning) { // Execute a querry (querry is passed as a string)
-		createAdminConnection(database.ontoMedirad, false);  	  	// Create a connection to a stardog database WITHOUT reasoning
-
-		logger.debug("request : ");
-		logger.debug(request);
-
-		SelectQuery aQuery = starDogConnection.select(request);         // Put the request to the StarDog
-
-		TupleQueryResult aResult = null;							    // Create an object to receive the result
-
-		aResult = aQuery.execute();										// Execute Request (StarDog Exception)
-
-		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
-		try {
-			QueryResultIO.writeTuple(aResult,                           // Write the request result in the ByteArrayOutputStream
-					TupleQueryResultFormat.JSON, out);
-		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException
-				| IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		starDogConnection.close();										// Close The Connection to Stardog (despite the errors)
-		aResult.close();												// Close The Object (despite the errors)
-
-		logger.debug("result : ");
-		logger.debug(out.toString());
-
-
-		return out.toString(); // Convert the ByteArrayOutputStream as a string and return it
-	}
-	
-	
-	public static void createAdminConnection(database db, boolean paramreasoner) {									// Main method to open a connection to a Stardog database
-		String pacsUrl = Application.pacsUrl ;
-		String starDogUrl = Application.starDogUrl;
-		logger.debug("Creation of the StarDog connection (Database : "+db.toString()+") at "+starDogUrl);
-		ConnectionConfiguration connectionConfig = ConnectionConfiguration									// Configuration of the connection
-				.to(db.toString())																			// Select Database (from the enumeration)
-				.server(starDogUrl)																			// StarDog URL 
-				.credentials("admin", "admin")															// Login and Pasword of Stardog
-				.reasoning(paramreasoner);																	// Will it use reasoning (boollean)
-
-		logger.debug("StarDog connection (reasoning : "+ConnectionConfiguration.REASONING_ENABLED.toString()+")"); 
-
-		ConnectionPool connectionPool = createConnectionPool(connectionConfig);								// Create the Stardog connection 
-		starDogConnection = connectionPool.obtain();														// Return the Stardog connection as a java Object
-		logger.debug("Sucessfully created the StarDog connection (Database : "+db.toString()+")");
-	}
-	
-	private static ConnectionPool createConnectionPool (ConnectionConfiguration connectionConfig) {				// Create the connection pool
-		ConnectionPoolConfig poolConfig = ConnectionPoolConfig.using(connectionConfig)
-				.minPool(0).maxPool(50)
-				.expiration(30, TimeUnit.MINUTES)
-				.blockAtCapacity(1, TimeUnit.MINUTES);
-		return poolConfig.create();
-	}
 
 	
 }

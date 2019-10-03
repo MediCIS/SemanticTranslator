@@ -29,10 +29,19 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:complexType>
 	</xs:element>
 
-	<xs:element name="CTRelevantCalibrationReference" minOccurs="0" maxOccurs="unbounded">
+	<xs:element name="ActualPlanarCalibrationFactor-ActualPlanarCalibrationFactor" minOccurs="0" maxOccurs="unbounded">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+				<xs:element name="PlanarCalibrationFactorValue" type="xs:float"/>
+				<xs:element name="PlanarCalibrationFactorUnit" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="PlanarCalibrationFactorReference" minOccurs="0" maxOccurs="unbounded">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="PlanarCalibrationFactorDate" type="xs:string"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -111,7 +120,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
 				<xs:element name="TimePointIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
 				<xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
-				<xs:element name="PlanarCalibrationFactorUsed" type="irdbb:PlanarCalibrationFactor" maxOccurs="unbounded" />
+				<xs:element name="PlanarCalibrationFactorReference" type="irdbb:NMRelevantCalibrationReference"/>
 				<xs:element name="DataActivityPerROIAtTimePointProduced" type="irdbb:DataActivityPerROIAtTimePoint" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
@@ -226,13 +235,6 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="PlanarCalibrationFactor">
-		<xs:sequence>
-				<xs:element name="PlanarCalibrationFactorValue" type="xs:float"/>
-				<xs:element name="PlanarCalibrationFactorUnit" type="xs:string"/>
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="DataActivityPerROIAtTimePoint">
 		<xs:sequence>
 				<xs:element name="DataActivityValue" type="xs:float"/>
@@ -313,7 +315,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:restriction base="xs:string">
 					<xs:enumeration value="zipped imageJ contours format"/>
 					<xs:enumeration value="TIFF format embedding imageJ contours"/>
-					<xs:enumeration value="zipped pseudo_DICOM ImpactMC"/>
+					<xs:enumeration value="zipped pseudo DICOM ImpactMC"/>
 					<xs:enumeration value="GIF format embedding imageJ contours"/>
 				</xs:restriction>
 			</xs:simpleType>

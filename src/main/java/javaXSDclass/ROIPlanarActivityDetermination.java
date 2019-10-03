@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.06.25 à 10:38:25 AM CEST 
+// Généré le : 2019.09.16 à 04:44:10 PM CEST 
 //
 
 
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="ROIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="PlanarCalibrationFactorUsed" type="{https://www.irdbb-medirad.com}PlanarCalibrationFactor" maxOccurs="unbounded"/>
+ *         &lt;element name="PlanarCalibrationFactorReference" type="{https://www.irdbb-medirad.com}NMRelevantCalibrationReference"/>
  *         &lt;element name="DataActivityPerROIAtTimePointProduced" type="{https://www.irdbb-medirad.com}DataActivityPerROIAtTimePoint" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -44,7 +44,7 @@ import javax.xml.bind.annotation.XmlType;
     "processExecutionContext",
     "timePointIdentifierUsed",
     "roiIdentifierUsed",
-    "planarCalibrationFactorUsed",
+    "planarCalibrationFactorReference",
     "dataActivityPerROIAtTimePointProduced"
 })
 public class ROIPlanarActivityDetermination {
@@ -55,8 +55,8 @@ public class ROIPlanarActivityDetermination {
     protected List<String> timePointIdentifierUsed;
     @XmlElement(name = "ROIIdentifierUsed", required = true)
     protected List<String> roiIdentifierUsed;
-    @XmlElement(name = "PlanarCalibrationFactorUsed", required = true)
-    protected List<PlanarCalibrationFactor> planarCalibrationFactorUsed;
+    @XmlElement(name = "PlanarCalibrationFactorReference", required = true)
+    protected NMRelevantCalibrationReference planarCalibrationFactorReference;
     @XmlElement(name = "DataActivityPerROIAtTimePointProduced", required = true)
     protected List<DataActivityPerROIAtTimePoint> dataActivityPerROIAtTimePointProduced;
 
@@ -143,32 +143,27 @@ public class ROIPlanarActivityDetermination {
     }
 
     /**
-     * Gets the value of the planarCalibrationFactorUsed property.
+     * Obtient la valeur de la propriété planarCalibrationFactorReference.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the planarCalibrationFactorUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getPlanarCalibrationFactorUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link PlanarCalibrationFactor }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link NMRelevantCalibrationReference }
+     *     
      */
-    public List<PlanarCalibrationFactor> getPlanarCalibrationFactorUsed() {
-        if (planarCalibrationFactorUsed == null) {
-            planarCalibrationFactorUsed = new ArrayList<PlanarCalibrationFactor>();
-        }
-        return this.planarCalibrationFactorUsed;
+    public NMRelevantCalibrationReference getPlanarCalibrationFactorReference() {
+        return planarCalibrationFactorReference;
+    }
+
+    /**
+     * Définit la valeur de la propriété planarCalibrationFactorReference.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link NMRelevantCalibrationReference }
+     *     
+     */
+    public void setPlanarCalibrationFactorReference(NMRelevantCalibrationReference value) {
+        this.planarCalibrationFactorReference = value;
     }
 
     /**

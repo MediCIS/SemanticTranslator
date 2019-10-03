@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.06.25 à 10:38:25 AM CEST 
+// Généré le : 2019.09.16 à 04:44:10 PM CEST 
 //
 
 
@@ -77,11 +77,35 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link NonDicomFileSetDescriptor.SPECTRecoveryCoefficientCurve }
+     * 
+     */
+    public NonDicomFileSetDescriptor.SPECTRecoveryCoefficientCurve createNonDicomFileSetDescriptorSPECTRecoveryCoefficientCurve() {
+        return new NonDicomFileSetDescriptor.SPECTRecoveryCoefficientCurve();
+    }
+
+    /**
      * Create an instance of {@link NonDicomFileSetDescriptor.TwoDimDosimetryworkflow }
      * 
      */
     public NonDicomFileSetDescriptor.TwoDimDosimetryworkflow createNonDicomFileSetDescriptorTwoDimDosimetryworkflow() {
         return new NonDicomFileSetDescriptor.TwoDimDosimetryworkflow();
+    }
+
+    /**
+     * Create an instance of {@link NonDicomFileSetDescriptor.ActualPlanarCalibrationFactorActualPlanarCalibrationFactor }
+     * 
+     */
+    public NonDicomFileSetDescriptor.ActualPlanarCalibrationFactorActualPlanarCalibrationFactor createNonDicomFileSetDescriptorActualPlanarCalibrationFactorActualPlanarCalibrationFactor() {
+        return new NonDicomFileSetDescriptor.ActualPlanarCalibrationFactorActualPlanarCalibrationFactor();
+    }
+
+    /**
+     * Create an instance of {@link NonDicomFileSetDescriptor.PlanarCalibrationFactorReference }
+     * 
+     */
+    public NonDicomFileSetDescriptor.PlanarCalibrationFactorReference createNonDicomFileSetDescriptorPlanarCalibrationFactorReference() {
+        return new NonDicomFileSetDescriptor.PlanarCalibrationFactorReference();
     }
 
     /**
@@ -170,14 +194,6 @@ public class ObjectFactory {
      */
     public CountsPerROIAtTimePoint createCountsPerROIAtTimePoint() {
         return new CountsPerROIAtTimePoint();
-    }
-
-    /**
-     * Create an instance of {@link SPECTRecoveryCoefficientCurve }
-     * 
-     */
-    public SPECTRecoveryCoefficientCurve createSPECTRecoveryCoefficientCurve() {
-        return new SPECTRecoveryCoefficientCurve();
     }
 
     /**
@@ -274,14 +290,6 @@ public class ObjectFactory {
      */
     public AbsorbedDoseCalculationInROIIn2DDosimetry createAbsorbedDoseCalculationInROIIn2DDosimetry() {
         return new AbsorbedDoseCalculationInROIIn2DDosimetry();
-    }
-
-    /**
-     * Create an instance of {@link PlanarCalibrationFactor }
-     * 
-     */
-    public PlanarCalibrationFactor createPlanarCalibrationFactor() {
-        return new PlanarCalibrationFactor();
     }
 
     /**
@@ -469,6 +477,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry }
+     * 
+     */
+    public RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry createRadioBiologicalCalculationInHybridOr3DSlide2Dosimetry() {
+        return new RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry();
+    }
+
+    /**
      * Create an instance of {@link VOIInCT }
      * 
      */
@@ -565,11 +581,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link CTNumberCalibrationCurveReference }
+     * 
+     */
+    public CTNumberCalibrationCurveReference createCTNumberCalibrationCurveReference() {
+        return new CTNumberCalibrationCurveReference();
+    }
+
+    /**
      * Create an instance of {@link CTSegmentationInCalibration }
      * 
      */
     public CTSegmentationInCalibration createCTSegmentationInCalibration() {
         return new CTSegmentationInCalibration();
+    }
+
+    /**
+     * Create an instance of {@link RadioBiologicalCalculationIn3DSlide1Dosimetry }
+     * 
+     */
+    public RadioBiologicalCalculationIn3DSlide1Dosimetry createRadioBiologicalCalculationIn3DSlide1Dosimetry() {
+        return new RadioBiologicalCalculationIn3DSlide1Dosimetry();
     }
 
     /**
@@ -650,14 +682,6 @@ public class ObjectFactory {
      */
     public AbsorbedDoseRateCalculationInHybridDosimetry createAbsorbedDoseRateCalculationInHybridDosimetry() {
         return new AbsorbedDoseRateCalculationInHybridDosimetry();
-    }
-
-    /**
-     * Create an instance of {@link CalibrationFactor }
-     * 
-     */
-    public CalibrationFactor createCalibrationFactor() {
-        return new CalibrationFactor();
     }
 
     /**

@@ -357,27 +357,25 @@ Requestx6;NM Datasets and all  acquisition parameters;Lists NM Datasets and all 
   ?RespInstitutionrole purl:BFO_0000054 ?SPECTAcq .   
   ?RespInstitutionrole purl:BFO_0000052 ?RespInstitution .}
 } ORDER BY ?PatientName"
-Requestx7;Relations image datasets with Clinical research studies;Lists all datasets and related patients, ordered by MEDIRAD Clinical Research Studies;TRUE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?StudyDescr ?ExamDate ?ExamTime ?ProtocolName ?ProtocolDescr ?Dataset
+Requestx7;Relations image datasets with Clinical research studies;Lists all datasets and related patients, ordered by MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudy ?PatientName  ?Exam ?Acq ?Dataset ?ImageTypeDescription ?DatasetClassLabel ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight
  WHERE {
- ?RolePat purl:BFO_0000054 ?Exam .
+ ?Human rdf:type ontomedirad:human .
  ?Human purl:BFO_0000087 ?RolePat .
+ ?RolePat purl:BFO_0000054 ?Exam .
  ?Acq purl:BFO_0000132 ?Exam .
- ?Acq rdf:type ontomedirad:image_acquisition .
  ?Dataset ontomedirad:is_specified_output_of ?Acq .
- ?Dataset rdf:type purl:IAO_0000100 .
  ?Dataset ontomedirad:has_DICOM_image_type_description ?ImageTypeDescription .
+ ?Dataset rdf:type ?Datasetclass . 
+ ?Datasetclass skos:prefLabel ?DatasetClassLabel .
  ?Exam ontomedirad:part_of_study ?ClinResearchStudy .
- ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId .
- ?ClinResearchStudy rdf:type ontomedirad:clinical_research_study .
- OPTIONAL { ?Acq ontomedirad:has_protocol ?Protocol . 	    ?Protocol ontomedirad:has_name ?ProtocolName .	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }
+ OPTIONAL { ?Human ontomedirad:has_name ?PatientName }
  OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .
             ?Exam ontomedirad:has_beginning_time ?ExamTime . }
  OPTIONAL {?Exam ontomedirad:has_description ?StudyDescr .}
  OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .
             ?PatientSex rdfs:label ?LabelSex . }
- OPTIONAL { ?Human ontomedirad:has_name ?PatientName }
  OPTIONAL { ?PatientAge rdf:type ontomedirad:age_of_patient_undergoing_medical_procedure .
-            ?PatientAge ontomedirad:is_about_procedure ?Exam .
+ 	    ?PatientAge ontomedirad:is_about_procedure ?Exam .
             ?PatientAge ontomedirad:is_about ?Human .
             ?PatientAge ontomedirad:years ?AgeInYears . }
  OPTIONAL { ?PatientWeight rdf:type ontomedirad:patient_weight .

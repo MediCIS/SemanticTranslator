@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.06.25 à 10:38:25 AM CEST 
+// Généré le : 2019.09.16 à 04:44:10 PM CEST 
 //
 
 
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="VOIInCTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="VOIInSPECTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="CalibrationCoefficientProduced" type="{https://www.irdbb-medirad.com}CalibrationCoefficient"/>
+ *         &lt;element name="SPECTCalibrationCoefficientProduced" type="{https://www.irdbb-medirad.com}CalibrationCoefficient"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,7 +43,7 @@ import javax.xml.bind.annotation.XmlType;
     "processExecutionContext",
     "voiInCTIdentifierUsed",
     "voiInSPECTIdentifierUsed",
-    "calibrationCoefficientProduced"
+    "spectCalibrationCoefficientProduced"
 })
 public class SPECTSensitivityCalculation {
 
@@ -53,8 +53,8 @@ public class SPECTSensitivityCalculation {
     protected List<String> voiInCTIdentifierUsed;
     @XmlElement(name = "VOIInSPECTIdentifierUsed", required = true)
     protected List<String> voiInSPECTIdentifierUsed;
-    @XmlElement(name = "CalibrationCoefficientProduced", required = true)
-    protected CalibrationCoefficient calibrationCoefficientProduced;
+    @XmlElement(name = "SPECTCalibrationCoefficientProduced", required = true)
+    protected CalibrationCoefficient spectCalibrationCoefficientProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -139,27 +139,27 @@ public class SPECTSensitivityCalculation {
     }
 
     /**
-     * Obtient la valeur de la propriété calibrationCoefficientProduced.
+     * Obtient la valeur de la propriété spectCalibrationCoefficientProduced.
      * 
      * @return
      *     possible object is
      *     {@link CalibrationCoefficient }
      *     
      */
-    public CalibrationCoefficient getCalibrationCoefficientProduced() {
-        return calibrationCoefficientProduced;
+    public CalibrationCoefficient getSPECTCalibrationCoefficientProduced() {
+        return spectCalibrationCoefficientProduced;
     }
 
     /**
-     * Définit la valeur de la propriété calibrationCoefficientProduced.
+     * Définit la valeur de la propriété spectCalibrationCoefficientProduced.
      * 
      * @param value
      *     allowed object is
      *     {@link CalibrationCoefficient }
      *     
      */
-    public void setCalibrationCoefficientProduced(CalibrationCoefficient value) {
-        this.calibrationCoefficientProduced = value;
+    public void setSPECTCalibrationCoefficientProduced(CalibrationCoefficient value) {
+        this.spectCalibrationCoefficientProduced = value;
     }
 
 }

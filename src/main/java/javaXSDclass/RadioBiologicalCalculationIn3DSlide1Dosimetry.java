@@ -17,20 +17,21 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour TimeAbsorbedDoseRateCurveFit complex type.
+ * <p>Classe Java pour RadioBiologicalCalculationIn3DSlide1Dosimetry complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="TimeAbsorbedDoseRateCurveFit">
+ * &lt;complexType name="RadioBiologicalCalculationIn3DSlide1Dosimetry">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="PKAssessmentMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="MeanAbsorbedDoseInVOIProduced" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseInVOI" maxOccurs="unbounded"/>
+ *         &lt;element name="VoxelAbsorbedDoseMapIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="RadioBiologicalCalculationMethod" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="RadioBiologicalCalculationParameters" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="BiologicalEffectiveDose" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -40,25 +41,28 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TimeAbsorbedDoseRateCurveFit", propOrder = {
+@XmlType(name = "RadioBiologicalCalculationIn3DSlide1Dosimetry", propOrder = {
     "processExecutionContext",
     "voiIdentifierUsed",
-    "timePointIdentifierUsed",
-    "pkAssessmentMethodUsed",
-    "meanAbsorbedDoseInVOIProduced"
+    "voxelAbsorbedDoseMapIdentifierUsed",
+    "radioBiologicalCalculationMethod",
+    "radioBiologicalCalculationParameters",
+    "biologicalEffectiveDose"
 })
-public class TimeAbsorbedDoseRateCurveFit {
+public class RadioBiologicalCalculationIn3DSlide1Dosimetry {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "VOIIdentifierUsed", required = true)
     protected List<String> voiIdentifierUsed;
-    @XmlElement(name = "TimePointIdentifierUsed", required = true)
-    protected List<String> timePointIdentifierUsed;
-    @XmlElement(name = "PKAssessmentMethodUsed", required = true)
-    protected String pkAssessmentMethodUsed;
-    @XmlElement(name = "MeanAbsorbedDoseInVOIProduced", required = true)
-    protected List<MeanAbsorbedDoseInVOI> meanAbsorbedDoseInVOIProduced;
+    @XmlElement(name = "VoxelAbsorbedDoseMapIdentifierUsed")
+    protected List<String> voxelAbsorbedDoseMapIdentifierUsed;
+    @XmlElement(name = "RadioBiologicalCalculationMethod", required = true)
+    protected String radioBiologicalCalculationMethod;
+    @XmlElement(name = "RadioBiologicalCalculationParameters", required = true)
+    protected String radioBiologicalCalculationParameters;
+    @XmlElement(name = "BiologicalEffectiveDose", required = true)
+    protected String biologicalEffectiveDose;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -114,18 +118,18 @@ public class TimeAbsorbedDoseRateCurveFit {
     }
 
     /**
-     * Gets the value of the timePointIdentifierUsed property.
+     * Gets the value of the voxelAbsorbedDoseMapIdentifierUsed property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timePointIdentifierUsed property.
+     * This is why there is not a <CODE>set</CODE> method for the voxelAbsorbedDoseMapIdentifierUsed property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getTimePointIdentifierUsed().add(newItem);
+     *    getVoxelAbsorbedDoseMapIdentifierUsed().add(newItem);
      * </pre>
      * 
      * 
@@ -135,64 +139,83 @@ public class TimeAbsorbedDoseRateCurveFit {
      * 
      * 
      */
-    public List<String> getTimePointIdentifierUsed() {
-        if (timePointIdentifierUsed == null) {
-            timePointIdentifierUsed = new ArrayList<String>();
+    public List<String> getVoxelAbsorbedDoseMapIdentifierUsed() {
+        if (voxelAbsorbedDoseMapIdentifierUsed == null) {
+            voxelAbsorbedDoseMapIdentifierUsed = new ArrayList<String>();
         }
-        return this.timePointIdentifierUsed;
+        return this.voxelAbsorbedDoseMapIdentifierUsed;
     }
 
     /**
-     * Obtient la valeur de la propriété pkAssessmentMethodUsed.
+     * Obtient la valeur de la propriété radioBiologicalCalculationMethod.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getPKAssessmentMethodUsed() {
-        return pkAssessmentMethodUsed;
+    public String getRadioBiologicalCalculationMethod() {
+        return radioBiologicalCalculationMethod;
     }
 
     /**
-     * Définit la valeur de la propriété pkAssessmentMethodUsed.
+     * Définit la valeur de la propriété radioBiologicalCalculationMethod.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setPKAssessmentMethodUsed(String value) {
-        this.pkAssessmentMethodUsed = value;
+    public void setRadioBiologicalCalculationMethod(String value) {
+        this.radioBiologicalCalculationMethod = value;
     }
 
     /**
-     * Gets the value of the meanAbsorbedDoseInVOIProduced property.
+     * Obtient la valeur de la propriété radioBiologicalCalculationParameters.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the meanAbsorbedDoseInVOIProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getMeanAbsorbedDoseInVOIProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link MeanAbsorbedDoseInVOI }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public List<MeanAbsorbedDoseInVOI> getMeanAbsorbedDoseInVOIProduced() {
-        if (meanAbsorbedDoseInVOIProduced == null) {
-            meanAbsorbedDoseInVOIProduced = new ArrayList<MeanAbsorbedDoseInVOI>();
-        }
-        return this.meanAbsorbedDoseInVOIProduced;
+    public String getRadioBiologicalCalculationParameters() {
+        return radioBiologicalCalculationParameters;
+    }
+
+    /**
+     * Définit la valeur de la propriété radioBiologicalCalculationParameters.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setRadioBiologicalCalculationParameters(String value) {
+        this.radioBiologicalCalculationParameters = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété biologicalEffectiveDose.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getBiologicalEffectiveDose() {
+        return biologicalEffectiveDose;
+    }
+
+    /**
+     * Définit la valeur de la propriété biologicalEffectiveDose.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setBiologicalEffectiveDose(String value) {
+        this.biologicalEffectiveDose = value;
     }
 
 }

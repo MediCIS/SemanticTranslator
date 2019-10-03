@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 
 import querries.ListQuerries;
 
@@ -99,10 +98,12 @@ public class Application {
 		model = ModelFactory.createOntologyModel(); 					 // Create empty graph for the ontology
 		InputStream in;      	 
 		for (String file : listeOntologyFiles) {
-			in = new ClassPathResource("OntoMedirad/"+file).getInputStream();
+			in = new FileInputStream("OntoMedirad/"+file);
+			//in = new ClassPathResource("OntoMedirad/"+file).getInputStream();
 			model.read(in, null); 											 // Read the ontology files (it takes about 4 minutes)
 		}
 		System.out.println("\nOntology has been Imported Sucesfully\n");
+		System.out.println(model.size());
 	}
 	
 	public static OntModel getModel() {return model;}					// Used to provide the ontology to other classes

@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.06.25 à 10:38:25 AM CEST 
+// Généré le : 2019.09.16 à 04:44:10 PM CEST 
 //
 
 
@@ -30,8 +30,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="VOIInCTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="VOIInSPECTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="PhantomIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="CalibrationCoefficientIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="SPECTRecoveryCoefficientCurveInCalibration" type="{https://www.irdbb-medirad.com}SPECTRecoveryCoefficientCurveInCalibration"/>
+ *         &lt;element name="SPECTCalibrationCoefficientReferenceUsed" type="{https://www.irdbb-medirad.com}NMRelevantCalibrationReference"/>
+ *         &lt;element name="SPECTRecoveryCoefficientCurveInCalibrationProduced" type="{https://www.irdbb-medirad.com}SPECTRecoveryCoefficientCurveInCalibration"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -46,8 +46,8 @@ import javax.xml.bind.annotation.XmlType;
     "voiInCTIdentifierUsed",
     "voiInSPECTIdentifierUsed",
     "phantomIdentifierUsed",
-    "calibrationCoefficientIdentifierUsed",
-    "spectRecoveryCoefficientCurveInCalibration"
+    "spectCalibrationCoefficientReferenceUsed",
+    "spectRecoveryCoefficientCurveInCalibrationProduced"
 })
 public class SPECTRecoveryCoefficientCurveCalculation {
 
@@ -59,10 +59,10 @@ public class SPECTRecoveryCoefficientCurveCalculation {
     protected List<String> voiInSPECTIdentifierUsed;
     @XmlElement(name = "PhantomIdentifierUsed", required = true)
     protected String phantomIdentifierUsed;
-    @XmlElement(name = "CalibrationCoefficientIdentifierUsed", required = true)
-    protected String calibrationCoefficientIdentifierUsed;
-    @XmlElement(name = "SPECTRecoveryCoefficientCurveInCalibration", required = true)
-    protected SPECTRecoveryCoefficientCurveInCalibration spectRecoveryCoefficientCurveInCalibration;
+    @XmlElement(name = "SPECTCalibrationCoefficientReferenceUsed", required = true)
+    protected NMRelevantCalibrationReference spectCalibrationCoefficientReferenceUsed;
+    @XmlElement(name = "SPECTRecoveryCoefficientCurveInCalibrationProduced", required = true)
+    protected SPECTRecoveryCoefficientCurveInCalibration spectRecoveryCoefficientCurveInCalibrationProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -171,51 +171,51 @@ public class SPECTRecoveryCoefficientCurveCalculation {
     }
 
     /**
-     * Obtient la valeur de la propriété calibrationCoefficientIdentifierUsed.
+     * Obtient la valeur de la propriété spectCalibrationCoefficientReferenceUsed.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link NMRelevantCalibrationReference }
      *     
      */
-    public String getCalibrationCoefficientIdentifierUsed() {
-        return calibrationCoefficientIdentifierUsed;
+    public NMRelevantCalibrationReference getSPECTCalibrationCoefficientReferenceUsed() {
+        return spectCalibrationCoefficientReferenceUsed;
     }
 
     /**
-     * Définit la valeur de la propriété calibrationCoefficientIdentifierUsed.
+     * Définit la valeur de la propriété spectCalibrationCoefficientReferenceUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link NMRelevantCalibrationReference }
      *     
      */
-    public void setCalibrationCoefficientIdentifierUsed(String value) {
-        this.calibrationCoefficientIdentifierUsed = value;
+    public void setSPECTCalibrationCoefficientReferenceUsed(NMRelevantCalibrationReference value) {
+        this.spectCalibrationCoefficientReferenceUsed = value;
     }
 
     /**
-     * Obtient la valeur de la propriété spectRecoveryCoefficientCurveInCalibration.
+     * Obtient la valeur de la propriété spectRecoveryCoefficientCurveInCalibrationProduced.
      * 
      * @return
      *     possible object is
      *     {@link SPECTRecoveryCoefficientCurveInCalibration }
      *     
      */
-    public SPECTRecoveryCoefficientCurveInCalibration getSPECTRecoveryCoefficientCurveInCalibration() {
-        return spectRecoveryCoefficientCurveInCalibration;
+    public SPECTRecoveryCoefficientCurveInCalibration getSPECTRecoveryCoefficientCurveInCalibrationProduced() {
+        return spectRecoveryCoefficientCurveInCalibrationProduced;
     }
 
     /**
-     * Définit la valeur de la propriété spectRecoveryCoefficientCurveInCalibration.
+     * Définit la valeur de la propriété spectRecoveryCoefficientCurveInCalibrationProduced.
      * 
      * @param value
      *     allowed object is
      *     {@link SPECTRecoveryCoefficientCurveInCalibration }
      *     
      */
-    public void setSPECTRecoveryCoefficientCurveInCalibration(SPECTRecoveryCoefficientCurveInCalibration value) {
-        this.spectRecoveryCoefficientCurveInCalibration = value;
+    public void setSPECTRecoveryCoefficientCurveInCalibrationProduced(SPECTRecoveryCoefficientCurveInCalibration value) {
+        this.spectRecoveryCoefficientCurveInCalibrationProduced = value;
     }
 
 }
