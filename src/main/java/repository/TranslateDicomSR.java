@@ -3,22 +3,14 @@ package repository;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.jena.ontology.Individual;
 import org.dcm4che3.data.Attributes;
 
 import com.pixelmed.dicom.ContentItem;
 
-import javaXSDclass.CTImageAcquisitionDescriptorType;
-import javaXSDclass.DICOMSOPInstanceDescriptorType;
-import javaXSDclass.DICOMSeriesDescriptorType;
-import javaXSDclass.DICOMSeriesType;
-import javaXSDclass.DICOMStudyDescriptorType;
-import javaXSDclass.DICOMStudyType;
 import javaXSDclass.DicomFileSetDescriptor;
 import javaXSDclass.NonDicomFileSetDescriptor;
-import javaXSDclass.PatientDescriptorType;
 
 public class TranslateDicomSR extends OntologyPopulator {
 

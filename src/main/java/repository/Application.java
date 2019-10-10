@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -75,6 +76,18 @@ public class Application {
 			System.exit(12);
 		} 								 								// load the ontlogy from file (it takes about 3-4 minutes)
 
+    	/*
+        System.out.println("Wait for Stardog"); 	
+
+    	try {
+			TimeUnit.MINUTES.sleep(10);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	
+        System.out.println("Wait end"); 	*/
+    	
     	try {
 			memory = new Memory();										// Going to request to get usefull object inside semantic database
 		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException

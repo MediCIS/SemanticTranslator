@@ -182,38 +182,32 @@ public class ImportController extends CommonFunctions {
 		logger.info("importDicomMetadata");
 
 		logger.info("kosString : "+kosString);
+		JSONObject kosDescriptor = new JSONObject(kosString);           // Parse received string as a JSON object
 
-		String ClinicalResearchStudyId = null; String KOSFhirId = null;
-		JSONObject kosDescriptor = new JSONObject(kosString);
-
-		ClinicalResearchStudyId = kosDescriptor.getString("clinicalResearchStudyId");
-		KOSFhirId = kosDescriptor.getString("KOSFhirId");
+		String KOSFhirId = kosDescriptor.getString("KOSFhirId");		// Extract values from JSONobject
+		String ClinicalResearchStudyId = kosDescriptor.getString("clinicalResearchStudyId");
 
 		logger.debug(kosDescriptor.toString());	 
 
-		ArrayList<String> listCleCT = new ArrayList<String>();
+		ArrayList<String> listCleCT = new ArrayList<String>();         // For multiple CTs from a same series, only one will be read
 
 		if (fhirUrl==null) {fhirUrl=Application.fhirUrl;}
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
 
-		String KosURL = fhirUrl+"/baseDstu3/Binary/"+KOSFhirId;  							// URL in FHiR
+		String KosURL = fhirUrl+"/baseDstu3/Binary/"+KOSFhirId;  		// URL in FHiR
+		URL url = new URL(KosURL);
 		logger.debug(KosURL);
 
-		URL url = new URL(KosURL);
-
-		HttpURLConnection fhirConnection = null;
-
-		fhirConnection = (HttpURLConnection) url.openConnection();
+		HttpURLConnection fhirConnection = (HttpURLConnection) url.openConnection(); // Connection to retrieve dicom KOS file in Fhir
 		fhirConnection.setRequestMethod("GET");
-		fhirConnection.setRequestProperty("Accept",  "type=application/dicom;"); //multipart/related;
+		fhirConnection.setRequestProperty("Accept",  "type=application/dicom;"); 
 
 		org.dcm4che3.io.DicomInputStream dis = new org.dcm4che3.io.DicomInputStream(fhirConnection.getInputStream());
-		Attributes attr  = dis.readDataset(-1, -1);
-		dis.close();
+				// Read dicom file as a dicom stream
+		Attributes attr  = dis.readDataset(-1, -1);                    // Get Attributes tree
 
-		Sequence mainSeq = attr.getSequence(Tag.CurrentRequestedProcedureEvidenceSequence);
-
-		Iterator<Attributes> itr = mainSeq.iterator();
+		Sequence mainSeq = attr.getSequence(Tag.CurrentRequestedProcedureEvidenceSequence); 
+		Iterator<Attributes> itr = mainSeq.iterator(); // Iterator for iter belong CurrentRequestedProcedureEvidenceSequence
 
 		while(itr.hasNext()) {
 
@@ -270,6 +264,9 @@ public class ImportController extends CommonFunctions {
 				}   
 			}
 		}
+		
+		dis.close();												   // Close Stream
+		fhirConnection.disconnect();                                   // Close coonection to fhir
 
 		return "{\"res\":\"importDicomMetadata Request received\"}";
 
@@ -370,6 +367,7 @@ public class ImportController extends CommonFunctions {
 		return "{\"res\": \"ImportNonDicomFileSetDescriptor Request received\"}";							// Return these message if there's no Error
 	}
 
+	/*
 	@RequestMapping(value = "/validateDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
 	public String validateDicomFileSetDescriptor(@RequestBody String filesetDescriptorString)  {  // validate request list in JSON
 		logger.info("Validating DicomFileSetDescriptor");			// Log a message 
@@ -394,7 +392,8 @@ public class ImportController extends CommonFunctions {
 		logger.debug("DicomFileSetDescriptor is Valid");
 		return new ValidationReport(true, "XML is Valid").getJson();
 	}
-
+*/
+	
 	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
 	public @ResponseBody String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {
 		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
@@ -414,11 +413,11 @@ public class ImportController extends CommonFunctions {
 		} catch (IOException e) {
 			logger.debug("IO Error when reading XML or XSD File");
 			e.printStackTrace();
-			return new ValidationReport(false, e.getCause().toString()).getJson();
+			return new ValidationReport(false, e.getMessage()).getJson();
 		} catch (SAXException e) {
 			logger.debug("NonDicomFileSetDescriptor is not Valid");
 			e.printStackTrace();
-			return new ValidationReport(false, e.getCause().toString()).getJson();
+			return new ValidationReport(false, e.getMessage()).getJson();
 		}
 		logger.debug("NonDicomFileSetDescriptor is Valid");
 		String test = new ValidationReport(true, "XML is Valid").getJson();
@@ -828,11 +827,12 @@ public class ImportController extends CommonFunctions {
 		logger.info("Transfer to stardog : Complete");
 	}
 
+	/*
 	@RequestMapping (value = "/shutDownServer", method = RequestMethod.GET , headers = "Accept=text/xml")
 	public void shutDownServer() {
 		logger.info("Shutting Down Server");
 		System.out.println("Good Bye Friend !");
 		System.exit(0);
-	}
+	}*/
 
 }

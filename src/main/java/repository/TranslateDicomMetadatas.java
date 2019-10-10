@@ -1,36 +1,14 @@
 package repository;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.dcm4che3.data.Attributes;
 import org.dcm4che3.data.Sequence;
 import org.dcm4che3.data.Tag;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.openrdf.query.QueryEvaluationException;
-import org.openrdf.query.TupleQueryResult;
-import org.openrdf.query.TupleQueryResultHandlerException;
-import org.openrdf.query.resultio.QueryResultIO;
-import org.openrdf.query.resultio.TupleQueryResultFormat;
-import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import com.complexible.stardog.api.Connection;
-import com.complexible.stardog.api.ConnectionConfiguration;
-import com.complexible.stardog.api.ConnectionPool;
-import com.complexible.stardog.api.ConnectionPoolConfig;
-import com.complexible.stardog.api.SelectQuery;
-
-import repository.ImportController.database;
 
 public class TranslateDicomMetadatas extends OntologyPopulator {
 
