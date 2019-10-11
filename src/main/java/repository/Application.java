@@ -50,6 +50,17 @@ public class Application {
 			"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
 		
     public static void main(String[] args) {
+    	int nMinutes = 10;
+    			
+    	if (args.length>=1) {
+    		if (args[0]=="express") {
+    			nMinutes = 0;
+    		} else {
+        		nMinutes = Integer.parseInt(args[0]);
+    		}
+    	}
+    	System.out.println("nMinutes "+nMinutes);
+    	
         ConfigurableApplicationContext ct = SpringApplication.run(Application.class, args);					 // Spring Boot
     	try {
 			loadProperties();
@@ -76,17 +87,17 @@ public class Application {
 			System.exit(12);
 		} 								 								// load the ontlogy from file (it takes about 3-4 minutes)
 
-    	/*
+    	
         System.out.println("Wait for Stardog"); 	
 
     	try {
-			TimeUnit.MINUTES.sleep(10);
+			TimeUnit.MINUTES.sleep(nMinutes);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
     	
-        System.out.println("Wait end"); 	*/
+        System.out.println("Wait end"); 	
     	
     	try {
 			memory = new Memory();										// Going to request to get usefull object inside semantic database
@@ -104,6 +115,7 @@ public class Application {
         System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"); 
         logger.info("Semantic Translator is ready");
         System.out.println("\n\nSemantic Translator is ready\n\n"); 	 // Now server is ready to receive commands
+        
     }
     
     public static void loadOntology(String pathOntology) throws IOException {
