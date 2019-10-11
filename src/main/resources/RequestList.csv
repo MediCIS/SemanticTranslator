@@ -1,8 +1,15 @@
-Request1;CT datasets and handles;List CT datasets and IRDBB WADO handles;FALSE;"SELECT DISTINCT ?Dataset ?Handle 
+Request1;CT datasets and handles;List CT datasets and IRDBB WADO handles;FALSE;"SELECT DISTINCT ?Dataset ?PatientName ?PatientId ?Handle 
  WHERE { 
   ?Dataset rdf:type ontomedirad:CT_image_dataset .
+  ?Dataset ontomedirad:is_specified_output_of ?Acq .
+  ?Human rdf:type ontomedirad:human .
+  OPTIONAL { ?Human ontomedirad:has_name ?PatientName }
+  OPTIONAL { ?Human ontomedirad:has_id ?PatientId }
+  ?Human purl:BFO_0000087 ?RolePat .
+  ?RolePat purl:BFO_0000054 ?Exam .
+  ?Acq purl:BFO_0000132 ?Exam .
   OPTIONAL { ?Dataset ontomedirad:has_IRDBB_WADO_handle ?Handle .}
- } ORDER BY ?Dataset"
+ } ORDER BY ?PatientName"
 Request2;Patients and demographic data;List patients with demographic characteristics;FALSE;"SELECT DISTINCT ?Human ?PatientName ?PatientId ?PatientSex ?PatientBirthDate 
  WHERE {
    ?Human rdf:type ontomedirad:human .

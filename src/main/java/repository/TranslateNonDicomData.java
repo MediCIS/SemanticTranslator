@@ -763,7 +763,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					ctImageDataSet = memory.getCtDataSet(series, study);
 				}
 			} //fin simpleCTMonteCarloDosimetry
-
+			
 			if (subtask212.getCTSegmentation()!=null) {
 				ctSegmentation = subtask212.getCTSegmentation();
 				imageSegmentation = createIndiv(generateName("image_segmentation"), model.getResource(racineURI+"image_segmentation")); //process

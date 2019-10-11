@@ -1251,8 +1251,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					Individual dataset = createIndiv(generateName("NM_tomo_dataset"), model.getResource(racineURI+"NM_tomo_dataset"));
 					addObjectProperty(dataset, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class")));
 					addDataProperty(dataset,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
-					addDataProperty(dataSet, racineURI+"has_IRDBB_WADO_handle", handle);
-	
+					addDataProperty(dataset, racineURI+"has_IRDBB_WADO_handle", handle);
+
 					SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
 					logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
 					addDataProperty(dataset, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
