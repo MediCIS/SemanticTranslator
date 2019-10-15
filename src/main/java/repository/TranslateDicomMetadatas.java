@@ -1957,7 +1957,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		}
 	} // Fin MetaData
 
-
 	public static void translateSRmaienz(Attributes root, String ClinicalResearchStudyId, String handle)  {
 				
 		logger.debug("SR Maienz");
@@ -1997,24 +1996,26 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		
 		addObjectProperty(SRImagingStudy, racineURI+"has_patient", patient);
 		
-		Sequence AuthorObserverSequenceSeq = root.getSequence(Tag.AuthorObserverSequence);
-		Iterator<Attributes> AuthorObserverSequenceSeqIter = AuthorObserverSequenceSeq.iterator();
-		while (AuthorObserverSequenceSeqIter.hasNext()) {
-			Attributes t = AuthorObserverSequenceSeqIter.next();
-			if (t.getString(Tag.PersonName)!=null) {
-				String PersonName = t.getString(Tag.PersonName);
-				Individual author = memory.getAuthorByName(PersonName);
-				addObjectProperty(author, racineObo+"BFO_0000054", creatingStructuredReport);
-			} else if (t.getString(Tag.ObserverType)!=null) {
-				String ObserverType = t.getString(Tag.ObserverType);
-				
-			} else if (t.getString(Tag.InstitutionName)!=null) {
-				String InstitutionName = t.getString(Tag.InstitutionName);
-				Individual Institution = memory.getInstitution(InstitutionName);
-				Individual roleOfOrganization = memory.getRoleOfResponsibleOrganization(InstitutionName);
-				addObjectProperty(roleOfOrganization, racineObo+"BFO_0000052", Institution);
-				addObjectProperty(roleOfOrganization, racineObo+"BFO_0000054", creatingStructuredReport);
-			} 
+		if (root.getSequence(Tag.AuthorObserverSequence)!=null) {
+			Sequence AuthorObserverSequenceSeq = root.getSequence(Tag.AuthorObserverSequence);
+			Iterator<Attributes> AuthorObserverSequenceSeqIter = AuthorObserverSequenceSeq.iterator();
+			while (AuthorObserverSequenceSeqIter.hasNext()) {
+				Attributes t = AuthorObserverSequenceSeqIter.next();
+				if (t.getString(Tag.PersonName)!=null) {
+					String PersonName = t.getString(Tag.PersonName);
+					Individual author = memory.getAuthorByName(PersonName);
+					addObjectProperty(author, racineObo+"BFO_0000054", creatingStructuredReport);
+				} else if (t.getString(Tag.ObserverType)!=null) {
+					String ObserverType = t.getString(Tag.ObserverType);
+					
+				} else if (t.getString(Tag.InstitutionName)!=null) {
+					String InstitutionName = t.getString(Tag.InstitutionName);
+					Individual Institution = memory.getInstitution(InstitutionName);
+					Individual roleOfOrganization = memory.getRoleOfResponsibleOrganization(InstitutionName);
+					addObjectProperty(roleOfOrganization, racineObo+"BFO_0000052", Institution);
+					addObjectProperty(roleOfOrganization, racineObo+"BFO_0000054", creatingStructuredReport);
+				} 
+			}
 		}
 		
 		String ContentDate = root.getString(Tag.ContentDate);
