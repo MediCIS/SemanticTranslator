@@ -28,7 +28,6 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 	static String FilterMaterial;
 	static String FocalSpots;
 
-	
 	public static void translateCodingSchemeDesignator(Sequence RadiopharmaceuticalInformationSequence, Individual acquisition) {
 		logger.debug("RadiopharmaceuticalInformationSequence : "+RadiopharmaceuticalInformationSequence);
 		iter = RadiopharmaceuticalInformationSequence.iterator();
@@ -2035,8 +2034,5 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			
 		
 	}
-	
-	
-	
-	
+
 }

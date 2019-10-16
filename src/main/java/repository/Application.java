@@ -49,67 +49,31 @@ public class Application {
 			"PATO_for_OntoMEDIRAD.owl","Radionuclides_for_OntoMEDIRAD.owl",
 			"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
 		
-    public static void main(String[] args) {
-    	int nMinutes = 10;
-    			
-    	if (args.length>=1) {
-    		if (args[0]=="express") {
-    			nMinutes = 0;
-    		} else {
-        		nMinutes = Integer.parseInt(args[0]);
-    		}
-    	}
-    	System.out.println("nMinutes "+nMinutes);
-    	
-        ConfigurableApplicationContext ct = SpringApplication.run(Application.class, args);					 // Spring Boot
-    	try {
-			loadProperties();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-			SpringApplication.exit(ct);
-			System.exit(10);
-		}											     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
+    public static void main(String[] args) throws IOException, TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, InvocationTargetException {    			
 		System.out.println("Hello World !");
 
-    	try {
-			listQuerries = new ListQuerries(); 							// Init a querry list (read from the excel file)
-		} catch (IOException e) {
-			e.printStackTrace();
-			SpringApplication.exit(ct);
-			System.exit(11);
-		} 		
+    	loadProperties();									     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
 
-    	try {
-			loadOntology(pathOntology);
-		} catch (IOException e) {
-			e.printStackTrace();
-			SpringApplication.exit(ct);
-			System.exit(12);
-		} 								 								// load the ontlogy from file (it takes about 3-4 minutes)
-
+		listQuerries = new ListQuerries(); 							// Init a querry list (read from the excel file)
+    	loadOntology(pathOntology);
     	
         System.out.println("Wait for Stardog"); 	
 
     	try {
-			TimeUnit.MINUTES.sleep(nMinutes);
+			TimeUnit.MINUTES.sleep(10);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
     	
         System.out.println("Wait end"); 	
+		memory = new Memory();										// Going to request to get usefull object inside semantic database
+							 	
+
+		//dataModel = ModelFactory.createOntologyModel();
     	
-    	try {
-			memory = new Memory();										// Going to request to get usefull object inside semantic database
-		} catch (TupleQueryResultHandlerException | QueryEvaluationException | UnsupportedQueryResultFormatException
-				| InvocationTargetException | IOException e) {
-			e.printStackTrace();
-			SpringApplication.exit(ct);
-			System.exit(13);
-		} 										 	
-
-		dataModel = ModelFactory.createOntologyModel();
-
+        SpringApplication.run(Application.class, args);					 // Spring Boot
+        
         hideLogs = false; 									 			 // Will allow logs to be show
         System.out.println("\n"); 
         System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"); 
