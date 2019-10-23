@@ -27,8 +27,6 @@ public class TranslateDicomCT extends OntologyPopulator {
 		Individual scanner; Individual imageDataSet; Individual imageAccRole;
 		Individual role_of_responsible_organization = null; Iterator<DICOMSOPInstanceDescriptorType> dicomsopInstanceDescriptorIter;
 
-		if (dataModel==null) {model = Application.dataModel;}
-
 		if (memory==null) {memory = Application.memory;}
 
 		patient = retrievePatientData(patientDescriptor);

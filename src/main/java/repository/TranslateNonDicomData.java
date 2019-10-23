@@ -4,7 +4,6 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.jena.ontology.Individual;
@@ -89,7 +88,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 	
 	public static void translateNonDicomData(NonDicomFileSetDescriptor nonDicomFileSetDescriptor) { // 1st function to read XML, check what is inside and call the appropritae function
 		populateModel = ModelFactory.createOntologyModel();
-		if (dataModel==null) {model = Application.dataModel;}
 		if (model==null) {model = Application.getModel();}
 		if (memory==null) {memory = Application.memory;}
 		
@@ -98,8 +96,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		memory.getPatientbyId(patientID);
 		
 		if (nonDicomFileSetDescriptor.getWP2Subtask212WorkflowData()!=null) {
-			researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask2.1.2", 
-					model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2"));
+			//researchClinicalStudy = createIndiv("clinical_research_study_755523_subtask2.1.2", 
+			//		model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2"));
 			retrieveSubtastk212(nonDicomFileSetDescriptor);
 		}
 		
@@ -841,6 +839,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 									fhirID="/fhir/Binary/"+fhirID;
 								}
 								addDataProperty(voiFile, racineURI+"has_IRDBB_FHIR_handle",fhirID);
+								
 							} else {
 								logger.warn("NonDICOMVOIContainer has no FHIRIdentifier");
 							}
@@ -861,6 +860,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							default:
 								logger.warn("Unknown : voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().nonDICOMDataClass");
 							}
+
 							switch (voiContainer.getNonDICOMDataFormat()) {
 							case ("zipped imageJ contours format"):
 								i = createIndiv(model.getResource(racineURI+"zipped_imageJ_contours_format"));
@@ -923,7 +923,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						Individual modelAttenuator = createIndiv(generateName("Attenuator_Model"), model.createResource(racineDCM+"128472"));
 						addDataProperty(attenuator, racineURI+"has_name", attenuatorParam.getEquivalentAttenuatorModel());
 						addObjectProperty(attenuator, racineURI+"has_setting", modelAttenuator);
-						//TODO décommneter au dessus et compléter
 
 						i = createIndiv(generateName("Attenuator_Thickness"), model.getResource(racineDCM+"128469"));
 
@@ -990,7 +989,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				if (calculationOfVoxelMap.getVoxelBasedDistributionOfAbsorbedDoseProduced()!=null) {
 					voxelBasedDistribution = calculationOfVoxelMap.getVoxelBasedDistributionOfAbsorbedDoseProduced();
 					voxelBasedDistributionOfAbsorbedDoseType = createIndiv(generateName("3D_dose_map"), model.getResource(racineDCM+"128487"));
-					
 					addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_patient", patient);
 					//Individual doseMap = voxelBasedDistributionOfAbsorbedDoseType;
 
@@ -1020,11 +1018,14 @@ public class TranslateNonDicomData extends OntologyPopulator {
 								break;
 							case ("3D dose map"):
 								voi = createIndiv(generateName("3D_dose_map"), model.getResource(racineDCM+"128487"));
+								addObjectProperty(voi, racineURI+"has_specified_output", voxelBasedDistributionOfAbsorbedDoseType);	
 								break;
 							default:
 								logger.warn("Unknown : voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().nonDICOMDataClass");
-							}	
+							}
 							if(voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getFHIRIdentifier()!=null) {
+								String fhirID = voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getFHIRIdentifier();
+								
 								addDataProperty(voi, racineURI+"has_IRDBB_FHIR_handle", 
 										"/fhir/Binary/"+voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution().getFHIRIdentifier());
 								addObjectProperty(voi,racineURI+"has_patient",patient);

@@ -413,10 +413,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 	public static void translateDicomMetaData(Attributes root, String ClinicalResearchStudyId, String handle) {
 		logger.info("translateDicomMetaData");
 		if (model==null) {model = Application.getModel();}
-		if (dataModel==null) {model = Application.dataModel;}
 		populateModel = ModelFactory.createOntologyModel();
 		if (memory==null) {memory = Application.memory;}
-		
+				
 		String SOPClassUID = root.getString(Tag.SOPClassUID);
 		logger.debug("SOPClassUID : "+SOPClassUID);
 		
@@ -458,7 +457,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
 				//addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);							// link both of them
 				addDataProperty(patient, racineURI+"has_id", PatientID);
-				memory.setPatientId(PatientID, patient);
+				if (patient!=null) {
+					memory.setPatientId(PatientID, patient);
+				}
 			}
 			
 			String PatientName = root.getString(Tag.PatientName);

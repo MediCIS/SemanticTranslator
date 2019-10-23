@@ -18,7 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 import querries.ListQuerries;
 
@@ -50,7 +49,15 @@ public class Application {
 			"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
 		
     public static void main(String[] args) throws IOException, TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, InvocationTargetException {    			
-		System.out.println("Hello World !");
+		
+    	int nMinutes = 10;
+
+      	if (args.length>=1) {
+     		if (args[0]=="express") {nMinutes = 0;}
+     		else {nMinutes = Integer.parseInt(args[0]);}
+     	}
+      	
+    	System.out.println("Hello World !");
 
     	loadProperties();									     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
 
@@ -58,26 +65,24 @@ public class Application {
     	loadOntology(pathOntology);
     	
         System.out.println("Wait for Stardog"); 	
-
     	try {
-			TimeUnit.MINUTES.sleep(10);
+			TimeUnit.MINUTES.sleep(nMinutes);
 		} catch (InterruptedException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-    	
         System.out.println("Wait end"); 	
-		memory = new Memory();										// Going to request to get usefull object inside semantic database
-							 	
-
-		//dataModel = ModelFactory.createOntologyModel();
-    	
+		
+        memory = new Memory();										// Going to request to get usefull object inside semantic database    	
+            	
         SpringApplication.run(Application.class, args);					 // Spring Boot
-        
+
         hideLogs = false; 									 			 // Will allow logs to be show
+        
         System.out.println("\n"); 
         System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"); 
         logger.info("Semantic Translator is ready");
+		System.out.println("model : "+model);
         System.out.println("\n\nSemantic Translator is ready\n\n"); 	 // Now server is ready to receive commands
         
     }

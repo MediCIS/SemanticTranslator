@@ -23,7 +23,6 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 																									// Contains all functions to create the ontology populated
 	static OntModel populateModel;																	// Model for store the populated graph
 	static OntModel model;																			// Model for store the ontology graph
-	static OntModel dataModel;																		// TEST
 	
 	static String handle; 											
 	static Individual patient; static Individual patientRole;
@@ -51,7 +50,6 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		populateModel = ModelFactory.createOntologyModel();											// Create an empty graph for store individuals
 		if (model==null) {model = Application.getModel();}
 		if (memory==null) {memory = Application.memory;}
-		if (dataModel==null) {dataModel = Application.dataModel;}
 
 		if (patientData.getPatientID00100020()!=null) {													// if != null avoid a nullPointerException
 			String patientID = patientData.getPatientID00100020();
@@ -118,7 +116,6 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		logger.debug("retrieveClinicalResearchStudy : "+name);
 		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
 		if (model==null) {model = Application.getModel();}
-		if (dataModel==null) {dataModel = Application.dataModel;}
 
 		if (memory==null) {memory = Application.memory;}
 		

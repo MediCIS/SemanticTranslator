@@ -27,7 +27,6 @@ public class TranslateDicomSR extends OntologyPopulator {
 
 	public static void readingSR(ContentItem root, String patientID ) throws IOException { // recursive function for read SR tree
 		if (model==null) {model = Application.getModel();}
-		if (dataModel==null) {model = Application.dataModel;}
 		if (patientId==null) {patientId=patientID;}
 		ContentItem child;
 
@@ -73,9 +72,9 @@ public class TranslateDicomSR extends OntologyPopulator {
 				addDataProperty(study, racineURI+"has_dicom_UID", ImportController.studyInstanceUID);
 				if (memory==null) {memory=Application.memory;}
 				patient = memory.getHuman(patientId);														// create human
+				addDataProperty(patient, racineURI+"has_name", patientId);
 				patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient")); // create patient role
 				addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
-				
 				addObjectProperty(patientRole, "http://purl.obolibrary.org/obo/BFO_0000054", imagingStudy);
 				break;
 			default:

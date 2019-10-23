@@ -63,8 +63,6 @@ public class Memory extends OntologyPopulator {
 	private Hashtable<String, Individual> tableStudyInstance;
 
 	private Hashtable<String, Individual> tableAuthorName;
-
-
 	
 	public Memory() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
 		initVoidMemory();
