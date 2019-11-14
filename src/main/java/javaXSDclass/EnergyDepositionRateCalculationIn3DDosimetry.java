@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.09.16 à 04:44:10 PM CEST 
+// Généré le : 2019.10.24 à 03:08:52 PM CEST 
 //
 
 
@@ -32,6 +32,18 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="VOIUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="CTReconResampledOnNMReferenceUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="NMTomoReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="CalculationAlgorithmUsed">
+ *           &lt;simpleType>
+ *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
+ *               &lt;enumeration value="local energy deposition"/>
+ *               &lt;enumeration value="FFT convolution"/>
+ *               &lt;enumeration value="homogeneous matrix convolution"/>
+ *               &lt;enumeration value="heterogeneous matrix convolution"/>
+ *               &lt;enumeration value="Monte Carlo"/>
+ *             &lt;/restriction>
+ *           &lt;/simpleType>
+ *         &lt;/element>
+ *         &lt;element name="KernelLimitForConvolutionsUsed" type="{https://www.irdbb-medirad.com}KernelLimitForConvolutions" minOccurs="0"/>
  *         &lt;element name="ThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="{https://www.irdbb-medirad.com}NonDICOMData"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -49,6 +61,8 @@ import javax.xml.bind.annotation.XmlType;
     "voiUsed",
     "ctReconResampledOnNMReferenceUsed",
     "nmTomoReconUsed",
+    "calculationAlgorithmUsed",
+    "kernelLimitForConvolutionsUsed",
     "threeDimEnergyDepositionRateMatrixAtTimePointProduced"
 })
 public class EnergyDepositionRateCalculationIn3DDosimetry {
@@ -65,6 +79,10 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
     protected DICOMData ctReconResampledOnNMReferenceUsed;
     @XmlElement(name = "NMTomoReconUsed", required = true)
     protected DICOMData nmTomoReconUsed;
+    @XmlElement(name = "CalculationAlgorithmUsed", required = true)
+    protected String calculationAlgorithmUsed;
+    @XmlElement(name = "KernelLimitForConvolutionsUsed")
+    protected KernelLimitForConvolutions kernelLimitForConvolutionsUsed;
     @XmlElement(name = "ThreeDimEnergyDepositionRateMatrixAtTimePointProduced", required = true)
     protected NonDICOMData threeDimEnergyDepositionRateMatrixAtTimePointProduced;
 
@@ -220,6 +238,54 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
      */
     public void setNMTomoReconUsed(DICOMData value) {
         this.nmTomoReconUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété calculationAlgorithmUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getCalculationAlgorithmUsed() {
+        return calculationAlgorithmUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété calculationAlgorithmUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setCalculationAlgorithmUsed(String value) {
+        this.calculationAlgorithmUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété kernelLimitForConvolutionsUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link KernelLimitForConvolutions }
+     *     
+     */
+    public KernelLimitForConvolutions getKernelLimitForConvolutionsUsed() {
+        return kernelLimitForConvolutionsUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété kernelLimitForConvolutionsUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link KernelLimitForConvolutions }
+     *     
+     */
+    public void setKernelLimitForConvolutionsUsed(KernelLimitForConvolutions value) {
+        this.kernelLimitForConvolutionsUsed = value;
     }
 
     /**

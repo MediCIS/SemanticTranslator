@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.09.16 à 04:44:10 PM CEST 
+// Généré le : 2019.10.24 à 03:08:52 PM CEST 
 //
 
 
@@ -33,8 +33,10 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="ImageProcessingMethodMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="CountsPerVOIAtTimePointProduced" type="{https://www.irdbb-medirad.com}CountsPerVOIAtTimePoint" maxOccurs="unbounded"/>
  *         &lt;element name="VOIProduced" type="{https://www.irdbb-medirad.com}VOI" maxOccurs="unbounded"/>
- *         &lt;element name="CTReconResampledOnCommonReferenceProduced" type="{https://www.irdbb-medirad.com}DICOMData" maxOccurs="unbounded"/>
- *         &lt;element name="NMTomoReconResampledOnCommonReferenceProduced" type="{https://www.irdbb-medirad.com}DICOMData" maxOccurs="unbounded"/>
+ *         &lt;element name="CTReconResampledOnCommonReferenceProduced" type="{https://www.irdbb-medirad.com}DICOMData" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="CTReconResampledOnCommonReferenceProducedNonDICOM" type="{https://www.irdbb-medirad.com}NonDICOMData" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="NMTomoReconResampledOnCommonReferenceProduced" type="{https://www.irdbb-medirad.com}DICOMData" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="NMTomoReconResampledOnCommonReferenceProducedNonDICOM" type="{https://www.irdbb-medirad.com}NonDICOMData" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -53,7 +55,9 @@ import javax.xml.bind.annotation.XmlType;
     "countsPerVOIAtTimePointProduced",
     "voiProduced",
     "ctReconResampledOnCommonReferenceProduced",
-    "nmTomoReconResampledOnCommonReferenceProduced"
+    "ctReconResampledOnCommonReferenceProducedNonDICOM",
+    "nmTomoReconResampledOnCommonReferenceProduced",
+    "nmTomoReconResampledOnCommonReferenceProducedNonDICOM"
 })
 public class RegistrationVOISegmentationAndPropagation {
 
@@ -71,10 +75,14 @@ public class RegistrationVOISegmentationAndPropagation {
     protected List<CountsPerVOIAtTimePoint> countsPerVOIAtTimePointProduced;
     @XmlElement(name = "VOIProduced", required = true)
     protected List<VOI> voiProduced;
-    @XmlElement(name = "CTReconResampledOnCommonReferenceProduced", required = true)
+    @XmlElement(name = "CTReconResampledOnCommonReferenceProduced")
     protected List<DICOMData> ctReconResampledOnCommonReferenceProduced;
-    @XmlElement(name = "NMTomoReconResampledOnCommonReferenceProduced", required = true)
+    @XmlElement(name = "CTReconResampledOnCommonReferenceProducedNonDICOM")
+    protected List<NonDICOMData> ctReconResampledOnCommonReferenceProducedNonDICOM;
+    @XmlElement(name = "NMTomoReconResampledOnCommonReferenceProduced")
     protected List<DICOMData> nmTomoReconResampledOnCommonReferenceProduced;
+    @XmlElement(name = "NMTomoReconResampledOnCommonReferenceProducedNonDICOM")
+    protected List<NonDICOMData> nmTomoReconResampledOnCommonReferenceProducedNonDICOM;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -299,6 +307,35 @@ public class RegistrationVOISegmentationAndPropagation {
     }
 
     /**
+     * Gets the value of the ctReconResampledOnCommonReferenceProducedNonDICOM property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the ctReconResampledOnCommonReferenceProducedNonDICOM property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getCTReconResampledOnCommonReferenceProducedNonDICOM().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link NonDICOMData }
+     * 
+     * 
+     */
+    public List<NonDICOMData> getCTReconResampledOnCommonReferenceProducedNonDICOM() {
+        if (ctReconResampledOnCommonReferenceProducedNonDICOM == null) {
+            ctReconResampledOnCommonReferenceProducedNonDICOM = new ArrayList<NonDICOMData>();
+        }
+        return this.ctReconResampledOnCommonReferenceProducedNonDICOM;
+    }
+
+    /**
      * Gets the value of the nmTomoReconResampledOnCommonReferenceProduced property.
      * 
      * <p>
@@ -325,6 +362,35 @@ public class RegistrationVOISegmentationAndPropagation {
             nmTomoReconResampledOnCommonReferenceProduced = new ArrayList<DICOMData>();
         }
         return this.nmTomoReconResampledOnCommonReferenceProduced;
+    }
+
+    /**
+     * Gets the value of the nmTomoReconResampledOnCommonReferenceProducedNonDICOM property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the nmTomoReconResampledOnCommonReferenceProducedNonDICOM property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getNMTomoReconResampledOnCommonReferenceProducedNonDICOM().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link NonDICOMData }
+     * 
+     * 
+     */
+    public List<NonDICOMData> getNMTomoReconResampledOnCommonReferenceProducedNonDICOM() {
+        if (nmTomoReconResampledOnCommonReferenceProducedNonDICOM == null) {
+            nmTomoReconResampledOnCommonReferenceProducedNonDICOM = new ArrayList<NonDICOMData>();
+        }
+        return this.nmTomoReconResampledOnCommonReferenceProducedNonDICOM;
     }
 
 }

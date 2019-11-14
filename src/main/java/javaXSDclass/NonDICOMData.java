@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.09.16 à 04:44:10 PM CEST 
+// Généré le : 2019.10.24 à 03:08:52 PM CEST 
 //
 
 
@@ -32,6 +32,9 @@ import javax.xml.bind.annotation.XmlType;
  *               &lt;enumeration value="VOI"/>
  *               &lt;enumeration value="VOI superimposed on images"/>
  *               &lt;enumeration value="3D dose map"/>
+ *               &lt;enumeration value="3D density map"/>
+ *               &lt;enumeration value="3D activity map"/>
+ *               &lt;enumeration value="3D absorbed dose rate map"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>
@@ -42,6 +45,7 @@ import javax.xml.bind.annotation.XmlType;
  *               &lt;enumeration value="TIFF format embedding imageJ contours"/>
  *               &lt;enumeration value="zipped pseudo DICOM ImpactMC"/>
  *               &lt;enumeration value="GIF format embedding imageJ contours"/>
+ *               &lt;enumeration value="NRRD format"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>

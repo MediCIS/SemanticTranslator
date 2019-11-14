@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.09.16 à 04:44:10 PM CEST 
+// Généré le : 2019.10.24 à 03:08:52 PM CEST 
 //
 
 
@@ -24,8 +24,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="SPECTAcqCTAcqAndReconstruction" type="{https://www.irdbb-medirad.com}SPECTAcqCTAcqAndReconstruction"/>
- *         &lt;element name="SPECTReconstruction" type="{https://www.irdbb-medirad.com}SPECTReconstruction"/>
+ *         &lt;element name="SPECTAcqCTAcqAndReconstruction" type="{https://www.irdbb-medirad.com}SPECTAcqCTAcqAndReconstruction" minOccurs="0"/>
+ *         &lt;element name="SPECTReconstruction" type="{https://www.irdbb-medirad.com}SPECTReconstruction" minOccurs="0"/>
  *         &lt;element name="RegistrationVOISegmentation" type="{https://www.irdbb-medirad.com}RegistrationVOISegmentation"/>
  *         &lt;element name="VOIActivityDetermination" type="{https://www.irdbb-medirad.com}VOIActivityDetermination"/>
  *       &lt;/sequence>
@@ -45,9 +45,9 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class SPECTDataAcquisitionAndProcessing {
 
-    @XmlElement(name = "SPECTAcqCTAcqAndReconstruction", required = true)
+    @XmlElement(name = "SPECTAcqCTAcqAndReconstruction")
     protected SPECTAcqCTAcqAndReconstruction spectAcqCTAcqAndReconstruction;
-    @XmlElement(name = "SPECTReconstruction", required = true)
+    @XmlElement(name = "SPECTReconstruction")
     protected SPECTReconstruction spectReconstruction;
     @XmlElement(name = "RegistrationVOISegmentation", required = true)
     protected RegistrationVOISegmentation registrationVOISegmentation;

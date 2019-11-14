@@ -15,19 +15,18 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour MassPerVOIAtTimePoint complex type.
+ * <p>Classe Java pour AbsorbedDoseInVOI complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="MassPerVOIAtTimePoint">
+ * &lt;complexType name="AbsorbedDoseInVOI">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="MassValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="MassUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="AbsorbedDoseInVOIValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
+ *         &lt;element name="AbsorbedDoseInVOIUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="VOIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="TimePointIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,61 +36,58 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MassPerVOIAtTimePoint", propOrder = {
-    "massValue",
-    "massUnit",
-    "voiIdentifier",
-    "timePointIdentifier"
+@XmlType(name = "AbsorbedDoseInVOI", propOrder = {
+    "absorbedDoseInVOIValue",
+    "absorbedDoseInVOIUnit",
+    "voiIdentifier"
 })
-public class MassPerVOIAtTimePoint {
+public class AbsorbedDoseInVOI {
 
-    @XmlElement(name = "MassValue")
-    protected float massValue;
-    @XmlElement(name = "MassUnit", required = true)
-    protected String massUnit;
+    @XmlElement(name = "AbsorbedDoseInVOIValue")
+    protected float absorbedDoseInVOIValue;
+    @XmlElement(name = "AbsorbedDoseInVOIUnit", required = true)
+    protected String absorbedDoseInVOIUnit;
     @XmlElement(name = "VOIIdentifier", required = true)
     protected String voiIdentifier;
-    @XmlElement(name = "TimePointIdentifier", required = true)
-    protected String timePointIdentifier;
 
     /**
-     * Obtient la valeur de la propriété massValue.
+     * Obtient la valeur de la propriété absorbedDoseInVOIValue.
      * 
      */
-    public float getMassValue() {
-        return massValue;
+    public float getAbsorbedDoseInVOIValue() {
+        return absorbedDoseInVOIValue;
     }
 
     /**
-     * Définit la valeur de la propriété massValue.
+     * Définit la valeur de la propriété absorbedDoseInVOIValue.
      * 
      */
-    public void setMassValue(float value) {
-        this.massValue = value;
+    public void setAbsorbedDoseInVOIValue(float value) {
+        this.absorbedDoseInVOIValue = value;
     }
 
     /**
-     * Obtient la valeur de la propriété massUnit.
+     * Obtient la valeur de la propriété absorbedDoseInVOIUnit.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getMassUnit() {
-        return massUnit;
+    public String getAbsorbedDoseInVOIUnit() {
+        return absorbedDoseInVOIUnit;
     }
 
     /**
-     * Définit la valeur de la propriété massUnit.
+     * Définit la valeur de la propriété absorbedDoseInVOIUnit.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setMassUnit(String value) {
-        this.massUnit = value;
+    public void setAbsorbedDoseInVOIUnit(String value) {
+        this.absorbedDoseInVOIUnit = value;
     }
 
     /**
@@ -116,30 +112,6 @@ public class MassPerVOIAtTimePoint {
      */
     public void setVOIIdentifier(String value) {
         this.voiIdentifier = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété timePointIdentifier.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getTimePointIdentifier() {
-        return timePointIdentifier;
-    }
-
-    /**
-     * Définit la valeur de la propriété timePointIdentifier.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setTimePointIdentifier(String value) {
-        this.timePointIdentifier = value;
     }
 
 }

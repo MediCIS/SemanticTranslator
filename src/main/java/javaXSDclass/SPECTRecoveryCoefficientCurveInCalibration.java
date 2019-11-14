@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.09.16 à 04:44:10 PM CEST 
+// Généré le : 2019.10.24 à 03:08:52 PM CEST 
 //
 
 
@@ -35,8 +35,9 @@ import javax.xml.bind.annotation.XmlType;
  *               &lt;enumeration value="iodine131"/>
  *               &lt;enumeration value="lutetium177"/>
  *               &lt;enumeration value="yttrium90"/>
- *               &lt;enumeration value="radium223"/>
  *               &lt;enumeration value="rhenium188"/>
+ *               &lt;enumeration value="terbium161"/>
+ *               &lt;enumeration value="fluorine18"/>
  *             &lt;/restriction>
  *           &lt;/simpleType>
  *         &lt;/element>

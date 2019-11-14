@@ -277,13 +277,13 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					String CTReconResampledOnCommonReferenceUsed_DICOMSeriesUID = CTReconResampledOnCommonReferenceUsed.getDICOMSeriesUID();
 					String CTReconResampledOnCommonReferenceUsed_DICOMStudyUID = CTReconResampledOnCommonReferenceUsed.getDICOMStudyUID();
 			}
-			Iterator<MeanAbsorbedDoseInVOI> MeanAbsorbedDoseInVOIProducedIterator = absorbedDoseCalculationInVOI.getMeanAbsorbedDoseInVOIProduced().iterator();
-			while (MeanAbsorbedDoseInVOIProducedIterator.hasNext()) {
+			//Iterator<MeanAbsorbedDoseInVOI> MeanAbsorbedDoseInVOIProducedIterator = absorbedDoseCalculationInVOI
+			/*while (MeanAbsorbedDoseInVOIProducedIterator.hasNext()) {
 				MeanAbsorbedDoseInVOI meanAbsorbedDoseInVOIProduced = MeanAbsorbedDoseInVOIProducedIterator.next();
 					String meanAbsorbedDoseInVOIUnit = meanAbsorbedDoseInVOIProduced.getMeanAbsorbedDoseInVOIUnit();
 					float meanAbsorbedDoseInVOIValue = meanAbsorbedDoseInVOIProduced.getMeanAbsorbedDoseInVOIValue();
 					String VOIIdentifier = meanAbsorbedDoseInVOIProduced.getVOIIdentifier();
-			}
+			}*/
 			Iterator<DICOMData> NMTomoReconResampledOnCommonReferenceUsedIterator = absorbedDoseCalculationInVOI.getNMTomoReconResampledOnCommonReferenceUsed().iterator();
 			while (NMTomoReconResampledOnCommonReferenceUsedIterator.hasNext()) {
 				boolean NMTomoReconResampledOnCommonReferenceUsed = NMTomoReconResampledOnCommonReferenceUsedIterator.hasNext();
@@ -499,13 +499,13 @@ public class TranslateNonDicomData extends OntologyPopulator {
 	
 	public static void retreiveThreeDimDosimetrySlide2Workflow(ThreeDimDosimetrySlide2Workflow threeDimDosimetrySlide2Workflow) {
 		DoseRateCurveFitVOITimeIntegration doseRateCurveFitVOITimeIntegration = threeDimDosimetrySlide2Workflow.getDoseRateCurveFitVOITimeIntegration();
-			Iterator<MeanAbsorbedDoseInVOI> meanAbsorbedDoseInVOIProducedIterator = doseRateCurveFitVOITimeIntegration.getMeanAbsorbedDoseInVOIProduced().iterator();
+			/*Iterator<MeanAbsorbedDoseInVOI> meanAbsorbedDoseInVOIProducedIterator = doseRateCurveFitVOITimeIntegration.getMeanAbsorbedDoseInVOIProduced().iterator();
 			while (meanAbsorbedDoseInVOIProducedIterator.hasNext()) {
 				MeanAbsorbedDoseInVOI meanAbsorbedDoseInVOIProduced = meanAbsorbedDoseInVOIProducedIterator.next();
 					String meanAbsorbedDoseInVOIUnit = meanAbsorbedDoseInVOIProduced.getMeanAbsorbedDoseInVOIUnit();
 					float meanAbsorbedDoseInVOIValue = meanAbsorbedDoseInVOIProduced.getMeanAbsorbedDoseInVOIValue();
 					String VOIIdentifier = meanAbsorbedDoseInVOIProduced.getVOIIdentifier();
-			}
+			}*/
 			String PKAssessmentMethodUsed = doseRateCurveFitVOITimeIntegration.getPKAssessmentMethodUsed();
 			ProcessExecutionContext processExecutionContext = doseRateCurveFitVOITimeIntegration.getProcessExecutionContext();
 			Iterator<String> timePointIdentifierUsedIterator = doseRateCurveFitVOITimeIntegration.getTimePointIdentifierUsed().iterator();

@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.09.16 à 04:44:10 PM CEST 
+// Généré le : 2019.10.24 à 03:08:52 PM CEST 
 //
 
 
@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *         &lt;element name="PKAssessmentMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="MeanAbsorbedDoseInVOIProduced" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseInVOI" maxOccurs="unbounded"/>
+ *         &lt;element name="AbsorbedDoseInVOIProduced" type="{https://www.irdbb-medirad.com}AbsorbedDoseInVOI" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlType;
     "voiIdentifierUsed",
     "timePointIdentifierUsed",
     "pkAssessmentMethodUsed",
-    "meanAbsorbedDoseInVOIProduced"
+    "absorbedDoseInVOIProduced"
 })
 public class DoseRateCurveFitVOITimeIntegration {
 
@@ -57,8 +57,8 @@ public class DoseRateCurveFitVOITimeIntegration {
     protected List<String> timePointIdentifierUsed;
     @XmlElement(name = "PKAssessmentMethodUsed", required = true)
     protected String pkAssessmentMethodUsed;
-    @XmlElement(name = "MeanAbsorbedDoseInVOIProduced", required = true)
-    protected List<MeanAbsorbedDoseInVOI> meanAbsorbedDoseInVOIProduced;
+    @XmlElement(name = "AbsorbedDoseInVOIProduced", required = true)
+    protected List<AbsorbedDoseInVOI> absorbedDoseInVOIProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -167,32 +167,32 @@ public class DoseRateCurveFitVOITimeIntegration {
     }
 
     /**
-     * Gets the value of the meanAbsorbedDoseInVOIProduced property.
+     * Gets the value of the absorbedDoseInVOIProduced property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the meanAbsorbedDoseInVOIProduced property.
+     * This is why there is not a <CODE>set</CODE> method for the absorbedDoseInVOIProduced property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getMeanAbsorbedDoseInVOIProduced().add(newItem);
+     *    getAbsorbedDoseInVOIProduced().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link MeanAbsorbedDoseInVOI }
+     * {@link AbsorbedDoseInVOI }
      * 
      * 
      */
-    public List<MeanAbsorbedDoseInVOI> getMeanAbsorbedDoseInVOIProduced() {
-        if (meanAbsorbedDoseInVOIProduced == null) {
-            meanAbsorbedDoseInVOIProduced = new ArrayList<MeanAbsorbedDoseInVOI>();
+    public List<AbsorbedDoseInVOI> getAbsorbedDoseInVOIProduced() {
+        if (absorbedDoseInVOIProduced == null) {
+            absorbedDoseInVOIProduced = new ArrayList<AbsorbedDoseInVOI>();
         }
-        return this.meanAbsorbedDoseInVOIProduced;
+        return this.absorbedDoseInVOIProduced;
     }
 
 }
