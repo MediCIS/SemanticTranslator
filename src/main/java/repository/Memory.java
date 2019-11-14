@@ -109,8 +109,13 @@ public class Memory extends OntologyPopulator {
 	}
 	
 	public synchronized Individual getHuman(String patientID) {
+		System.out.println("getHuman");
+		
 		for (int i = 0; i<listIRIHuman.size(); i++) {
+			System.out.println(listIDsHuman.get(i)+" : "+listIRIHuman.get(i));
+
 			if (listIDsHuman.get(i).equalsIgnoreCase(patientID)) {
+				System.out.println("return human : "+listIRIHuman.get(i));
 				return (listIRIHuman.get(i));
 			}
 		}
@@ -226,7 +231,13 @@ public class Memory extends OntologyPopulator {
 	}
 	
 	public synchronized void setPatientName(String name, Individual human) {
-		tablePatientNames.put(name, human);
+		System.out.println("setPatientName");
+		System.out.println("name : "+name);
+		System.out.println("human : "+human);
+		System.out.println("tablePatientNames : "+tablePatientNames);
+		if (tablePatientNames.containsKey(name) == false) { 
+			tablePatientNames.put(name, human);
+		}
 	}
 	
 	public synchronized Individual getPatientByName(String name) {
@@ -238,7 +249,9 @@ public class Memory extends OntologyPopulator {
 		System.out.println("Id : "+Id);
 		System.out.println("human : "+human);
 		System.out.println("tablePatientID : "+tablePatientID);
-		tablePatientID.put(Id, human);
+		if (tablePatientID.containsKey(Id) == false) {
+			tablePatientID.put(Id, human);
+		}
 	}
 	
 	public synchronized Individual getPatientbyId(String Id) {

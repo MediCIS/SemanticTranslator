@@ -82,7 +82,7 @@ public class Application {
         System.out.println("\n"); 
         System.out.println("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||"); 
         logger.info("Semantic Translator is ready");
-		System.out.println("model : "+model);
+		//System.out.println("model : "+model);
         System.out.println("\n\nSemantic Translator is ready\n\n"); 	 // Now server is ready to receive commands
         
     }

@@ -101,7 +101,7 @@ public class ImportController extends CommonFunctions {
 	public String testMetadatas() throws IOException, DicomException {      
 		List<String> listeRDF = Stream.of(
 				
-				"NM_royal_1.3.12.2.1107.5.6.1.0.30800119042309091780800000006.dcm"//,
+				//"NM_royal_1.3.12.2.1107.5.6.1.0.30800119042309091780800000006.dcm"//,
 				/*
 				"CTlocalizer 0000003.dcm",
 				"CTlocalizer 000000.dcm",
@@ -126,12 +126,16 @@ public class ImportController extends CommonFunctions {
 				"CT_1.2.840.113619.2.281.3562.103051.1493996667.372868700.dcm",
 				"CT_1.2.840.113619.2.281.3562.103051.1493996672.372829600.dcm",
 				"CT 96821 000000.dcm",
-				"CT 11200 000000.dcm",
+				"CT 11200 000000.dcm",*/
 
 				"CTenhanced0011.dcm",
 				"CTenhanced0050.dcm",
 				"CTenhanced0053.dcm",
-				"CTenhanced0070.dcm",*/
+				"CTenhanced0070.dcm",
+				"CTenhanced0011.dcm",
+				"CTenhanced0050.dcm",
+				"CTenhanced0053.dcm",
+				"CTenhanced0070.dcm"
 				/*
 				"SR_Maienz_Report-15-2_sr.xml.dcm",
 				"SR_Maienz_Report-79538-1_sr.xml.dcm",

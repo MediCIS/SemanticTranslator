@@ -452,7 +452,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			String PatientID = root.getString(Tag.PatientID);
 			logger.debug("PatientID : "+PatientID);
 			if (PatientID!=null) {
-				patient = memory.getHuman(PatientID);														// create human
+				patient = memory.getHuman(PatientID);			// create human
+				System.out.println("patient : "+patient);
+				System.out.println("getHuman : "+memory.getHuman(PatientID));
 				patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient")); // create patient role		
 				addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
 				//addObjectProperty(patientRole, racineObo+"BFO_0000054", imagingStudy);							// link both of them
@@ -464,7 +466,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			
 			String PatientName = root.getString(Tag.PatientName);
 			logger.debug("PatientName : "+PatientName);
-			if (PatientName!=null) {
+			if (PatientName!=null ) {
 				addDataProperty(patient, racineURI+"has_name", PatientName);
 				memory.setPatientName(PatientName, patient);
 			}
