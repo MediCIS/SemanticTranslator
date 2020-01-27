@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
@@ -11,6 +11,7 @@ package javaXSDclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -25,25 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="VoxelBasedDistributionOfAbsorbedDoseIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VoxelBasedDistributionOfAbsorbedDoseCategory">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="absorbed dose normalized to CTDI free in air normalized to tube load"/>
- *               &lt;enumeration value="absorbed dose normalized to CTDI vol normalized to tube load"/>
- *               &lt;enumeration value="absorbed dose"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
- *         &lt;element name="AbsorbedDoseUnit">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="milligray per (milligray per (100 milliampere second))"/>
- *               &lt;enumeration value="milligray per (100 milliampere second)"/>
- *               &lt;enumeration value="milligray"/>
- *               &lt;enumeration value="milligray per (milligray per (1 milliampere second))"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
+ *         &lt;element name="VoxelBasedDistributionOfAbsorbedDoseCategory" type="{https://www.irdbb-medirad.com}VoxelBasedDistributionOfAbsorbedDoseCategory"/>
+ *         &lt;element name="AbsorbedDoseUnit" type="{https://www.irdbb-medirad.com}AbsorbedDoseUnit"/>
  *         &lt;element name="NonDICOMVoxelBasedAbsorbedDoseDistribution" type="{https://www.irdbb-medirad.com}NonDICOMData" minOccurs="0"/>
  *         &lt;element name="DICOMVoxelBasedAbsorbedDoseDistribution" type="{https://www.irdbb-medirad.com}DICOMData" minOccurs="0"/>
  *       &lt;/sequence>
@@ -67,9 +51,11 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
     @XmlElement(name = "VoxelBasedDistributionOfAbsorbedDoseIdentifier", required = true)
     protected String voxelBasedDistributionOfAbsorbedDoseIdentifier;
     @XmlElement(name = "VoxelBasedDistributionOfAbsorbedDoseCategory", required = true)
-    protected String voxelBasedDistributionOfAbsorbedDoseCategory;
+    @XmlSchemaType(name = "string")
+    protected VoxelBasedDistributionOfAbsorbedDoseCategory voxelBasedDistributionOfAbsorbedDoseCategory;
     @XmlElement(name = "AbsorbedDoseUnit", required = true)
-    protected String absorbedDoseUnit;
+    @XmlSchemaType(name = "string")
+    protected AbsorbedDoseUnit absorbedDoseUnit;
     @XmlElement(name = "NonDICOMVoxelBasedAbsorbedDoseDistribution")
     protected NonDICOMData nonDICOMVoxelBasedAbsorbedDoseDistribution;
     @XmlElement(name = "DICOMVoxelBasedAbsorbedDoseDistribution")
@@ -104,10 +90,10 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link VoxelBasedDistributionOfAbsorbedDoseCategory }
      *     
      */
-    public String getVoxelBasedDistributionOfAbsorbedDoseCategory() {
+    public VoxelBasedDistributionOfAbsorbedDoseCategory getVoxelBasedDistributionOfAbsorbedDoseCategory() {
         return voxelBasedDistributionOfAbsorbedDoseCategory;
     }
 
@@ -116,10 +102,10 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link VoxelBasedDistributionOfAbsorbedDoseCategory }
      *     
      */
-    public void setVoxelBasedDistributionOfAbsorbedDoseCategory(String value) {
+    public void setVoxelBasedDistributionOfAbsorbedDoseCategory(VoxelBasedDistributionOfAbsorbedDoseCategory value) {
         this.voxelBasedDistributionOfAbsorbedDoseCategory = value;
     }
 
@@ -128,10 +114,10 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link AbsorbedDoseUnit }
      *     
      */
-    public String getAbsorbedDoseUnit() {
+    public AbsorbedDoseUnit getAbsorbedDoseUnit() {
         return absorbedDoseUnit;
     }
 
@@ -140,10 +126,10 @@ public class VoxelBasedDistributionOfAbsorbedDoseType {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link AbsorbedDoseUnit }
      *     
      */
-    public void setAbsorbedDoseUnit(String value) {
+    public void setAbsorbedDoseUnit(AbsorbedDoseUnit value) {
         this.absorbedDoseUnit = value;
     }
 

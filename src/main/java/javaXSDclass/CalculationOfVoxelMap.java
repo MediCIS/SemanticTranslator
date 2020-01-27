@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="AttenuatorUsed" type="{https://www.irdbb-medirad.com}AttenuatorType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="AttenuatorUsed" type="{https://www.irdbb-medirad.com}AttenuatorTypeContainer" minOccurs="0"/>
  *         &lt;element name="MonteCarloMethodUsed" type="{https://www.irdbb-medirad.com}MonteCarloMethodType" minOccurs="0"/>
  *         &lt;element name="DICOMCTImageDataUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="VoxelBasedDistributionOfAbsorbedDoseProduced" type="{https://www.irdbb-medirad.com}VoxelBasedDistributionOfAbsorbedDoseType" minOccurs="0"/>
@@ -52,7 +50,7 @@ public class CalculationOfVoxelMap {
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "AttenuatorUsed")
-    protected List<AttenuatorType> attenuatorUsed;
+    protected AttenuatorTypeContainer attenuatorUsed;
     @XmlElement(name = "MonteCarloMethodUsed")
     protected MonteCarloMethodType monteCarloMethodUsed;
     @XmlElement(name = "DICOMCTImageDataUsed", required = true)
@@ -85,32 +83,27 @@ public class CalculationOfVoxelMap {
     }
 
     /**
-     * Gets the value of the attenuatorUsed property.
+     * Obtient la valeur de la propriété attenuatorUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the attenuatorUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAttenuatorUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AttenuatorType }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link AttenuatorTypeContainer }
+     *     
      */
-    public List<AttenuatorType> getAttenuatorUsed() {
-        if (attenuatorUsed == null) {
-            attenuatorUsed = new ArrayList<AttenuatorType>();
-        }
-        return this.attenuatorUsed;
+    public AttenuatorTypeContainer getAttenuatorUsed() {
+        return attenuatorUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété attenuatorUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AttenuatorTypeContainer }
+     *     
+     */
+    public void setAttenuatorUsed(AttenuatorTypeContainer value) {
+        this.attenuatorUsed = value;
     }
 
     /**

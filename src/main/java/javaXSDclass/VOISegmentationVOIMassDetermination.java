@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -31,10 +29,11 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="NMTomoReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="CTReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="VOISegmentationMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="CountsPerVOIAtTimePointProduced" type="{https://www.irdbb-medirad.com}CountsPerVOIAtTimePoint" maxOccurs="unbounded"/>
- *         &lt;element name="VOIProduced" type="{https://www.irdbb-medirad.com}VOI" maxOccurs="unbounded"/>
- *         &lt;element name="CTReconResampledOnNMReferenceProduced" type="{https://www.irdbb-medirad.com}DICOMData" maxOccurs="unbounded"/>
- *         &lt;element name="MassPerVOIAtTimePointProduced" type="{https://www.irdbb-medirad.com}MassPerVOIAtTimePoint" maxOccurs="unbounded"/>
+ *         &lt;element name="CountsPerVOIAtTimePointContainer" type="{https://www.irdbb-medirad.com}CountsPerVOIAtTimePointContainer"/>
+ *         &lt;element name="VOIProduced" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer" minOccurs="0"/>
+ *         &lt;element name="SegmentationProduced" type="{https://www.irdbb-medirad.com}Segmentation" minOccurs="0"/>
+ *         &lt;element name="CTReconResampledOnNMReferenceProduced" type="{https://www.irdbb-medirad.com}DICOMDataContainer"/>
+ *         &lt;element name="MassPerVOIAtTimePointContainer" type="{https://www.irdbb-medirad.com}MassPerVOIAtTimePointContainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -50,10 +49,11 @@ import javax.xml.bind.annotation.XmlType;
     "nmTomoReconUsed",
     "ctReconUsed",
     "voiSegmentationMethodUsed",
-    "countsPerVOIAtTimePointProduced",
+    "countsPerVOIAtTimePointContainer",
     "voiProduced",
+    "segmentationProduced",
     "ctReconResampledOnNMReferenceProduced",
-    "massPerVOIAtTimePointProduced"
+    "massPerVOIAtTimePointContainer"
 })
 public class VOISegmentationVOIMassDetermination {
 
@@ -67,14 +67,16 @@ public class VOISegmentationVOIMassDetermination {
     protected DICOMData ctReconUsed;
     @XmlElement(name = "VOISegmentationMethodUsed", required = true)
     protected String voiSegmentationMethodUsed;
-    @XmlElement(name = "CountsPerVOIAtTimePointProduced", required = true)
-    protected List<CountsPerVOIAtTimePoint> countsPerVOIAtTimePointProduced;
-    @XmlElement(name = "VOIProduced", required = true)
-    protected List<VOI> voiProduced;
+    @XmlElement(name = "CountsPerVOIAtTimePointContainer", required = true)
+    protected CountsPerVOIAtTimePointContainer countsPerVOIAtTimePointContainer;
+    @XmlElement(name = "VOIProduced")
+    protected VOIIdentifierContainer voiProduced;
+    @XmlElement(name = "SegmentationProduced")
+    protected Segmentation segmentationProduced;
     @XmlElement(name = "CTReconResampledOnNMReferenceProduced", required = true)
-    protected List<DICOMData> ctReconResampledOnNMReferenceProduced;
-    @XmlElement(name = "MassPerVOIAtTimePointProduced", required = true)
-    protected List<MassPerVOIAtTimePoint> massPerVOIAtTimePointProduced;
+    protected DICOMDataContainer ctReconResampledOnNMReferenceProduced;
+    @XmlElement(name = "MassPerVOIAtTimePointContainer", required = true)
+    protected MassPerVOIAtTimePointContainer massPerVOIAtTimePointContainer;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -197,119 +199,123 @@ public class VOISegmentationVOIMassDetermination {
     }
 
     /**
-     * Gets the value of the countsPerVOIAtTimePointProduced property.
+     * Obtient la valeur de la propriété countsPerVOIAtTimePointContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the countsPerVOIAtTimePointProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCountsPerVOIAtTimePointProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CountsPerVOIAtTimePoint }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link CountsPerVOIAtTimePointContainer }
+     *     
      */
-    public List<CountsPerVOIAtTimePoint> getCountsPerVOIAtTimePointProduced() {
-        if (countsPerVOIAtTimePointProduced == null) {
-            countsPerVOIAtTimePointProduced = new ArrayList<CountsPerVOIAtTimePoint>();
-        }
-        return this.countsPerVOIAtTimePointProduced;
+    public CountsPerVOIAtTimePointContainer getCountsPerVOIAtTimePointContainer() {
+        return countsPerVOIAtTimePointContainer;
     }
 
     /**
-     * Gets the value of the voiProduced property.
+     * Définit la valeur de la propriété countsPerVOIAtTimePointContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link VOI }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link CountsPerVOIAtTimePointContainer }
+     *     
      */
-    public List<VOI> getVOIProduced() {
-        if (voiProduced == null) {
-            voiProduced = new ArrayList<VOI>();
-        }
-        return this.voiProduced;
+    public void setCountsPerVOIAtTimePointContainer(CountsPerVOIAtTimePointContainer value) {
+        this.countsPerVOIAtTimePointContainer = value;
     }
 
     /**
-     * Gets the value of the ctReconResampledOnNMReferenceProduced property.
+     * Obtient la valeur de la propriété voiProduced.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the ctReconResampledOnNMReferenceProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCTReconResampledOnNMReferenceProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DICOMData }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<DICOMData> getCTReconResampledOnNMReferenceProduced() {
-        if (ctReconResampledOnNMReferenceProduced == null) {
-            ctReconResampledOnNMReferenceProduced = new ArrayList<DICOMData>();
-        }
-        return this.ctReconResampledOnNMReferenceProduced;
+    public VOIIdentifierContainer getVOIProduced() {
+        return voiProduced;
     }
 
     /**
-     * Gets the value of the massPerVOIAtTimePointProduced property.
+     * Définit la valeur de la propriété voiProduced.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the massPerVOIAtTimePointProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getMassPerVOIAtTimePointProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link MassPerVOIAtTimePoint }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<MassPerVOIAtTimePoint> getMassPerVOIAtTimePointProduced() {
-        if (massPerVOIAtTimePointProduced == null) {
-            massPerVOIAtTimePointProduced = new ArrayList<MassPerVOIAtTimePoint>();
-        }
-        return this.massPerVOIAtTimePointProduced;
+    public void setVOIProduced(VOIIdentifierContainer value) {
+        this.voiProduced = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété segmentationProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Segmentation }
+     *     
+     */
+    public Segmentation getSegmentationProduced() {
+        return segmentationProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété segmentationProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Segmentation }
+     *     
+     */
+    public void setSegmentationProduced(Segmentation value) {
+        this.segmentationProduced = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété ctReconResampledOnNMReferenceProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DICOMDataContainer }
+     *     
+     */
+    public DICOMDataContainer getCTReconResampledOnNMReferenceProduced() {
+        return ctReconResampledOnNMReferenceProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété ctReconResampledOnNMReferenceProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DICOMDataContainer }
+     *     
+     */
+    public void setCTReconResampledOnNMReferenceProduced(DICOMDataContainer value) {
+        this.ctReconResampledOnNMReferenceProduced = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété massPerVOIAtTimePointContainer.
+     * 
+     * @return
+     *     possible object is
+     *     {@link MassPerVOIAtTimePointContainer }
+     *     
+     */
+    public MassPerVOIAtTimePointContainer getMassPerVOIAtTimePointContainer() {
+        return massPerVOIAtTimePointContainer;
+    }
+
+    /**
+     * Définit la valeur de la propriété massPerVOIAtTimePointContainer.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link MassPerVOIAtTimePointContainer }
+     *     
+     */
+    public void setMassPerVOIAtTimePointContainer(MassPerVOIAtTimePointContainer value) {
+        this.massPerVOIAtTimePointContainer = value;
     }
 
 }

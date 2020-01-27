@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
@@ -11,6 +11,7 @@ package javaXSDclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="DataActivityValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="DataActivityUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="ActivityUnit" type="{https://www.irdbb-medirad.com}ActivityUnit"/>
  *         &lt;element name="ROIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="TimePointIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
@@ -39,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DataActivityPerROIAtTimePoint", propOrder = {
     "dataActivityValue",
-    "dataActivityUnit",
+    "activityUnit",
     "roiIdentifier",
     "timePointIdentifier"
 })
@@ -47,8 +48,9 @@ public class DataActivityPerROIAtTimePoint {
 
     @XmlElement(name = "DataActivityValue")
     protected float dataActivityValue;
-    @XmlElement(name = "DataActivityUnit", required = true)
-    protected String dataActivityUnit;
+    @XmlElement(name = "ActivityUnit", required = true)
+    @XmlSchemaType(name = "string")
+    protected ActivityUnit activityUnit;
     @XmlElement(name = "ROIIdentifier", required = true)
     protected String roiIdentifier;
     @XmlElement(name = "TimePointIdentifier", required = true)
@@ -71,27 +73,27 @@ public class DataActivityPerROIAtTimePoint {
     }
 
     /**
-     * Obtient la valeur de la propriété dataActivityUnit.
+     * Obtient la valeur de la propriété activityUnit.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link ActivityUnit }
      *     
      */
-    public String getDataActivityUnit() {
-        return dataActivityUnit;
+    public ActivityUnit getActivityUnit() {
+        return activityUnit;
     }
 
     /**
-     * Définit la valeur de la propriété dataActivityUnit.
+     * Définit la valeur de la propriété activityUnit.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link ActivityUnit }
      *     
      */
-    public void setDataActivityUnit(String value) {
-        this.dataActivityUnit = value;
+    public void setActivityUnit(ActivityUnit value) {
+        this.activityUnit = value;
     }
 
     /**

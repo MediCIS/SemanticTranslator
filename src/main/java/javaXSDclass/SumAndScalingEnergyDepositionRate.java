@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,11 +25,11 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="ROIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="TimePointIdentifierUsed" type="{https://www.irdbb-medirad.com}TimePointIdentifierContainer"/>
+ *         &lt;element name="ROIIdentifierUsed" type="{https://www.irdbb-medirad.com}ROIIdentifierContainer"/>
+ *         &lt;element name="VOIIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
  *         &lt;element name="VOIInSPECTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="EnergyDepositionRatePerVOIAtTimePointProduced" type="{https://www.irdbb-medirad.com}EnergyDepositionRatePerVOIAtTimePoint" maxOccurs="unbounded"/>
+ *         &lt;element name="EnergyDepositionRatePerVOIAtTimePointProduced" type="{https://www.irdbb-medirad.com}EnergyDepositionRatePerVOIAtTimePointContainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -54,15 +52,15 @@ public class SumAndScalingEnergyDepositionRate {
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "TimePointIdentifierUsed", required = true)
-    protected List<String> timePointIdentifierUsed;
+    protected TimePointIdentifierContainer timePointIdentifierUsed;
     @XmlElement(name = "ROIIdentifierUsed", required = true)
-    protected List<String> roiIdentifierUsed;
+    protected ROIIdentifierContainer roiIdentifierUsed;
     @XmlElement(name = "VOIIdentifierUsed", required = true)
-    protected List<String> voiIdentifierUsed;
+    protected VOIIdentifierContainer voiIdentifierUsed;
     @XmlElement(name = "VOIInSPECTIdentifierUsed", required = true)
     protected String voiInSPECTIdentifierUsed;
     @XmlElement(name = "EnergyDepositionRatePerVOIAtTimePointProduced", required = true)
-    protected List<EnergyDepositionRatePerVOIAtTimePoint> energyDepositionRatePerVOIAtTimePointProduced;
+    protected EnergyDepositionRatePerVOIAtTimePointContainer energyDepositionRatePerVOIAtTimePointProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -89,90 +87,75 @@ public class SumAndScalingEnergyDepositionRate {
     }
 
     /**
-     * Gets the value of the timePointIdentifierUsed property.
+     * Obtient la valeur de la propriété timePointIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timePointIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimePointIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link TimePointIdentifierContainer }
+     *     
      */
-    public List<String> getTimePointIdentifierUsed() {
-        if (timePointIdentifierUsed == null) {
-            timePointIdentifierUsed = new ArrayList<String>();
-        }
-        return this.timePointIdentifierUsed;
+    public TimePointIdentifierContainer getTimePointIdentifierUsed() {
+        return timePointIdentifierUsed;
     }
 
     /**
-     * Gets the value of the roiIdentifierUsed property.
+     * Définit la valeur de la propriété timePointIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the roiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getROIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimePointIdentifierContainer }
+     *     
      */
-    public List<String> getROIIdentifierUsed() {
-        if (roiIdentifierUsed == null) {
-            roiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.roiIdentifierUsed;
+    public void setTimePointIdentifierUsed(TimePointIdentifierContainer value) {
+        this.timePointIdentifierUsed = value;
     }
 
     /**
-     * Gets the value of the voiIdentifierUsed property.
+     * Obtient la valeur de la propriété roiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link ROIIdentifierContainer }
+     *     
      */
-    public List<String> getVOIIdentifierUsed() {
-        if (voiIdentifierUsed == null) {
-            voiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiIdentifierUsed;
+    public ROIIdentifierContainer getROIIdentifierUsed() {
+        return roiIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété roiIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ROIIdentifierContainer }
+     *     
+     */
+    public void setROIIdentifierUsed(ROIIdentifierContainer value) {
+        this.roiIdentifierUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété voiIdentifierUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
+     */
+    public VOIIdentifierContainer getVOIIdentifierUsed() {
+        return voiIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété voiIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
+     */
+    public void setVOIIdentifierUsed(VOIIdentifierContainer value) {
+        this.voiIdentifierUsed = value;
     }
 
     /**
@@ -200,32 +183,27 @@ public class SumAndScalingEnergyDepositionRate {
     }
 
     /**
-     * Gets the value of the energyDepositionRatePerVOIAtTimePointProduced property.
+     * Obtient la valeur de la propriété energyDepositionRatePerVOIAtTimePointProduced.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the energyDepositionRatePerVOIAtTimePointProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getEnergyDepositionRatePerVOIAtTimePointProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link EnergyDepositionRatePerVOIAtTimePoint }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link EnergyDepositionRatePerVOIAtTimePointContainer }
+     *     
      */
-    public List<EnergyDepositionRatePerVOIAtTimePoint> getEnergyDepositionRatePerVOIAtTimePointProduced() {
-        if (energyDepositionRatePerVOIAtTimePointProduced == null) {
-            energyDepositionRatePerVOIAtTimePointProduced = new ArrayList<EnergyDepositionRatePerVOIAtTimePoint>();
-        }
-        return this.energyDepositionRatePerVOIAtTimePointProduced;
+    public EnergyDepositionRatePerVOIAtTimePointContainer getEnergyDepositionRatePerVOIAtTimePointProduced() {
+        return energyDepositionRatePerVOIAtTimePointProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété energyDepositionRatePerVOIAtTimePointProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link EnergyDepositionRatePerVOIAtTimePointContainer }
+     *     
+     */
+    public void setEnergyDepositionRatePerVOIAtTimePointProduced(EnergyDepositionRatePerVOIAtTimePointContainer value) {
+        this.energyDepositionRatePerVOIAtTimePointProduced = value;
     }
 
 }

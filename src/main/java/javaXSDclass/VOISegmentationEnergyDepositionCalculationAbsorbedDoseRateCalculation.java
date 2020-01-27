@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
@@ -25,9 +25,9 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="VOISegmentationVOIMassDetermination" type="{https://www.irdbb-medirad.com}VOISegmentationVOIMassDetermination"/>
- *         &lt;element name="VOIActivityDetermination" type="{https://www.irdbb-medirad.com}VOIActivityDetermination"/>
+ *         &lt;element name="VOIActivityDetermination" type="{https://www.irdbb-medirad.com}VOIActivityDetermination" minOccurs="0"/>
  *         &lt;element name="EnergyDepositionRateCalculationIn3DDosimetry" type="{https://www.irdbb-medirad.com}EnergyDepositionRateCalculationIn3DDosimetry"/>
- *         &lt;element name="SumAndScalingAbsorbedDoseRateCalculation" type="{https://www.irdbb-medirad.com}SumAndScalingAbsorbedDoseRateCalculation"/>
+ *         &lt;element name="SumAndScalingAbsorbedDoseRateCalculationContainer" type="{https://www.irdbb-medirad.com}SumAndScalingAbsorbedDoseRateCalculationContainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -41,18 +41,18 @@ import javax.xml.bind.annotation.XmlType;
     "voiSegmentationVOIMassDetermination",
     "voiActivityDetermination",
     "energyDepositionRateCalculationIn3DDosimetry",
-    "sumAndScalingAbsorbedDoseRateCalculation"
+    "sumAndScalingAbsorbedDoseRateCalculationContainer"
 })
 public class VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation {
 
     @XmlElement(name = "VOISegmentationVOIMassDetermination", required = true)
     protected VOISegmentationVOIMassDetermination voiSegmentationVOIMassDetermination;
-    @XmlElement(name = "VOIActivityDetermination", required = true)
+    @XmlElement(name = "VOIActivityDetermination")
     protected VOIActivityDetermination voiActivityDetermination;
     @XmlElement(name = "EnergyDepositionRateCalculationIn3DDosimetry", required = true)
     protected EnergyDepositionRateCalculationIn3DDosimetry energyDepositionRateCalculationIn3DDosimetry;
-    @XmlElement(name = "SumAndScalingAbsorbedDoseRateCalculation", required = true)
-    protected SumAndScalingAbsorbedDoseRateCalculation sumAndScalingAbsorbedDoseRateCalculation;
+    @XmlElement(name = "SumAndScalingAbsorbedDoseRateCalculationContainer", required = true)
+    protected SumAndScalingAbsorbedDoseRateCalculationContainer sumAndScalingAbsorbedDoseRateCalculationContainer;
 
     /**
      * Obtient la valeur de la propriété voiSegmentationVOIMassDetermination.
@@ -127,27 +127,27 @@ public class VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculati
     }
 
     /**
-     * Obtient la valeur de la propriété sumAndScalingAbsorbedDoseRateCalculation.
+     * Obtient la valeur de la propriété sumAndScalingAbsorbedDoseRateCalculationContainer.
      * 
      * @return
      *     possible object is
-     *     {@link SumAndScalingAbsorbedDoseRateCalculation }
+     *     {@link SumAndScalingAbsorbedDoseRateCalculationContainer }
      *     
      */
-    public SumAndScalingAbsorbedDoseRateCalculation getSumAndScalingAbsorbedDoseRateCalculation() {
-        return sumAndScalingAbsorbedDoseRateCalculation;
+    public SumAndScalingAbsorbedDoseRateCalculationContainer getSumAndScalingAbsorbedDoseRateCalculationContainer() {
+        return sumAndScalingAbsorbedDoseRateCalculationContainer;
     }
 
     /**
-     * Définit la valeur de la propriété sumAndScalingAbsorbedDoseRateCalculation.
+     * Définit la valeur de la propriété sumAndScalingAbsorbedDoseRateCalculationContainer.
      * 
      * @param value
      *     allowed object is
-     *     {@link SumAndScalingAbsorbedDoseRateCalculation }
+     *     {@link SumAndScalingAbsorbedDoseRateCalculationContainer }
      *     
      */
-    public void setSumAndScalingAbsorbedDoseRateCalculation(SumAndScalingAbsorbedDoseRateCalculation value) {
-        this.sumAndScalingAbsorbedDoseRateCalculation = value;
+    public void setSumAndScalingAbsorbedDoseRateCalculationContainer(SumAndScalingAbsorbedDoseRateCalculationContainer value) {
+        this.sumAndScalingAbsorbedDoseRateCalculationContainer = value;
     }
 
 }

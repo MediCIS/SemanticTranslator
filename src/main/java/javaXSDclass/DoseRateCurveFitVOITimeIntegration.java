@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,10 +25,12 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="PKAssessmentMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="AbsorbedDoseInVOIProduced" type="{https://www.irdbb-medirad.com}AbsorbedDoseInVOI" maxOccurs="unbounded"/>
+ *         &lt;element name="VOIIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
+ *         &lt;element name="TimePointIdentifierUsed" type="{https://www.irdbb-medirad.com}TimePointIdentifierUsedContainer"/>
+ *         &lt;element name="PKAssessmentMethodUsed" type="{https://www.irdbb-medirad.com}CurveFittingMethod"/>
+ *         &lt;element name="PreAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
+ *         &lt;element name="PostAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
+ *         &lt;element name="AbsorbedDoseInVOIProduced" type="{https://www.irdbb-medirad.com}AbsorbedDoseInVOIContainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -45,6 +45,8 @@ import javax.xml.bind.annotation.XmlType;
     "voiIdentifierUsed",
     "timePointIdentifierUsed",
     "pkAssessmentMethodUsed",
+    "preAdministeredActivityUsed",
+    "postAdministeredActivityUsed",
     "absorbedDoseInVOIProduced"
 })
 public class DoseRateCurveFitVOITimeIntegration {
@@ -52,13 +54,17 @@ public class DoseRateCurveFitVOITimeIntegration {
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "VOIIdentifierUsed", required = true)
-    protected List<String> voiIdentifierUsed;
+    protected VOIIdentifierContainer voiIdentifierUsed;
     @XmlElement(name = "TimePointIdentifierUsed", required = true)
-    protected List<String> timePointIdentifierUsed;
+    protected TimePointIdentifierUsedContainer timePointIdentifierUsed;
     @XmlElement(name = "PKAssessmentMethodUsed", required = true)
-    protected String pkAssessmentMethodUsed;
+    protected CurveFittingMethod pkAssessmentMethodUsed;
+    @XmlElement(name = "PreAdministeredActivityUsed", required = true)
+    protected AdministeredActivity preAdministeredActivityUsed;
+    @XmlElement(name = "PostAdministeredActivityUsed", required = true)
+    protected AdministeredActivity postAdministeredActivityUsed;
     @XmlElement(name = "AbsorbedDoseInVOIProduced", required = true)
-    protected List<AbsorbedDoseInVOI> absorbedDoseInVOIProduced;
+    protected AbsorbedDoseInVOIContainer absorbedDoseInVOIProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -85,61 +91,51 @@ public class DoseRateCurveFitVOITimeIntegration {
     }
 
     /**
-     * Gets the value of the voiIdentifierUsed property.
+     * Obtient la valeur de la propriété voiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<String> getVOIIdentifierUsed() {
-        if (voiIdentifierUsed == null) {
-            voiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiIdentifierUsed;
+    public VOIIdentifierContainer getVOIIdentifierUsed() {
+        return voiIdentifierUsed;
     }
 
     /**
-     * Gets the value of the timePointIdentifierUsed property.
+     * Définit la valeur de la propriété voiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timePointIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimePointIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<String> getTimePointIdentifierUsed() {
-        if (timePointIdentifierUsed == null) {
-            timePointIdentifierUsed = new ArrayList<String>();
-        }
-        return this.timePointIdentifierUsed;
+    public void setVOIIdentifierUsed(VOIIdentifierContainer value) {
+        this.voiIdentifierUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété timePointIdentifierUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TimePointIdentifierUsedContainer }
+     *     
+     */
+    public TimePointIdentifierUsedContainer getTimePointIdentifierUsed() {
+        return timePointIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété timePointIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimePointIdentifierUsedContainer }
+     *     
+     */
+    public void setTimePointIdentifierUsed(TimePointIdentifierUsedContainer value) {
+        this.timePointIdentifierUsed = value;
     }
 
     /**
@@ -147,10 +143,10 @@ public class DoseRateCurveFitVOITimeIntegration {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link CurveFittingMethod }
      *     
      */
-    public String getPKAssessmentMethodUsed() {
+    public CurveFittingMethod getPKAssessmentMethodUsed() {
         return pkAssessmentMethodUsed;
     }
 
@@ -159,40 +155,83 @@ public class DoseRateCurveFitVOITimeIntegration {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link CurveFittingMethod }
      *     
      */
-    public void setPKAssessmentMethodUsed(String value) {
+    public void setPKAssessmentMethodUsed(CurveFittingMethod value) {
         this.pkAssessmentMethodUsed = value;
     }
 
     /**
-     * Gets the value of the absorbedDoseInVOIProduced property.
+     * Obtient la valeur de la propriété preAdministeredActivityUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the absorbedDoseInVOIProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAbsorbedDoseInVOIProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AbsorbedDoseInVOI }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link AdministeredActivity }
+     *     
      */
-    public List<AbsorbedDoseInVOI> getAbsorbedDoseInVOIProduced() {
-        if (absorbedDoseInVOIProduced == null) {
-            absorbedDoseInVOIProduced = new ArrayList<AbsorbedDoseInVOI>();
-        }
-        return this.absorbedDoseInVOIProduced;
+    public AdministeredActivity getPreAdministeredActivityUsed() {
+        return preAdministeredActivityUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété preAdministeredActivityUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AdministeredActivity }
+     *     
+     */
+    public void setPreAdministeredActivityUsed(AdministeredActivity value) {
+        this.preAdministeredActivityUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété postAdministeredActivityUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AdministeredActivity }
+     *     
+     */
+    public AdministeredActivity getPostAdministeredActivityUsed() {
+        return postAdministeredActivityUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété postAdministeredActivityUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AdministeredActivity }
+     *     
+     */
+    public void setPostAdministeredActivityUsed(AdministeredActivity value) {
+        this.postAdministeredActivityUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété absorbedDoseInVOIProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AbsorbedDoseInVOIContainer }
+     *     
+     */
+    public AbsorbedDoseInVOIContainer getAbsorbedDoseInVOIProduced() {
+        return absorbedDoseInVOIProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété absorbedDoseInVOIProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AbsorbedDoseInVOIContainer }
+     *     
+     */
+    public void setAbsorbedDoseInVOIProduced(AbsorbedDoseInVOIContainer value) {
+        this.absorbedDoseInVOIProduced = value;
     }
 
 }

@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -28,8 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="VoxelBasedDistributionOfAbsorbedDoseIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="AbsorbedDosePerVOIProduced" type="{https://www.irdbb-medirad.com}AbsorbedDosePerVOIType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="VOIIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer" minOccurs="0"/>
+ *         &lt;element name="AbsorbedDosePerVOIProduced" type="{https://www.irdbb-medirad.com}AbsorbedDosePerVOITypeContainer" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -52,9 +50,9 @@ public class CalculationOfAbsorbedDosesInVOIs {
     @XmlElement(name = "VoxelBasedDistributionOfAbsorbedDoseIdentifierUsed", required = true)
     protected String voxelBasedDistributionOfAbsorbedDoseIdentifierUsed;
     @XmlElement(name = "VOIIdentifierUsed")
-    protected List<String> voiIdentifierUsed;
+    protected VOIIdentifierContainer voiIdentifierUsed;
     @XmlElement(name = "AbsorbedDosePerVOIProduced")
-    protected List<AbsorbedDosePerVOIType> absorbedDosePerVOIProduced;
+    protected AbsorbedDosePerVOITypeContainer absorbedDosePerVOIProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -105,61 +103,51 @@ public class CalculationOfAbsorbedDosesInVOIs {
     }
 
     /**
-     * Gets the value of the voiIdentifierUsed property.
+     * Obtient la valeur de la propriété voiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<String> getVOIIdentifierUsed() {
-        if (voiIdentifierUsed == null) {
-            voiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiIdentifierUsed;
+    public VOIIdentifierContainer getVOIIdentifierUsed() {
+        return voiIdentifierUsed;
     }
 
     /**
-     * Gets the value of the absorbedDosePerVOIProduced property.
+     * Définit la valeur de la propriété voiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the absorbedDosePerVOIProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getAbsorbedDosePerVOIProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link AbsorbedDosePerVOIType }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<AbsorbedDosePerVOIType> getAbsorbedDosePerVOIProduced() {
-        if (absorbedDosePerVOIProduced == null) {
-            absorbedDosePerVOIProduced = new ArrayList<AbsorbedDosePerVOIType>();
-        }
-        return this.absorbedDosePerVOIProduced;
+    public void setVOIIdentifierUsed(VOIIdentifierContainer value) {
+        this.voiIdentifierUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété absorbedDosePerVOIProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AbsorbedDosePerVOITypeContainer }
+     *     
+     */
+    public AbsorbedDosePerVOITypeContainer getAbsorbedDosePerVOIProduced() {
+        return absorbedDosePerVOIProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété absorbedDosePerVOIProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AbsorbedDosePerVOITypeContainer }
+     *     
+     */
+    public void setAbsorbedDosePerVOIProduced(AbsorbedDosePerVOITypeContainer value) {
+        this.absorbedDosePerVOIProduced = value;
     }
 
 }

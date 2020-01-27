@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="VOIInCTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="VOIInSPECTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="VOIInCTIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
+ *         &lt;element name="VOIInSPECTIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
  *         &lt;element name="SPECTCalibrationCoefficientProduced" type="{https://www.irdbb-medirad.com}CalibrationCoefficient"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -50,9 +48,9 @@ public class SPECTSensitivityCalculation {
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "VOIInCTIdentifierUsed", required = true)
-    protected List<String> voiInCTIdentifierUsed;
+    protected VOIIdentifierContainer voiInCTIdentifierUsed;
     @XmlElement(name = "VOIInSPECTIdentifierUsed", required = true)
-    protected List<String> voiInSPECTIdentifierUsed;
+    protected VOIIdentifierContainer voiInSPECTIdentifierUsed;
     @XmlElement(name = "SPECTCalibrationCoefficientProduced", required = true)
     protected CalibrationCoefficient spectCalibrationCoefficientProduced;
 
@@ -81,61 +79,51 @@ public class SPECTSensitivityCalculation {
     }
 
     /**
-     * Gets the value of the voiInCTIdentifierUsed property.
+     * Obtient la valeur de la propriété voiInCTIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiInCTIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIInCTIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<String> getVOIInCTIdentifierUsed() {
-        if (voiInCTIdentifierUsed == null) {
-            voiInCTIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiInCTIdentifierUsed;
+    public VOIIdentifierContainer getVOIInCTIdentifierUsed() {
+        return voiInCTIdentifierUsed;
     }
 
     /**
-     * Gets the value of the voiInSPECTIdentifierUsed property.
+     * Définit la valeur de la propriété voiInCTIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiInSPECTIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIInSPECTIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<String> getVOIInSPECTIdentifierUsed() {
-        if (voiInSPECTIdentifierUsed == null) {
-            voiInSPECTIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiInSPECTIdentifierUsed;
+    public void setVOIInCTIdentifierUsed(VOIIdentifierContainer value) {
+        this.voiInCTIdentifierUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété voiInSPECTIdentifierUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
+     */
+    public VOIIdentifierContainer getVOIInSPECTIdentifierUsed() {
+        return voiInSPECTIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété voiInSPECTIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
+     */
+    public void setVOIInSPECTIdentifierUsed(VOIIdentifierContainer value) {
+        this.voiInSPECTIdentifierUsed = value;
     }
 
     /**

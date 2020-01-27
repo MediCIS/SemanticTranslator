@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -28,8 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="NMPhantomName" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="NMPhantomIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="HotInsert" type="{https://www.irdbb-medirad.com}HotInsert" maxOccurs="unbounded"/>
- *         &lt;element name="ColdInsert" type="{https://www.irdbb-medirad.com}ColdInsert" maxOccurs="unbounded"/>
+ *         &lt;element name="HotInsertContainer" type="{https://www.irdbb-medirad.com}HotInsertContainer"/>
+ *         &lt;element name="ColdInsertContainer" type="{https://www.irdbb-medirad.com}ColdInsertContainer"/>
  *         &lt;element name="Tank" type="{https://www.irdbb-medirad.com}Tank"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -43,8 +41,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "NMPhantom", propOrder = {
     "nmPhantomName",
     "nmPhantomIdentifier",
-    "hotInsert",
-    "coldInsert",
+    "hotInsertContainer",
+    "coldInsertContainer",
     "tank"
 })
 public class NMPhantom {
@@ -53,10 +51,10 @@ public class NMPhantom {
     protected String nmPhantomName;
     @XmlElement(name = "NMPhantomIdentifier", required = true)
     protected String nmPhantomIdentifier;
-    @XmlElement(name = "HotInsert", required = true)
-    protected List<HotInsert> hotInsert;
-    @XmlElement(name = "ColdInsert", required = true)
-    protected List<ColdInsert> coldInsert;
+    @XmlElement(name = "HotInsertContainer", required = true)
+    protected HotInsertContainer hotInsertContainer;
+    @XmlElement(name = "ColdInsertContainer", required = true)
+    protected ColdInsertContainer coldInsertContainer;
     @XmlElement(name = "Tank", required = true)
     protected Tank tank;
 
@@ -109,61 +107,51 @@ public class NMPhantom {
     }
 
     /**
-     * Gets the value of the hotInsert property.
+     * Obtient la valeur de la propriété hotInsertContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the hotInsert property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getHotInsert().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link HotInsert }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link HotInsertContainer }
+     *     
      */
-    public List<HotInsert> getHotInsert() {
-        if (hotInsert == null) {
-            hotInsert = new ArrayList<HotInsert>();
-        }
-        return this.hotInsert;
+    public HotInsertContainer getHotInsertContainer() {
+        return hotInsertContainer;
     }
 
     /**
-     * Gets the value of the coldInsert property.
+     * Définit la valeur de la propriété hotInsertContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the coldInsert property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getColdInsert().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ColdInsert }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link HotInsertContainer }
+     *     
      */
-    public List<ColdInsert> getColdInsert() {
-        if (coldInsert == null) {
-            coldInsert = new ArrayList<ColdInsert>();
-        }
-        return this.coldInsert;
+    public void setHotInsertContainer(HotInsertContainer value) {
+        this.hotInsertContainer = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété coldInsertContainer.
+     * 
+     * @return
+     *     possible object is
+     *     {@link ColdInsertContainer }
+     *     
+     */
+    public ColdInsertContainer getColdInsertContainer() {
+        return coldInsertContainer;
+    }
+
+    /**
+     * Définit la valeur de la propriété coldInsertContainer.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ColdInsertContainer }
+     *     
+     */
+    public void setColdInsertContainer(ColdInsertContainer value) {
+        this.coldInsertContainer = value;
     }
 
     /**

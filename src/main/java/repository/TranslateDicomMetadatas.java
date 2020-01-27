@@ -3,6 +3,7 @@ package repository;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.apache.jena.ontology.Individual;
 import org.apache.jena.rdf.model.ModelFactory;
@@ -788,23 +789,23 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				if (Exposure!=null) {
 					i = createIndiv(generateName("exposure"),model.getResource(racineURI+"exposure"));
 					addDataProperty(i, racineObo+"IAO_0000004", Exposure);
-					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma"));
+					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma.s"));
 					addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 					addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-					//addObjectProperty(acquisition, racineURI+"has_setting", i);
+					addObjectProperty(acquisition, racineURI+"has_setting", i);
+				} else {
+					String ExposureInuAs = root.getString(Tag.ExposureInuAs);
+					logger.debug("ExposureTime : "+ExposureInuAs);
+					if (ExposureInuAs!=null) {
+						i = createIndiv(generateName("exposure"),model.getResource(racineURI+"exposure"));
+						addDataProperty(i, racineObo+"IAO_0000004", ExposureInuAs);
+						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("microAmp.s"));
+						addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
+						addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
+						addObjectProperty(acquisition, racineURI+"has_setting", i);
+					}
 				}
-				
-				String ExposureInmAs = root.getString(Tag.ExposureInmAs);
-				logger.debug("ExposureTime : "+ExposureInmAs);
-				if (ExposureInmAs!=null) {
-					i = createIndiv(generateName("exposure"),model.getResource(racineURI+"exposure"));
-					addDataProperty(i, racineObo+"IAO_0000004", ExposureInmAs);
-					addObjectProperty(i, racineObo+"IAO_0000039", getUnit("milliampere"));
-					addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
-					addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
-					//addObjectProperty(acquisition, racineURI+"has_setting", i);
-				}
-				
+			
 				String FilterType = root.getString(Tag.FilterType);
 				logger.debug("FilterType : "+FilterType);
 				Individual filter = null;
@@ -903,7 +904,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				if (CTExposureSequence != null) {
 					iter = CTExposureSequence.iterator();
 					translateCTExposureSequence(iter);
-				} else if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
+				} 
+				if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
 					Sequence SharedFunctionalGroupsSequence = root.getSequence(Tag.SharedFunctionalGroupsSequence);
 					logger.debug("SharedFunctionalGroupsSequence : "+SharedFunctionalGroupsSequence);
 					iter = SharedFunctionalGroupsSequence.iterator();
@@ -914,7 +916,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							translateCTExposureSequence(SharedFunctionalGroups.getSequence(Tag.CTExposureSequence).iterator());
 						}
 					}
-				} else if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
+				}
+				if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
 					Sequence PerFrameFunctionalGroupsSequence = root.getSequence(Tag.PerFrameFunctionalGroupsSequence);
 					logger.debug("PerFrameFunctionalGroupsSequence : "+PerFrameFunctionalGroupsSequence);
 					iter = PerFrameFunctionalGroupsSequence.iterator();
@@ -932,7 +935,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				if (CTAcquisitionDetailsSequence != null) {
 					iter = CTAcquisitionDetailsSequence.iterator();
 					translateCTAcquisitionDetailsSequence(iter);
-				} else if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
+				}
+				if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
 					Sequence SharedFunctionalGroupsSequence = root.getSequence(Tag.SharedFunctionalGroupsSequence);
 					logger.debug("SharedFunctionalGroupsSequence : "+SharedFunctionalGroupsSequence);
 					iter = SharedFunctionalGroupsSequence.iterator();
@@ -943,7 +947,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							translateCTAcquisitionDetailsSequence(SharedFunctionalGroups.getSequence(Tag.CTAcquisitionDetailsSequence).iterator());
 						}
 					}
-				} else if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
+				}
+				if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
 					Sequence PerFrameFunctionalGroupsSequence = root.getSequence(Tag.PerFrameFunctionalGroupsSequence);
 					logger.debug("PerFrameFunctionalGroupsSequence : "+PerFrameFunctionalGroupsSequence);
 					iter = PerFrameFunctionalGroupsSequence.iterator();
@@ -964,7 +969,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						iter = CTXRayDetailsSequence.iterator();
 						translateCTXRayDetailsSequence(iter);
 					}
-				} else if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
+				} 
+				if (root.getSequence(Tag.SharedFunctionalGroupsSequence)!=null) {
 					Sequence SharedFunctionalGroupsSequence = root.getSequence(Tag.SharedFunctionalGroupsSequence);
 					logger.debug("SharedFunctionalGroupsSequence : "+SharedFunctionalGroupsSequence);
 					iter = SharedFunctionalGroupsSequence.iterator();
@@ -975,7 +981,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							translateCTXRayDetailsSequence(SharedFunctionalGroups.getSequence(Tag.CTXRayDetailsSequence).iterator());
 						}
 					}
-				} else if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
+				}
+				if (root.getSequence(Tag.PerFrameFunctionalGroupsSequence)!=null) {
 					Sequence PerFrameFunctionalGroupsSequence = root.getSequence(Tag.PerFrameFunctionalGroupsSequence);
 					logger.debug("PerFrameFunctionalGroupsSequence : "+PerFrameFunctionalGroupsSequence);
 					iter = PerFrameFunctionalGroupsSequence.iterator();
@@ -1116,7 +1123,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 						addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 						addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
 						addObjectProperty(acquisition, racineURI+"has_setting", i);
-					} else if (t.getString(Tag.FilterType)!=null) {
+					}
+					if (t.getString(Tag.FilterType)!=null) {
 						String FilterType = t.getString(Tag.FilterType);
 						logger.debug("FilterType : "+FilterType);
 						if (FilterType!=null) {
@@ -1132,7 +1140,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 								filter = createIndiv(generateName("x-ray_filter"), model.getResource(racineDCM+"113771"));
 							}
 						}
-					} else if (t.getString(Tag.FilterMaterial)!=null) {
+					}
+					if (t.getString(Tag.FilterMaterial)!=null) {
 						String FilterMaterial = t.getString(Tag.FilterMaterial);
 						logger.debug("FilterMaterial : "+FilterMaterial);
 						if (FilterMaterial!=null) {
@@ -1208,9 +1217,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					if (t.getString(Tag.ExposureInmAs)!=null) {
 						String ExposureInmAs = t.getString(Tag.ExposureInmAs);
 						logger.debug("ExposureInmAs : "+ExposureInmAs);
-						i = createIndiv(generateName("exposure_time"),model.getResource(racineDCM+"113824"));
+						i = createIndiv(generateName("exposure"),model.getResource(racineURI+"exposure"));
 						addDataProperty(i, racineObo+"IAO_0000004", ExposureInmAs);
-						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("millampere"));
+						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ma.s"));
 						addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 						addObjectProperty(i, racineURI+"is_device_setting_of", acquisitionDevice);
 						addObjectProperty(acquisition, racineURI+"has_setting", i);
@@ -1324,18 +1333,18 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					translateCodingSchemeDesignator(root.getSequence(Tag.RadiopharmaceuticalInformationSequence),  acquisition);
 						
 					Sequence DetectorInformationSequence = root.getSequence(Tag.DetectorInformationSequence);
+					logger.debug("DetectorInformationSequence : "+DetectorInformationSequence.size()+ " elements");
+					logger.debug("DetectorInformationSequence : "+DetectorInformationSequence);
+
 					iter = DetectorInformationSequence.iterator();
+					
 					while (iter.hasNext()) {
 						Attributes t = iter.next();
-						if (t.getString(Tag.CollimatorGridName)!=null) {
-							String CollimatorGridName = t.getString(Tag.CollimatorGridName);
-							logger.debug("CollimatorGridName : "+CollimatorGridName);
-						}
+						Individual collimator = null;
 						if (t.getString(Tag.CollimatorType)!=null) {
 							String CollimatorType = t.getString(Tag.CollimatorType);
 							logger.debug("CollimatorType : "+CollimatorType);
 							if (CollimatorType!=null) {
-								Individual collimator;
 								if (CollimatorType.contains("PARA")) {
 									collimator = createIndiv(generateName("parallel_collimator"), model.getResource(racineURI+"parallel_collimator"));
 								} else if (CollimatorType.contains("PINH")) {
@@ -1357,6 +1366,11 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 								}
 								addObjectProperty(collimator, racineObo+"BFO_0000177", acquisitionDevice);
 							}
+						}
+						if (t.getString(Tag.CollimatorGridName)!=null) {
+							String CollimatorGridName = t.getString(Tag.CollimatorGridName);
+							logger.debug("CollimatorGridName : "+CollimatorGridName);
+							addDataProperty(collimator, racineURI+"has_name", CollimatorGridName);
 						}
 					}
 					
@@ -1468,17 +1482,24 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					translateCodingSchemeDesignator(root.getSequence(Tag.RadiopharmaceuticalInformationSequence),  acquisition);
 					
 					Sequence DetectorInformationSequence = root.getSequence(Tag.DetectorInformationSequence);
+					logger.debug("DetectorInformationSequence : "+DetectorInformationSequence);
+					logger.debug("DetectorInformationSequence : "+DetectorInformationSequence.size()+" elements");
+
 					iter = DetectorInformationSequence.iterator();
+					
+
 					while (iter.hasNext()) {
 						Attributes t = iter.next();
-						if (t.getString(Tag.CollimatorGridName)!=null) {
-							String CollimatorGridName = t.getString(Tag.CollimatorGridName);
-							logger.debug("CollimatorGridName : "+CollimatorGridName);
-						} else if (t.getString(Tag.CollimatorType)!=null) {
+						
+						System.out.println("CollimatorType / "+t.getString(Tag.CollimatorType));
+						System.out.println("CollimatorGridName / "+t.getString(Tag.CollimatorGridName));
+
+						System.out.println("t : "+t);
+						Individual collimator = null;
+						if (t.getString(Tag.CollimatorType)!=null) {
 							String CollimatorType = t.getString(Tag.CollimatorType);
 							logger.debug("CollimatorType : "+CollimatorType);
 							if (CollimatorType!=null) {
-								Individual collimator;
 								if (CollimatorType.contains("PARA")) {
 									collimator = createIndiv(generateName("parallel_collimator"), model.getResource(racineURI+"parallel_collimator"));
 								} else if (CollimatorType.contains("PINH")) {
@@ -1501,6 +1522,12 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 								addObjectProperty(collimator, racineObo+"BFO_0000177", acquisitionDevice);
 							}
 						}
+						if (t.getString(Tag.CollimatorGridName)!=null) {
+							String CollimatorGridName = t.getString(Tag.CollimatorGridName);
+							logger.debug("CollimatorGridName : "+CollimatorGridName);
+							addDataProperty(collimator, racineURI+"has_name", CollimatorGridName);
+						}
+						
 					}
 					
 				} else if (ImageType[2].contains("STATIC") ) { // 4.3 NM
@@ -1583,14 +1610,11 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					iter = DetectorInformationSequence.iterator();
 					while (iter.hasNext()) {
 						Attributes t = iter.next();
-						if (t.getString(Tag.CollimatorGridName)!=null) {
-							String CollimatorGridName = t.getString(Tag.CollimatorGridName);
-							logger.debug("CollimatorGridName : "+CollimatorGridName);
-						} else if (t.getString(Tag.CollimatorType)!=null) {
+						Individual collimator = null;
+						if (t.getString(Tag.CollimatorType)!=null) {
 							String CollimatorType = t.getString(Tag.CollimatorType);
 							logger.debug("CollimatorType : "+CollimatorType);
 							if (CollimatorType!=null) {
-								Individual collimator;
 								if (CollimatorType.contains("PARA")) {
 									collimator = createIndiv(generateName("parallel_collimator"), model.getResource(racineURI+"parallel_collimator"));
 								} else if (CollimatorType.contains("PINH")) {
@@ -1612,7 +1636,13 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 								}
 								addObjectProperty(collimator, racineObo+"BFO_0000177", acquisitionDevice);
 							}
-						} else if (t.getString(Tag.StartAngle)!=null) {
+						}
+						if (t.getString(Tag.CollimatorGridName)!=null) {
+							String CollimatorGridName = t.getString(Tag.CollimatorGridName);
+							logger.debug("CollimatorGridName : "+CollimatorGridName);
+							addDataProperty(collimator, racineURI+"has_name", CollimatorGridName);
+						}
+						if (t.getString(Tag.StartAngle)!=null) {
 							String StartAngle = t.getString(Tag.StartAngle);
 							logger.debug("StartAngle : "+StartAngle);
 						} 
@@ -1622,6 +1652,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					System.out.println("section 4.4");
 					Individual NMDataSet = createIndiv(generateName("NM_whole_body_dataset"), model.getResource(racineURI+"NM_whole_body_dataset"));					
 					addDataProperty(NMDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
+					addDataProperty(NMDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 	
 					logger.debug("SOPClassUID : "+SOPClassUID);
 					i = createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class"));
@@ -1725,7 +1756,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 								}
 								addObjectProperty(collimator, racineObo+"BFO_0000177", acquisitionDevice);
 							}
-						} else if (t.getString(Tag.StartAngle)!=null) {
+						}
+						if (t.getString(Tag.StartAngle)!=null) {
 							String StartAngle = t.getString(Tag.StartAngle);
 							logger.debug("StartAngle : "+StartAngle);
 						} 
@@ -1932,7 +1964,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 							reconstructionAlgorithm = createIndiv(model.getResource(racineDCM+"MLEM"));
 						}  
 						
-					} else if (t.getString(Tag.IterativeReconstructionMethod)!=null) {
+					}
+					if (t.getString(Tag.IterativeReconstructionMethod)!=null) {
 						String IterativeReconstructionMethod = t.getString(Tag.IterativeReconstructionMethod);
 						logger.debug("IterativeReconstructionMethod : "+IterativeReconstructionMethod);
 						reconstructionAlgorithm.addOntClass(model.getResource(racineDCM+"113963"));
@@ -2007,10 +2040,12 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					String PersonName = t.getString(Tag.PersonName);
 					Individual author = memory.getAuthorByName(PersonName);
 					addObjectProperty(author, racineObo+"BFO_0000054", creatingStructuredReport);
-				} else if (t.getString(Tag.ObserverType)!=null) {
+				}
+				if (t.getString(Tag.ObserverType)!=null) {
 					String ObserverType = t.getString(Tag.ObserverType);
 					
-				} else if (t.getString(Tag.InstitutionName)!=null) {
+				}
+				if (t.getString(Tag.InstitutionName)!=null) {
 					String InstitutionName = t.getString(Tag.InstitutionName);
 					Individual Institution = memory.getInstitution(InstitutionName);
 					Individual roleOfOrganization = memory.getRoleOfResponsibleOrganization(InstitutionName);

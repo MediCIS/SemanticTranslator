@@ -1,232 +1,353 @@
 <?xml version="1.0"?>
+<!--VersionSchemas : 051-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
 attributeFormDefault="unqualified"
 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 xmlns:irdbb="https://www.irdbb-medirad.com">
-	<xs:element name="NonDicomFileSetDescriptor">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="ReferencedClinicalResearchStudy">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="ClinicalResearchStudyID" type="xs:string"/>
-							<xs:element name="ClinicalResearchStudyTitle" type="xs:string"/>
-						</xs:sequence>
-					</xs:complexType>
-				</xs:element>
+	<xs:element name="NonDicomFileSetDescriptor"  type="irdbb:NonDicomFileSetDescriptor" />
+	<xs:complexType name="NonDicomFileSetDescriptor">
+		<xs:sequence>
+			<xs:element name="ReferencedClinicalResearchStudy" type="irdbb:ReferencedClinicalResearchStudy" />
 			<xs:element name="PatientId" type="xs:string"/>
+				<xs:element name="WP2subtask212WorkflowData" type="irdbb:WP2subtask212WorkflowData" />
+		</xs:sequence>
+	</xs:complexType>
 
-	<xs:element name="WP2subtask212WorkflowData" minOccurs="0" maxOccurs="unbounded">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="CTSegmentation" type="irdbb:CTSegmentation" minOccurs="0" />
-				<xs:element name="SimpleCTMonteCarloDosimetry" type="irdbb:SimpleCTMonteCarloDosimetry" minOccurs="0" maxOccurs="unbounded" />
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+			<xs:complexType name="ReferencedClinicalResearchStudy">
+					<xs:sequence>
+						<xs:element name="ClinicalResearchStudyID" type="xs:string"/>
+						<xs:element name="ClinicalResearchStudyTitle" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+
+			<xs:complexType name="WP2subtask212WorkflowData">
+				<xs:sequence>
+					<xs:element name="CTSegmentation" type="irdbb:CTSegmentation" minOccurs="0" />
+					<xs:element name="SimpleCTMonteCarloDosimetry" type="irdbb:SimpleCTMonteCarloDosimetry" minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+				</xs:complexType>
 
 	<xs:complexType name="SimpleCTMonteCarloDosimetry">
 		<xs:sequence>
-				<xs:element name="CalculationOfVoxelMap" type="irdbb:CalculationOfVoxelMap"/>
-				<xs:element name="CalculationOfAbsorbedDosesInVOIs" type="irdbb:CalculationOfAbsorbedDosesInVOIs"/>
+			<xs:element name="CalculationOfVoxelMap" type="irdbb:CalculationOfVoxelMap"/>
+			<xs:element name="CalculationOfAbsorbedDosesInVOIs" type="irdbb:CalculationOfAbsorbedDosesInVOIs"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="CTSegmentation">
 		<xs:sequence>
-				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-				<xs:element name="DICOMImageUsed" type="irdbb:DICOMData"/>
-				<xs:element name="SegmentationMethodUsed" type="irdbb:SegmentationMethodType" minOccurs="0" />
-				<xs:element name="VOIDescriptorProduced" type="irdbb:VOI" maxOccurs="unbounded" />
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="DICOMImageUsed" type="irdbb:DICOMData"/>
+			<xs:element name="SegmentationMethodUsed" type="irdbb:SegmentationMethodType" minOccurs="0" />
+			<xs:element name="VOIDescriptorProduced" type="irdbb:VOIList"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIList">
+		<xs:sequence>
+			<xs:element name="VOI" type="irdbb:VOI" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="CalculationOfVoxelMap">
 		<xs:sequence>
-				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-				<xs:element name="AttenuatorUsed" type="irdbb:AttenuatorType" minOccurs="0" maxOccurs="unbounded" />
-				<xs:element name="MonteCarloMethodUsed" type="irdbb:MonteCarloMethodType" minOccurs="0" />
-				<xs:element name="DICOMCTImageDataUsed" type="irdbb:DICOMData"/>
-				<xs:element name="VoxelBasedDistributionOfAbsorbedDoseProduced" type="irdbb:VoxelBasedDistributionOfAbsorbedDoseType" minOccurs="0" />
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="AttenuatorUsed" type="irdbb:AttenuatorTypeContainer" minOccurs="0" />
+			<xs:element name="MonteCarloMethodUsed" type="irdbb:MonteCarloMethodType" minOccurs="0" />
+			<xs:element name="DICOMCTImageDataUsed" type="irdbb:DICOMData"/>
+			<xs:element name="VoxelBasedDistributionOfAbsorbedDoseProduced" type="irdbb:VoxelBasedDistributionOfAbsorbedDoseType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AttenuatorTypeContainer">
+		<xs:sequence>
+			<xs:element name="AttenuatorType" type="irdbb:AttenuatorType" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="CalculationOfAbsorbedDosesInVOIs">
 		<xs:sequence>
-				<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-				<xs:element name="VoxelBasedDistributionOfAbsorbedDoseIdentifierUsed" type="xs:string"/>
-				<xs:element name="VOIIdentifierUsed" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-				<xs:element name="AbsorbedDosePerVOIProduced" type="irdbb:AbsorbedDosePerVOIType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VoxelBasedDistributionOfAbsorbedDoseIdentifierUsed" type="xs:string"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
+			<xs:element name="AbsorbedDosePerVOIProduced" type="irdbb:AbsorbedDosePerVOITypeContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIIdentifierContainer">
+		<xs:sequence>
+			<xs:element name="VOIIdentifierUsed" type="xs:integer" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDosePerVOITypeContainer">
+		<xs:sequence>
+			<xs:element name="AbsorbedDosePerVOIType" type="irdbb:AbsorbedDosePerVOIType" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="ProcessExecutionContext">
 		<xs:sequence>
-				<xs:element name="DateTimeProcessStarted" type="xs:string"/>
-				<xs:element name="PerformingInstitution" type="xs:string"/>
+			<xs:element name="DateTimeProcessStarted" type="xs:string"/>
+			<xs:element name="PerformingInstitution" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="SegmentationMethodType">
 		<xs:sequence>
-				<xs:element name="SegmentationMethod" type="xs:string"/>
-				<xs:element name="SoftwareName" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-				<xs:element name="SegmentationMethodSetting" type="irdbb:MethodSettingType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="SegmentationMethod" type="xs:string"/>
+			<xs:element name="SoftwareNamesUsed" type="irdbb:SoftwareNameContainer" minOccurs="0" />
+			<xs:element name="SegmentationMethodSetting" type="irdbb:MethodSettingTypeContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SoftwareNameContainer">
+		<xs:sequence>
+			<xs:element name="SoftwareName" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MethodSettingTypeContainer">
+		<xs:sequence>
+			<xs:element name="MethodSettingType" type="irdbb:MethodSettingType" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="MonteCarloMethodType">
 		<xs:sequence>
-				<xs:element name="MonteCarloMethod" type="xs:string"/>
-				<xs:element name="SoftwareName" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-				<xs:element name="SimulatedImagingDevice" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-				<xs:element name="MonteCarloMethodSetting" type="irdbb:MethodSettingType" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="MonteCarloMethod" type="xs:string"/>
+			<xs:element name="SoftwareNames" type="irdbb:SoftwareNameContainer" minOccurs="0" />
+			<xs:element name="MonteCarloMethodSetting" type="irdbb:MethodSettingTypeContainer" minOccurs="0" />
+			<xs:element name="SimulatedImagingDevices" type="irdbb:SimulatedImagingDevicesContainer" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="MethodSettingType">
 		<xs:sequence>
-				<xs:element name="MethodSetting" type="xs:string" minOccurs="0" />
-				<xs:element name="MethodSettingValue" type="xs:string" minOccurs="0" />
-				<xs:element name="MethodSettingUnit" type="xs:string" minOccurs="0" />
+			<xs:element name="MethodSetting" type="xs:string" minOccurs="0" />
+			<xs:element name="MethodSettingValue" type="xs:string" minOccurs="0" />
+			<xs:element name="MethodSettingUnit" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SimulatedImagingDevicesContainer">
+		<xs:sequence>
+			<xs:element name="SimulatedImagingDevice" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="AttenuatorType">
 		<xs:sequence>
-				<xs:element name="AttenuatorCategory" type="xs:string"/>
-				<xs:element name="EquivalentAttenuatorDescription" type="xs:string"/>
-				<xs:element name="EquivalentAttenuatorMaterial" type="xs:string"/>
-				<xs:element name="EquivalentAttenuatorThicknessValue" type="xs:string"/>
-				<xs:element name="EquivalentAttenuatorThicknessUnit" type="xs:string"/>
-				<xs:element name="EquivalentAttenuatorModel" type="xs:string"/>
+			<xs:element name="AttenuatorCategory" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorDescription" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorMaterial" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorThicknessValue" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorThicknessUnit" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorModel" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:simpleType name="AbsorbedDoseCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="mean absorbed dose normalized to CTDI free in air normalized to tube load"/>
+			<xs:enumeration value="mean absorbed dose normalized to CTDI vol normalized to tube load"/>
+			<xs:enumeration value="mean absorbed radiation dose"/>
+			<xs:enumeration value="maximum absorbed radiation dose"/>
+			<xs:enumeration value="minimum absorbed radiation dose"/>
+			<xs:enumeration value="median absorbed radiation dose"/>
+			<xs:enumeration value="mode absorbed radiation dose"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="StatisticalSubCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="mean"/>
+			<xs:enumeration value="maximum"/>
+			<xs:enumeration value="minimum"/>
+			<xs:enumeration value="median"/>
+			<xs:enumeration value="mode"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AbsorbedDoseUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="milligray per (milligray per (100 milliampere second))"/>
+			<xs:enumeration value="milligray per (100 milliampere second)"/>
+			<xs:enumeration value="milligray"/>
+			<xs:enumeration value="milligray per (milligray per (1 milliampere second))"/>
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:complexType name="AbsorbedDosePerVOIType">
 		<xs:sequence>
-		<xs:element name="AbsorbedDoseCategory">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="mean absorbed dose normalized to CTDI free in air normalized to tube load"/>
-					<xs:enumeration value="mean absorbed dose normalized to CTDI vol normalized to tube load"/>
-					<xs:enumeration value="mean absorbed radiation dose"/>
-					<xs:enumeration value="maximum absorbed radiation dose"/>
-					<xs:enumeration value="minimum absorbed radiation dose"/>
-					<xs:enumeration value="median absorbed radiation dose"/>
-					<xs:enumeration value="mode absorbed radiation dose"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
-		<xs:element name="StatisticalSubCategory" minOccurs="0" >
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="mean"/>
-					<xs:enumeration value="maximum"/>
-					<xs:enumeration value="minimum"/>
-					<xs:enumeration value="median"/>
-					<xs:enumeration value="mode"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
-				<xs:element name="AbsorbedDoseValue" type="xs:string"/>
-		<xs:element name="AbsorbedDoseUnit">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="milligray per (milligray per (100 milliampere second))"/>
-					<xs:enumeration value="milligray per (100 milliampere second)"/>
-					<xs:enumeration value="milligray"/>
-					<xs:enumeration value="milligray per (milligray per (1 milliampere second))"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
-				<xs:element name="VOIIdentifier" type="xs:string"/>
+		<xs:element name="AbsorbedDoseCategory" type="irdbb:AbsorbedDoseCategory" />
+		<xs:element name="StatisticalSubCategory" type="irdbb:StatisticalSubCategory" minOccurs="0" />
+			<xs:element name="AbsorbedDoseValue" type="xs:string"/>
+		<xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:simpleType name="VoxelBasedDistributionOfAbsorbedDoseCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="absorbed dose normalized to CTDI free in air normalized to tube load"/>
+			<xs:enumeration value="absorbed dose normalized to CTDI vol normalized to tube load"/>
+			<xs:enumeration value="absorbed dose"/>
+		</xs:restriction>
+	</xs:simpleType>
 
 	<xs:complexType name="VoxelBasedDistributionOfAbsorbedDoseType">
 		<xs:sequence>
-				<xs:element name="VoxelBasedDistributionOfAbsorbedDoseIdentifier" type="xs:string"/>
-		<xs:element name="VoxelBasedDistributionOfAbsorbedDoseCategory">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="absorbed dose normalized to CTDI free in air normalized to tube load"/>
-					<xs:enumeration value="absorbed dose normalized to CTDI vol normalized to tube load"/>
-					<xs:enumeration value="absorbed dose"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
-		<xs:element name="AbsorbedDoseUnit">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="milligray per (milligray per (100 milliampere second))"/>
-					<xs:enumeration value="milligray per (100 milliampere second)"/>
-					<xs:enumeration value="milligray"/>
-					<xs:enumeration value="milligray per (milligray per (1 milliampere second))"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
-				<xs:element name="NonDICOMVoxelBasedAbsorbedDoseDistribution" type="irdbb:NonDICOMData" minOccurs="0" />
-				<xs:element name="DICOMVoxelBasedAbsorbedDoseDistribution" type="irdbb:DICOMData" minOccurs="0" />
+			<xs:element name="VoxelBasedDistributionOfAbsorbedDoseIdentifier" type="xs:string"/>
+		<xs:element name="VoxelBasedDistributionOfAbsorbedDoseCategory" type="irdbb:VoxelBasedDistributionOfAbsorbedDoseCategory" />
+		<xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
+			<xs:element name="NonDICOMVoxelBasedAbsorbedDoseDistribution" type="irdbb:NonDICOMData" minOccurs="0" />
+			<xs:element name="DICOMVoxelBasedAbsorbedDoseDistribution" type="irdbb:DICOMData" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:simpleType name="OrganOrTissue">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="bone"/>
+			<xs:enumeration value="bone surfaces"/>
+			<xs:enumeration value="red bone marrow"/>
+			<xs:enumeration value="bladder"/>
+			<xs:enumeration value="breasts"/>
+			<xs:enumeration value="left male breast"/>
+			<xs:enumeration value="left female breast"/>
+			<xs:enumeration value="right male breast"/>
+			<xs:enumeration value="right female breast"/>
+			<xs:enumeration value="colon"/>
+			<xs:enumeration value="testes"/>
+			<xs:enumeration value="left testis"/>
+			<xs:enumeration value="right testis"/>
+			<xs:enumeration value="ovaries"/>
+			<xs:enumeration value="left ovary"/>
+			<xs:enumeration value="right ovary"/>
+			<xs:enumeration value="liver"/>
+			<xs:enumeration value="lungs"/>
+			<xs:enumeration value="left lung"/>
+			<xs:enumeration value="right lung"/>
+			<xs:enumeration value="esophagus"/>
+			<xs:enumeration value="skin"/>
+			<xs:enumeration value="stomach"/>
+			<xs:enumeration value="thyroid"/>
+			<xs:enumeration value="brain"/>
+			<xs:enumeration value="salivary glands"/>
+			<xs:enumeration value="parotid glands"/>
+			<xs:enumeration value="left parotid gland"/>
+			<xs:enumeration value="right parotid gland"/>
+			<xs:enumeration value="submandibular glands"/>
+			<xs:enumeration value="left submandibular gland"/>
+			<xs:enumeration value="right submandibular gland"/>
+			<xs:enumeration value="adrenals"/>
+			<xs:enumeration value="extrathoracic region"/>
+			<xs:enumeration value="gallbladder"/>
+			<xs:enumeration value="heart"/>
+			<xs:enumeration value="kidneys"/>
+			<xs:enumeration value="left kidney"/>
+			<xs:enumeration value="right kidney"/>
+			<xs:enumeration value="lymphatic nodes"/>
+			<xs:enumeration value="muscle"/>
+			<xs:enumeration value="oral mucosa"/>
+			<xs:enumeration value="pancreas"/>
+			<xs:enumeration value="prostate"/>
+			<xs:enumeration value="small intestine"/>
+			<xs:enumeration value="spleen"/>
+			<xs:enumeration value="thymus"/>
+			<xs:enumeration value="uterus"/>
+			<xs:enumeration value="air"/>
+			<xs:enumeration value="body surface"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:complexType name="VOI">
 		<xs:sequence>
-				<xs:element name="VOIIdentifier" type="xs:string"/>
-		<xs:element name="OrganOrTissue">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="bone"/>
-					<xs:enumeration value="breast"/>
-					<xs:enumeration value="esophagus"/>
-					<xs:enumeration value="heart"/>
-					<xs:enumeration value="lungs"/>
-					<xs:enumeration value="skin"/>
-					<xs:enumeration value="human body"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
-				<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" maxOccurs="unbounded" />
-				<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+		<xs:element name="OrganOrTissue" type="irdbb:OrganOrTissue" />
+			<xs:element name="DICOMDataContainer" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMDataContainer" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="TimePointIdentifier" type="xs:string" minOccurs="0" />
+			<xs:element name="OrganMass" type="irdbb:OrganMass" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="OrganMassUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="gram"/>
+			<xs:enumeration value="kilogram"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="OrganMass">
+		<xs:sequence>
+			<xs:element name="OrganMassValue" type="xs:float"/>
+		<xs:element name="OrganMassUnit" type="irdbb:OrganMassUnit" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DICOMDataContainer">
+		<xs:sequence>
+			<xs:element name="DICOMData" type="irdbb:DICOMData" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NonDICOMDataContainer">
+		<xs:sequence>
+			<xs:element name="NonDICOMData" type="irdbb:NonDICOMData" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="DICOMData">
 		<xs:sequence>
-				<xs:element name="DICOMStudyUID" type="xs:string"/>
-				<xs:element name="DICOMSeriesUID" type="xs:string"/>
+			<xs:element name="DICOMStudyUID" type="xs:string"/>
+			<xs:element name="DICOMSeriesUID" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:simpleType name="NonDICOMDataClass">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="VOI"/>
+			<xs:enumeration value="VOI superimposed on images"/>
+			<xs:enumeration value="3D absorbed dose map"/>
+			<xs:enumeration value="segmentation"/>
+			<xs:enumeration value="voxel activity map"/>
+			<xs:enumeration value="3D Energy Deposition Rate Matrix"/>
+			<xs:enumeration value="NM Tomo Reconstruction"/>
+			<xs:enumeration value="CT Reconstruction"/>
+			<xs:enumeration value="Registration Matrix"/>
+			<xs:enumeration value="Density Image"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NonDICOMDataFormat">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="zipped imageJ contours format"/>
+			<xs:enumeration value="TIFF format embedding imageJ contours"/>
+			<xs:enumeration value="zipped pseudo DICOM ImpactMC"/>
+			<xs:enumeration value="GIF format embedding imageJ contours"/>
+			<xs:enumeration value="NRRD format"/>
+			<xs:enumeration value="STL format"/>
+			<xs:enumeration value="HDF format"/>
+		</xs:restriction>
+	</xs:simpleType>
+
 	<xs:complexType name="NonDICOMData">
 		<xs:sequence>
-		<xs:element name="NonDICOMDataClass">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="VOI"/>
-					<xs:enumeration value="VOI superimposed on images"/>
-					<xs:enumeration value="3D dose map"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
-		<xs:element name="NonDICOMDataFormat">
-			<xs:simpleType>
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="zipped imageJ contours format"/>
-					<xs:enumeration value="TIFF format embedding imageJ contours"/>
-					<xs:enumeration value="zipped pseudo DICOM ImpactMC"/>
-					<xs:enumeration value="GIF format embedding imageJ contours"/>
-				</xs:restriction>
-			</xs:simpleType>
-		</xs:element>
-				<xs:element name="NonDICOMDataFileName" type="xs:string" maxOccurs="unbounded" />
-				<xs:element name="FHIRIdentifier" type="xs:string" minOccurs="0" />
+		<xs:element name="NonDICOMDataClass" type="irdbb:NonDICOMDataClass" />
+		<xs:element name="NonDICOMDataFormat" type="irdbb:NonDICOMDataFormat" />
+			<xs:element name="FileNameList" type="irdbb:FileNameList"/>
+			<xs:element name="FHIRIdentifier" type="xs:string" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
+
+	<xs:complexType name="FileNameList">
+		<xs:sequence>
+			<xs:element name="NonDICOMDataFileName" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
 </xs:schema>

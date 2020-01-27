@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
@@ -11,6 +11,7 @@ package javaXSDclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="CountsValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="CountsUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="CountsUnit" type="{https://www.irdbb-medirad.com}CountsUnit"/>
  *         &lt;element name="ROIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="TimePointIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
@@ -48,7 +49,8 @@ public class CountsPerROIAtTimePoint {
     @XmlElement(name = "CountsValue")
     protected float countsValue;
     @XmlElement(name = "CountsUnit", required = true)
-    protected String countsUnit;
+    @XmlSchemaType(name = "string")
+    protected CountsUnit countsUnit;
     @XmlElement(name = "ROIIdentifier", required = true)
     protected String roiIdentifier;
     @XmlElement(name = "TimePointIdentifier", required = true)
@@ -75,10 +77,10 @@ public class CountsPerROIAtTimePoint {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link CountsUnit }
      *     
      */
-    public String getCountsUnit() {
+    public CountsUnit getCountsUnit() {
         return countsUnit;
     }
 
@@ -87,10 +89,10 @@ public class CountsPerROIAtTimePoint {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link CountsUnit }
      *     
      */
-    public void setCountsUnit(String value) {
+    public void setCountsUnit(CountsUnit value) {
         this.countsUnit = value;
     }
 

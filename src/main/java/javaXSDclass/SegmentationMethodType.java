@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="SegmentationMethod" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="SoftwareName" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="SegmentationMethodSetting" type="{https://www.irdbb-medirad.com}MethodSettingType" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="SoftwareNamesUsed" type="{https://www.irdbb-medirad.com}SoftwareNameContainer" minOccurs="0"/>
+ *         &lt;element name="SegmentationMethodSetting" type="{https://www.irdbb-medirad.com}MethodSettingTypeContainer" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -40,17 +38,17 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SegmentationMethodType", propOrder = {
     "segmentationMethod",
-    "softwareName",
+    "softwareNamesUsed",
     "segmentationMethodSetting"
 })
 public class SegmentationMethodType {
 
     @XmlElement(name = "SegmentationMethod", required = true)
     protected String segmentationMethod;
-    @XmlElement(name = "SoftwareName")
-    protected List<String> softwareName;
+    @XmlElement(name = "SoftwareNamesUsed")
+    protected SoftwareNameContainer softwareNamesUsed;
     @XmlElement(name = "SegmentationMethodSetting")
-    protected List<MethodSettingType> segmentationMethodSetting;
+    protected MethodSettingTypeContainer segmentationMethodSetting;
 
     /**
      * Obtient la valeur de la propriété segmentationMethod.
@@ -77,61 +75,51 @@ public class SegmentationMethodType {
     }
 
     /**
-     * Gets the value of the softwareName property.
+     * Obtient la valeur de la propriété softwareNamesUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the softwareName property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getSoftwareName().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link SoftwareNameContainer }
+     *     
      */
-    public List<String> getSoftwareName() {
-        if (softwareName == null) {
-            softwareName = new ArrayList<String>();
-        }
-        return this.softwareName;
+    public SoftwareNameContainer getSoftwareNamesUsed() {
+        return softwareNamesUsed;
     }
 
     /**
-     * Gets the value of the segmentationMethodSetting property.
+     * Définit la valeur de la propriété softwareNamesUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the segmentationMethodSetting property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getSegmentationMethodSetting().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link MethodSettingType }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link SoftwareNameContainer }
+     *     
      */
-    public List<MethodSettingType> getSegmentationMethodSetting() {
-        if (segmentationMethodSetting == null) {
-            segmentationMethodSetting = new ArrayList<MethodSettingType>();
-        }
-        return this.segmentationMethodSetting;
+    public void setSoftwareNamesUsed(SoftwareNameContainer value) {
+        this.softwareNamesUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété segmentationMethodSetting.
+     * 
+     * @return
+     *     possible object is
+     *     {@link MethodSettingTypeContainer }
+     *     
+     */
+    public MethodSettingTypeContainer getSegmentationMethodSetting() {
+        return segmentationMethodSetting;
+    }
+
+    /**
+     * Définit la valeur de la propriété segmentationMethodSetting.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link MethodSettingTypeContainer }
+     *     
+     */
+    public void setSegmentationMethodSetting(MethodSettingTypeContainer value) {
+        this.segmentationMethodSetting = value;
     }
 
 }

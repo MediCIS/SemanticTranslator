@@ -2,14 +2,13 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,12 +26,13 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}integer" minOccurs="0"/>
+ *         &lt;element name="SegmentationIdentifier" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="PreAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
  *         &lt;element name="PostAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
- *         &lt;element name="PKAssessmentMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="TimeIntegratedActivityCoefficientPerVOIProduced" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityCoefficientPerVOI"/>
+ *         &lt;element name="PKAssessmentMethodUsed" type="{https://www.irdbb-medirad.com}CurveFittingMethod" minOccurs="0"/>
+ *         &lt;element name="TimeIntegratedActivityCoefficientPerVOIProduced" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityCoefficientPerVOI" minOccurs="0"/>
  *         &lt;element name="TimeIntegratedActivityPerVOIProduced" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityPerVOI"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -46,6 +46,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "TimeActivityCurveFitIn3DDosimetry", propOrder = {
     "processExecutionContext",
     "voiIdentifierUsed",
+    "segmentationIdentifier",
     "timePointIdentifierUsed",
     "preAdministeredActivityUsed",
     "postAdministeredActivityUsed",
@@ -57,17 +58,19 @@ public class TimeActivityCurveFitIn3DDosimetry {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
-    @XmlElement(name = "VOIIdentifierUsed", required = true)
-    protected String voiIdentifierUsed;
-    @XmlElement(name = "TimePointIdentifierUsed", required = true)
-    protected List<String> timePointIdentifierUsed;
+    @XmlElement(name = "VOIIdentifierUsed")
+    protected BigInteger voiIdentifierUsed;
+    @XmlElement(name = "SegmentationIdentifier")
+    protected String segmentationIdentifier;
+    @XmlElement(name = "TimePointIdentifierUsed")
+    protected String timePointIdentifierUsed;
     @XmlElement(name = "PreAdministeredActivityUsed", required = true)
     protected AdministeredActivity preAdministeredActivityUsed;
     @XmlElement(name = "PostAdministeredActivityUsed", required = true)
     protected AdministeredActivity postAdministeredActivityUsed;
-    @XmlElement(name = "PKAssessmentMethodUsed", required = true)
-    protected String pkAssessmentMethodUsed;
-    @XmlElement(name = "TimeIntegratedActivityCoefficientPerVOIProduced", required = true)
+    @XmlElement(name = "PKAssessmentMethodUsed")
+    protected CurveFittingMethod pkAssessmentMethodUsed;
+    @XmlElement(name = "TimeIntegratedActivityCoefficientPerVOIProduced")
     protected TimeIntegratedActivityCoefficientPerVOI timeIntegratedActivityCoefficientPerVOIProduced;
     @XmlElement(name = "TimeIntegratedActivityPerVOIProduced", required = true)
     protected TimeIntegratedActivityPerVOI timeIntegratedActivityPerVOIProduced;
@@ -101,10 +104,10 @@ public class TimeActivityCurveFitIn3DDosimetry {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link BigInteger }
      *     
      */
-    public String getVOIIdentifierUsed() {
+    public BigInteger getVOIIdentifierUsed() {
         return voiIdentifierUsed;
     }
 
@@ -113,40 +116,59 @@ public class TimeActivityCurveFitIn3DDosimetry {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link BigInteger }
      *     
      */
-    public void setVOIIdentifierUsed(String value) {
+    public void setVOIIdentifierUsed(BigInteger value) {
         this.voiIdentifierUsed = value;
     }
 
     /**
-     * Gets the value of the timePointIdentifierUsed property.
+     * Obtient la valeur de la propriété segmentationIdentifier.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timePointIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimePointIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public List<String> getTimePointIdentifierUsed() {
-        if (timePointIdentifierUsed == null) {
-            timePointIdentifierUsed = new ArrayList<String>();
-        }
-        return this.timePointIdentifierUsed;
+    public String getSegmentationIdentifier() {
+        return segmentationIdentifier;
+    }
+
+    /**
+     * Définit la valeur de la propriété segmentationIdentifier.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSegmentationIdentifier(String value) {
+        this.segmentationIdentifier = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété timePointIdentifierUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTimePointIdentifierUsed() {
+        return timePointIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété timePointIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTimePointIdentifierUsed(String value) {
+        this.timePointIdentifierUsed = value;
     }
 
     /**
@@ -202,10 +224,10 @@ public class TimeActivityCurveFitIn3DDosimetry {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link CurveFittingMethod }
      *     
      */
-    public String getPKAssessmentMethodUsed() {
+    public CurveFittingMethod getPKAssessmentMethodUsed() {
         return pkAssessmentMethodUsed;
     }
 
@@ -214,10 +236,10 @@ public class TimeActivityCurveFitIn3DDosimetry {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link CurveFittingMethod }
      *     
      */
-    public void setPKAssessmentMethodUsed(String value) {
+    public void setPKAssessmentMethodUsed(CurveFittingMethod value) {
         this.pkAssessmentMethodUsed = value;
     }
 

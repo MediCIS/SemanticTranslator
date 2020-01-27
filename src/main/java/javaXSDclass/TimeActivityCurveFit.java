@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,13 +25,13 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="ROIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="ROIIdentifierUsed" type="{https://www.irdbb-medirad.com}ROIIdentifierUsedContainer"/>
+ *         &lt;element name="TimePointIdentifierUsedContainer" type="{https://www.irdbb-medirad.com}TimePointIdentifierUsedContainer"/>
  *         &lt;element name="PreAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
  *         &lt;element name="PostAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
- *         &lt;element name="PKAssessmentMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="TimeIntegratedActivityCoefficientPerROIProduced" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityCoefficientPerROI" maxOccurs="unbounded"/>
- *         &lt;element name="TimeIntegratedActivityPerROIProduced" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityPerROI" maxOccurs="unbounded"/>
+ *         &lt;element name="PKAssessmentMethodUsed" type="{https://www.irdbb-medirad.com}CurveFittingMethod"/>
+ *         &lt;element name="TimeIntegratedActivityCoefficientPerROIcontainer" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityCoefficientPerROIcontainer"/>
+ *         &lt;element name="TimeIntegratedActivityPerROIcontainer" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityPerROIcontainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -46,31 +44,31 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "TimeActivityCurveFit", propOrder = {
     "processExecutionContext",
     "roiIdentifierUsed",
-    "timePointIdentifierUsed",
+    "timePointIdentifierUsedContainer",
     "preAdministeredActivityUsed",
     "postAdministeredActivityUsed",
     "pkAssessmentMethodUsed",
-    "timeIntegratedActivityCoefficientPerROIProduced",
-    "timeIntegratedActivityPerROIProduced"
+    "timeIntegratedActivityCoefficientPerROIcontainer",
+    "timeIntegratedActivityPerROIcontainer"
 })
 public class TimeActivityCurveFit {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "ROIIdentifierUsed", required = true)
-    protected List<String> roiIdentifierUsed;
-    @XmlElement(name = "TimePointIdentifierUsed", required = true)
-    protected List<String> timePointIdentifierUsed;
+    protected ROIIdentifierUsedContainer roiIdentifierUsed;
+    @XmlElement(name = "TimePointIdentifierUsedContainer", required = true)
+    protected TimePointIdentifierUsedContainer timePointIdentifierUsedContainer;
     @XmlElement(name = "PreAdministeredActivityUsed", required = true)
     protected AdministeredActivity preAdministeredActivityUsed;
     @XmlElement(name = "PostAdministeredActivityUsed", required = true)
     protected AdministeredActivity postAdministeredActivityUsed;
     @XmlElement(name = "PKAssessmentMethodUsed", required = true)
-    protected String pkAssessmentMethodUsed;
-    @XmlElement(name = "TimeIntegratedActivityCoefficientPerROIProduced", required = true)
-    protected List<TimeIntegratedActivityCoefficientPerROI> timeIntegratedActivityCoefficientPerROIProduced;
-    @XmlElement(name = "TimeIntegratedActivityPerROIProduced", required = true)
-    protected List<TimeIntegratedActivityPerROI> timeIntegratedActivityPerROIProduced;
+    protected CurveFittingMethod pkAssessmentMethodUsed;
+    @XmlElement(name = "TimeIntegratedActivityCoefficientPerROIcontainer", required = true)
+    protected TimeIntegratedActivityCoefficientPerROIcontainer timeIntegratedActivityCoefficientPerROIcontainer;
+    @XmlElement(name = "TimeIntegratedActivityPerROIcontainer", required = true)
+    protected TimeIntegratedActivityPerROIcontainer timeIntegratedActivityPerROIcontainer;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -97,61 +95,51 @@ public class TimeActivityCurveFit {
     }
 
     /**
-     * Gets the value of the roiIdentifierUsed property.
+     * Obtient la valeur de la propriété roiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the roiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getROIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link ROIIdentifierUsedContainer }
+     *     
      */
-    public List<String> getROIIdentifierUsed() {
-        if (roiIdentifierUsed == null) {
-            roiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.roiIdentifierUsed;
+    public ROIIdentifierUsedContainer getROIIdentifierUsed() {
+        return roiIdentifierUsed;
     }
 
     /**
-     * Gets the value of the timePointIdentifierUsed property.
+     * Définit la valeur de la propriété roiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timePointIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimePointIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link ROIIdentifierUsedContainer }
+     *     
      */
-    public List<String> getTimePointIdentifierUsed() {
-        if (timePointIdentifierUsed == null) {
-            timePointIdentifierUsed = new ArrayList<String>();
-        }
-        return this.timePointIdentifierUsed;
+    public void setROIIdentifierUsed(ROIIdentifierUsedContainer value) {
+        this.roiIdentifierUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété timePointIdentifierUsedContainer.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TimePointIdentifierUsedContainer }
+     *     
+     */
+    public TimePointIdentifierUsedContainer getTimePointIdentifierUsedContainer() {
+        return timePointIdentifierUsedContainer;
+    }
+
+    /**
+     * Définit la valeur de la propriété timePointIdentifierUsedContainer.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimePointIdentifierUsedContainer }
+     *     
+     */
+    public void setTimePointIdentifierUsedContainer(TimePointIdentifierUsedContainer value) {
+        this.timePointIdentifierUsedContainer = value;
     }
 
     /**
@@ -207,10 +195,10 @@ public class TimeActivityCurveFit {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link CurveFittingMethod }
      *     
      */
-    public String getPKAssessmentMethodUsed() {
+    public CurveFittingMethod getPKAssessmentMethodUsed() {
         return pkAssessmentMethodUsed;
     }
 
@@ -219,69 +207,59 @@ public class TimeActivityCurveFit {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link CurveFittingMethod }
      *     
      */
-    public void setPKAssessmentMethodUsed(String value) {
+    public void setPKAssessmentMethodUsed(CurveFittingMethod value) {
         this.pkAssessmentMethodUsed = value;
     }
 
     /**
-     * Gets the value of the timeIntegratedActivityCoefficientPerROIProduced property.
+     * Obtient la valeur de la propriété timeIntegratedActivityCoefficientPerROIcontainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timeIntegratedActivityCoefficientPerROIProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimeIntegratedActivityCoefficientPerROIProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TimeIntegratedActivityCoefficientPerROI }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link TimeIntegratedActivityCoefficientPerROIcontainer }
+     *     
      */
-    public List<TimeIntegratedActivityCoefficientPerROI> getTimeIntegratedActivityCoefficientPerROIProduced() {
-        if (timeIntegratedActivityCoefficientPerROIProduced == null) {
-            timeIntegratedActivityCoefficientPerROIProduced = new ArrayList<TimeIntegratedActivityCoefficientPerROI>();
-        }
-        return this.timeIntegratedActivityCoefficientPerROIProduced;
+    public TimeIntegratedActivityCoefficientPerROIcontainer getTimeIntegratedActivityCoefficientPerROIcontainer() {
+        return timeIntegratedActivityCoefficientPerROIcontainer;
     }
 
     /**
-     * Gets the value of the timeIntegratedActivityPerROIProduced property.
+     * Définit la valeur de la propriété timeIntegratedActivityCoefficientPerROIcontainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timeIntegratedActivityPerROIProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimeIntegratedActivityPerROIProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link TimeIntegratedActivityPerROI }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimeIntegratedActivityCoefficientPerROIcontainer }
+     *     
      */
-    public List<TimeIntegratedActivityPerROI> getTimeIntegratedActivityPerROIProduced() {
-        if (timeIntegratedActivityPerROIProduced == null) {
-            timeIntegratedActivityPerROIProduced = new ArrayList<TimeIntegratedActivityPerROI>();
-        }
-        return this.timeIntegratedActivityPerROIProduced;
+    public void setTimeIntegratedActivityCoefficientPerROIcontainer(TimeIntegratedActivityCoefficientPerROIcontainer value) {
+        this.timeIntegratedActivityCoefficientPerROIcontainer = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété timeIntegratedActivityPerROIcontainer.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TimeIntegratedActivityPerROIcontainer }
+     *     
+     */
+    public TimeIntegratedActivityPerROIcontainer getTimeIntegratedActivityPerROIcontainer() {
+        return timeIntegratedActivityPerROIcontainer;
+    }
+
+    /**
+     * Définit la valeur de la propriété timeIntegratedActivityPerROIcontainer.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimeIntegratedActivityPerROIcontainer }
+     *     
+     */
+    public void setTimeIntegratedActivityPerROIcontainer(TimeIntegratedActivityPerROIcontainer value) {
+        this.timeIntegratedActivityPerROIcontainer = value;
     }
 
 }

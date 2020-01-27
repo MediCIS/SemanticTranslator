@@ -64,6 +64,9 @@ public class Memory extends OntologyPopulator {
 
 	private Hashtable<String, Individual> tableAuthorName;
 	
+	private Hashtable<String, Individual> tableCalibrationIDs;
+
+	
 	public Memory() throws TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, IOException, InvocationTargetException {
 		initVoidMemory();
 		requestSoftware();
@@ -105,8 +108,11 @@ public class Memory extends OntologyPopulator {
 		tableStudyInstance = new Hashtable<String, Individual>();
 		
 		tableAuthorName  = new Hashtable<String, Individual>();
-
+		
+		tableCalibrationIDs  = new Hashtable<String, Individual>();
 	}
+	
+
 	
 	public synchronized Individual getHuman(String patientID) {
 		System.out.println("getHuman");
@@ -145,7 +151,11 @@ public class Memory extends OntologyPopulator {
 			ContenuLignes = resultats[i].split(",");
 			human = ContenuLignes[0];
 			id = ContenuLignes[1];
+			
+			System.out.println("id : "+id);
+			System.out.println("human : "+model.createIndividual(human.trim(), model.getResource(racineURI+"human")));
 
+			model.createIndividual(human.trim(), model.getResource(racineURI+"human"));
 			listIDsHuman.add(id.trim());
 			listIRIHuman.add(model.getIndividual(human.trim()));
 		}

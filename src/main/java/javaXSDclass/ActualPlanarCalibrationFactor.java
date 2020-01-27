@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.09.16 à 10:29:38 AM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
@@ -11,21 +11,22 @@ package javaXSDclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour PlanarCalibrationFactor complex type.
+ * <p>Classe Java pour ActualPlanarCalibrationFactor complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="PlanarCalibrationFactor">
+ * &lt;complexType name="ActualPlanarCalibrationFactor">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="PlanarCalibrationFactorValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="PlanarCalibrationFactorUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="PlanarCalibrationFactorUnit" type="{https://www.irdbb-medirad.com}PlanarCalibrationFactorUnit"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -35,16 +36,17 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PlanarCalibrationFactor", propOrder = {
+@XmlType(name = "ActualPlanarCalibrationFactor", propOrder = {
     "planarCalibrationFactorValue",
     "planarCalibrationFactorUnit"
 })
-public class PlanarCalibrationFactor {
+public class ActualPlanarCalibrationFactor {
 
     @XmlElement(name = "PlanarCalibrationFactorValue")
     protected float planarCalibrationFactorValue;
     @XmlElement(name = "PlanarCalibrationFactorUnit", required = true)
-    protected String planarCalibrationFactorUnit;
+    @XmlSchemaType(name = "string")
+    protected PlanarCalibrationFactorUnit planarCalibrationFactorUnit;
 
     /**
      * Obtient la valeur de la propriété planarCalibrationFactorValue.
@@ -67,10 +69,10 @@ public class PlanarCalibrationFactor {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link PlanarCalibrationFactorUnit }
      *     
      */
-    public String getPlanarCalibrationFactorUnit() {
+    public PlanarCalibrationFactorUnit getPlanarCalibrationFactorUnit() {
         return planarCalibrationFactorUnit;
     }
 
@@ -79,10 +81,10 @@ public class PlanarCalibrationFactor {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link PlanarCalibrationFactorUnit }
      *     
      */
-    public void setPlanarCalibrationFactorUnit(String value) {
+    public void setPlanarCalibrationFactorUnit(PlanarCalibrationFactorUnit value) {
         this.planarCalibrationFactorUnit = value;
     }
 

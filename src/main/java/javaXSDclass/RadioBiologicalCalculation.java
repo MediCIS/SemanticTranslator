@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="VoxelAbsorbedDoseMapIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="VOIIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierUsedContainer"/>
+ *         &lt;element name="VoxelAbsorbedDoseMapIdentifierUsedContainer" type="{https://www.irdbb-medirad.com}VoxelAbsorbedDoseMapIdentifierUsedContainer"/>
  *         &lt;element name="RadioBiologicalCalculationMethod" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="RadioBiologicalCalculationParameters" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="BiologicalEffectiveDose" type="{http://www.w3.org/2001/XMLSchema}string"/>
@@ -44,7 +42,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "RadioBiologicalCalculation", propOrder = {
     "processExecutionContext",
     "voiIdentifierUsed",
-    "voxelAbsorbedDoseMapIdentifierUsed",
+    "voxelAbsorbedDoseMapIdentifierUsedContainer",
     "radioBiologicalCalculationMethod",
     "radioBiologicalCalculationParameters",
     "biologicalEffectiveDose"
@@ -54,9 +52,9 @@ public class RadioBiologicalCalculation {
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "VOIIdentifierUsed", required = true)
-    protected List<String> voiIdentifierUsed;
-    @XmlElement(name = "VoxelAbsorbedDoseMapIdentifierUsed")
-    protected List<String> voxelAbsorbedDoseMapIdentifierUsed;
+    protected VOIIdentifierUsedContainer voiIdentifierUsed;
+    @XmlElement(name = "VoxelAbsorbedDoseMapIdentifierUsedContainer", required = true)
+    protected VoxelAbsorbedDoseMapIdentifierUsedContainer voxelAbsorbedDoseMapIdentifierUsedContainer;
     @XmlElement(name = "RadioBiologicalCalculationMethod", required = true)
     protected String radioBiologicalCalculationMethod;
     @XmlElement(name = "RadioBiologicalCalculationParameters", required = true)
@@ -89,61 +87,51 @@ public class RadioBiologicalCalculation {
     }
 
     /**
-     * Gets the value of the voiIdentifierUsed property.
+     * Obtient la valeur de la propriété voiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierUsedContainer }
+     *     
      */
-    public List<String> getVOIIdentifierUsed() {
-        if (voiIdentifierUsed == null) {
-            voiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiIdentifierUsed;
+    public VOIIdentifierUsedContainer getVOIIdentifierUsed() {
+        return voiIdentifierUsed;
     }
 
     /**
-     * Gets the value of the voxelAbsorbedDoseMapIdentifierUsed property.
+     * Définit la valeur de la propriété voiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voxelAbsorbedDoseMapIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVoxelAbsorbedDoseMapIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierUsedContainer }
+     *     
      */
-    public List<String> getVoxelAbsorbedDoseMapIdentifierUsed() {
-        if (voxelAbsorbedDoseMapIdentifierUsed == null) {
-            voxelAbsorbedDoseMapIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voxelAbsorbedDoseMapIdentifierUsed;
+    public void setVOIIdentifierUsed(VOIIdentifierUsedContainer value) {
+        this.voiIdentifierUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété voxelAbsorbedDoseMapIdentifierUsedContainer.
+     * 
+     * @return
+     *     possible object is
+     *     {@link VoxelAbsorbedDoseMapIdentifierUsedContainer }
+     *     
+     */
+    public VoxelAbsorbedDoseMapIdentifierUsedContainer getVoxelAbsorbedDoseMapIdentifierUsedContainer() {
+        return voxelAbsorbedDoseMapIdentifierUsedContainer;
+    }
+
+    /**
+     * Définit la valeur de la propriété voxelAbsorbedDoseMapIdentifierUsedContainer.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link VoxelAbsorbedDoseMapIdentifierUsedContainer }
+     *     
+     */
+    public void setVoxelAbsorbedDoseMapIdentifierUsedContainer(VoxelAbsorbedDoseMapIdentifierUsedContainer value) {
+        this.voxelAbsorbedDoseMapIdentifierUsedContainer = value;
     }
 
     /**

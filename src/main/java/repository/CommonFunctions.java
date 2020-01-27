@@ -34,7 +34,7 @@ public abstract class CommonFunctions {
 	String pacsUrl = Application.pacsUrl ;
 	String starDogUrl = Application.starDogUrl; 
 	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
-
+	ConnectionPool connectionPool;
 	
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 
 
@@ -116,8 +116,10 @@ public abstract class CommonFunctions {
 				.reasoning(paramreasoner);																	// Will it use reasoning (boollean)
 
 		logger.debug("StarDog connection (reasoning : "+ConnectionConfiguration.REASONING_ENABLED.toString()+")"); 
-
-		ConnectionPool connectionPool = createConnectionPool(connectionConfig);								// Create the Stardog connection 
+		
+		if (connectionPool != null) {connectionPool.shutdown();}
+		
+		connectionPool = createConnectionPool(connectionConfig);								// Create the Stardog connection 
 		starDogConnection = connectionPool.obtain();														// Return the Stardog connection as a java Object
 		logger.debug("Sucessfully created the StarDog connection (Database : "+db.toString()+")");
 	}
@@ -142,6 +144,11 @@ public abstract class CommonFunctions {
 			}
 		}
 		createAdminConnection(database.ontoMedirad, paramreasoner);
+	}
+	
+	public void closeAdminConnection() {
+		starDogConnection.close();
+		connectionPool.release(starDogConnection);
 	}
 
 	private ConnectionPool createConnectionPool (ConnectionConfiguration connectionConfig) {				// Create the connection pool

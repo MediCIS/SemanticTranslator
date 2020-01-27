@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -30,8 +28,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="NMTomoReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="CTReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="SegmentationMethodMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VOIInCTProduced" type="{https://www.irdbb-medirad.com}VOIInCT" maxOccurs="unbounded"/>
- *         &lt;element name="VOIInSPECTProduced" type="{https://www.irdbb-medirad.com}VOIInSPECT" maxOccurs="unbounded"/>
+ *         &lt;element name="VOIInCTProduced" type="{https://www.irdbb-medirad.com}VOIInCTcontainer"/>
+ *         &lt;element name="VOIInSPECTProduced" type="{https://www.irdbb-medirad.com}VOIInSPECTcontainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -60,9 +58,9 @@ public class CTSegmentationInCalibration {
     @XmlElement(name = "SegmentationMethodMethodUsed", required = true)
     protected String segmentationMethodMethodUsed;
     @XmlElement(name = "VOIInCTProduced", required = true)
-    protected List<VOIInCT> voiInCTProduced;
+    protected VOIInCTcontainer voiInCTProduced;
     @XmlElement(name = "VOIInSPECTProduced", required = true)
-    protected List<VOIInSPECT> voiInSPECTProduced;
+    protected VOIInSPECTcontainer voiInSPECTProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -161,61 +159,51 @@ public class CTSegmentationInCalibration {
     }
 
     /**
-     * Gets the value of the voiInCTProduced property.
+     * Obtient la valeur de la propriété voiInCTProduced.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiInCTProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIInCTProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link VOIInCT }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIInCTcontainer }
+     *     
      */
-    public List<VOIInCT> getVOIInCTProduced() {
-        if (voiInCTProduced == null) {
-            voiInCTProduced = new ArrayList<VOIInCT>();
-        }
-        return this.voiInCTProduced;
+    public VOIInCTcontainer getVOIInCTProduced() {
+        return voiInCTProduced;
     }
 
     /**
-     * Gets the value of the voiInSPECTProduced property.
+     * Définit la valeur de la propriété voiInCTProduced.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiInSPECTProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIInSPECTProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link VOIInSPECT }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIInCTcontainer }
+     *     
      */
-    public List<VOIInSPECT> getVOIInSPECTProduced() {
-        if (voiInSPECTProduced == null) {
-            voiInSPECTProduced = new ArrayList<VOIInSPECT>();
-        }
-        return this.voiInSPECTProduced;
+    public void setVOIInCTProduced(VOIInCTcontainer value) {
+        this.voiInCTProduced = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété voiInSPECTProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link VOIInSPECTcontainer }
+     *     
+     */
+    public VOIInSPECTcontainer getVOIInSPECTProduced() {
+        return voiInSPECTProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété voiInSPECTProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIInSPECTcontainer }
+     *     
+     */
+    public void setVOIInSPECTProduced(VOIInSPECTcontainer value) {
+        this.voiInSPECTProduced = value;
     }
 
 }

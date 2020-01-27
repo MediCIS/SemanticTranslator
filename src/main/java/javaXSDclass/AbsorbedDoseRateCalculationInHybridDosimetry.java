@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -28,11 +26,11 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="VOIIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
  *         &lt;element name="PreAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
  *         &lt;element name="PostAdministeredActivityUsed" type="{https://www.irdbb-medirad.com}AdministeredActivity"/>
- *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMassInHybridDosimetry" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="MeanAbsorbedDoseRateInVOIProduced" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseRateInVOI" maxOccurs="unbounded"/>
+ *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMassInHybridDosimetryContainer" minOccurs="0"/>
+ *         &lt;element name="MeanAbsorbedDoseRateInVOIProduced" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseRateInVOIContainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -58,15 +56,15 @@ public class AbsorbedDoseRateCalculationInHybridDosimetry {
     @XmlElement(name = "TimePointIdentifierUsed", required = true)
     protected String timePointIdentifierUsed;
     @XmlElement(name = "VOIIdentifierUsed", required = true)
-    protected List<String> voiIdentifierUsed;
+    protected VOIIdentifierContainer voiIdentifierUsed;
     @XmlElement(name = "PreAdministeredActivityUsed", required = true)
     protected AdministeredActivity preAdministeredActivityUsed;
     @XmlElement(name = "PostAdministeredActivityUsed", required = true)
     protected AdministeredActivity postAdministeredActivityUsed;
     @XmlElement(name = "PatientOrganMassUsed")
-    protected List<PatientOrganMassInHybridDosimetry> patientOrganMassUsed;
+    protected PatientOrganMassInHybridDosimetryContainer patientOrganMassUsed;
     @XmlElement(name = "MeanAbsorbedDoseRateInVOIProduced", required = true)
-    protected List<MeanAbsorbedDoseRateInVOI> meanAbsorbedDoseRateInVOIProduced;
+    protected MeanAbsorbedDoseRateInVOIContainer meanAbsorbedDoseRateInVOIProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -117,32 +115,27 @@ public class AbsorbedDoseRateCalculationInHybridDosimetry {
     }
 
     /**
-     * Gets the value of the voiIdentifierUsed property.
+     * Obtient la valeur de la propriété voiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<String> getVOIIdentifierUsed() {
-        if (voiIdentifierUsed == null) {
-            voiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiIdentifierUsed;
+    public VOIIdentifierContainer getVOIIdentifierUsed() {
+        return voiIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété voiIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
+     */
+    public void setVOIIdentifierUsed(VOIIdentifierContainer value) {
+        this.voiIdentifierUsed = value;
     }
 
     /**
@@ -194,61 +187,51 @@ public class AbsorbedDoseRateCalculationInHybridDosimetry {
     }
 
     /**
-     * Gets the value of the patientOrganMassUsed property.
+     * Obtient la valeur de la propriété patientOrganMassUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the patientOrganMassUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getPatientOrganMassUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link PatientOrganMassInHybridDosimetry }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link PatientOrganMassInHybridDosimetryContainer }
+     *     
      */
-    public List<PatientOrganMassInHybridDosimetry> getPatientOrganMassUsed() {
-        if (patientOrganMassUsed == null) {
-            patientOrganMassUsed = new ArrayList<PatientOrganMassInHybridDosimetry>();
-        }
-        return this.patientOrganMassUsed;
+    public PatientOrganMassInHybridDosimetryContainer getPatientOrganMassUsed() {
+        return patientOrganMassUsed;
     }
 
     /**
-     * Gets the value of the meanAbsorbedDoseRateInVOIProduced property.
+     * Définit la valeur de la propriété patientOrganMassUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the meanAbsorbedDoseRateInVOIProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getMeanAbsorbedDoseRateInVOIProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link MeanAbsorbedDoseRateInVOI }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link PatientOrganMassInHybridDosimetryContainer }
+     *     
      */
-    public List<MeanAbsorbedDoseRateInVOI> getMeanAbsorbedDoseRateInVOIProduced() {
-        if (meanAbsorbedDoseRateInVOIProduced == null) {
-            meanAbsorbedDoseRateInVOIProduced = new ArrayList<MeanAbsorbedDoseRateInVOI>();
-        }
-        return this.meanAbsorbedDoseRateInVOIProduced;
+    public void setPatientOrganMassUsed(PatientOrganMassInHybridDosimetryContainer value) {
+        this.patientOrganMassUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété meanAbsorbedDoseRateInVOIProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link MeanAbsorbedDoseRateInVOIContainer }
+     *     
+     */
+    public MeanAbsorbedDoseRateInVOIContainer getMeanAbsorbedDoseRateInVOIProduced() {
+        return meanAbsorbedDoseRateInVOIProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété meanAbsorbedDoseRateInVOIProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link MeanAbsorbedDoseRateInVOIContainer }
+     *     
+     */
+    public void setMeanAbsorbedDoseRateInVOIProduced(MeanAbsorbedDoseRateInVOIContainer value) {
+        this.meanAbsorbedDoseRateInVOIProduced = value;
     }
 
 }

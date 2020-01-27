@@ -2,17 +2,16 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -27,22 +26,12 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="VOIIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer" minOccurs="0"/>
  *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VOIUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="VOIUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer" minOccurs="0"/>
  *         &lt;element name="CTReconResampledOnNMReferenceUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="NMTomoReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
- *         &lt;element name="CalculationAlgorithmUsed">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="local energy deposition"/>
- *               &lt;enumeration value="FFT convolution"/>
- *               &lt;enumeration value="homogeneous matrix convolution"/>
- *               &lt;enumeration value="heterogeneous matrix convolution"/>
- *               &lt;enumeration value="Monte Carlo"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
+ *         &lt;element name="CalculationAlgorithmUsed" type="{https://www.irdbb-medirad.com}CalculationAlgorithmUsed"/>
  *         &lt;element name="KernelLimitForConvolutionsUsed" type="{https://www.irdbb-medirad.com}KernelLimitForConvolutions" minOccurs="0"/>
  *         &lt;element name="ThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="{https://www.irdbb-medirad.com}NonDICOMData"/>
  *       &lt;/sequence>
@@ -69,18 +58,19 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
-    @XmlElement(name = "VOIIdentifierUsed", required = true)
-    protected List<String> voiIdentifierUsed;
+    @XmlElement(name = "VOIIdentifierUsed")
+    protected VOIIdentifierContainer voiIdentifierUsed;
     @XmlElement(name = "TimePointIdentifierUsed", required = true)
     protected String timePointIdentifierUsed;
-    @XmlElement(name = "VOIUsed", required = true)
-    protected List<String> voiUsed;
+    @XmlElement(name = "VOIUsed")
+    protected VOIIdentifierContainer voiUsed;
     @XmlElement(name = "CTReconResampledOnNMReferenceUsed", required = true)
     protected DICOMData ctReconResampledOnNMReferenceUsed;
     @XmlElement(name = "NMTomoReconUsed", required = true)
     protected DICOMData nmTomoReconUsed;
     @XmlElement(name = "CalculationAlgorithmUsed", required = true)
-    protected String calculationAlgorithmUsed;
+    @XmlSchemaType(name = "string")
+    protected CalculationAlgorithmUsed calculationAlgorithmUsed;
     @XmlElement(name = "KernelLimitForConvolutionsUsed")
     protected KernelLimitForConvolutions kernelLimitForConvolutionsUsed;
     @XmlElement(name = "ThreeDimEnergyDepositionRateMatrixAtTimePointProduced", required = true)
@@ -111,32 +101,27 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
     }
 
     /**
-     * Gets the value of the voiIdentifierUsed property.
+     * Obtient la valeur de la propriété voiIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<String> getVOIIdentifierUsed() {
-        if (voiIdentifierUsed == null) {
-            voiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiIdentifierUsed;
+    public VOIIdentifierContainer getVOIIdentifierUsed() {
+        return voiIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété voiIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
+     */
+    public void setVOIIdentifierUsed(VOIIdentifierContainer value) {
+        this.voiIdentifierUsed = value;
     }
 
     /**
@@ -164,32 +149,27 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
     }
 
     /**
-     * Gets the value of the voiUsed property.
+     * Obtient la valeur de la propriété voiUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link VOIIdentifierContainer }
+     *     
      */
-    public List<String> getVOIUsed() {
-        if (voiUsed == null) {
-            voiUsed = new ArrayList<String>();
-        }
-        return this.voiUsed;
+    public VOIIdentifierContainer getVOIUsed() {
+        return voiUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété voiUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link VOIIdentifierContainer }
+     *     
+     */
+    public void setVOIUsed(VOIIdentifierContainer value) {
+        this.voiUsed = value;
     }
 
     /**
@@ -245,10 +225,10 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link CalculationAlgorithmUsed }
      *     
      */
-    public String getCalculationAlgorithmUsed() {
+    public CalculationAlgorithmUsed getCalculationAlgorithmUsed() {
         return calculationAlgorithmUsed;
     }
 
@@ -257,10 +237,10 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link CalculationAlgorithmUsed }
      *     
      */
-    public void setCalculationAlgorithmUsed(String value) {
+    public void setCalculationAlgorithmUsed(CalculationAlgorithmUsed value) {
         this.calculationAlgorithmUsed = value;
     }
 

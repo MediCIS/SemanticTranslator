@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,11 +25,12 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="VOIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="SegmentationIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="SPECTCalibrationFactorReferenceUsed" type="{https://www.irdbb-medirad.com}NMRelevantCalibrationReference"/>
  *         &lt;element name="SPECTRecoveryCoefficientCurveReferenceUsed" type="{https://www.irdbb-medirad.com}NMRelevantCalibrationReference"/>
- *         &lt;element name="DataActivityPerVOIAtTimePointProduced" type="{https://www.irdbb-medirad.com}DataActivityPerVOIAtTimePoint" maxOccurs="unbounded"/>
+ *         &lt;element name="DataActivityPerVOIAtTimePointContainer" type="{https://www.irdbb-medirad.com}DataActivityPerVOIAtTimePointContainer" minOccurs="0"/>
+ *         &lt;element name="VoxelActivityMapProduced" type="{https://www.irdbb-medirad.com}NonDICOMDataContainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,26 +42,29 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VOIActivityDetermination", propOrder = {
     "processExecutionContext",
-    "voiIdentifierUsed",
+    "segmentationIdentifierUsed",
     "timePointIdentifierUsed",
     "spectCalibrationFactorReferenceUsed",
     "spectRecoveryCoefficientCurveReferenceUsed",
-    "dataActivityPerVOIAtTimePointProduced"
+    "dataActivityPerVOIAtTimePointContainer",
+    "voxelActivityMapProduced"
 })
 public class VOIActivityDetermination {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
-    @XmlElement(name = "VOIIdentifierUsed", required = true)
-    protected List<String> voiIdentifierUsed;
+    @XmlElement(name = "SegmentationIdentifierUsed", required = true)
+    protected String segmentationIdentifierUsed;
     @XmlElement(name = "TimePointIdentifierUsed", required = true)
     protected String timePointIdentifierUsed;
     @XmlElement(name = "SPECTCalibrationFactorReferenceUsed", required = true)
     protected NMRelevantCalibrationReference spectCalibrationFactorReferenceUsed;
     @XmlElement(name = "SPECTRecoveryCoefficientCurveReferenceUsed", required = true)
     protected NMRelevantCalibrationReference spectRecoveryCoefficientCurveReferenceUsed;
-    @XmlElement(name = "DataActivityPerVOIAtTimePointProduced", required = true)
-    protected List<DataActivityPerVOIAtTimePoint> dataActivityPerVOIAtTimePointProduced;
+    @XmlElement(name = "DataActivityPerVOIAtTimePointContainer")
+    protected DataActivityPerVOIAtTimePointContainer dataActivityPerVOIAtTimePointContainer;
+    @XmlElement(name = "VoxelActivityMapProduced", required = true)
+    protected NonDICOMDataContainer voxelActivityMapProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -89,32 +91,27 @@ public class VOIActivityDetermination {
     }
 
     /**
-     * Gets the value of the voiIdentifierUsed property.
+     * Obtient la valeur de la propriété segmentationIdentifierUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the voiIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getVOIIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public List<String> getVOIIdentifierUsed() {
-        if (voiIdentifierUsed == null) {
-            voiIdentifierUsed = new ArrayList<String>();
-        }
-        return this.voiIdentifierUsed;
+    public String getSegmentationIdentifierUsed() {
+        return segmentationIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété segmentationIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setSegmentationIdentifierUsed(String value) {
+        this.segmentationIdentifierUsed = value;
     }
 
     /**
@@ -190,32 +187,51 @@ public class VOIActivityDetermination {
     }
 
     /**
-     * Gets the value of the dataActivityPerVOIAtTimePointProduced property.
+     * Obtient la valeur de la propriété dataActivityPerVOIAtTimePointContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the dataActivityPerVOIAtTimePointProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getDataActivityPerVOIAtTimePointProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DataActivityPerVOIAtTimePoint }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link DataActivityPerVOIAtTimePointContainer }
+     *     
      */
-    public List<DataActivityPerVOIAtTimePoint> getDataActivityPerVOIAtTimePointProduced() {
-        if (dataActivityPerVOIAtTimePointProduced == null) {
-            dataActivityPerVOIAtTimePointProduced = new ArrayList<DataActivityPerVOIAtTimePoint>();
-        }
-        return this.dataActivityPerVOIAtTimePointProduced;
+    public DataActivityPerVOIAtTimePointContainer getDataActivityPerVOIAtTimePointContainer() {
+        return dataActivityPerVOIAtTimePointContainer;
+    }
+
+    /**
+     * Définit la valeur de la propriété dataActivityPerVOIAtTimePointContainer.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DataActivityPerVOIAtTimePointContainer }
+     *     
+     */
+    public void setDataActivityPerVOIAtTimePointContainer(DataActivityPerVOIAtTimePointContainer value) {
+        this.dataActivityPerVOIAtTimePointContainer = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété voxelActivityMapProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link NonDICOMDataContainer }
+     *     
+     */
+    public NonDICOMDataContainer getVoxelActivityMapProduced() {
+        return voxelActivityMapProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété voxelActivityMapProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link NonDICOMDataContainer }
+     *     
+     */
+    public void setVoxelActivityMapProduced(NonDICOMDataContainer value) {
+        this.voxelActivityMapProduced = value;
     }
 
 }

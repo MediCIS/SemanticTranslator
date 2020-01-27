@@ -2,15 +2,17 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
+import java.math.BigInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -25,8 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="AbsorbedDoseRateValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="AbsorbedDoseRateUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VOIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="AbsorbedDoseRateUnit" type="{https://www.irdbb-medirad.com}AbsorbedDoseRateUnit"/>
+ *         &lt;element name="VOIIdentifier" type="{http://www.w3.org/2001/XMLSchema}integer"/>
  *         &lt;element name="TimePointIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -48,9 +50,10 @@ public class AbsorbedDoseRatePerVOIAtTimePoint {
     @XmlElement(name = "AbsorbedDoseRateValue")
     protected float absorbedDoseRateValue;
     @XmlElement(name = "AbsorbedDoseRateUnit", required = true)
-    protected String absorbedDoseRateUnit;
+    @XmlSchemaType(name = "string")
+    protected AbsorbedDoseRateUnit absorbedDoseRateUnit;
     @XmlElement(name = "VOIIdentifier", required = true)
-    protected String voiIdentifier;
+    protected BigInteger voiIdentifier;
     @XmlElement(name = "TimePointIdentifier", required = true)
     protected String timePointIdentifier;
 
@@ -75,10 +78,10 @@ public class AbsorbedDoseRatePerVOIAtTimePoint {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link AbsorbedDoseRateUnit }
      *     
      */
-    public String getAbsorbedDoseRateUnit() {
+    public AbsorbedDoseRateUnit getAbsorbedDoseRateUnit() {
         return absorbedDoseRateUnit;
     }
 
@@ -87,10 +90,10 @@ public class AbsorbedDoseRatePerVOIAtTimePoint {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link AbsorbedDoseRateUnit }
      *     
      */
-    public void setAbsorbedDoseRateUnit(String value) {
+    public void setAbsorbedDoseRateUnit(AbsorbedDoseRateUnit value) {
         this.absorbedDoseRateUnit = value;
     }
 
@@ -99,10 +102,10 @@ public class AbsorbedDoseRatePerVOIAtTimePoint {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link BigInteger }
      *     
      */
-    public String getVOIIdentifier() {
+    public BigInteger getVOIIdentifier() {
         return voiIdentifier;
     }
 
@@ -111,10 +114,10 @@ public class AbsorbedDoseRatePerVOIAtTimePoint {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link BigInteger }
      *     
      */
-    public void setVOIIdentifier(String value) {
+    public void setVOIIdentifier(BigInteger value) {
         this.voiIdentifier = value;
     }
 

@@ -96,38 +96,38 @@ public class ImportController extends CommonFunctions {
 
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 	
 
+	@RequestMapping (value = "/testXML", method = RequestMethod.POST)
+	public String testXML(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor)  {      
+		TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor);
+		return "Tipoui !\n";
+	}
+	
 	
 	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
 	public String testMetadatas() throws IOException, DicomException {      
 		List<String> listeRDF = Stream.of(
-				
-				//"NM_royal_1.3.12.2.1107.5.6.1.0.30800119042309091780800000006.dcm"//,
-				/*
+				"NM_00000631.dcm",
+				"1.2.392.200036.9116.2.5.1.37.2424156756.1562828030.518650.dcm",
+				"NM_royal_1.3.12.2.1107.5.6.1.0.30800119042309091780800000006.dcm",
 				"CTlocalizer 0000003.dcm",
 				"CTlocalizer 000000.dcm",
 				"CTlocalizer 000001.dcm",
-
 				"pet 66863 000000.dcm",
 				"pet 69357 000000.dcm",
 				"pet ct 13979 000000.dcm",
 				"pet ct 33633 000000.dcm",
-				"pet ct 77667 000000.dcm",*/
-
-				/*
+				"pet ct 77667 000000.dcm",
 				"NM_1.2.826.0.1.3680043.2.1143.9044577508240762692299637257578126775.dcm",
 				"NM_1.2.826.0.1.3680043.2.1143.4166221461035278595477829423829815483.dcm",
 				"NM_1.2.826.0.1.3680043.2.1143.5291241776818564084362627452114139907.dcm",
 				"NM_1.2.826.0.1.3680043.2.1143.4439810664766913333893527940924912402.dcm",
 				"NM_1.2.840.113619.2.281.3562.103051.1493996811.123212500.dcm",
 				"NM_22739480.dcm",
-
-
 				"CT_1.2.840.113619.2.281.3562.103051.1493996663.372826500.dcm",
 				"CT_1.2.840.113619.2.281.3562.103051.1493996667.372868700.dcm",
 				"CT_1.2.840.113619.2.281.3562.103051.1493996672.372829600.dcm",
 				"CT 96821 000000.dcm",
-				"CT 11200 000000.dcm",*/
-
+				"CT 11200 000000.dcm",
 				"CTenhanced0011.dcm",
 				"CTenhanced0050.dcm",
 				"CTenhanced0053.dcm",
@@ -135,47 +135,54 @@ public class ImportController extends CommonFunctions {
 				"CTenhanced0011.dcm",
 				"CTenhanced0050.dcm",
 				"CTenhanced0053.dcm",
-				"CTenhanced0070.dcm"
-				/*
+				"CTenhanced0070.dcm",
 				"SR_Maienz_Report-15-2_sr.xml.dcm",
 				"SR_Maienz_Report-79538-1_sr.xml.dcm",
 				"SR_Maienz_Report-81000-1_sr.xml.dcm",
 				"SR_Maienz_Report-81223-1_sr.xml.dcm",
 				"SR_Maienz_Report-81322-1_sr.xml.dcm",
-				"SR_Maienz_Report-84044-1_sr.xml.dcm"*/
-				
+				"SR_Maienz_Report-84044-1_sr.xml.dcm"
 				).collect(Collectors.toList());
 
-		Iterator<String> RDFIter = listeRDF.iterator();
-		while (RDFIter.hasNext()) {
-			String ClinicalResearchStudyId = "2.1.2";
-			String fileName = RDFIter.next();
-			File f = new File("uploadFiles/Dicom/"+fileName);																	// SR file that will be read 
-
-			org.dcm4che3.io.DicomInputStream input;
-			Attributes obj = null;
-			try {
-				input = new org.dcm4che3.io.DicomInputStream(f);
-				obj = input.readDataset(-1, -1);
-				input.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+		int nIter = 1000;
+		
+		for (int i = 0; i<nIter; i++) {
+			System.out.println("\tIteration"+i);
+			Iterator<String> RDFIter = listeRDF.iterator();
+			while (RDFIter.hasNext()) {
+				String ClinicalResearchStudyId = "2.1.2";
+				String fileName = RDFIter.next();
+				File f = new File("uploadFiles/Dicom/"+fileName);																	// SR file that will be read 
+	
+				org.dcm4che3.io.DicomInputStream input;
+				Attributes obj = null;
+				try {
+					input = new org.dcm4che3.io.DicomInputStream(f);
+					obj = input.readDataset(-1, -1);
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	
+				System.out.println("\n\n-------------------------------------------------------------------------------------");
+	
+				System.out.println("\t"+fileName);
+				if (obj!=null) {
+					TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, "exampleHandle");
+				}
+	
+				rdfName = fileName.replace(".dcm", ".rdf");	
+				writingRDF(rdfName);
+				createAdminConnection(database.ontoMedirad);
+	
+				setInStarDog(rdfName);
+				
+				closeAdminConnection();
+				System.out.println("\n\n-------------------------------------------------------------------------------------");
+	
 			}
-
-			System.out.println("\n\n-------------------------------------------------------------------------------------");
-
-			System.out.println("\t"+fileName);
-			if (obj!=null) {
-				TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, "exampleHandle");
-			}
-
-			rdfName = fileName.replace(".dcm", ".rdf");	
-			writingRDF(rdfName);
-			createAdminConnection(database.ontoMedirad);
-
-			setInStarDog(rdfName);
-			System.out.println("\n\n-------------------------------------------------------------------------------------");
-
+			
+			Application.memory.initVoidMemory();
 		}
 		return "Tipoui !\n";
 	}
@@ -274,6 +281,16 @@ public class ImportController extends CommonFunctions {
 
 		return "{\"res\":\"importDicomMetadata Request received\"}";
 
+	}
+	
+	
+	@RequestMapping(value = "/importKheopsSR", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/plain")	
+	public String importKheopsSR(@RequestBody String SRurl) throws IOException, JSONException, DicomException {	
+		//
+		
+		retrieveDicomFile(SRurl);
+		
+		return "{\"res\":\"importKheopsSR Request received\"}";
 	}
 
 	/*
@@ -459,6 +476,7 @@ public class ImportController extends CommonFunctions {
 		return version;
 	}
 
+	/*
 	@RequestMapping (value = "/downloadOntology", method = RequestMethod.GET, headers = "Accept=application/zip")
 	public void downloadOntology(HttpServletResponse response) throws IOException {
 		String zipFileName = "ontoMedirad.zip";
@@ -484,7 +502,7 @@ public class ImportController extends CommonFunctions {
 		response.addHeader("Content-Disposition", "attachment; filename="+zipFileName);
 		Files.copy(p, response.getOutputStream());
 		response.getOutputStream().flush();
-	}
+	}*/
 
 	@RequestMapping (value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/rdf")
 	public @ResponseBody FileSystemResource downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {		
@@ -719,6 +737,82 @@ public class ImportController extends CommonFunctions {
 		rdfName = "RdfBackup/CT_metadata" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";		// Name for the RDF File (won't be overwritten)
 		writingRDF(rdfName);																			// Write the populated graph in the RDF file
 		setInStarDog(rdfName);
+		
+		starDogConnection.close();
+
+		logger.debug("Retrieving File : No exception catched");
+	}
+	
+	public void retrieveDicomFile(String targetURL) throws IOException {
+		logger.info("Retrieving SR Kheops : " + targetURL);
+		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
+
+		
+		logger.debug(targetURL);
+
+		HttpURLConnection pacsConnection; 
+		URL url = new URL(targetURL);
+		pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
+		pacsConnection.setRequestMethod("GET");
+		pacsConnection.setRequestProperty("Accept", "multipart/related; type=\"application/dicom\";");
+
+		String boundary = "";																			// Create object for retrieve SR as a text  
+		String boundaryHeader = "boundary=";															// Same
+		String contentType = pacsConnection.getHeaderField("Content-Type");								// Get header at "Content-Type"
+		int bufsize = pacsConnection.getContentLength();	
+
+		String[] contentTypeArray = contentType.split(";");												// Split the text received as a list of String
+		for (String content : contentTypeArray ) {														 
+			if (content.contains(boundaryHeader)) {
+				boundary = content.substring(content.indexOf("=")+1);									// Extract the content
+			}
+		}
+
+		if (bufsize<=0) { 																				// Correction when bufsize = -1
+			logger.warn("bufsize : "+bufsize);
+			bufsize=50;																					// Buffsize correction (50 is a random number enough big)
+			logger.warn("bufsize corrected to  "+bufsize);
+		} else {
+			logger.debug("bufsize : "+bufsize);
+		}
+
+		String srFilename = "CT"+compteurCT+".dcm";																	// Filename for write the SR and read it after
+		MultipartStream multipartStream;
+		multipartStream = new MultipartStream(											// MultipartStream will receive the input stream containing the SR
+				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
+		logger.debug("Writing File in : "+srFilename);
+		File file = new File(srFilename);																// Create the file for write the SR
+		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());							// New stream to write in the file
+		boolean nextPart = multipartStream.skipPreamble();
+
+		if (nextPart) {																					// Iterate as a while (X.hasNext())
+			multipartStream.readHeaders();																// Header of the part won't be written
+			multipartStream.readBodyData(out);															// Write in the file
+		}
+		out.close();
+		if(pacsConnection != null) {pacsConnection.disconnect();}											// Close the connection to the Stardog
+
+		logger.debug("Reading SR (local file)");	
+		File f = new File(srFilename);																	// SR file that will be read 
+
+		org.dcm4che3.io.DicomInputStream input;
+		Attributes obj;
+		input = new org.dcm4che3.io.DicomInputStream(f);
+		obj = input.readDataset(-1, -1);
+		input.close();
+		
+		String handle = "example handle";
+		String ClinicalResearchStudyId = "example ClinicalResearchStudyId";
+
+		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, handle);
+
+		createAdminConnection(database.ontoMedirad);
+
+		rdfName = "RdfBackup/SR_Kheops.rdf";		// Name for the RDF File (won't be overwritten)
+		writingRDF(rdfName);																			// Write the populated graph in the RDF file
+		setInStarDog(rdfName);
+		
+		starDogConnection.close();
 
 		logger.debug("Retrieving File : No exception catched");
 	}

@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
@@ -27,11 +27,11 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
- *         &lt;element name="NMStaticCorrectedUsed" type="{https://www.irdbb-medirad.com}DICOMData" maxOccurs="unbounded"/>
+ *         &lt;element name="TimePointIdentifierUsedContainer" type="{https://www.irdbb-medirad.com}TimePointIdentifierUsedContainer"/>
+ *         &lt;element name="NMStaticCorrectedUsed" type="{https://www.irdbb-medirad.com}DICOMDataContainer"/>
  *         &lt;element name="SegmentationMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="CountsPerROIAtTimePointProduced" type="{https://www.irdbb-medirad.com}CountsPerROIAtTimePoint" maxOccurs="unbounded"/>
- *         &lt;element name="ROIProduced" type="{https://www.irdbb-medirad.com}ROI" maxOccurs="unbounded"/>
+ *         &lt;element name="CountsPerROIAtTimePointContainer" type="{https://www.irdbb-medirad.com}CountsPerROIAtTimePointContainer"/>
+ *         &lt;element name="ROIProduced" type="{https://www.irdbb-medirad.com}ROIcontainer" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,26 +43,26 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PlanarDataSegmentationWithoutRegistration", propOrder = {
     "processExecutionContext",
-    "timePointIdentifierUsed",
+    "timePointIdentifierUsedContainer",
     "nmStaticCorrectedUsed",
     "segmentationMethodUsed",
-    "countsPerROIAtTimePointProduced",
+    "countsPerROIAtTimePointContainer",
     "roiProduced"
 })
 public class PlanarDataSegmentationWithoutRegistration {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
-    @XmlElement(name = "TimePointIdentifierUsed", required = true)
-    protected List<String> timePointIdentifierUsed;
+    @XmlElement(name = "TimePointIdentifierUsedContainer", required = true)
+    protected TimePointIdentifierUsedContainer timePointIdentifierUsedContainer;
     @XmlElement(name = "NMStaticCorrectedUsed", required = true)
-    protected List<DICOMData> nmStaticCorrectedUsed;
+    protected DICOMDataContainer nmStaticCorrectedUsed;
     @XmlElement(name = "SegmentationMethodUsed", required = true)
     protected String segmentationMethodUsed;
-    @XmlElement(name = "CountsPerROIAtTimePointProduced", required = true)
-    protected List<CountsPerROIAtTimePoint> countsPerROIAtTimePointProduced;
+    @XmlElement(name = "CountsPerROIAtTimePointContainer", required = true)
+    protected CountsPerROIAtTimePointContainer countsPerROIAtTimePointContainer;
     @XmlElement(name = "ROIProduced", required = true)
-    protected List<ROI> roiProduced;
+    protected List<ROIcontainer> roiProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -89,61 +89,51 @@ public class PlanarDataSegmentationWithoutRegistration {
     }
 
     /**
-     * Gets the value of the timePointIdentifierUsed property.
+     * Obtient la valeur de la propriété timePointIdentifierUsedContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the timePointIdentifierUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getTimePointIdentifierUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link TimePointIdentifierUsedContainer }
+     *     
      */
-    public List<String> getTimePointIdentifierUsed() {
-        if (timePointIdentifierUsed == null) {
-            timePointIdentifierUsed = new ArrayList<String>();
-        }
-        return this.timePointIdentifierUsed;
+    public TimePointIdentifierUsedContainer getTimePointIdentifierUsedContainer() {
+        return timePointIdentifierUsedContainer;
     }
 
     /**
-     * Gets the value of the nmStaticCorrectedUsed property.
+     * Définit la valeur de la propriété timePointIdentifierUsedContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the nmStaticCorrectedUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getNMStaticCorrectedUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link DICOMData }
-     * 
-     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimePointIdentifierUsedContainer }
+     *     
      */
-    public List<DICOMData> getNMStaticCorrectedUsed() {
-        if (nmStaticCorrectedUsed == null) {
-            nmStaticCorrectedUsed = new ArrayList<DICOMData>();
-        }
-        return this.nmStaticCorrectedUsed;
+    public void setTimePointIdentifierUsedContainer(TimePointIdentifierUsedContainer value) {
+        this.timePointIdentifierUsedContainer = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nmStaticCorrectedUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DICOMDataContainer }
+     *     
+     */
+    public DICOMDataContainer getNMStaticCorrectedUsed() {
+        return nmStaticCorrectedUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété nmStaticCorrectedUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DICOMDataContainer }
+     *     
+     */
+    public void setNMStaticCorrectedUsed(DICOMDataContainer value) {
+        this.nmStaticCorrectedUsed = value;
     }
 
     /**
@@ -171,32 +161,27 @@ public class PlanarDataSegmentationWithoutRegistration {
     }
 
     /**
-     * Gets the value of the countsPerROIAtTimePointProduced property.
+     * Obtient la valeur de la propriété countsPerROIAtTimePointContainer.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the countsPerROIAtTimePointProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getCountsPerROIAtTimePointProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CountsPerROIAtTimePoint }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link CountsPerROIAtTimePointContainer }
+     *     
      */
-    public List<CountsPerROIAtTimePoint> getCountsPerROIAtTimePointProduced() {
-        if (countsPerROIAtTimePointProduced == null) {
-            countsPerROIAtTimePointProduced = new ArrayList<CountsPerROIAtTimePoint>();
-        }
-        return this.countsPerROIAtTimePointProduced;
+    public CountsPerROIAtTimePointContainer getCountsPerROIAtTimePointContainer() {
+        return countsPerROIAtTimePointContainer;
+    }
+
+    /**
+     * Définit la valeur de la propriété countsPerROIAtTimePointContainer.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CountsPerROIAtTimePointContainer }
+     *     
+     */
+    public void setCountsPerROIAtTimePointContainer(CountsPerROIAtTimePointContainer value) {
+        this.countsPerROIAtTimePointContainer = value;
     }
 
     /**
@@ -217,13 +202,13 @@ public class PlanarDataSegmentationWithoutRegistration {
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link ROI }
+     * {@link ROIcontainer }
      * 
      * 
      */
-    public List<ROI> getROIProduced() {
+    public List<ROIcontainer> getROIProduced() {
         if (roiProduced == null) {
-            roiProduced = new ArrayList<ROI>();
+            roiProduced = new ArrayList<ROIcontainer>();
         }
         return this.roiProduced;
     }

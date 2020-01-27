@@ -2,17 +2,16 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -26,30 +25,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="NonDICOMDataClass">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="VOI"/>
- *               &lt;enumeration value="VOI superimposed on images"/>
- *               &lt;enumeration value="3D dose map"/>
- *               &lt;enumeration value="3D density map"/>
- *               &lt;enumeration value="3D activity map"/>
- *               &lt;enumeration value="3D absorbed dose rate map"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
- *         &lt;element name="NonDICOMDataFormat">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="zipped imageJ contours format"/>
- *               &lt;enumeration value="TIFF format embedding imageJ contours"/>
- *               &lt;enumeration value="zipped pseudo DICOM ImpactMC"/>
- *               &lt;enumeration value="GIF format embedding imageJ contours"/>
- *               &lt;enumeration value="NRRD format"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
- *         &lt;element name="NonDICOMDataFileName" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
+ *         &lt;element name="NonDICOMDataClass" type="{https://www.irdbb-medirad.com}NonDICOMDataClass"/>
+ *         &lt;element name="NonDICOMDataFormat" type="{https://www.irdbb-medirad.com}NonDICOMDataFormat"/>
+ *         &lt;element name="FileNameList" type="{https://www.irdbb-medirad.com}FileNameList"/>
  *         &lt;element name="FHIRIdentifier" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -63,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "NonDICOMData", propOrder = {
     "nonDICOMDataClass",
     "nonDICOMDataFormat",
-    "nonDICOMDataFileName",
+    "fileNameList",
     "fhirIdentifier"
 })
 public class NonDICOMData {
@@ -71,9 +49,10 @@ public class NonDICOMData {
     @XmlElement(name = "NonDICOMDataClass", required = true)
     protected String nonDICOMDataClass;
     @XmlElement(name = "NonDICOMDataFormat", required = true)
-    protected String nonDICOMDataFormat;
-    @XmlElement(name = "NonDICOMDataFileName", required = true)
-    protected List<String> nonDICOMDataFileName;
+    @XmlSchemaType(name = "string")
+    protected NonDICOMDataFormat nonDICOMDataFormat;
+    @XmlElement(name = "FileNameList", required = true)
+    protected FileNameList fileNameList;
     @XmlElement(name = "FHIRIdentifier")
     protected String fhirIdentifier;
 
@@ -106,10 +85,10 @@ public class NonDICOMData {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link NonDICOMDataFormat }
      *     
      */
-    public String getNonDICOMDataFormat() {
+    public NonDICOMDataFormat getNonDICOMDataFormat() {
         return nonDICOMDataFormat;
     }
 
@@ -118,40 +97,35 @@ public class NonDICOMData {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link NonDICOMDataFormat }
      *     
      */
-    public void setNonDICOMDataFormat(String value) {
+    public void setNonDICOMDataFormat(NonDICOMDataFormat value) {
         this.nonDICOMDataFormat = value;
     }
 
     /**
-     * Gets the value of the nonDICOMDataFileName property.
+     * Obtient la valeur de la propriété fileNameList.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the nonDICOMDataFileName property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getNonDICOMDataFileName().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link FileNameList }
+     *     
      */
-    public List<String> getNonDICOMDataFileName() {
-        if (nonDICOMDataFileName == null) {
-            nonDICOMDataFileName = new ArrayList<String>();
-        }
-        return this.nonDICOMDataFileName;
+    public FileNameList getFileNameList() {
+        return fileNameList;
+    }
+
+    /**
+     * Définit la valeur de la propriété fileNameList.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link FileNameList }
+     *     
+     */
+    public void setFileNameList(FileNameList value) {
+        this.fileNameList = value;
     }
 
     /**

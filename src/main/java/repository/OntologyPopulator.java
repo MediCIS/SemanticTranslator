@@ -19,6 +19,7 @@ import com.pixelmed.dicom.ContentItem;
 
 import javaXSDclass.PatientDescriptorType;
 
+
 public abstract class OntologyPopulator {															// Abstract Class because don't have to be callec
 																									// Contains all functions to create the ontology populated
 	static OntModel populateModel;																	// Model for store the populated graph
@@ -122,31 +123,31 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		Individual researchClinicalStudy;
 		Resource classStudy = model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study");
 		
-		if (name.contains("2.1.2") || name.contains("212") ) {
+		if (name.contains("755523-st212")) {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("2.3.2.1") || name.contains("2321")  ) {
+		} else if (name.contains("755523-st2321")) {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask2.3.2.1", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-			} else if (name.contains("2.3.2.2") || name.contains("2322")  ) {
+			} else if (name.contains("755523-st2322")) {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask2.3.2.2", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("5.3.1") || name.contains("531")  ) {
+		} else if (name.contains("755523-st531")) {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask5.3.1", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("5.3.2") || name.contains("532")  ) {
+		} else if (name.contains("755523-st532")) {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask5.3.2", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("3.2") || name.contains("32")  ) {
+		} else if (name.contains("755523-t32")) {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_task3.2", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("3.3") || name.contains("33")  ) {
+		} else if (name.contains("755523-t33") || name.contains("33")  ) {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_task3.3", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
@@ -164,6 +165,17 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			logger.debug("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
 			Property prop = populateModel.createDatatypeProperty(propName);
 			ind.addProperty(prop, value);
+		}
+	}
+	
+	public static void addDataProperty(Individual ind, String propName, float value) {		// Create a Data property
+		if (populateModel==null) {populateModel = ModelFactory.createOntologyModel();}
+		if (ind==null || propName==null) {
+			logger.error("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
+		} else {
+			logger.debug("Data Property adding with subject : "+ind+" predicat : "+propName+" object : "+value);
+			Property prop = populateModel.createDatatypeProperty(propName);
+			ind.addLiteral(prop, value);
 		}
 	}
 	
@@ -251,7 +263,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		logger.debug("Creating Organ (Individual) from organ name : "+name);
 		switch (name) {
 		//CID 4030
-		case "Abdominal_aorta":
+		case "Abdominal_aorta": 
 			indOrgane =  createIndiv(name+"_"+patientID, model.getResource(racineObo+"FMA_3789")); 
 			listOrgans.add(indOrgane); break;
 		case "Adrenal_gland":
@@ -1720,7 +1732,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		case "volt":
 		case "V":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000218")); break;
-		case "Gy":
+		case "Gy": case "gray" :
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000134")); break;
 		case "milligray":
 		case "mGy":
@@ -1744,11 +1756,33 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#kiloelectronvolt")); 
 			break;	
 		case "ratio":
-			unit = null; 
+			unit = null; // These unit is ignored
 			break;
 		case "ma.s":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milliampere_second"));
 			break;
+		case "microAmp.s":
+			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#microampere_second"));
+			break;
+		case "gram":
+			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000021")); break;	
+		case "kilogram":
+			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000009")); break;	
+		case "becquerel":
+			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000132")); break;	
+		case "kilobecquerel":
+			unit = createIndiv(model.getResource(racineURI+"kilobecquerel")); break;	
+		case "megabecquerel":
+			unit = createIndiv(model.getResource(racineURI+"megabecquerel")); break;	
+		case "curie":
+			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000133")); break;	
+		case "microcurie":
+			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000146")); break;	
+		case "millicurie":
+			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000145")); break;	
+		case "counts":
+			unit = createIndiv(model.getResource(racineURI+"counts")); break;	
+			
 		default:
 			unit = createIndiv(generateName("Unknown_Unit"), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));
 			logger.warn("WARN Unknown Unit : "+u);

@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
@@ -11,6 +11,7 @@ package javaXSDclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -25,14 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="KernelLimitForConvolutionsValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="KernelLimitForConvolutionsUnit">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="millimeter"/>
- *               &lt;enumeration value="centimeter"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
+ *         &lt;element name="KernelLimitForConvolutionsUnit" type="{https://www.irdbb-medirad.com}KernelLimitForConvolutionsUnit"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -51,7 +45,8 @@ public class KernelLimitForConvolutions {
     @XmlElement(name = "KernelLimitForConvolutionsValue")
     protected float kernelLimitForConvolutionsValue;
     @XmlElement(name = "KernelLimitForConvolutionsUnit", required = true)
-    protected String kernelLimitForConvolutionsUnit;
+    @XmlSchemaType(name = "string")
+    protected KernelLimitForConvolutionsUnit kernelLimitForConvolutionsUnit;
 
     /**
      * Obtient la valeur de la propriété kernelLimitForConvolutionsValue.
@@ -74,10 +69,10 @@ public class KernelLimitForConvolutions {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link KernelLimitForConvolutionsUnit }
      *     
      */
-    public String getKernelLimitForConvolutionsUnit() {
+    public KernelLimitForConvolutionsUnit getKernelLimitForConvolutionsUnit() {
         return kernelLimitForConvolutionsUnit;
     }
 
@@ -86,10 +81,10 @@ public class KernelLimitForConvolutions {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link KernelLimitForConvolutionsUnit }
      *     
      */
-    public void setKernelLimitForConvolutionsUnit(String value) {
+    public void setKernelLimitForConvolutionsUnit(KernelLimitForConvolutionsUnit value) {
         this.kernelLimitForConvolutionsUnit = value;
     }
 

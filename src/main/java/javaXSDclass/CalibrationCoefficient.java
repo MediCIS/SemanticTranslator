@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2019.10.24 à 03:08:52 PM CEST 
+// Généré le : 2020.01.24 à 06:05:31 PM CET 
 //
 
 
@@ -11,6 +11,7 @@ package javaXSDclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -25,21 +26,9 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="CalibrationCoefficientValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="CalibrationCoefficientUnit" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="CalibrationCoefficientUnit" type="{https://www.irdbb-medirad.com}CalibrationCoefficientUnit"/>
  *         &lt;element name="ReferenceCalibrationDate" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="Isotope">
- *           &lt;simpleType>
- *             &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *               &lt;enumeration value="radium223"/>
- *               &lt;enumeration value="iodine131"/>
- *               &lt;enumeration value="lutetium177"/>
- *               &lt;enumeration value="yttrium90"/>
- *               &lt;enumeration value="rhenium188"/>
- *               &lt;enumeration value="terbium161"/>
- *               &lt;enumeration value="fluorine18"/>
- *             &lt;/restriction>
- *           &lt;/simpleType>
- *         &lt;/element>
+ *         &lt;element name="Isotope" type="{https://www.irdbb-medirad.com}Isotope"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -60,11 +49,13 @@ public class CalibrationCoefficient {
     @XmlElement(name = "CalibrationCoefficientValue")
     protected float calibrationCoefficientValue;
     @XmlElement(name = "CalibrationCoefficientUnit", required = true)
-    protected String calibrationCoefficientUnit;
+    @XmlSchemaType(name = "string")
+    protected CalibrationCoefficientUnit calibrationCoefficientUnit;
     @XmlElement(name = "ReferenceCalibrationDate", required = true)
     protected String referenceCalibrationDate;
     @XmlElement(name = "Isotope", required = true)
-    protected String isotope;
+    @XmlSchemaType(name = "string")
+    protected Isotope isotope;
 
     /**
      * Obtient la valeur de la propriété calibrationCoefficientValue.
@@ -87,10 +78,10 @@ public class CalibrationCoefficient {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link CalibrationCoefficientUnit }
      *     
      */
-    public String getCalibrationCoefficientUnit() {
+    public CalibrationCoefficientUnit getCalibrationCoefficientUnit() {
         return calibrationCoefficientUnit;
     }
 
@@ -99,10 +90,10 @@ public class CalibrationCoefficient {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link CalibrationCoefficientUnit }
      *     
      */
-    public void setCalibrationCoefficientUnit(String value) {
+    public void setCalibrationCoefficientUnit(CalibrationCoefficientUnit value) {
         this.calibrationCoefficientUnit = value;
     }
 
@@ -135,10 +126,10 @@ public class CalibrationCoefficient {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Isotope }
      *     
      */
-    public String getIsotope() {
+    public Isotope getIsotope() {
         return isotope;
     }
 
@@ -147,10 +138,10 @@ public class CalibrationCoefficient {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Isotope }
      *     
      */
-    public void setIsotope(String value) {
+    public void setIsotope(Isotope value) {
         this.isotope = value;
     }
 
