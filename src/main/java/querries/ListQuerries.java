@@ -13,7 +13,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 
-import au.com.bytecode.opencsv.CSVReader;
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+
 
 public class ListQuerries {
 	
@@ -24,13 +28,21 @@ public class ListQuerries {
 	
 	public ListQuerries() throws IOException {													// Constructor (by reading querries in an excel file) 
 		ListQuerry = new ArrayList<Querry>();
-		CSVReader readerCSV = null;
+		CSVReaderBuilder readerCSV = null;
 		InputStream fileStream;
         Boolean requestReasoning;
+        CSVParserBuilder parserCSVbuilder = new CSVParserBuilder();
+        parserCSVbuilder.withSeparator(';');
+        CSVParser parserCSV = parserCSVbuilder.build();
         fileStream = new ClassPathResource(fileName).getInputStream();
-		readerCSV = new CSVReader(new BufferedReader(new InputStreamReader(fileStream)), ';');
+		readerCSV = new CSVReaderBuilder(new BufferedReader(new InputStreamReader(fileStream)));
+		readerCSV.withCSVParser(parserCSV);
+		CSVReader csvParser = readerCSV.build();
+
+		Iterator<String[]> iterCsv = csvParser.iterator();
 		String [] nextLine;
-        while ((nextLine = readerCSV.readNext()) != null) {
+        while (iterCsv.hasNext()) {
+        	nextLine = iterCsv.next();
         	String requestNum = nextLine[0];
 			String requestTitle = nextLine[1];
 			String requestDescription = nextLine[2];
@@ -46,7 +58,6 @@ public class ListQuerries {
 			addRequest(requestNum, requestTitle, request, requestDescription, requestReasoning);
         }
         fileStream.close();
-        readerCSV.close();
 	}
 	
 	public Querry getRequest(String nameRequest) {							// Return a Querry as a Java Object

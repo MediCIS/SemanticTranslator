@@ -2,9 +2,7 @@ package repository;
 
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,17 +12,14 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,17 +33,12 @@ import javax.xml.validation.Validator;
 import org.apache.commons.io.IOUtils;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.tomcat.util.http.fileupload.MultipartStream;
-
+import org.dcm4che3.data.Attributes;
+import org.dcm4che3.data.Sequence;
+import org.dcm4che3.data.Tag;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.openrdf.query.QueryEvaluationException;
-import org.openrdf.query.TupleQueryResult;
-import org.openrdf.query.TupleQueryResultHandlerException;
-import org.openrdf.query.resultio.QueryResultIO;
-import org.openrdf.query.resultio.TupleQueryResultFormat;
-import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
-import org.openrdf.rio.RDFFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -67,7 +57,6 @@ import org.xml.sax.SAXException;
 
 import com.complexible.stardog.StardogException;
 import com.complexible.stardog.api.Exporter;
-import com.complexible.stardog.api.SelectQuery;
 import com.pixelmed.dicom.AttributeList;
 import com.pixelmed.dicom.ContentItem;
 import com.pixelmed.dicom.DicomException;
@@ -75,8 +64,6 @@ import com.pixelmed.dicom.StructuredReport;
 
 import javaXSDclass.NonDicomFileSetDescriptor;
 import querries.Querry;
-
-import org.dcm4che3.data.*;
 
 @Controller
 @RestController
@@ -517,7 +504,6 @@ public class ImportController extends CommonFunctions {
 		}
 
 		Exporter exporter = starDogConnection.export();
-		exporter.format(org.openrdf.rio.RDFFormat.RDFXML);
 
 		file = new File(fileName);
 		FileOutputStream output = new FileOutputStream(file);
@@ -533,6 +519,7 @@ public class ImportController extends CommonFunctions {
 		return Application.listQuerries.getRequestListsinCSV();
 	}
 
+	/*
 	@RequestMapping (value = "/verifRequest", method = RequestMethod.GET)
 	public String verifRequest() {
 
@@ -571,11 +558,11 @@ public class ImportController extends CommonFunctions {
 
 		return "Tipoui !\n";
 
-	}
+	}*/
 
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
 	public ResponseEntity<String> requestFromList(@RequestParam("id") String id)        // Shortcut to execute a request from the request list
-			throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {    
+		{    
 		//String isReasoning = "false";
 		Querry q = Application.listQuerries.getRequest(id);             // Retrieve request from the list (can be null if request name is unknown)
 		if (q!=null) {											   	    // If request is NOT null
@@ -603,7 +590,7 @@ public class ImportController extends CommonFunctions {
 	} 
 
 	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, produces = {"application/json"})
-	public ResponseEntity<String> getResearchStudies() throws TupleQueryResultHandlerException, QueryEvaluationException, StardogException, UnsupportedQueryResultFormatException, IOException {   
+	public ResponseEntity<String> getResearchStudies()  {   
 		ResponseEntity<String> res = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
 				"          WHERE {\n" + 
 				"      ?study rdf:type ontomedirad:clinical_research_study .\n" + 
@@ -918,12 +905,14 @@ public class ImportController extends CommonFunctions {
 	public void setInStarDog(String path) throws StardogException, FileNotFoundException  {					// Import a RDF file in stardog
 		logger.info("Transfer to stardog...");
 		starDogConnection.begin();																			// Begin the import action 
-
-		starDogConnection.add().io().format(RDFFormat.RDFXML).stream(new FileInputStream(path)); 
+		Path p = Paths.get(path);
+		//starDogConnection.add().io().format(RDFFormat).stream(new FileInputStream(path)); 
+		starDogConnection.add().io().file(p);
 
 		starDogConnection.commit();																			// End of the import action (without commit the import is not valid)
 		logger.info("Transfer to stardog : Complete");
 	}
+
 
 	/*
 	@RequestMapping (value = "/shutDownServer", method = RequestMethod.GET , headers = "Accept=text/xml")

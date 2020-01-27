@@ -11,13 +11,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.jena.ontology.OntModel;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.openrdf.query.QueryEvaluationException;
-import org.openrdf.query.TupleQueryResultHandlerException;
-import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
+import org.json.JSONException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import com.stardog.stark.query.io.ResultWritingFailed;
 
 import querries.ListQuerries;
 
@@ -48,7 +49,7 @@ public class Application {
 			"PATO_for_OntoMEDIRAD.owl","Radionuclides_for_OntoMEDIRAD.owl",
 			"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
 		
-    public static void main(String[] args) throws IOException, TupleQueryResultHandlerException, QueryEvaluationException, UnsupportedQueryResultFormatException, InvocationTargetException {    			
+    public static void main(String[] args) throws IOException, InvocationTargetException, ResultWritingFailed, JSONException {    			
 		
     	int nMinutes = 10;
 
