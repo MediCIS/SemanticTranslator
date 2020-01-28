@@ -131,7 +131,7 @@ public class ImportController extends CommonFunctions {
 				"SR_Maienz_Report-84044-1_sr.xml.dcm"
 				).collect(Collectors.toList());
 
-		int nIter = 1000;
+		int nIter = 1;
 		
 		for (int i = 0; i<nIter; i++) {
 			System.out.println("\tIteration"+i);
