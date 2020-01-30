@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.24 à 06:05:31 PM CET 
+// Généré le : 2020.01.28 à 04:59:07 PM CET 
 //
 
 
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="NMTomoReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="CTReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="VOISegmentationMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="CountsPerVOIAtTimePointContainer" type="{https://www.irdbb-medirad.com}CountsPerVOIAtTimePointContainer"/>
+ *         &lt;element name="CountsPerVOIAtTimePointContainer" type="{https://www.irdbb-medirad.com}CountsPerVOIAtTimePointContainer" minOccurs="0"/>
  *         &lt;element name="VOIProduced" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer" minOccurs="0"/>
  *         &lt;element name="SegmentationProduced" type="{https://www.irdbb-medirad.com}Segmentation" minOccurs="0"/>
  *         &lt;element name="CTReconResampledOnNMReferenceProduced" type="{https://www.irdbb-medirad.com}DICOMDataContainer"/>
@@ -67,7 +67,7 @@ public class VOISegmentationVOIMassDetermination {
     protected DICOMData ctReconUsed;
     @XmlElement(name = "VOISegmentationMethodUsed", required = true)
     protected String voiSegmentationMethodUsed;
-    @XmlElement(name = "CountsPerVOIAtTimePointContainer", required = true)
+    @XmlElement(name = "CountsPerVOIAtTimePointContainer")
     protected CountsPerVOIAtTimePointContainer countsPerVOIAtTimePointContainer;
     @XmlElement(name = "VOIProduced")
     protected VOIIdentifierContainer voiProduced;

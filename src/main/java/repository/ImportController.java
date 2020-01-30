@@ -361,7 +361,7 @@ public class ImportController extends CommonFunctions {
 		return "{\"res\":\"ImportDicomFileSetDescriptor Request received\"}";
 	}*/
 
-	@RequestMapping( value = "/importNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
+	@RequestMapping( value = "/importNonDicomFileSetDescriptor", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/xml")
 	public String importNonDicomData(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor,  	// Import Non Dicom data XML valid file
 			@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {						    
 
@@ -369,10 +369,11 @@ public class ImportController extends CommonFunctions {
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}	
 
 		if (nonDicomFileSetDescriptor!=null) {									    						// If there is a nonDicomFileSetDescriptor
-			
 			lastXML = nonDicomFileSetDescriptor.toString();
-			
+			logger.debug("PatientId : "+nonDicomFileSetDescriptor.getPatientId());
 			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data
+		} else {
+			logger.error("nonDicomFileSetDescriptor is Null");
 		}
 
 		logger.info("Retrieving NON Dicom FileSetDescriptor");
@@ -415,7 +416,7 @@ public class ImportController extends CommonFunctions {
 	}
 */
 	
-	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml", produces = "application/json")
+	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/xml")
 	public @ResponseBody String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {
 		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
 		String tmpFilePath = "tmp.xml";
