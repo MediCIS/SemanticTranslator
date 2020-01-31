@@ -1062,8 +1062,12 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			}
 		}
 		
-		SPECTDataAcquisitionAndReconstruction.getSPECTReconstructionContainer().getSPECTReconstruction().iterator();
-		while ()
+		Iterator<SPECTReconstruction> SPECTReconstructionIterator = SPECTDataAcquisitionAndReconstruction.getSPECTReconstructionContainer().getSPECTReconstruction().iterator();
+		while (SPECTReconstructionIterator.hasNext()) {
+			SPECTReconstruction SPECTReconstruction = SPECTReconstructionIterator.next();
+			ProcessExecutionContext processExecutionContext = SPECTReconstruction.getProcessExecutionContext();
+			
+		}
 		
 		
 	}
