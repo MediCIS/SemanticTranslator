@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--VersionSchemas : 051-->
+<!--VersionSchemas : 052-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -144,7 +144,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
 			<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
 			<xs:element name="VOISegmentationMethodUsed" type="xs:string"/>
-			<xs:element name="CountsPerVOIAtTimePointContainer" type="irdbb:CountsPerVOIAtTimePointContainer"/>
+			<xs:element name="CountsPerVOIAtTimePointContainer" type="irdbb:CountsPerVOIAtTimePointContainer" minOccurs="0" />
 			<xs:element name="VOIProduced" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
 			<xs:element name="SegmentationProduced" type="irdbb:Segmentation" minOccurs="0" />
 			<xs:element name="CTReconResampledOnNMReferenceProduced" type="irdbb:DICOMDataContainer"/>
@@ -224,7 +224,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 	<xs:complexType name="SumAndScalingAbsorbedDoseRateCalculation">
 		<xs:sequence>
 			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
 			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
 			<xs:element name="SegmentationUsed" type="xs:string" minOccurs="0" />
 			<xs:element name="ThreeDimEnergyDepositionRateMatrixAtTimePointUsed" type="irdbb:NonDICOMData"/>
@@ -547,6 +547,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:restriction base="xs:string">
 			<xs:enumeration value="gray per second"/>
 			<xs:enumeration value="milligray per second"/>
+			<xs:enumeration value="milligray per hour"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -654,14 +655,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:sequence>
 		<xs:element name="NonDICOMDataClass" type="irdbb:NonDICOMDataClass" />
 		<xs:element name="NonDICOMDataFormat" type="irdbb:NonDICOMDataFormat" />
-			<xs:element name="FileNameList" type="irdbb:FileNameList"/>
+			<xs:element name="NonDICOMDataFileName" type="xs:string"/>
 			<xs:element name="FHIRIdentifier" type="xs:string" minOccurs="0" />
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="FileNameList">
-		<xs:sequence>
-			<xs:element name="NonDICOMDataFileName" type="xs:string" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 

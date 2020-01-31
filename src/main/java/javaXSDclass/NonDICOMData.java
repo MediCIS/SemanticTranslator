@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.24 à 06:05:31 PM CET 
+// Généré le : 2020.01.28 à 04:59:07 PM CET 
 //
 
 
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="NonDICOMDataClass" type="{https://www.irdbb-medirad.com}NonDICOMDataClass"/>
  *         &lt;element name="NonDICOMDataFormat" type="{https://www.irdbb-medirad.com}NonDICOMDataFormat"/>
- *         &lt;element name="FileNameList" type="{https://www.irdbb-medirad.com}FileNameList"/>
+ *         &lt;element name="NonDICOMDataFileName" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="FHIRIdentifier" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "NonDICOMData", propOrder = {
     "nonDICOMDataClass",
     "nonDICOMDataFormat",
-    "fileNameList",
+    "nonDICOMDataFileName",
     "fhirIdentifier"
 })
 public class NonDICOMData {
@@ -51,8 +51,8 @@ public class NonDICOMData {
     @XmlElement(name = "NonDICOMDataFormat", required = true)
     @XmlSchemaType(name = "string")
     protected NonDICOMDataFormat nonDICOMDataFormat;
-    @XmlElement(name = "FileNameList", required = true)
-    protected FileNameList fileNameList;
+    @XmlElement(name = "NonDICOMDataFileName", required = true)
+    protected String nonDICOMDataFileName;
     @XmlElement(name = "FHIRIdentifier")
     protected String fhirIdentifier;
 
@@ -105,27 +105,27 @@ public class NonDICOMData {
     }
 
     /**
-     * Obtient la valeur de la propriété fileNameList.
+     * Obtient la valeur de la propriété nonDICOMDataFileName.
      * 
      * @return
      *     possible object is
-     *     {@link FileNameList }
+     *     {@link String }
      *     
      */
-    public FileNameList getFileNameList() {
-        return fileNameList;
+    public String getNonDICOMDataFileName() {
+        return nonDICOMDataFileName;
     }
 
     /**
-     * Définit la valeur de la propriété fileNameList.
+     * Définit la valeur de la propriété nonDICOMDataFileName.
      * 
      * @param value
      *     allowed object is
-     *     {@link FileNameList }
+     *     {@link String }
      *     
      */
-    public void setFileNameList(FileNameList value) {
-        this.fileNameList = value;
+    public void setNonDICOMDataFileName(String value) {
+        this.nonDICOMDataFileName = value;
     }
 
     /**
