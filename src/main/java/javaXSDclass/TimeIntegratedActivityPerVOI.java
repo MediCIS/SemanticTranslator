@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.04 à 12:01:52 PM CET 
 //
 
 
@@ -26,10 +26,10 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ResidenceTimePerVOIValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="TimeIntegratedActivityPerVOIUnit" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityPerVOIUnit"/>
- *         &lt;element name="VOIIdentifierList" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
  *         &lt;element name="TimeUnit" type="{https://www.irdbb-medirad.com}TimeUnit"/>
  *         &lt;element name="TimeIntegratedActivityPerVOIValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
+ *         &lt;element name="TimeIntegratedActivityPerVOIUnit" type="{https://www.irdbb-medirad.com}TimeIntegratedActivityPerVOIUnit"/>
+ *         &lt;element name="VOIIdentifierList" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
  *         &lt;element name="PKAssessmentMethodUsed" type="{https://www.irdbb-medirad.com}CurveFittingMethod"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -42,26 +42,26 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeIntegratedActivityPerVOI", propOrder = {
     "residenceTimePerVOIValue",
-    "timeIntegratedActivityPerVOIUnit",
-    "voiIdentifierList",
     "timeUnit",
     "timeIntegratedActivityPerVOIValue",
+    "timeIntegratedActivityPerVOIUnit",
+    "voiIdentifierList",
     "pkAssessmentMethodUsed"
 })
 public class TimeIntegratedActivityPerVOI {
 
     @XmlElement(name = "ResidenceTimePerVOIValue")
     protected float residenceTimePerVOIValue;
-    @XmlElement(name = "TimeIntegratedActivityPerVOIUnit", required = true)
-    @XmlSchemaType(name = "string")
-    protected TimeIntegratedActivityPerVOIUnit timeIntegratedActivityPerVOIUnit;
-    @XmlElement(name = "VOIIdentifierList", required = true)
-    protected VOIIdentifierContainer voiIdentifierList;
     @XmlElement(name = "TimeUnit", required = true)
     @XmlSchemaType(name = "string")
     protected TimeUnit timeUnit;
     @XmlElement(name = "TimeIntegratedActivityPerVOIValue")
     protected float timeIntegratedActivityPerVOIValue;
+    @XmlElement(name = "TimeIntegratedActivityPerVOIUnit", required = true)
+    @XmlSchemaType(name = "string")
+    protected TimeIntegratedActivityPerVOIUnit timeIntegratedActivityPerVOIUnit;
+    @XmlElement(name = "VOIIdentifierList", required = true)
+    protected VOIIdentifierContainer voiIdentifierList;
     @XmlElement(name = "PKAssessmentMethodUsed", required = true)
     protected CurveFittingMethod pkAssessmentMethodUsed;
 
@@ -79,6 +79,46 @@ public class TimeIntegratedActivityPerVOI {
      */
     public void setResidenceTimePerVOIValue(float value) {
         this.residenceTimePerVOIValue = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété timeUnit.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TimeUnit }
+     *     
+     */
+    public TimeUnit getTimeUnit() {
+        return timeUnit;
+    }
+
+    /**
+     * Définit la valeur de la propriété timeUnit.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TimeUnit }
+     *     
+     */
+    public void setTimeUnit(TimeUnit value) {
+        this.timeUnit = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété timeIntegratedActivityPerVOIValue.
+     * 
+     */
+    public float getTimeIntegratedActivityPerVOIValue() {
+        return timeIntegratedActivityPerVOIValue;
+    }
+
+    /**
+     * Définit la valeur de la propriété timeIntegratedActivityPerVOIValue.
+     * 
+     */
+    public void setTimeIntegratedActivityPerVOIValue(float value) {
+        this.timeIntegratedActivityPerVOIValue = value;
     }
 
     /**
@@ -127,46 +167,6 @@ public class TimeIntegratedActivityPerVOI {
      */
     public void setVOIIdentifierList(VOIIdentifierContainer value) {
         this.voiIdentifierList = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété timeUnit.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TimeUnit }
-     *     
-     */
-    public TimeUnit getTimeUnit() {
-        return timeUnit;
-    }
-
-    /**
-     * Définit la valeur de la propriété timeUnit.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TimeUnit }
-     *     
-     */
-    public void setTimeUnit(TimeUnit value) {
-        this.timeUnit = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété timeIntegratedActivityPerVOIValue.
-     * 
-     */
-    public float getTimeIntegratedActivityPerVOIValue() {
-        return timeIntegratedActivityPerVOIValue;
-    }
-
-    /**
-     * Définit la valeur de la propriété timeIntegratedActivityPerVOIValue.
-     * 
-     */
-    public void setTimeIntegratedActivityPerVOIValue(float value) {
-        this.timeIntegratedActivityPerVOIValue = value;
     }
 
     /**

@@ -96,9 +96,16 @@ public class ImportController extends CommonFunctions {
 
 	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 	
 
-	@RequestMapping (value = "/testXML", method = RequestMethod.POST)
-	public String testXML(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor)  {      
+	@RequestMapping (value = "/testXML", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/xml")
+	public String testXML(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor) throws FileNotFoundException  {      
 		TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor);
+		rdfName = "testXML.rdf";	
+		writingRDF(rdfName);
+		createAdminConnection(database.ontoMedirad);
+
+		setInStarDog(rdfName);
+		
+		closeAdminConnection();
 		return "Tipoui !\n";
 	}
 	

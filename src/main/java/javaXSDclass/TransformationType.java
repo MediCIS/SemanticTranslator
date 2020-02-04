@@ -14,31 +14,34 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour MeanAbsorbedDoseInROIUnit.
+ * <p>Classe Java pour TransformationType.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * <p>
  * <pre>
- * &lt;simpleType name="MeanAbsorbedDoseInROIUnit">
+ * &lt;simpleType name="TransformationType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="gray"/>
- *     &lt;enumeration value="milligray"/>
+ *     &lt;enumeration value="Linear transformation matrix"/>
+ *     &lt;enumeration value="BSpline transformation"/>
+ *     &lt;enumeration value="Advanced elastix transformation"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "MeanAbsorbedDoseInROIUnit")
+@XmlType(name = "TransformationType")
 @XmlEnum
-public enum MeanAbsorbedDoseInROIUnit {
+public enum TransformationType {
 
-    @XmlEnumValue("gray")
-    GRAY("gray"),
-    @XmlEnumValue("milligray")
-    MILLIGRAY("milligray");
+    @XmlEnumValue("Linear transformation matrix")
+    LINEAR_TRANSFORMATION_MATRIX("Linear transformation matrix"),
+    @XmlEnumValue("BSpline transformation")
+    B_SPLINE_TRANSFORMATION("BSpline transformation"),
+    @XmlEnumValue("Advanced elastix transformation")
+    ADVANCED_ELASTIX_TRANSFORMATION("Advanced elastix transformation");
     private final String value;
 
-    MeanAbsorbedDoseInROIUnit(String v) {
+    TransformationType(String v) {
         value = v;
     }
 
@@ -46,8 +49,8 @@ public enum MeanAbsorbedDoseInROIUnit {
         return value;
     }
 
-    public static MeanAbsorbedDoseInROIUnit fromValue(String v) {
-        for (MeanAbsorbedDoseInROIUnit c: MeanAbsorbedDoseInROIUnit.values()) {
+    public static TransformationType fromValue(String v) {
+        for (TransformationType c: TransformationType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

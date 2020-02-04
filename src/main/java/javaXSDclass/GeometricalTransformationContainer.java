@@ -17,16 +17,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour CountsPerROIAtTimePointContainer complex type.
+ * <p>Classe Java pour GeometricalTransformationContainer complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="CountsPerROIAtTimePointContainer">
+ * &lt;complexType name="GeometricalTransformationContainer">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="CountsPerROIAtTimePointProduced" type="{https://www.irdbb-medirad.com}CountsPerROIAtTimePoint" maxOccurs="unbounded"/>
+ *         &lt;element name="GeometricalTransformation" type="{https://www.irdbb-medirad.com}GeometricalTransformation" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,41 +36,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CountsPerROIAtTimePointContainer", propOrder = {
-    "countsPerROIAtTimePointProduced"
+@XmlType(name = "GeometricalTransformationContainer", propOrder = {
+    "geometricalTransformation"
 })
-public class CountsPerROIAtTimePointContainer {
+public class GeometricalTransformationContainer {
 
-    @XmlElement(name = "CountsPerROIAtTimePointProduced", required = true)
-    protected List<CountsPerROIAtTimePoint> countsPerROIAtTimePointProduced;
+    @XmlElement(name = "GeometricalTransformation", required = true)
+    protected List<GeometricalTransformation> geometricalTransformation;
 
     /**
-     * Gets the value of the countsPerROIAtTimePointProduced property.
+     * Gets the value of the geometricalTransformation property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the countsPerROIAtTimePointProduced property.
+     * This is why there is not a <CODE>set</CODE> method for the geometricalTransformation property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getCountsPerROIAtTimePointProduced().add(newItem);
+     *    getGeometricalTransformation().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link CountsPerROIAtTimePoint }
+     * {@link GeometricalTransformation }
      * 
      * 
      */
-    public List<CountsPerROIAtTimePoint> getCountsPerROIAtTimePointProduced() {
-        if (countsPerROIAtTimePointProduced == null) {
-            countsPerROIAtTimePointProduced = new ArrayList<CountsPerROIAtTimePoint>();
+    public List<GeometricalTransformation> getGeometricalTransformation() {
+        if (geometricalTransformation == null) {
+            geometricalTransformation = new ArrayList<GeometricalTransformation>();
         }
-        return this.countsPerROIAtTimePointProduced;
+        return this.geometricalTransformation;
     }
 
 }

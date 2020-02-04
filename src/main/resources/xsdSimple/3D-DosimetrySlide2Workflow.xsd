@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--VersionSchemas : 052-->
+<!--VersionSchemas : 061-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -70,7 +70,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:element name="NonDICOMCTReconResampledOnCommonReferenceProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
 			<xs:element name="NonDICOMNMTomoReconResampledOnCommonReferenceProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
 			<xs:element name="DensityImageProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
-			<xs:element name="RegistrationMatrixUsed" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="GeometricalTransformationContainer" type="irdbb:GeometricalTransformationContainer" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -145,7 +145,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
 			<xs:element name="VOISegmentationMethodUsed" type="xs:string"/>
 			<xs:element name="CountsPerVOIAtTimePointContainer" type="irdbb:CountsPerVOIAtTimePointContainer" minOccurs="0" />
-			<xs:element name="VOIProduced" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
+			<xs:element name="VOIProduced" type="irdbb:VoiProducedContainer" minOccurs="0" />
 			<xs:element name="SegmentationProduced" type="irdbb:Segmentation" minOccurs="0" />
 			<xs:element name="CTReconResampledOnNMReferenceProduced" type="irdbb:DICOMDataContainer"/>
 			<xs:element name="MassPerVOIAtTimePointContainer" type="irdbb:MassPerVOIAtTimePointContainer"/>
@@ -432,6 +432,9 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:enumeration value="uterus"/>
 			<xs:enumeration value="air"/>
 			<xs:enumeration value="body surface"/>
+			<xs:enumeration value="tumor"/>
+			<xs:enumeration value="soft tissue"/>
+			<xs:enumeration value="L2"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -617,10 +620,45 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="GeometricalTransformationContainer">
+		<xs:sequence>
+			<xs:element name="GeometricalTransformation" type="irdbb:GeometricalTransformation" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TransformationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Linear transformation matrix"/>
+			<xs:enumeration value="BSpline transformation"/>
+			<xs:enumeration value="Advanced elastix transformation"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="GeometricalTransformation">
+		<xs:sequence>
+			<xs:element name="GeometricalTransformationValue" type="irdbb:NonDICOMDataContainer"/>
+		<xs:element name="TransformationType" type="irdbb:TransformationType" />
+			<xs:element name="TransformationIdentifier" type="xs:string"/>
+			<xs:element name="DICOMCTSourceCoordinateSpaceUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="DICOMCTDestinationCoordinateSpaceUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="DICOMSPECTSourceCoordinateSpaceUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="DICOMSPECTDestinationCoordinateSpaceUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMSourceCoordinateSpaceUsed" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMDestinationCoordinateSpaceUsed" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TransformationIdentifierContainer">
+		<xs:sequence>
+			<xs:element name="TransformationIdentifier" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="DICOMData">
 		<xs:sequence>
 			<xs:element name="DICOMStudyUID" type="xs:string"/>
 			<xs:element name="DICOMSeriesUID" type="xs:string"/>
+			<xs:element name="TransformationsUsed" type="irdbb:TransformationIdentifierContainer" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -657,6 +695,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:element name="NonDICOMDataFormat" type="irdbb:NonDICOMDataFormat" />
 			<xs:element name="NonDICOMDataFileName" type="xs:string"/>
 			<xs:element name="FHIRIdentifier" type="xs:string" minOccurs="0" />
+			<xs:element name="TransformationsUsed" type="irdbb:TransformationIdentifierContainer" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 

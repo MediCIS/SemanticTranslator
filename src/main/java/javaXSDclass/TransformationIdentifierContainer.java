@@ -17,16 +17,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour CountsPerROIAtTimePointContainer complex type.
+ * <p>Classe Java pour TransformationIdentifierContainer complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="CountsPerROIAtTimePointContainer">
+ * &lt;complexType name="TransformationIdentifierContainer">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="CountsPerROIAtTimePointProduced" type="{https://www.irdbb-medirad.com}CountsPerROIAtTimePoint" maxOccurs="unbounded"/>
+ *         &lt;element name="TransformationIdentifier" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,41 +36,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CountsPerROIAtTimePointContainer", propOrder = {
-    "countsPerROIAtTimePointProduced"
+@XmlType(name = "TransformationIdentifierContainer", propOrder = {
+    "transformationIdentifier"
 })
-public class CountsPerROIAtTimePointContainer {
+public class TransformationIdentifierContainer {
 
-    @XmlElement(name = "CountsPerROIAtTimePointProduced", required = true)
-    protected List<CountsPerROIAtTimePoint> countsPerROIAtTimePointProduced;
+    @XmlElement(name = "TransformationIdentifier", required = true)
+    protected List<String> transformationIdentifier;
 
     /**
-     * Gets the value of the countsPerROIAtTimePointProduced property.
+     * Gets the value of the transformationIdentifier property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the countsPerROIAtTimePointProduced property.
+     * This is why there is not a <CODE>set</CODE> method for the transformationIdentifier property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getCountsPerROIAtTimePointProduced().add(newItem);
+     *    getTransformationIdentifier().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link CountsPerROIAtTimePoint }
+     * {@link String }
      * 
      * 
      */
-    public List<CountsPerROIAtTimePoint> getCountsPerROIAtTimePointProduced() {
-        if (countsPerROIAtTimePointProduced == null) {
-            countsPerROIAtTimePointProduced = new ArrayList<CountsPerROIAtTimePoint>();
+    public List<String> getTransformationIdentifier() {
+        if (transformationIdentifier == null) {
+            transformationIdentifier = new ArrayList<String>();
         }
-        return this.countsPerROIAtTimePointProduced;
+        return this.transformationIdentifier;
     }
 
 }

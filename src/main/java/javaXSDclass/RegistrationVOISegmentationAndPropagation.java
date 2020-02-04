@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.04 à 12:01:52 PM CET 
 //
 
 
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="NonDICOMCTReconResampledOnCommonReferenceProduced" type="{https://www.irdbb-medirad.com}NonDICOMDataContainer" minOccurs="0"/>
  *         &lt;element name="NonDICOMNMTomoReconResampledOnCommonReferenceProduced" type="{https://www.irdbb-medirad.com}NonDICOMDataContainer" minOccurs="0"/>
  *         &lt;element name="DensityImageProduced" type="{https://www.irdbb-medirad.com}NonDICOMDataContainer" minOccurs="0"/>
- *         &lt;element name="RegistrationMatrixUsed" type="{https://www.irdbb-medirad.com}NonDICOMDataContainer" minOccurs="0"/>
+ *         &lt;element name="GeometricalTransformationContainer" type="{https://www.irdbb-medirad.com}GeometricalTransformationContainer" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -59,7 +59,7 @@ import javax.xml.bind.annotation.XmlType;
     "nonDICOMCTReconResampledOnCommonReferenceProduced",
     "nonDICOMNMTomoReconResampledOnCommonReferenceProduced",
     "densityImageProduced",
-    "registrationMatrixUsed"
+    "geometricalTransformationContainer"
 })
 public class RegistrationVOISegmentationAndPropagation {
 
@@ -87,8 +87,8 @@ public class RegistrationVOISegmentationAndPropagation {
     protected NonDICOMDataContainer nonDICOMNMTomoReconResampledOnCommonReferenceProduced;
     @XmlElement(name = "DensityImageProduced")
     protected NonDICOMDataContainer densityImageProduced;
-    @XmlElement(name = "RegistrationMatrixUsed")
-    protected NonDICOMDataContainer registrationMatrixUsed;
+    @XmlElement(name = "GeometricalTransformationContainer")
+    protected GeometricalTransformationContainer geometricalTransformationContainer;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -379,27 +379,27 @@ public class RegistrationVOISegmentationAndPropagation {
     }
 
     /**
-     * Obtient la valeur de la propriété registrationMatrixUsed.
+     * Obtient la valeur de la propriété geometricalTransformationContainer.
      * 
      * @return
      *     possible object is
-     *     {@link NonDICOMDataContainer }
+     *     {@link GeometricalTransformationContainer }
      *     
      */
-    public NonDICOMDataContainer getRegistrationMatrixUsed() {
-        return registrationMatrixUsed;
+    public GeometricalTransformationContainer getGeometricalTransformationContainer() {
+        return geometricalTransformationContainer;
     }
 
     /**
-     * Définit la valeur de la propriété registrationMatrixUsed.
+     * Définit la valeur de la propriété geometricalTransformationContainer.
      * 
      * @param value
      *     allowed object is
-     *     {@link NonDICOMDataContainer }
+     *     {@link GeometricalTransformationContainer }
      *     
      */
-    public void setRegistrationMatrixUsed(NonDICOMDataContainer value) {
-        this.registrationMatrixUsed = value;
+    public void setGeometricalTransformationContainer(GeometricalTransformationContainer value) {
+        this.geometricalTransformationContainer = value;
     }
 
 }

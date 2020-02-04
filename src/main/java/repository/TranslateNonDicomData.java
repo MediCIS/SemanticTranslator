@@ -3,6 +3,7 @@ package repository;
 import java.math.BigInteger;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.jena.ontology.Individual;
@@ -13,25 +14,20 @@ import javaXSDclass.AbsorbedDoseInVOI;
 import javaXSDclass.AbsorbedDoseInVOIUnit;
 import javaXSDclass.ActivityUnit;
 import javaXSDclass.AdministeredActivity;
-import javaXSDclass.CTAcqForCTNumberCalibrationCurve;
 import javaXSDclass.CTNumberCalibrationCurve;
 import javaXSDclass.CTNumberCalibrationCurveReference;
-import javaXSDclass.CTNumberCalibrationWorkfow;
-import javaXSDclass.CTSegmentationInCalibration;
-import javaXSDclass.CalculationOfCTNumberCalibrationCurve;
 import javaXSDclass.CalibrationWorkflow;
-import javaXSDclass.ColdInsert;
 import javaXSDclass.CountsPerVOIAtTimePoint;
 import javaXSDclass.CountsUnit;
 import javaXSDclass.DICOMData;
+import javaXSDclass.DICOMDataContainer;
 import javaXSDclass.DataActivityPerVOIAtTimePoint;
-import javaXSDclass.DensityPhantom;
 import javaXSDclass.ElementOfCTNumberCalibrationCurve;
-import javaXSDclass.ElementsOfCTNumberCalibrationCurve;
-import javaXSDclass.HotInsert;
+import javaXSDclass.EnergyDepositionRateCalculationIn3DDosimetry;
+import javaXSDclass.GeometricalTransformation;
 import javaXSDclass.HybridDosimetryworkflow;
 import javaXSDclass.Isotope;
-import javaXSDclass.NMPhantom;
+import javaXSDclass.MassPerVOIAtTimePoint;
 import javaXSDclass.NMRelevantCalibrationReference;
 import javaXSDclass.NonDICOMData;
 import javaXSDclass.NonDICOMDataFormat;
@@ -39,25 +35,16 @@ import javaXSDclass.NonDicomFileSetDescriptor;
 import javaXSDclass.OrganMass;
 import javaXSDclass.OrganOrTissue;
 import javaXSDclass.PlanarCalibrationWorkflow;
-import javaXSDclass.PlanarDataAcquisitionAndProcessingContainer;
-import javaXSDclass.PostAdminBackgroundActivity;
-import javaXSDclass.PreAdminBackgroundActivity;
 import javaXSDclass.ProcessExecutionContext;
-import javaXSDclass.RadioBiologicalCalculation;
 import javaXSDclass.RadioBiologicalCalculationIn3DSlide1Dosimetry;
 import javaXSDclass.RealDensityOfMaterialUnit;
 import javaXSDclass.RegistrationVOISegmentationAndPropagation;
 import javaXSDclass.RegistrationVOISegmentationAndPropagationContainer;
 import javaXSDclass.SPECTAcqCTAcqAndReconstruction;
-import javaXSDclass.SPECTAcqCTAcqAndReconstructionInCalibration;
 import javaXSDclass.SPECTCTCalibrationWorkflow;
 import javaXSDclass.SPECTDataAcquisitionAndReconstruction;
 import javaXSDclass.SPECTReconstruction;
-import javaXSDclass.SPECTReconstructionInCalibration;
-import javaXSDclass.SPECTRecoveryCoefficientCurveCalculation;
-import javaXSDclass.SPECTSensitivityCalculation;
 import javaXSDclass.Segmentation;
-import javaXSDclass.Tank;
 import javaXSDclass.ThreeDimDosimetrySlide1Workflow;
 import javaXSDclass.ThreeDimDosimetrySlide2Workflow;
 import javaXSDclass.TimeActivityCurveFitIn3DDosimetry;
@@ -65,14 +52,13 @@ import javaXSDclass.TimeIntegratedActivityCoefficientPerVOI;
 import javaXSDclass.TimeIntegratedActivityPerVOI;
 import javaXSDclass.TimePointDescriptionElement;
 import javaXSDclass.TimeUnit;
-import javaXSDclass.TwoDimDosimetryViaAbsorbedDoseRateCalculation;
-import javaXSDclass.TwoDimDosimetryViaTimeActivityCurveFit;
 import javaXSDclass.TwoDimDosimetryworkflow;
 import javaXSDclass.VOI;
 import javaXSDclass.VOIActivityDetermination;
-import javaXSDclass.VolumeUnit;
+import javaXSDclass.VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation;
+import javaXSDclass.VOISegmentationVOIMassDetermination;
 
-// XSD Version 52
+// XSD Version 60
 
 public class TranslateNonDicomData extends OntologyPopulator {
 
@@ -83,6 +69,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 	static Hashtable<String, Individual> tableInputOutput = new Hashtable<String, Individual>();
 	static Hashtable<String, Individual> tableSegmentation = new Hashtable<String, Individual>();
 	static Hashtable<String, Individual> tableVoxelAbsorbedDoseMap = new Hashtable<String, Individual>();
+	static Hashtable<String, Individual> tableTransformation = new Hashtable<String, Individual>();
 
 
 	static Individual researchClinicalStudy;
@@ -101,6 +88,24 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			break;
 		case "segmentation":
 			nonDICOMDataIndividual.addOntClass(model.getResource(racineURI+"image_segmentation")); 
+			break;
+		case "voxel activity map":
+			nonDICOMDataIndividual.addOntClass(model.getResource(racineURI+"voxel_data_activity")); 
+			break;
+		case "3D Energy Deposition Rate Matrix":
+			
+			break;
+		case "NM Tomo Reconstruction":
+			nonDICOMDataIndividual.addOntClass(model.getResource(racineURI+"NM_tomo_dataset")); 
+			break;
+		case "CT Reconstruction":
+			nonDICOMDataIndividual.addOntClass(model.getResource(racineURI+"CT_image_dataset")); 
+			break;
+		case "Registration Matrix":
+			
+			break;
+		case "Density Image":
+			
 			break;
 		}
 		
@@ -133,6 +138,17 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		addDataProperty(nonDICOMDataIndividual, racineURI+"has_name", fileName);
 
 		addDataProperty(nonDICOMDataIndividual, racineURI+"has_IRDBB_FHIR_handle", nonDICOMData.getFHIRIdentifier());
+		
+		if (nonDICOMData.getTransformationsUsed()!=null) {
+			List<String> transformationList = nonDICOMData.getTransformationsUsed().getTransformationIdentifier();
+			for (int i = 0; i<transformationList.size(); i++) {
+				String transformationId = transformationList.get(i);
+				Individual transformation = tableTransformation.get(transformationId);
+				// TODO add property
+				// i have to be recorded (because order is important here)
+			}
+		}
+		
 	}
 	
 	public static void translateNonDicomData(NonDicomFileSetDescriptor nonDicomFileSetDescriptor) { // 1st function to read XML, check what is inside and call the appropritae function
@@ -154,9 +170,9 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		if (nonDicomFileSetDescriptor.getCalibrationWorkflow()!=null) {
 			CalibrationWorkflow calibrationWorkflow = nonDicomFileSetDescriptor.getCalibrationWorkflow();
 			SPECTCTCalibrationWorkflow SPECTCTCalibrationWorkflow = calibrationWorkflow.getSPECTCTCalibrationWorkflow();
-			retreiveSPECTCTCalibrationWorkflow(SPECTCTCalibrationWorkflow);
+			//retreiveSPECTCTCalibrationWorkflow(SPECTCTCalibrationWorkflow);
 			PlanarCalibrationWorkflow planarCalibrationWorkflow = calibrationWorkflow.getPlanarCalibrationWorkflow();
-			retreivePlanarCalibrationWorkflow(planarCalibrationWorkflow);
+			//retreivePlanarCalibrationWorkflow(planarCalibrationWorkflow);
 		}
 		
 		
@@ -184,110 +200,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 	
 	}
 	
-	public static void retreiveTwoDimDosimetryworkflow(TwoDimDosimetryworkflow twoDimDosimetryworkflow) {
-		PlanarDataAcquisitionAndProcessingContainer planarDataAcquisitionAndProcessingContainer = twoDimDosimetryworkflow.getPlanarDataAcquisitionAndProcessingContainer();
-		RadioBiologicalCalculation radioBiologicalCalculation = twoDimDosimetryworkflow.getRadioBiologicalCalculation();
-		TwoDimDosimetryViaAbsorbedDoseRateCalculation twoDimDosimetryViaAbsorbedDoseRateCalculation = twoDimDosimetryworkflow.getTwoDimDosimetryViaAbsorbedDoseRateCalculation();
-		TwoDimDosimetryViaTimeActivityCurveFit twoDimDosimetryViaTimeActivityCurveFit = twoDimDosimetryworkflow.getTwoDimDosimetryViaTimeActivityCurveFit();
-	}
-	
-	public static void retreiveSPECTCTCalibrationWorkflow(SPECTCTCalibrationWorkflow SPECTCTCalibrationWorkflow) {
-		if (SPECTCTCalibrationWorkflow.getCTNumberCalibrationWorkfow()!=null) {
-			CTNumberCalibrationWorkfow CTNumberCalibrationWorkfow = SPECTCTCalibrationWorkflow.getCTNumberCalibrationWorkfow();
-				CTAcqForCTNumberCalibrationCurve CTAcqForCTNumberCalibrationCurve = CTNumberCalibrationWorkfow.getCTAcqForCTNumberCalibrationCurve();
-					DensityPhantom densityPhantomUsed = CTAcqForCTNumberCalibrationCurve.getDensityPhantomUsed();
-						String densityPhantomName = densityPhantomUsed.getDensityPhantomName();
-						String densityPhantomIdentifier = densityPhantomUsed.getDensityPhantomIdentifier();
-					DICOMData CTReconProduced = CTAcqForCTNumberCalibrationCurve.getCTReconProduced();
-						String CTReconProduced_DICOMSeriesUID = CTReconProduced.getDICOMSeriesUID();
-						String CTReconProduced_DICOMStudyUID = CTReconProduced.getDICOMStudyUID();
-				
-				CalculationOfCTNumberCalibrationCurve CalculationOfCTNumberCalibrationCurve = CTNumberCalibrationWorkfow.getCalculationOfCTNumberCalibrationCurve();
-					ProcessExecutionContext ProcessExecutionContext = CalculationOfCTNumberCalibrationCurve.getProcessExecutionContext();
-						String DateTimeProcessStarted = ProcessExecutionContext.getDateTimeProcessStarted();
-						String PerformingInstitution = ProcessExecutionContext.getPerformingInstitution();
-					DICOMData CTReconUsed = CalculationOfCTNumberCalibrationCurve.getCTReconUsed();
-						String CTReconUsed_DICOMSeriesUID = CTReconUsed.getDICOMSeriesUID();
-						String CTReconUsed_DICOMStudyUID = CTReconUsed.getDICOMStudyUID();
-					CTNumberCalibrationCurve CTNumberCalibrationCurveProduced = CalculationOfCTNumberCalibrationCurve.getCTNumberCalibrationCurveProduced();
-						String referenceCalibrationDate = CTNumberCalibrationCurveProduced.getReferenceCalibrationDate();
-						ElementsOfCTNumberCalibrationCurve elementsOfCTNumberCalibrationCurve = CTNumberCalibrationCurveProduced.getElementsOfCTNumberCalibrationCurve();
-						referenceCalibrationDate = CTNumberCalibrationCurveProduced.getReferenceCalibrationDate();
-						
-		}
-		
-		SPECTAcqCTAcqAndReconstructionInCalibration SPECTAcqCTAcqAndReconstructionInCalibration = SPECTCTCalibrationWorkflow.getSPECTAcqCTAcqAndReconstructionInCalibration();
-			NMPhantom phantomUsed = SPECTAcqCTAcqAndReconstructionInCalibration.getPhantomUsed();
-				String NMPhantomName = phantomUsed.getNMPhantomName();
-				String NMPhantomIdentifier = phantomUsed.getNMPhantomIdentifier();
-				Iterator<HotInsert> HotInsertIterator = phantomUsed.getHotInsertContainer().getHotInsert().iterator();
-				while (HotInsertIterator.hasNext()) {
-					HotInsert HotInsert = HotInsertIterator.next();
-					float volumeValue = HotInsert.getVolumeValue();
-					VolumeUnit volumeUnit = HotInsert.getVolumeUnit();
-					float preAdminActivityValue = HotInsert.getPreAdminActivityValue();
-					String preAdminActivityTimestamp = HotInsert.getPreAdminActivityTimestamp();
-					float postAdminActivityValue = HotInsert.getPostAdminActivityValue();
-					String postAdminActivityTimestamp = HotInsert.getPostAdminActivityTimestamp();
-					String HotInsertIdentifier = HotInsert.getHotInsertIdentifier();
-					Isotope Isotope = HotInsert.getIsotope();
-				}
-				Iterator<ColdInsert> ColdInsertIterator = phantomUsed.getColdInsertContainer().getColdInsert().iterator();
-				while (HotInsertIterator.hasNext()) {
-					ColdInsert ColdInsert = ColdInsertIterator.next();
-					float volumeValue = ColdInsert.getVolumeValue();
-					VolumeUnit volumeUnit = ColdInsert.getVolumeUnit();
-					String coldInsertIdentifier = ColdInsert.getColdInsertIdentifier();
-				}
-				Tank tank = phantomUsed.getTank();
-					float volumeValue = tank.getVolumeValue();
-					VolumeUnit volumeUnit = tank.getVolumeUnit();
-					Isotope isotope = tank.getIsotope();
-					PreAdminBackgroundActivity preAdminBackgroundActivity = tank.getPreAdminBackgroundActivity();
-					float preAdminBackgroundActivityValue = tank.getPreAdminBackgroundActivityValue();
-					String preAdminBackgroundActivityTimestamp = tank.getPreAdminBackgroundActivityTimestamp();
-					PostAdminBackgroundActivity postAdminBackgroundActivity = tank.getPostAdminBackgroundActivity();
-					float postAdminBackgroundActivityValue = tank.getPostAdminBackgroundActivityValue();
-					String postAdminBackgroundActivityTimestamp = tank.getPostAdminBackgroundActivityTimestamp();
-					String tankIdentifier = tank.getTankIdentifier();
-			
-			DICOMData NMTomoProduced = SPECTAcqCTAcqAndReconstructionInCalibration.getNMTomoProduced();
-				String NMTomoProduced_DICOMSeriesUID = NMTomoProduced.getDICOMSeriesUID();
-				String NMTomoProduced_DICOMStudyUID = NMTomoProduced.getDICOMStudyUID();
-			
-			DICOMData CTReconProduced = SPECTAcqCTAcqAndReconstructionInCalibration.getCTReconProduced();
-				String CTReconProduced_DICOMSeriesUID = CTReconProduced .getDICOMSeriesUID();
-				String CTReconProduced_DICOMStudyUID = CTReconProduced .getDICOMStudyUID();			
-		
-		SPECTReconstructionInCalibration SPECTReconstructionInCalibration = SPECTCTCalibrationWorkflow.getSPECTReconstructionInCalibration();
-			ProcessExecutionContext processExecutionContext = SPECTReconstructionInCalibration.getProcessExecutionContext();
-				String performingInstitution = processExecutionContext.getPerformingInstitution();
-				String dateTimeProcessStarted = processExecutionContext.getDateTimeProcessStarted();
-			DICOMData NMTomoUsed = SPECTReconstructionInCalibration.getNMTomoUsed();
-				String NMTomoUsed_DICOMSeriesUID = NMTomoUsed.getDICOMSeriesUID();
-				String NMTomoUsed_DICOMStudyUID = NMTomoUsed.getDICOMStudyUID();
-			DICOMData CTReconUsed = SPECTReconstructionInCalibration.getCTReconUsed();
-				String CTReconUsed_DICOMSeriesUID = CTReconUsed.getDICOMSeriesUID();
-				String CTReconUsed_DICOMStudyUID = CTReconUsed.getDICOMStudyUID();
-			String ReconstructionMethodAndCorrectionsUsed = SPECTReconstructionInCalibration.getReconstructionMethodAndCorrectionsUsed();
-			CTNumberCalibrationCurve CTNumberCalibrationCurveUsed = SPECTReconstructionInCalibration.getCTNumberCalibrationCurveUsed();
-				String ReferenceCalibrationDate = CTNumberCalibrationCurveUsed.getReferenceCalibrationDate();
-				
-			CTNumberCalibrationCurveReference CTNumberCalibrationCurveReference = SPECTReconstructionInCalibration.getCTNumberCalibrationCurveReference();
-			DICOMData NMTomoReconProduced = SPECTReconstructionInCalibration.getNMTomoReconProduced();
-			
-			
-		CTSegmentationInCalibration CTSegmentationInCalibration = SPECTCTCalibrationWorkflow.getCTSegmentationInCalibration();
-		SPECTSensitivityCalculation SPECTSensitivityCalculation = SPECTCTCalibrationWorkflow.getSPECTSensitivityCalculation();
-		
-		if (SPECTCTCalibrationWorkflow.getSPECTRecoveryCoefficientCurveCalculation()!=null) {
-			SPECTRecoveryCoefficientCurveCalculation SPECTRecoveryCoefficientCurveCalculation = SPECTCTCalibrationWorkflow.getSPECTRecoveryCoefficientCurveCalculation();
-		}
-	}
-	
-	public static void retreivePlanarCalibrationWorkflow(PlanarCalibrationWorkflow planarCalibrationWorkflow) {
-		
-	}
+
 
 	public static void retreiveThreeDimDosimetrySlide1Workflow(ThreeDimDosimetrySlide1Workflow threeDimDosimetrySlide1Workflow) {
 		System.out.println("retreiveThreeDimDosimetrySlide1Workflow");
@@ -366,7 +279,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			DICOMData NMTomoProduced = SPECTAcqCTAcqAndReconstruction.getNMTomoProduced();
 			String studyId = NMTomoProduced.getDICOMStudyUID();
 			String seriesId = NMTomoProduced.getDICOMSeriesUID();
-			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo) != null) {
+			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo) == true) {
 				Individual NMtomo = getDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo);
 				addObjectProperty(reconstruction, racineURI+"has_specified_output", NMtomo);
 			} else {
@@ -380,7 +293,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			DICOMData CTReconProduced = SPECTAcqCTAcqAndReconstruction.getCTReconProduced();
 			studyId = CTReconProduced.getDICOMStudyUID();
 			seriesId = CTReconProduced.getDICOMSeriesUID();
-			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon) != null) {
+			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon) == true) {
 				Individual CTrecon = getDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon);
 				addObjectProperty(reconstruction, racineURI+"has_specified_output", CTrecon);
 			} else {
@@ -416,7 +329,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				DICOMData NMTomoUsed = SPECTDataAcquisitionAndReconstruction1.getNMTomoUsed();
 				String seriesId = NMTomoUsed.getDICOMSeriesUID();
 				String studyId = NMTomoUsed.getDICOMStudyUID();
-				if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo) != null) {
+				if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo) == true) {
 					Individual NMtomo = getDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo);
 					addObjectProperty(spectAcquisition, racineURI+"has_specified_output", NMtomo);
 					addObjectProperty(spectReconstruction, racineURI+"has_specified_output", NMtomo);
@@ -432,7 +345,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				DICOMData CTReconUsed = SPECTDataAcquisitionAndReconstruction1.getCTReconUsed();
 				seriesId = CTReconUsed.getDICOMSeriesUID();
 				studyId = CTReconUsed.getDICOMStudyUID();
-				if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon) != null) {
+				if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon) == true) {
 					Individual NMtomo = getDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon);
 					addObjectProperty(spectAcquisition, racineURI+"has_specified_output", NMtomo);
 					addObjectProperty(spectReconstruction, racineURI+"has_specified_output", NMtomo);
@@ -523,7 +436,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				DICOMData NMTomoReconUsed = NMTomoReconUsedIterator.next();
 				String DICOMSeriesUID = NMTomoReconUsed.getDICOMSeriesUID();
 				String DICOMStudyUID = NMTomoReconUsed.getDICOMStudyUID();
-				if (hasDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.NMTomo) != null) {
+				if (hasDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.NMTomo) == true) {
 					Individual NMtomo = getDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.NMTomo);
 					addObjectProperty(registration, racineURI+"has_specified_input", NMtomo);
 				} else {
@@ -540,7 +453,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				DICOMData CTReconUsed = CTReconUsedIterator.next();
 				String DICOMSeriesUID = CTReconUsed.getDICOMSeriesUID();
 				String DICOMStudyUID = CTReconUsed.getDICOMStudyUID();
-				if (hasDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.CTRecon) != null) {
+				if (hasDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.CTRecon) == true) {
 					Individual CTRecon = getDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.CTRecon);
 					addObjectProperty(registration, racineURI+"has_specified_input", CTRecon);
 				} else {
@@ -669,11 +582,11 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					NonDICOMDataFormat nonDICOMDataClassFormat = nonDICOMData.getNonDICOMDataFormat();
 					String nonDICOMDataFHIRId = nonDICOMData.getFHIRIdentifier();
 					Individual nonDICOMCTReconResampled;
-					if (hasNonDicomInputOutput(nonDICOMDataFHIRId, nonDICOMDataClass, nonDICOMDataClassFormat)) {
-						nonDICOMCTReconResampled = getNonDicomInputOutput(nonDICOMDataFHIRId, nonDICOMDataClass, nonDICOMDataClassFormat);
+					if (hasNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMDataClass, nonDICOMDataClassFormat)) {
+						nonDICOMCTReconResampled = getNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMDataClass, nonDICOMDataClassFormat);
 					} else {
 						nonDICOMCTReconResampled = createIndiv(generateName("CT_image_reconstruction"), model.getResource(racineURI+"CT_image_reconstruction"));
-						setNonDicomInputOutput(nonDICOMData.getFHIRIdentifier(), nonDICOMData.getNonDICOMDataClass(), nonDICOMCTReconResampled, nonDICOMData.getNonDICOMDataFormat());
+						setNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMData.getNonDICOMDataClass(), nonDICOMCTReconResampled, nonDICOMData.getNonDICOMDataFormat());
 						translateNonDicomDataObject(nonDICOMData, nonDICOMCTReconResampled);
 					}
 					addObjectProperty(registration, racineURI+"has_specified_output", nonDICOMCTReconResampled);
@@ -687,12 +600,12 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						String nonDICOMDataClass = nonDICOMData.getNonDICOMDataClass();
 						NonDICOMDataFormat nonDICOMDataClassFormat = nonDICOMData.getNonDICOMDataFormat();
 						String nonDICOMDataFHIRId = nonDICOMData.getFHIRIdentifier();
-						if (hasNonDicomInputOutput(nonDICOMDataFHIRId, nonDICOMDataClass, nonDICOMDataClassFormat)) {
-							nonDICOMNMTomoRecon = getNonDicomInputOutput(nonDICOMDataFHIRId, nonDICOMDataClass, nonDICOMDataClassFormat);
+						if (hasNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMDataClass, nonDICOMDataClassFormat)) {
+							nonDICOMNMTomoRecon = getNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMDataClass, nonDICOMDataClassFormat);
 						} else {
 							nonDICOMNMTomoRecon = createIndiv(generateName("NM_recon_tomo_dataset"), model.getResource(racineURI+"NM_recon_tomo_dataset"));
 							translateNonDicomDataObject(nonDICOMData, nonDICOMNMTomoRecon);
-							setNonDicomInputOutput(nonDICOMData.getFHIRIdentifier(), nonDICOMData.getNonDICOMDataClass(), nonDICOMNMTomoRecon, nonDICOMData.getNonDICOMDataFormat());
+							setNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMData.getNonDICOMDataClass(), nonDICOMNMTomoRecon, nonDICOMData.getNonDICOMDataFormat());
 						}
 						addObjectProperty(registration, racineURI+"has_specified_output", nonDICOMNMTomoRecon);
 					}
@@ -706,34 +619,107 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						String nonDICOMDataClass = nonDICOMData.getNonDICOMDataClass();
 						NonDICOMDataFormat nonDICOMDataClassFormat = nonDICOMData.getNonDICOMDataFormat();
 						String nonDICOMDataFHIRId = nonDICOMData.getFHIRIdentifier();
-						if (hasNonDicomInputOutput(nonDICOMDataFHIRId, nonDICOMDataClass, nonDICOMDataClassFormat)) {
-							densityImage = getNonDicomInputOutput(nonDICOMDataFHIRId, nonDICOMDataClass, nonDICOMDataClassFormat);
+						if (hasNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMDataClass, nonDICOMDataClassFormat)) {
+							densityImage = getNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMDataClass, nonDICOMDataClassFormat);
 						} else {
 							densityImage = createIndiv(generateName("density_image"), model.getResource(racineURI+"density_image")); 
 							translateNonDicomDataObject(nonDICOMData, densityImage);
-							setNonDicomInputOutput(nonDICOMData.getFHIRIdentifier(), nonDICOMData.getNonDICOMDataClass(), densityImage, nonDICOMData.getNonDICOMDataFormat());
+							setNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMData.getNonDICOMDataClass(), densityImage, nonDICOMData.getNonDICOMDataFormat());
 						}
 						addObjectProperty(registration, racineURI+"has_specified_output", densityImage);
 					}
 				}
 				
-				if (registrationVOISegmentationAndPropagation.getRegistrationMatrixUsed() != null) {
-					nonDICOMDataIterator = registrationVOISegmentationAndPropagation.getNonDICOMNMTomoReconResampledOnCommonReferenceProduced().getNonDICOMData().iterator();
-					while (nonDICOMDataIterator.hasNext()) {
-						NonDICOMData nonDICOMData = nonDICOMDataIterator.next();
-						Individual registrationMatrix;
-						String nonDICOMDataClass = nonDICOMData.getNonDICOMDataClass();
-						NonDICOMDataFormat nonDICOMDataClassFormat = nonDICOMData.getNonDICOMDataFormat();
-						String nonDICOMDataFHIRId = nonDICOMData.getFHIRIdentifier();
-						if (hasNonDicomInputOutput(nonDICOMDataFHIRId, nonDICOMDataClass, nonDICOMDataClassFormat)) {
-							registrationMatrix = getNonDicomInputOutput(nonDICOMDataFHIRId, nonDICOMDataClass, nonDICOMDataClassFormat);
-						} else {
-							registrationMatrix = createIndiv(generateName("registration_matrix"), model.getResource(racineURI+"registration_matrix")); //TODO class à adapter
-							translateNonDicomDataObject(nonDICOMData, registrationMatrix);
-							setNonDicomInputOutput(nonDICOMData.getFHIRIdentifier(), nonDICOMData.getNonDICOMDataClass(), registrationMatrix, nonDICOMData.getNonDICOMDataFormat());
-
+				if (registrationVOISegmentationAndPropagation.getGeometricalTransformationContainer() != null) {
+					List<GeometricalTransformation> geometricalTransformationList = registrationVOISegmentationAndPropagation.getGeometricalTransformationContainer().getGeometricalTransformation();
+					for (int i = 0; i<geometricalTransformationList.size(); i++) {
+						GeometricalTransformation geometricalTransformation = geometricalTransformationList.get(i);
+						Individual geometricalTransfo;
+						switch (geometricalTransformation.getTransformationType() ) {
+						case ADVANCED_ELASTIX_TRANSFORMATION:
+							geometricalTransfo = createIndiv(generateName("advanced_elastix_transformation"), model.getResource(racineURI+"advanced_elastix_transformation"));
+							break;
+						case B_SPLINE_TRANSFORMATION:
+							geometricalTransfo = createIndiv(generateName("B_spline_transformation"), model.getResource(racineURI+"B_spline_transformation"));
+							break;
+						case LINEAR_TRANSFORMATION_MATRIX:
+							geometricalTransfo = createIndiv(generateName("linear_transformation_matrix"), model.getResource(racineURI+"linear_transformation_matrix"));
+							break;
+						default:
+							geometricalTransfo = createIndiv(generateName("geometrical_transformation"), model.getResource(racineURI+"geometrical_transformation"));
+							break;
 						}
-						addObjectProperty(registration, racineURI+"has_specified_output", registrationMatrix);
+						
+						String transfoIdent = geometricalTransformation.getTransformationIdentifier();
+						tableTransformation.put(transfoIdent, geometricalTransfo);
+						addDataProperty(geometricalTransfo, racineURI+"has_id", transfoIdent);
+						
+						addDataProperty(geometricalTransfo, racineURI+"has_id", i); // à améliorer pour classer les transformations dans l'ordre
+
+						// output
+						Iterator<NonDICOMData> transfoOutputIterator = geometricalTransformation.getGeometricalTransformationValue().getNonDICOMData().iterator();
+						while (transfoOutputIterator.hasNext()) {
+							NonDICOMData transfoOutput = transfoOutputIterator.next();
+
+							Individual transfoOutputIndiv = createIndiv(generateName("geometrical_transformation"), model.getResource(racineURI+"geometrical_transformation"));
+							translateNonDicomDataObject(transfoOutput, transfoOutputIndiv);
+							addObjectProperty(geometricalTransfo, racineURI+"has_specified_output", transfoOutputIndiv);
+						}
+						
+						//inputs 
+						if (geometricalTransformation.getDICOMCTDestinationCoordinateSpaceUsed()!=null) {
+							Iterator<DICOMData> DICOMSourceCoordinateSpaceUsedIterator = geometricalTransformation.getDICOMCTDestinationCoordinateSpaceUsed().getDICOMData().iterator();
+							while (DICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
+								DICOMData DICOMSourceCoordinateSpaceUsed = DICOMSourceCoordinateSpaceUsedIterator.next();
+								Individual input = getDicomInputOutput(DICOMSourceCoordinateSpaceUsed.getDICOMStudyUID(), DICOMSourceCoordinateSpaceUsed.getDICOMSeriesUID(), typeInputOutput.CTRecon);
+								addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+							}
+						}
+						
+						if (geometricalTransformation.getDICOMCTSourceCoordinateSpaceUsed()!=null) {
+							Iterator<DICOMData> DICOMSourceCoordinateSpaceUsedIterator = geometricalTransformation.getDICOMCTDestinationCoordinateSpaceUsed().getDICOMData().iterator();
+							while (DICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
+								DICOMData DICOMSourceCoordinateSpaceUsed = DICOMSourceCoordinateSpaceUsedIterator.next();
+								Individual input = getDicomInputOutput(DICOMSourceCoordinateSpaceUsed.getDICOMStudyUID(), DICOMSourceCoordinateSpaceUsed.getDICOMSeriesUID(), typeInputOutput.CTRecon);
+								addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+							}
+						}
+						
+						if (geometricalTransformation.getDICOMSPECTDestinationCoordinateSpaceUsed()!=null) {
+							Iterator<DICOMData> DICOMSourceCoordinateSpaceUsedIterator = geometricalTransformation.getDICOMSPECTDestinationCoordinateSpaceUsed().getDICOMData().iterator();
+							while (DICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
+								DICOMData DICOMSourceCoordinateSpaceUsed = DICOMSourceCoordinateSpaceUsedIterator.next();
+								Individual input = getDicomInputOutput(DICOMSourceCoordinateSpaceUsed.getDICOMStudyUID(), DICOMSourceCoordinateSpaceUsed.getDICOMSeriesUID(), typeInputOutput.SPECTCTacq);
+								addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+							}
+						}
+						
+						if (geometricalTransformation.getDICOMSPECTSourceCoordinateSpaceUsed()!=null) {
+							Iterator<DICOMData> DICOMSourceCoordinateSpaceUsedIterator = geometricalTransformation.getDICOMSPECTDestinationCoordinateSpaceUsed().getDICOMData().iterator();
+							while (DICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
+								DICOMData DICOMSourceCoordinateSpaceUsed = DICOMSourceCoordinateSpaceUsedIterator.next();
+								Individual input = getDicomInputOutput(DICOMSourceCoordinateSpaceUsed.getDICOMStudyUID(), DICOMSourceCoordinateSpaceUsed.getDICOMSeriesUID(), typeInputOutput.SPECTCTacq);
+								addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+							}
+						}
+						
+						if (geometricalTransformation.getNonDICOMSourceCoordinateSpaceUsed() !=null) {
+							Iterator<NonDICOMData> NonDICOMSourceCoordinateSpaceUsedIterator = geometricalTransformation.getNonDICOMSourceCoordinateSpaceUsed().getNonDICOMData().iterator();
+							while (NonDICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
+								NonDICOMData NonDICOMSourceCoordinateSpaceUsed = NonDICOMSourceCoordinateSpaceUsedIterator.next();
+								Individual input = getNonDicomInputOutput(NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataFileName(), NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataClass(), NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataFormat());
+								addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+							}
+						}
+						
+						if (geometricalTransformation.getNonDICOMDestinationCoordinateSpaceUsed() !=null) {
+							Iterator<NonDICOMData> NonDICOMSourceCoordinateSpaceUsedIterator = geometricalTransformation.getNonDICOMDestinationCoordinateSpaceUsed().getNonDICOMData().iterator();
+							while (NonDICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
+								NonDICOMData NonDICOMSourceCoordinateSpaceUsed = NonDICOMSourceCoordinateSpaceUsedIterator.next();
+								Individual input = getNonDicomInputOutput(NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataFileName(), NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataClass(), NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataFormat());
+								addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+							}
+						}
 					}
 				}
 			}
@@ -777,7 +763,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					NonDICOMData nonDICOMData = VoxelActivityMapProducedIterator.next();
 					Individual voxelActivityMap = createIndiv(generateName("voxel_data_activity"), model.getResource(racineURI+"voxel_data_activity"));
 					translateNonDicomDataObject(nonDICOMData,voxelActivityMap);
-					setNonDicomInputOutput(nonDICOMData.getFHIRIdentifier(), nonDICOMData.getNonDICOMDataClass(), voxelActivityMap, nonDICOMData.getNonDICOMDataFormat());
+					setNonDicomInputOutput(nonDICOMData.getNonDICOMDataFileName(), nonDICOMData.getNonDICOMDataClass(), voxelActivityMap, nonDICOMData.getNonDICOMDataFormat());
 				}
 			}
 
@@ -845,7 +831,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				}
 				
 				TimeIntegratedActivityPerVOI timeIntegratedActivityPerVOIProduced = timeActivityCurveFitIn3DDosimetry.getTimeIntegratedActivityPerVOIProduced();
-				Individual timeIntegratedActivityPerVOI = createIndiv(generateName("cumulated_activity"), model.getResource(racineURI+"cumulated activity"));
+				Individual timeIntegratedActivityPerVOI = createIndiv(generateName("cumulated_activity"), model.getResource(racineURI+"cumulated_activity"));
 				
 				float residenceTimePerVOIValue = timeIntegratedActivityPerVOIProduced.getResidenceTimePerVOIValue();
 				addDataProperty(timeIntegratedActivityPerVOI, racineURI+timeIntegratedActivityPerVOIProduced.getTimeUnit().toString().toLowerCase(), residenceTimePerVOIValue);
@@ -893,7 +879,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				NonDICOMData voxelAbsorbedDoseMapProduced = voxelAbsorbedDoseMapProducedIterator.next();
 				Individual voxelAbsorbedDoseMap = createIndiv(generateName("3D_absorbed_dose_map"), model.getResource(racineDCM+"128487"));
 				translateNonDicomDataObject(voxelAbsorbedDoseMapProduced, voxelAbsorbedDoseMap);
-				setNonDicomInputOutput(voxelAbsorbedDoseMapProduced.getFHIRIdentifier(), voxelAbsorbedDoseMapProduced.getNonDICOMDataClass(), voxelAbsorbedDoseMap, voxelAbsorbedDoseMapProduced.getNonDICOMDataFormat());
+				setNonDicomInputOutput(voxelAbsorbedDoseMapProduced.getNonDICOMDataFileName(), voxelAbsorbedDoseMapProduced.getNonDICOMDataClass(), voxelAbsorbedDoseMap, voxelAbsorbedDoseMapProduced.getNonDICOMDataFormat());
 			}
 		}
 		
@@ -923,6 +909,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					BigInteger VOIIdentifierUsed = VOIIdentifierUsedIterator.next();
 					Individual voi = tableVOI.get(VOIIdentifierUsed.toString());
 				}
+				
+				addObjectProperty(calculationOfMeanAbsorbedDosesInVOI,racineURI+"has_specified_output",absorbedDose);
 			}
 		}
 		
@@ -1036,7 +1024,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			DICOMData NMTomoProduced = SPECTAcqCTAcqAndReconstruction.getNMTomoProduced();
 			String studyId = NMTomoProduced.getDICOMStudyUID();
 			String seriesId = NMTomoProduced.getDICOMSeriesUID();
-			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo) != null) {
+			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo) == true) {
 				Individual NMtomo = getDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo);
 				addObjectProperty(reconstruction, racineURI+"has_specified_output", NMtomo);
 			} else {
@@ -1050,7 +1038,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			DICOMData CTReconProduced = SPECTAcqCTAcqAndReconstruction.getCTReconProduced();
 			studyId = CTReconProduced.getDICOMStudyUID();
 			seriesId = CTReconProduced.getDICOMSeriesUID();
-			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon) != null) {
+			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon) == true) {
 				Individual CTrecon = getDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon);
 				addObjectProperty(reconstruction, racineURI+"has_specified_output", CTrecon);
 			} else {
@@ -1065,13 +1053,302 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		Iterator<SPECTReconstruction> SPECTReconstructionIterator = SPECTDataAcquisitionAndReconstruction.getSPECTReconstructionContainer().getSPECTReconstruction().iterator();
 		while (SPECTReconstructionIterator.hasNext()) {
 			SPECTReconstruction SPECTReconstruction = SPECTReconstructionIterator.next();
+			
+			Individual SPECTdataReconstruction = createIndiv(generateName("SPECT_data_reconstruction"), model.getResource(racineURI+"SPECT_data_reconstruction"));
 			ProcessExecutionContext processExecutionContext = SPECTReconstruction.getProcessExecutionContext();
+			String dateTimeProcessStarted = processExecutionContext.getDateTimeProcessStarted();
+			addDataProperty(SPECTdataReconstruction, racineURI+"has_beginning_date", dateTimeProcessStarted);
+			String performingInstitution = processExecutionContext.getPerformingInstitution();
+			Individual institution = memory.getInstitution(performingInstitution);
+			addObjectProperty(SPECTdataReconstruction, racineObo+"BFO_0000054",memory.getRoleOfResponsibleOrganization(performingInstitution));
+			
+			String timePointIdentifierUsed = SPECTReconstruction.getTimePointIdentifierUsed();
+			Individual timePoint = tableTimePoint.get(timePointIdentifierUsed);
+			addObjectProperty(SPECTdataReconstruction, racineURI+"is_about", timePoint);
+
+			DICOMData NMTomoUsed = SPECTReconstruction.getNMTomoUsed();
+			String seriesId = NMTomoUsed.getDICOMSeriesUID();
+			String studyId = NMTomoUsed.getDICOMStudyUID();
+			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo) == true) {
+				Individual NMtomo = getDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo);
+				addObjectProperty(SPECTdataReconstruction, racineURI+"has_specified_output", NMtomo);
+			} else {
+				Individual NMtomo = createIndiv(generateName("NM_tomo_dataset"), model.getResource(racineURI+"NM_tomo_dataset"));
+				addDataProperty(NMtomo, racineURI+"has_DICOM_series_instance_UID", seriesId);
+				addDataProperty(NMtomo, racineURI+"has_DICOM_study_instance_UID", studyId);
+				addObjectProperty(SPECTdataReconstruction, racineURI+"has_specified_output", NMtomo);
+				setDicomInputOutput(studyId, seriesId, typeInputOutput.NMTomo, NMtomo);
+			}
+			
+			DICOMData CTReconUsed = SPECTReconstruction.getCTReconUsed();
+			seriesId = CTReconUsed.getDICOMSeriesUID();
+			studyId = CTReconUsed.getDICOMStudyUID();
+			if (hasDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon) == true) {
+				Individual NMtomo = getDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon);
+				addObjectProperty(SPECTdataReconstruction, racineURI+"has_specified_output", NMtomo);
+			} else {
+				Individual NMtomo = createIndiv(generateName("CT_image_reconstruction"), model.getResource(racineURI+"CT_image_reconstruction"));
+				addDataProperty(NMtomo, racineURI+"has_DICOM_series_instance_UID", seriesId);
+				addDataProperty(NMtomo, racineURI+"has_DICOM_study_instance_UID", studyId);
+				addObjectProperty(SPECTdataReconstruction, racineURI+"has_specified_output", NMtomo);
+				setDicomInputOutput(studyId, seriesId, typeInputOutput.CTRecon, NMtomo);
+			}
+			
+			String reconstructionMethodAndCorrectionsUsed = SPECTReconstruction.getReconstructionMethodAndCorrectionsUsed();
+			
+			if (SPECTReconstruction.getCTNumberCalibrationCurveUsed()!=null) {
+				CTNumberCalibrationCurve CTNumberCalibrationCurveUsed = SPECTReconstruction.getCTNumberCalibrationCurveUsed();
+			
+				Iterator<ElementOfCTNumberCalibrationCurve> ElementOfCTNumberCalibrationCurveIterator = CTNumberCalibrationCurveUsed.getElementsOfCTNumberCalibrationCurve().getElementOfCTNumberCalibrationCurve().iterator();
+				while (ElementOfCTNumberCalibrationCurveIterator.hasNext()) {
+					ElementOfCTNumberCalibrationCurve ElementOfCTNumberCalibrationCurve = ElementOfCTNumberCalibrationCurveIterator.next();
+				}
+				
+				String referenceCalibrationDate = CTNumberCalibrationCurveUsed.getReferenceCalibrationDate();
+			}
+			
+			if (SPECTReconstruction.getCTNumberCalibrationCurveReference()!=null) {
+				String referenceCalibrationDate = SPECTReconstruction.getCTNumberCalibrationCurveReference().getReferenceCalibrationDate();
+			}
+			
+			DICOMData NMTomoReconProduced = SPECTReconstruction.getNMTomoReconProduced();
+			Individual NMreconTomoDataset = createIndiv(generateName("NM_recon_tomo_dataset"), model.getResource(racineURI+"NM_recon_tomo_dataset"));
+			addObjectProperty(SPECTdataReconstruction, racineURI+"has_specified_output", NMreconTomoDataset);
+			addDataProperty(SPECTdataReconstruction, racineURI+"has_DICOM_series_instance_UID", NMTomoReconProduced.getDICOMSeriesUID());
+			addDataProperty(SPECTdataReconstruction, racineURI+"has_DICOM_study_instance_UID", NMTomoReconProduced.getDICOMStudyUID());
+			setDicomInputOutput(NMTomoReconProduced.getDICOMStudyUID(), NMTomoReconProduced.getDICOMSeriesUID(), typeInputOutput.NMTomo, NMreconTomoDataset);
+		}
+		
+		
+		Iterator<VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation> VOISegmentationEnergyDepositionCalculationIterator = threeDimDosimetrySlide2Workflow.getVOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculationContainer().getVOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation().iterator();
+		while (VOISegmentationEnergyDepositionCalculationIterator.hasNext()) {
+			VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation VOISegmentationEnergyDepositionCalculation = VOISegmentationEnergyDepositionCalculationIterator.next();
+			Individual calculationEnergyDeposition = createIndiv(generateName("calculation_of_energy_deposition_rate"), model.getResource(racineURI+"calculation_of_energy_deposition_rate"));
+
+			VOISegmentationVOIMassDetermination VOISegmentationVOIMassDetermination = VOISegmentationEnergyDepositionCalculation.getVOISegmentationVOIMassDetermination();
+			Individual VOIsegmentation = createIndiv(generateName("VOI_segmentation_VOI_mass_determination"), model.getResource(racineURI+"VOI_segmentation_VOI_mass_determination"));
+			ProcessExecutionContext processExecutionContext = VOISegmentationVOIMassDetermination.getProcessExecutionContext();
+			addDataProperty(VOIsegmentation, racineURI+"has_beginning_date", processExecutionContext.getDateTimeProcessStarted());
+			Individual roleOfResponsibleOrganization = memory.getRoleOfResponsibleOrganization(processExecutionContext.getPerformingInstitution());
+			addObjectProperty(VOIsegmentation, racineObo+"BFO_0000054", roleOfResponsibleOrganization);
+
+			Individual timepoint = tableTimePoint.get(VOISegmentationVOIMassDetermination.getTimePointIdentifierUsed());
+			addObjectProperty(VOIsegmentation, racineURI+"is_about", timepoint);
+
+			DICOMData NMTomoReconUsed = VOISegmentationVOIMassDetermination.getNMTomoReconUsed();
+			String DICOMSeriesUID = NMTomoReconUsed.getDICOMSeriesUID();
+			String DICOMStudyUID = NMTomoReconUsed.getDICOMStudyUID();
+			if (hasDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.NMTomo) == true) {
+				Individual NMtomo = getDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.NMTomo);
+				addObjectProperty(VOIsegmentation, racineURI+"has_specified_input", NMtomo);
+			} else {
+				Individual NMtomo = createIndiv(generateName("NM_tomo_dataset"), model.getResource(racineURI+"NM_tomo_dataset"));
+				addDataProperty(NMtomo, racineURI+"has_DICOM_series_instance_UID", DICOMSeriesUID);
+				addDataProperty(NMtomo, racineURI+"has_DICOM_study_instance_UID", DICOMStudyUID);
+				addObjectProperty(VOIsegmentation, racineURI+"has_specified_input", NMtomo);
+				setDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.NMTomo, NMtomo);
+			}
+			
+			DICOMData CTReconUsed = VOISegmentationVOIMassDetermination.getCTReconUsed();
+			DICOMSeriesUID = CTReconUsed.getDICOMSeriesUID();
+			DICOMStudyUID = CTReconUsed.getDICOMStudyUID();
+			if (hasDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.CTRecon) == true) {
+				Individual CTrecon = getDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.CTRecon);
+				addObjectProperty(VOIsegmentation, racineURI+"has_specified_input", CTrecon);
+			} else {
+				Individual CTrecon = createIndiv(generateName("NM_tomo_dataset"), model.getResource(racineURI+"NM_tomo_dataset"));
+				addDataProperty(CTrecon, racineURI+"has_DICOM_series_instance_UID", DICOMSeriesUID);
+				addDataProperty(CTrecon, racineURI+"has_DICOM_study_instance_UID", DICOMStudyUID);
+				addObjectProperty(VOIsegmentation, racineURI+"has_specified_input", CTrecon);
+				setDicomInputOutput(DICOMStudyUID, DICOMSeriesUID, typeInputOutput.CTRecon, CTrecon);
+			}
+			
+			String VOISegmentationMethodUsed = VOISegmentationVOIMassDetermination.getVOISegmentationMethodUsed();
+			
+			if (VOISegmentationVOIMassDetermination.getVOIProduced() != null) {
+				Iterator<VOI> VOIIterator = VOISegmentationVOIMassDetermination.getVOIProduced().getVOIProduced().iterator();
+				while (VOIIterator.hasNext()) {
+					//TODO
+				}
+			}
+			
+			if (VOISegmentationVOIMassDetermination.getSegmentationProduced()!=null) {
+				Segmentation segmentation = VOISegmentationVOIMassDetermination.getSegmentationProduced();
+				Individual imageSegmentation = createIndiv(generateName("image_segmentation"), model.getResource(racineURI+"image_segmentation"));
+				addDataProperty(imageSegmentation, racineURI+"has_id", segmentation.getSegmentationIdentifier().toString());
+				tableSegmentation.put(segmentation.getSegmentationIdentifier().toString(), imageSegmentation);
+				Iterator<VOI> VOIProducedIterator = segmentation.getVOIContainer().getVOIProduced().iterator();
+				while (VOIProducedIterator.hasNext()) {
+					VOI VOIProduced = VOIProducedIterator.next();
+					Individual voi = createIndiv(generateName("VOI"), model.getResource(racineURI+"VOI"));
+					String VOIIdentifier = VOIProduced.getVOIIdentifier().toString();
+					tableVOI.put(VOIIdentifier, voi);
+					addDataProperty(voi, racineURI+"has_id", VOIIdentifier);
+					Individual organ = getOrganOrTissue(VOIProduced.getOrganOrTissue());
+					addObjectProperty(organ,racineURI+"part_of_continuant_at_some_time", patient);
+					addObjectProperty(voi,racineURI+"represents", organ);
+					
+					if (VOIProduced.getDICOMDataContainer()!=null) {
+						Iterator<DICOMData> VOIiterator = VOIProduced.getDICOMDataContainer().getDICOMData().iterator();
+						while (VOIiterator.hasNext())  {
+							DICOMData VOIdata = VOIiterator.next();
+							addDataProperty(voi, racineURI+"has_DICOM_series_instance_UID", VOIdata.getDICOMSeriesUID());
+							addDataProperty(voi, racineURI+"has_DICOM_study_instance_UID", VOIdata.getDICOMStudyUID());
+						}
+					}
+					
+					if (VOIProduced.getNonDICOMDataContainer()!=null) {
+						Iterator<NonDICOMData> VOIiterator = VOIProduced.getNonDICOMDataContainer().getNonDICOMData().iterator();
+						while (VOIiterator.hasNext()) {
+							NonDICOMData VOI = VOIiterator.next();
+							translateNonDicomDataObject(VOI, voi);						
+						}
+					}
+					
+					Individual timePoint = tableTimePoint.get(VOIProduced.getTimePointIdentifier());
+					addObjectProperty(timePoint, racineURI+"is_about", voi); 
+					
+					OrganMass organMass = VOIProduced.getOrganMass();
+					Individual mass = createIndiv(generateName("mass"), model.getResource(racineObo+"PATO_0000125"));
+					addDataProperty(mass, racineURI+"has_measurement_value", organMass.getOrganMassValue());
+					switch (organMass.getOrganMassUnit()) {
+					case GRAM:
+						addObjectProperty(mass, racineURI+"has_measurement_unit_label", getUnit("gram"));
+						break;
+					case KILOGRAM:
+						addObjectProperty(mass, racineURI+"has_measurement_unit_label", getUnit("kilogram"));
+						break;
+					}
+					addObjectProperty(mass, racineURI+"is_About", organ);
+				}
+				
+				if (segmentation.getDICOMDataContainer()!=null) {
+					Iterator<DICOMData> DICOMDataIterator = segmentation.getDICOMDataContainer().getDICOMData().iterator();
+					while (DICOMDataIterator.hasNext()) {
+						DICOMData DICOMData = DICOMDataIterator.next();
+						addDataProperty(imageSegmentation, racineURI+"has_DICOM_series_instance_UID", DICOMData.getDICOMSeriesUID());
+						addDataProperty(imageSegmentation, racineURI+"has_DICOM_study_instance_UID", DICOMData.getDICOMStudyUID());
+					}
+				}
+				if (segmentation.getNonDICOMDataContainer()!=null) {
+					Iterator<NonDICOMData> NonDICOMDataIterator = segmentation.getNonDICOMDataContainer().getNonDICOMData().iterator();
+					while (NonDICOMDataIterator.hasNext()) {
+						NonDICOMData nonDICOMData = NonDICOMDataIterator.next();
+						translateNonDicomDataObject(nonDICOMData, imageSegmentation);
+					}
+				}
+			}
+			
+			if (VOISegmentationVOIMassDetermination.getCountsPerVOIAtTimePointContainer()!=null) {
+				Iterator<CountsPerVOIAtTimePoint> countsPerVOIAtTimePointProducedIterator = VOISegmentationVOIMassDetermination.getCountsPerVOIAtTimePointContainer().getCountsPerVOIAtTimePointProduced().iterator();
+				while (countsPerVOIAtTimePointProducedIterator.hasNext()) {
+					CountsPerVOIAtTimePoint countsPerVOIAtTimePointProduced = countsPerVOIAtTimePointProducedIterator.next();
+					Individual count = createIndiv(generateName("counts_per_VOI_at_timepoint"), model.getResource(racineURI+"counts_per_VOI_at_timepoint"));
+					
+					addDataProperty(count, racineURI+"has_measurement_value", countsPerVOIAtTimePointProduced.getCountsValue());
+					CountsUnit unit = countsPerVOIAtTimePointProduced.getCountsUnit();
+					switch (countsPerVOIAtTimePointProduced.getCountsUnit()) {
+					case COUNTS:
+						addObjectProperty(count, "has_measurement_unit_label", getUnit("counts"));
+						break;
+					}
+	
+					Individual voi = tableVOI.get(countsPerVOIAtTimePointProduced.getVOIIdentifier().toString());
+					addObjectProperty(count,  racineURI+"is_quantity_measured_in", voi);
+					
+					String timePointId = countsPerVOIAtTimePointProduced.getTimePointIdentifier();
+					Individual timePoint = tableTimePoint.get(timePointId);
+					addObjectProperty(count,  racineURI+"is_quantity_measured_at", timePoint);			
+				}
+			}
+			
+			
+			Iterator<DICOMData> CTReconResampledOnNMReferenceProducedIterator = VOISegmentationVOIMassDetermination.getCTReconResampledOnNMReferenceProduced().getDICOMData().iterator();
+			while (CTReconResampledOnNMReferenceProducedIterator.hasNext()) {
+				DICOMData CTReconResampledOnNMReferenceProduced = CTReconResampledOnNMReferenceProducedIterator.next();
+				Individual CTReconResampled;
+				String studyID = CTReconResampledOnNMReferenceProduced.getDICOMStudyUID();
+				String seriesID = CTReconResampledOnNMReferenceProduced.getDICOMSeriesUID();
+				if (hasDicomInputOutput(studyID, seriesID, typeInputOutput.CTRecon)) {
+					CTReconResampled = getDicomInputOutput(studyID, seriesID, typeInputOutput.CTRecon);
+				} else { 
+					CTReconResampled = createIndiv(generateName("CT_image_reconstruction"), model.getResource(racineURI+"CT_image_reconstruction"));
+					setDicomInputOutput(studyID, seriesID, typeInputOutput.CTRecon, CTReconResampled);
+					addDataProperty(CTReconResampled, racineURI+"has_DICOM_series_instance_UID", seriesID);
+					addDataProperty(CTReconResampled, racineURI+"has_DICOM_study_instance_UID", studyID);
+				}
+				addObjectProperty(VOIsegmentation, racineURI+"has_specified_output", CTReconResampled);
+			}
+			
+			Iterator<MassPerVOIAtTimePoint> massPerVOIAtTimePointProducedIterator = VOISegmentationVOIMassDetermination.getMassPerVOIAtTimePointContainer().getMassPerVOIAtTimePointProduced().iterator();
+			while (massPerVOIAtTimePointProducedIterator.hasNext()) {
+				MassPerVOIAtTimePoint massPerVOIAtTimePointProduced = massPerVOIAtTimePointProducedIterator.next();
+				Individual voi = tableVOI.get(massPerVOIAtTimePointProduced.getVOIIdentifier().toString());
+				Individual timePoint = tableTimePoint.get(massPerVOIAtTimePointProduced.getTimePointIdentifier());
+				Individual mass = createIndiv(generateName("mass"), model.getResource(racineObo+"PATO_0000125"));
+				addDataProperty(mass, racineURI+"has_measurement_value", massPerVOIAtTimePointProduced.getMassValue());
+				addObjectProperty(mass, "has_measurement_unit_label", getUnit(massPerVOIAtTimePointProduced.getMassUnit().toString()));
+				addObjectProperty(mass,  racineURI+"is_quantity_measured_in", voi);
+				addObjectProperty(mass,  racineURI+"is_quantity_measured_at", timePoint);							
+			}
+			
+			
+			if (VOISegmentationEnergyDepositionCalculation.getVOIActivityDetermination() != null) {
+				VOIActivityDetermination VOIActivityDetermination = VOISegmentationEnergyDepositionCalculation.getVOIActivityDetermination();
+				Individual VOIActivityDeterminationIndividual = createIndiv(generateName("VOI_activity_determination"), model.getResource(racineURI+"VOI_activity_determination"));
+				
+				ProcessExecutionContext processExecutionContext1 = VOIActivityDetermination.getProcessExecutionContext();
+				addDataProperty(VOIActivityDeterminationIndividual, racineURI+"has_beginning_date", processExecutionContext1.getDateTimeProcessStarted());
+				Individual role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(processExecutionContext1.getPerformingInstitution());
+				addObjectProperty(role_of_responsible_organization,racineObo+"BFO_0000054", VOIActivityDeterminationIndividual);
+
+				Individual segmentation = tableSegmentation.get(VOIActivityDetermination.getSegmentationIdentifierUsed());
+				addObjectProperty(VOIActivityDeterminationIndividual, racineURI+"has_specified_input", segmentation);
+
+				String timePointId = VOIActivityDetermination.getTimePointIdentifierUsed();
+				Individual timePoint = tableTimePoint.get(timePointId);
+				addObjectProperty(VOIActivityDeterminationIndividual, racineURI+"is_about", timePoint);		
+				
+				NMRelevantCalibrationReference SPECTCalibrationFactorReferenceUsed = VOIActivityDetermination.getSPECTCalibrationFactorReferenceUsed();
+				
+				NMRelevantCalibrationReference SPECTRecoveryCoefficientCurveReferenceUsed = VOIActivityDetermination.getSPECTRecoveryCoefficientCurveReferenceUsed();
+				
+				if (VOIActivityDetermination.getDataActivityPerVOIAtTimePointContainer()!=null) {
+					Iterator<DataActivityPerVOIAtTimePoint> DataActivityPerVOIAtTimePointProducedIterator = VOIActivityDetermination.getDataActivityPerVOIAtTimePointContainer().getDataActivityPerVOIAtTimePointProduced().iterator();
+					while (DataActivityPerVOIAtTimePointProducedIterator.hasNext()) {
+						DataActivityPerVOIAtTimePoint DataActivityPerVOIAtTimePointProduced = DataActivityPerVOIAtTimePointProducedIterator.next();
+						Individual dataActivity = createIndiv(generateName("radiopharmaceutical_activity_per_VOI_at_timepoint"), model.getResource(racineURI+"radiopharmaceutical_activity_per_VOI_at_timepoint"));
+						Individual timePoint1 = tableTimePoint.get(DataActivityPerVOIAtTimePointProduced.getTimePointIdentifier());
+						Individual voi1 = tableVOI.get(DataActivityPerVOIAtTimePointProduced.getVOIIdentifier());
+						addDataProperty(dataActivity, racineURI+"has_measurement_value", DataActivityPerVOIAtTimePointProduced.getDataActivityValue());
+						ActivityUnit unit = DataActivityPerVOIAtTimePointProduced.getActivityUnit();
+						addDataProperty(dataActivity, racineURI+"has_measurement_unit_label", unit.toString().toLowerCase());
+						addObjectProperty(dataActivity, racineURI+"is_quantity_measured_in", voi1);
+						addObjectProperty(dataActivity, racineURI+"is_quantity_measured_at", timePoint1);
+						addObjectProperty(VOIActivityDeterminationIndividual, racineURI+"has_specified_output", dataActivity);
+
+					}
+				}
+				
+				Iterator<NonDICOMData> voxelActivityMapProducedIterator = VOIActivityDetermination.getVoxelActivityMapProduced().getNonDICOMData().iterator();
+				while (voxelActivityMapProducedIterator.hasNext()) {
+					NonDICOMData voxelActivityMapProduced = voxelActivityMapProducedIterator.next();
+					Individual voxelDataActivity = createIndiv(generateName("voxel_data_activity"), model.getResource(racineURI+"voxel_data_activity"));
+					translateNonDicomDataObject(voxelActivityMapProduced, voxelDataActivity);
+					addObjectProperty(VOIActivityDeterminationIndividual, racineURI+"has_specified_output", voxelDataActivity);
+				}
+			}
+			
+			EnergyDepositionRateCalculationIn3DDosimetry energyDepositionRateCalculationIn3DDosimetry = VOISegmentationEnergyDepositionCalculation.getEnergyDepositionRateCalculationIn3DDosimetry();
+			
+			processExecutionContext = energyDepositionRateCalculationIn3DDosimetry.getProcessExecutionContext();
 			
 		}
 		
 		
 	}
-/*
+
+	/*
  	public static void retrieveSubtastk212(NonDicomFileSetDescriptor nonDicomFileSetDescriptor) {
 		WP2Subtask212WorkflowData subtask212;
 		CTSegmentation ctSegmentation =  null; Individual imageSegmentation = null; Individual institution;
@@ -1685,6 +1962,16 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			break;
 		case UTERUS:
 			organIndiv = createIndiv(model.getResource(racineObo+"FMA_17558"));
+			break;
+		case L_2:
+			organIndiv = createIndiv(model.getResource(racineURI+"L3_L5_bone_marrow"));
+			break;
+		case SOFT_TISSUE:
+			organIndiv = createIndiv(model.getResource(racineURI+"soft_tissue"));
+			break;
+		case TUMOR:
+			break;
+		default:
 			break; 	
  		}
  		return organIndiv;
@@ -1700,33 +1987,32 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		return studyId + "_" + seriesId + "_" + type.toString() ;
 	}
 	
-	public static String generateKeyNonDicomInputOutput(String fhirId, String nonDicomDataClass, NonDICOMDataFormat NonDICOMDataFormat) {
-		return fhirId + "_" + nonDicomDataClass + "_" + NonDICOMDataFormat.toString() ;
+	public static String generateKeyNonDicomInputOutput(String fileName, String nonDicomDataClass, NonDICOMDataFormat NonDICOMDataFormat) {
+		return fileName + "_" + nonDicomDataClass + "_" + NonDICOMDataFormat.toString() ;
 	}
 	
-	public static Individual getNonDicomInputOutput(String fhirId, String nonDicomDataClass, NonDICOMDataFormat NonDICOMDataFormat) {
-		return tableInputOutput.get(generateKeyNonDicomInputOutput(fhirId, nonDicomDataClass, NonDICOMDataFormat));
+	public static Individual getNonDicomInputOutput(String fileName, String nonDicomDataClass, NonDICOMDataFormat NonDICOMDataFormat) {
+		return tableInputOutput.get(generateKeyNonDicomInputOutput(fileName, nonDicomDataClass, NonDICOMDataFormat));
 	}
 	
 	public static Individual getDicomInputOutput(String studyId, String seriesId, typeInputOutput type) {
 		return tableInputOutput.get(generateKeyDicomInputOutput(studyId, seriesId, type));
 	}
 	
-	public static void setNonDicomInputOutput(String fhirId, String nonDicomDataClass, Individual NonDicomInputOutput, NonDICOMDataFormat NonDICOMDataFormat) {
-		tableInputOutput.put(generateKeyNonDicomInputOutput(fhirId, nonDicomDataClass, NonDICOMDataFormat), NonDicomInputOutput);
+	public static void setNonDicomInputOutput(String fileName, String nonDicomDataClass, Individual NonDicomInputOutput, NonDICOMDataFormat NonDICOMDataFormat) {
+		tableInputOutput.put(generateKeyNonDicomInputOutput(fileName, nonDicomDataClass, NonDICOMDataFormat), NonDicomInputOutput);
 	}
 	
 	public static void setDicomInputOutput(String studyId, String seriesId, typeInputOutput type, Individual dicomInputOutput) {
 		tableInputOutput.put(generateKeyDicomInputOutput(studyId, seriesId, type), dicomInputOutput);
 	}
  	
-	public static Boolean hasNonDicomInputOutput(String fhirId, String nonDicomDataClass, NonDICOMDataFormat NonDICOMDataFormat) {
-		return tableInputOutput.containsKey(generateKeyNonDicomInputOutput(fhirId, nonDicomDataClass, NonDICOMDataFormat));
+	public static Boolean hasNonDicomInputOutput(String fileName, String nonDicomDataClass, NonDICOMDataFormat NonDICOMDataFormat) {
+		return tableInputOutput.containsKey(generateKeyNonDicomInputOutput(fileName, nonDicomDataClass, NonDICOMDataFormat));
 	}
 	
 	public static Boolean hasDicomInputOutput(String studyId, String seriesId, typeInputOutput type) {
 		return tableInputOutput.containsKey(generateKeyDicomInputOutput(studyId, seriesId, type));
 	}
 	
- 	
 }

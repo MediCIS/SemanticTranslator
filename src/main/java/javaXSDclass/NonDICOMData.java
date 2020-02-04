@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.04 à 12:01:52 PM CET 
 //
 
 
@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="NonDICOMDataFormat" type="{https://www.irdbb-medirad.com}NonDICOMDataFormat"/>
  *         &lt;element name="NonDICOMDataFileName" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="FHIRIdentifier" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="TransformationsUsed" type="{https://www.irdbb-medirad.com}TransformationIdentifierContainer" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -42,7 +43,8 @@ import javax.xml.bind.annotation.XmlType;
     "nonDICOMDataClass",
     "nonDICOMDataFormat",
     "nonDICOMDataFileName",
-    "fhirIdentifier"
+    "fhirIdentifier",
+    "transformationsUsed"
 })
 public class NonDICOMData {
 
@@ -55,6 +57,8 @@ public class NonDICOMData {
     protected String nonDICOMDataFileName;
     @XmlElement(name = "FHIRIdentifier")
     protected String fhirIdentifier;
+    @XmlElement(name = "TransformationsUsed")
+    protected TransformationIdentifierContainer transformationsUsed;
 
     /**
      * Obtient la valeur de la propriété nonDICOMDataClass.
@@ -150,6 +154,30 @@ public class NonDICOMData {
      */
     public void setFHIRIdentifier(String value) {
         this.fhirIdentifier = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété transformationsUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TransformationIdentifierContainer }
+     *     
+     */
+    public TransformationIdentifierContainer getTransformationsUsed() {
+        return transformationsUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété transformationsUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TransformationIdentifierContainer }
+     *     
+     */
+    public void setTransformationsUsed(TransformationIdentifierContainer value) {
+        this.transformationsUsed = value;
     }
 
 }

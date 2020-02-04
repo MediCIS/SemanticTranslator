@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.04 à 12:01:52 PM CET 
 //
 
 
@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="DICOMStudyUID" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="DICOMSeriesUID" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="TransformationsUsed" type="{https://www.irdbb-medirad.com}TransformationIdentifierContainer" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,7 +38,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DICOMData", propOrder = {
     "dicomStudyUID",
-    "dicomSeriesUID"
+    "dicomSeriesUID",
+    "transformationsUsed"
 })
 public class DICOMData {
 
@@ -45,6 +47,8 @@ public class DICOMData {
     protected String dicomStudyUID;
     @XmlElement(name = "DICOMSeriesUID", required = true)
     protected String dicomSeriesUID;
+    @XmlElement(name = "TransformationsUsed")
+    protected TransformationIdentifierContainer transformationsUsed;
 
     /**
      * Obtient la valeur de la propriété dicomStudyUID.
@@ -92,6 +96,30 @@ public class DICOMData {
      */
     public void setDICOMSeriesUID(String value) {
         this.dicomSeriesUID = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété transformationsUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link TransformationIdentifierContainer }
+     *     
+     */
+    public TransformationIdentifierContainer getTransformationsUsed() {
+        return transformationsUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété transformationsUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link TransformationIdentifierContainer }
+     *     
+     */
+    public void setTransformationsUsed(TransformationIdentifierContainer value) {
+        this.transformationsUsed = value;
     }
 
 }
