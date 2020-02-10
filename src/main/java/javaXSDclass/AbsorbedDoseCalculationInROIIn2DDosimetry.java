@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -26,8 +26,9 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="ROIIdentifierUsed" type="{https://www.irdbb-medirad.com}ROIIdentifierUsedContainer"/>
- *         &lt;element name="OrgansValueUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMassUsedContainer" minOccurs="0"/>
+ *         &lt;element name="OrganSValueUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMassInHybridDosimetry" minOccurs="0"/>
+ *         &lt;element name="OrganMassReference" type="{https://www.irdbb-medirad.com}OrganMass" minOccurs="0"/>
  *         &lt;element name="MeanAbsorbedDoseInROIProduced" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseInROIcontainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -41,8 +42,9 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "AbsorbedDoseCalculationInROIIn2DDosimetry", propOrder = {
     "processExecutionContext",
     "roiIdentifierUsed",
-    "organsValueUsed",
+    "organSValueUsed",
     "patientOrganMassUsed",
+    "organMassReference",
     "meanAbsorbedDoseInROIProduced"
 })
 public class AbsorbedDoseCalculationInROIIn2DDosimetry {
@@ -51,10 +53,12 @@ public class AbsorbedDoseCalculationInROIIn2DDosimetry {
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "ROIIdentifierUsed", required = true)
     protected ROIIdentifierUsedContainer roiIdentifierUsed;
-    @XmlElement(name = "OrgansValueUsed", required = true)
-    protected String organsValueUsed;
+    @XmlElement(name = "OrganSValueUsed", required = true)
+    protected String organSValueUsed;
     @XmlElement(name = "PatientOrganMassUsed")
-    protected PatientOrganMassUsedContainer patientOrganMassUsed;
+    protected PatientOrganMassInHybridDosimetry patientOrganMassUsed;
+    @XmlElement(name = "OrganMassReference")
+    protected OrganMass organMassReference;
     @XmlElement(name = "MeanAbsorbedDoseInROIProduced", required = true)
     protected MeanAbsorbedDoseInROIcontainer meanAbsorbedDoseInROIProduced;
 
@@ -107,27 +111,27 @@ public class AbsorbedDoseCalculationInROIIn2DDosimetry {
     }
 
     /**
-     * Obtient la valeur de la propriété organsValueUsed.
+     * Obtient la valeur de la propriété organSValueUsed.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getOrgansValueUsed() {
-        return organsValueUsed;
+    public String getOrganSValueUsed() {
+        return organSValueUsed;
     }
 
     /**
-     * Définit la valeur de la propriété organsValueUsed.
+     * Définit la valeur de la propriété organSValueUsed.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setOrgansValueUsed(String value) {
-        this.organsValueUsed = value;
+    public void setOrganSValueUsed(String value) {
+        this.organSValueUsed = value;
     }
 
     /**
@@ -135,10 +139,10 @@ public class AbsorbedDoseCalculationInROIIn2DDosimetry {
      * 
      * @return
      *     possible object is
-     *     {@link PatientOrganMassUsedContainer }
+     *     {@link PatientOrganMassInHybridDosimetry }
      *     
      */
-    public PatientOrganMassUsedContainer getPatientOrganMassUsed() {
+    public PatientOrganMassInHybridDosimetry getPatientOrganMassUsed() {
         return patientOrganMassUsed;
     }
 
@@ -147,11 +151,35 @@ public class AbsorbedDoseCalculationInROIIn2DDosimetry {
      * 
      * @param value
      *     allowed object is
-     *     {@link PatientOrganMassUsedContainer }
+     *     {@link PatientOrganMassInHybridDosimetry }
      *     
      */
-    public void setPatientOrganMassUsed(PatientOrganMassUsedContainer value) {
+    public void setPatientOrganMassUsed(PatientOrganMassInHybridDosimetry value) {
         this.patientOrganMassUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété organMassReference.
+     * 
+     * @return
+     *     possible object is
+     *     {@link OrganMass }
+     *     
+     */
+    public OrganMass getOrganMassReference() {
+        return organMassReference;
+    }
+
+    /**
+     * Définit la valeur de la propriété organMassReference.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link OrganMass }
+     *     
+     */
+    public void setOrganMassReference(OrganMass value) {
+        this.organMassReference = value;
     }
 
     /**

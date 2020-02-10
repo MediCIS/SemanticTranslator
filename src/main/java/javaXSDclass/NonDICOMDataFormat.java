@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -27,7 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="GIF format embedding imageJ contours"/>
  *     &lt;enumeration value="NRRD format"/>
  *     &lt;enumeration value="STL format"/>
- *     &lt;enumeration value="HDF format"/>
+ *     &lt;enumeration value="HDF4 format"/>
+ *     &lt;enumeration value="HDF5 format"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
@@ -49,8 +50,10 @@ public enum NonDICOMDataFormat {
     NRRD_FORMAT("NRRD format"),
     @XmlEnumValue("STL format")
     STL_FORMAT("STL format"),
-    @XmlEnumValue("HDF format")
-    HDF_FORMAT("HDF format");
+    @XmlEnumValue("HDF4 format")
+    HDF_4_FORMAT("HDF4 format"),
+    @XmlEnumValue("HDF5 format")
+    HDF_5_FORMAT("HDF5 format");
     private final String value;
 
     NonDICOMDataFormat(String v) {

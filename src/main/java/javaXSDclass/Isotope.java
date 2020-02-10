@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -27,6 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="yttrium90"/>
  *     &lt;enumeration value="radium223"/>
  *     &lt;enumeration value="rhenium188"/>
+ *     &lt;enumeration value="technetium99m"/>
+ *     &lt;enumeration value="terbium161"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
@@ -45,7 +47,11 @@ public enum Isotope {
     @XmlEnumValue("yttrium90")
     YTTRIUM_90("yttrium90"),
     @XmlEnumValue("rhenium188")
-    RHENIUM_188("rhenium188");
+    RHENIUM_188("rhenium188"),
+    @XmlEnumValue("technetium99m")
+    TECHNETIUM_99_M("technetium99m"),
+    @XmlEnumValue("terbium161")
+    TERBIUM_161("terbium161");
     private final String value;
 
     Isotope(String v) {

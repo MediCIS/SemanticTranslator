@@ -271,7 +271,7 @@ public class ImportController extends CommonFunctions {
 	}
 	
 	
-	@RequestMapping(value = "/importKheopsSR", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/plain")	
+	@RequestMapping(value = "/importKheopsSR", method = RequestMethod.POST, produces = {"application/json"}, consumes= "text/plain")	
 	public String importKheopsSR(@RequestBody String SRurl) throws IOException, JSONException, DicomException {	
 		//
 		

@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -27,11 +25,13 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="TimePointIdentifierUsedContainer" type="{https://www.irdbb-medirad.com}TimePointIdentifierUsedContainer"/>
- *         &lt;element name="NMStaticCorrectedUsed" type="{https://www.irdbb-medirad.com}DICOMDataContainer"/>
+ *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="NMStaticCorrectedUsed" type="{https://www.irdbb-medirad.com}DICOMDataContainer" minOccurs="0"/>
+ *         &lt;element name="NonDICOMNMStaticCorrectedUsed" type="{https://www.irdbb-medirad.com}NonDICOMDataContainer" minOccurs="0"/>
  *         &lt;element name="SegmentationMethodUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="CountsPerROIAtTimePointContainer" type="{https://www.irdbb-medirad.com}CountsPerROIAtTimePointContainer"/>
- *         &lt;element name="ROIProduced" type="{https://www.irdbb-medirad.com}ROIcontainer" maxOccurs="unbounded"/>
+ *         &lt;element name="ROIProduced" type="{https://www.irdbb-medirad.com}ROIcontainer" minOccurs="0"/>
+ *         &lt;element name="SegmentationProduced" type="{https://www.irdbb-medirad.com}Segmentation" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,26 +43,32 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PlanarDataSegmentationWithoutRegistration", propOrder = {
     "processExecutionContext",
-    "timePointIdentifierUsedContainer",
+    "timePointIdentifierUsed",
     "nmStaticCorrectedUsed",
+    "nonDICOMNMStaticCorrectedUsed",
     "segmentationMethodUsed",
     "countsPerROIAtTimePointContainer",
-    "roiProduced"
+    "roiProduced",
+    "segmentationProduced"
 })
 public class PlanarDataSegmentationWithoutRegistration {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
-    @XmlElement(name = "TimePointIdentifierUsedContainer", required = true)
-    protected TimePointIdentifierUsedContainer timePointIdentifierUsedContainer;
-    @XmlElement(name = "NMStaticCorrectedUsed", required = true)
+    @XmlElement(name = "TimePointIdentifierUsed", required = true)
+    protected String timePointIdentifierUsed;
+    @XmlElement(name = "NMStaticCorrectedUsed")
     protected DICOMDataContainer nmStaticCorrectedUsed;
+    @XmlElement(name = "NonDICOMNMStaticCorrectedUsed")
+    protected NonDICOMDataContainer nonDICOMNMStaticCorrectedUsed;
     @XmlElement(name = "SegmentationMethodUsed", required = true)
     protected String segmentationMethodUsed;
     @XmlElement(name = "CountsPerROIAtTimePointContainer", required = true)
     protected CountsPerROIAtTimePointContainer countsPerROIAtTimePointContainer;
-    @XmlElement(name = "ROIProduced", required = true)
-    protected List<ROIcontainer> roiProduced;
+    @XmlElement(name = "ROIProduced")
+    protected ROIcontainer roiProduced;
+    @XmlElement(name = "SegmentationProduced")
+    protected Segmentation segmentationProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -89,27 +95,27 @@ public class PlanarDataSegmentationWithoutRegistration {
     }
 
     /**
-     * Obtient la valeur de la propriété timePointIdentifierUsedContainer.
+     * Obtient la valeur de la propriété timePointIdentifierUsed.
      * 
      * @return
      *     possible object is
-     *     {@link TimePointIdentifierUsedContainer }
+     *     {@link String }
      *     
      */
-    public TimePointIdentifierUsedContainer getTimePointIdentifierUsedContainer() {
-        return timePointIdentifierUsedContainer;
+    public String getTimePointIdentifierUsed() {
+        return timePointIdentifierUsed;
     }
 
     /**
-     * Définit la valeur de la propriété timePointIdentifierUsedContainer.
+     * Définit la valeur de la propriété timePointIdentifierUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link TimePointIdentifierUsedContainer }
+     *     {@link String }
      *     
      */
-    public void setTimePointIdentifierUsedContainer(TimePointIdentifierUsedContainer value) {
-        this.timePointIdentifierUsedContainer = value;
+    public void setTimePointIdentifierUsed(String value) {
+        this.timePointIdentifierUsed = value;
     }
 
     /**
@@ -134,6 +140,30 @@ public class PlanarDataSegmentationWithoutRegistration {
      */
     public void setNMStaticCorrectedUsed(DICOMDataContainer value) {
         this.nmStaticCorrectedUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nonDICOMNMStaticCorrectedUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link NonDICOMDataContainer }
+     *     
+     */
+    public NonDICOMDataContainer getNonDICOMNMStaticCorrectedUsed() {
+        return nonDICOMNMStaticCorrectedUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété nonDICOMNMStaticCorrectedUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link NonDICOMDataContainer }
+     *     
+     */
+    public void setNonDICOMNMStaticCorrectedUsed(NonDICOMDataContainer value) {
+        this.nonDICOMNMStaticCorrectedUsed = value;
     }
 
     /**
@@ -185,32 +215,51 @@ public class PlanarDataSegmentationWithoutRegistration {
     }
 
     /**
-     * Gets the value of the roiProduced property.
+     * Obtient la valeur de la propriété roiProduced.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the roiProduced property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getROIProduced().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ROIcontainer }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link ROIcontainer }
+     *     
      */
-    public List<ROIcontainer> getROIProduced() {
-        if (roiProduced == null) {
-            roiProduced = new ArrayList<ROIcontainer>();
-        }
-        return this.roiProduced;
+    public ROIcontainer getROIProduced() {
+        return roiProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété roiProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link ROIcontainer }
+     *     
+     */
+    public void setROIProduced(ROIcontainer value) {
+        this.roiProduced = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété segmentationProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Segmentation }
+     *     
+     */
+    public Segmentation getSegmentationProduced() {
+        return segmentationProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété segmentationProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Segmentation }
+     *     
+     */
+    public void setSegmentationProduced(Segmentation value) {
+        this.segmentationProduced = value;
     }
 
 }

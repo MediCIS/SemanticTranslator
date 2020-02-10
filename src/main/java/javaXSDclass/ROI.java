@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -11,6 +11,7 @@ package javaXSDclass;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
@@ -25,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ROIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="OrganOrTissue" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="OrganOrTissue" type="{https://www.irdbb-medirad.com}OrganOrTissue"/>
  *         &lt;element name="DICOMROIContainer" type="{https://www.irdbb-medirad.com}DICOMData" minOccurs="0"/>
  *         &lt;element name="NonDICOMROIContainer" type="{https://www.irdbb-medirad.com}NonDICOMData" minOccurs="0"/>
  *       &lt;/sequence>
@@ -48,7 +49,8 @@ public class ROI {
     @XmlElement(name = "ROIIdentifier", required = true)
     protected String roiIdentifier;
     @XmlElement(name = "OrganOrTissue", required = true)
-    protected String organOrTissue;
+    @XmlSchemaType(name = "string")
+    protected OrganOrTissue organOrTissue;
     @XmlElement(name = "DICOMROIContainer")
     protected DICOMData dicomroiContainer;
     @XmlElement(name = "NonDICOMROIContainer")
@@ -83,10 +85,10 @@ public class ROI {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link OrganOrTissue }
      *     
      */
-    public String getOrganOrTissue() {
+    public OrganOrTissue getOrganOrTissue() {
         return organOrTissue;
     }
 
@@ -95,10 +97,10 @@ public class ROI {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link OrganOrTissue }
      *     
      */
-    public void setOrganOrTissue(String value) {
+    public void setOrganOrTissue(OrganOrTissue value) {
         this.organOrTissue = value;
     }
 

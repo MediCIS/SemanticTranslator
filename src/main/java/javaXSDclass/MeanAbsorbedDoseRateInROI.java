@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="MeanAbsorbedDoseRateInROIValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="MeanAbsorbedDoseRateInROIUnit" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseRateInROIUnit"/>
+ *         &lt;element name="AbsorbedDoseRateUnit" type="{https://www.irdbb-medirad.com}AbsorbedDoseRateUnit"/>
  *         &lt;element name="ROIIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -39,16 +39,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeanAbsorbedDoseRateInROI", propOrder = {
     "meanAbsorbedDoseRateInROIValue",
-    "meanAbsorbedDoseRateInROIUnit",
+    "absorbedDoseRateUnit",
     "roiIdentifier"
 })
 public class MeanAbsorbedDoseRateInROI {
 
     @XmlElement(name = "MeanAbsorbedDoseRateInROIValue")
     protected float meanAbsorbedDoseRateInROIValue;
-    @XmlElement(name = "MeanAbsorbedDoseRateInROIUnit", required = true)
+    @XmlElement(name = "AbsorbedDoseRateUnit", required = true)
     @XmlSchemaType(name = "string")
-    protected MeanAbsorbedDoseRateInROIUnit meanAbsorbedDoseRateInROIUnit;
+    protected AbsorbedDoseRateUnit absorbedDoseRateUnit;
     @XmlElement(name = "ROIIdentifier", required = true)
     protected String roiIdentifier;
 
@@ -69,27 +69,27 @@ public class MeanAbsorbedDoseRateInROI {
     }
 
     /**
-     * Obtient la valeur de la propriété meanAbsorbedDoseRateInROIUnit.
+     * Obtient la valeur de la propriété absorbedDoseRateUnit.
      * 
      * @return
      *     possible object is
-     *     {@link MeanAbsorbedDoseRateInROIUnit }
+     *     {@link AbsorbedDoseRateUnit }
      *     
      */
-    public MeanAbsorbedDoseRateInROIUnit getMeanAbsorbedDoseRateInROIUnit() {
-        return meanAbsorbedDoseRateInROIUnit;
+    public AbsorbedDoseRateUnit getAbsorbedDoseRateUnit() {
+        return absorbedDoseRateUnit;
     }
 
     /**
-     * Définit la valeur de la propriété meanAbsorbedDoseRateInROIUnit.
+     * Définit la valeur de la propriété absorbedDoseRateUnit.
      * 
      * @param value
      *     allowed object is
-     *     {@link MeanAbsorbedDoseRateInROIUnit }
+     *     {@link AbsorbedDoseRateUnit }
      *     
      */
-    public void setMeanAbsorbedDoseRateInROIUnit(MeanAbsorbedDoseRateInROIUnit value) {
-        this.meanAbsorbedDoseRateInROIUnit = value;
+    public void setAbsorbedDoseRateUnit(AbsorbedDoseRateUnit value) {
+        this.absorbedDoseRateUnit = value;
     }
 
     /**

@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.01.28 à 04:59:07 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -26,8 +26,9 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="SPECTAcqCTAcqAndReconstruction" type="{https://www.irdbb-medirad.com}SPECTAcqCTAcqAndReconstruction" minOccurs="0"/>
  *         &lt;element name="SPECTReconstruction" type="{https://www.irdbb-medirad.com}SPECTReconstruction" minOccurs="0"/>
- *         &lt;element name="RegistrationVOISegmentation" type="{https://www.irdbb-medirad.com}RegistrationVOISegmentation"/>
+ *         &lt;element name="RegistrationVOISegmentation" type="{https://www.irdbb-medirad.com}RegistrationVOISegmentationAndPropagation"/>
  *         &lt;element name="VOIActivityDetermination" type="{https://www.irdbb-medirad.com}VOIActivityDetermination"/>
+ *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -41,7 +42,8 @@ import javax.xml.bind.annotation.XmlType;
     "spectAcqCTAcqAndReconstruction",
     "spectReconstruction",
     "registrationVOISegmentation",
-    "voiActivityDetermination"
+    "voiActivityDetermination",
+    "timePointIdentifierUsed"
 })
 public class SPECTDataAcquisitionAndProcessing {
 
@@ -50,9 +52,11 @@ public class SPECTDataAcquisitionAndProcessing {
     @XmlElement(name = "SPECTReconstruction")
     protected SPECTReconstruction spectReconstruction;
     @XmlElement(name = "RegistrationVOISegmentation", required = true)
-    protected RegistrationVOISegmentation registrationVOISegmentation;
+    protected RegistrationVOISegmentationAndPropagation registrationVOISegmentation;
     @XmlElement(name = "VOIActivityDetermination", required = true)
     protected VOIActivityDetermination voiActivityDetermination;
+    @XmlElement(name = "TimePointIdentifierUsed", required = true)
+    protected String timePointIdentifierUsed;
 
     /**
      * Obtient la valeur de la propriété spectAcqCTAcqAndReconstruction.
@@ -107,10 +111,10 @@ public class SPECTDataAcquisitionAndProcessing {
      * 
      * @return
      *     possible object is
-     *     {@link RegistrationVOISegmentation }
+     *     {@link RegistrationVOISegmentationAndPropagation }
      *     
      */
-    public RegistrationVOISegmentation getRegistrationVOISegmentation() {
+    public RegistrationVOISegmentationAndPropagation getRegistrationVOISegmentation() {
         return registrationVOISegmentation;
     }
 
@@ -119,10 +123,10 @@ public class SPECTDataAcquisitionAndProcessing {
      * 
      * @param value
      *     allowed object is
-     *     {@link RegistrationVOISegmentation }
+     *     {@link RegistrationVOISegmentationAndPropagation }
      *     
      */
-    public void setRegistrationVOISegmentation(RegistrationVOISegmentation value) {
+    public void setRegistrationVOISegmentation(RegistrationVOISegmentationAndPropagation value) {
         this.registrationVOISegmentation = value;
     }
 
@@ -148,6 +152,30 @@ public class SPECTDataAcquisitionAndProcessing {
      */
     public void setVOIActivityDetermination(VOIActivityDetermination value) {
         this.voiActivityDetermination = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété timePointIdentifierUsed.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getTimePointIdentifierUsed() {
+        return timePointIdentifierUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété timePointIdentifierUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setTimePointIdentifierUsed(String value) {
+        this.timePointIdentifierUsed = value;
     }
 
 }
