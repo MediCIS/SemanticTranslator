@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -26,9 +26,11 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VoxelDataActivityAtTimePointIdentifier" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="VoxelDataActivityAtTimePointIdentifier" type="{https://www.irdbb-medirad.com}DICOMData" minOccurs="0"/>
+ *         &lt;element name="NonDicomVoxelDataActivityAtTimePointIdentifier" type="{https://www.irdbb-medirad.com}NonDICOMData" minOccurs="0"/>
  *         &lt;element name="CTReconResampledOnSPECTUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
- *         &lt;element name="ThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="{https://www.irdbb-medirad.com}NonDICOMData"/>
+ *         &lt;element name="ThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="NonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="{https://www.irdbb-medirad.com}NonDICOMData"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -42,8 +44,10 @@ import javax.xml.bind.annotation.XmlType;
     "processExecutionContext",
     "timePointIdentifierUsed",
     "voxelDataActivityAtTimePointIdentifier",
+    "nonDicomVoxelDataActivityAtTimePointIdentifier",
     "ctReconResampledOnSPECTUsed",
-    "threeDimEnergyDepositionRateMatrixAtTimePointProduced"
+    "threeDimEnergyDepositionRateMatrixAtTimePointProduced",
+    "nonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced"
 })
 public class EnergyDepositionRateCalculationInHybridDosimetry {
 
@@ -51,12 +55,16 @@ public class EnergyDepositionRateCalculationInHybridDosimetry {
     protected ProcessExecutionContext processExecutionContext;
     @XmlElement(name = "TimePointIdentifierUsed", required = true)
     protected String timePointIdentifierUsed;
-    @XmlElement(name = "VoxelDataActivityAtTimePointIdentifier", required = true)
-    protected String voxelDataActivityAtTimePointIdentifier;
+    @XmlElement(name = "VoxelDataActivityAtTimePointIdentifier")
+    protected DICOMData voxelDataActivityAtTimePointIdentifier;
+    @XmlElement(name = "NonDicomVoxelDataActivityAtTimePointIdentifier")
+    protected NonDICOMData nonDicomVoxelDataActivityAtTimePointIdentifier;
     @XmlElement(name = "CTReconResampledOnSPECTUsed", required = true)
     protected DICOMData ctReconResampledOnSPECTUsed;
     @XmlElement(name = "ThreeDimEnergyDepositionRateMatrixAtTimePointProduced", required = true)
-    protected NonDICOMData threeDimEnergyDepositionRateMatrixAtTimePointProduced;
+    protected DICOMData threeDimEnergyDepositionRateMatrixAtTimePointProduced;
+    @XmlElement(name = "NonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced", required = true)
+    protected NonDICOMData nonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced;
 
     /**
      * Obtient la valeur de la propriété processExecutionContext.
@@ -111,10 +119,10 @@ public class EnergyDepositionRateCalculationInHybridDosimetry {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link DICOMData }
      *     
      */
-    public String getVoxelDataActivityAtTimePointIdentifier() {
+    public DICOMData getVoxelDataActivityAtTimePointIdentifier() {
         return voxelDataActivityAtTimePointIdentifier;
     }
 
@@ -123,11 +131,35 @@ public class EnergyDepositionRateCalculationInHybridDosimetry {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link DICOMData }
      *     
      */
-    public void setVoxelDataActivityAtTimePointIdentifier(String value) {
+    public void setVoxelDataActivityAtTimePointIdentifier(DICOMData value) {
         this.voxelDataActivityAtTimePointIdentifier = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nonDicomVoxelDataActivityAtTimePointIdentifier.
+     * 
+     * @return
+     *     possible object is
+     *     {@link NonDICOMData }
+     *     
+     */
+    public NonDICOMData getNonDicomVoxelDataActivityAtTimePointIdentifier() {
+        return nonDicomVoxelDataActivityAtTimePointIdentifier;
+    }
+
+    /**
+     * Définit la valeur de la propriété nonDicomVoxelDataActivityAtTimePointIdentifier.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link NonDICOMData }
+     *     
+     */
+    public void setNonDicomVoxelDataActivityAtTimePointIdentifier(NonDICOMData value) {
+        this.nonDicomVoxelDataActivityAtTimePointIdentifier = value;
     }
 
     /**
@@ -159,10 +191,10 @@ public class EnergyDepositionRateCalculationInHybridDosimetry {
      * 
      * @return
      *     possible object is
-     *     {@link NonDICOMData }
+     *     {@link DICOMData }
      *     
      */
-    public NonDICOMData getThreeDimEnergyDepositionRateMatrixAtTimePointProduced() {
+    public DICOMData getThreeDimEnergyDepositionRateMatrixAtTimePointProduced() {
         return threeDimEnergyDepositionRateMatrixAtTimePointProduced;
     }
 
@@ -171,11 +203,35 @@ public class EnergyDepositionRateCalculationInHybridDosimetry {
      * 
      * @param value
      *     allowed object is
+     *     {@link DICOMData }
+     *     
+     */
+    public void setThreeDimEnergyDepositionRateMatrixAtTimePointProduced(DICOMData value) {
+        this.threeDimEnergyDepositionRateMatrixAtTimePointProduced = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced.
+     * 
+     * @return
+     *     possible object is
      *     {@link NonDICOMData }
      *     
      */
-    public void setThreeDimEnergyDepositionRateMatrixAtTimePointProduced(NonDICOMData value) {
-        this.threeDimEnergyDepositionRateMatrixAtTimePointProduced = value;
+    public NonDICOMData getNonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced() {
+        return nonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété nonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link NonDICOMData }
+     *     
+     */
+    public void setNonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced(NonDICOMData value) {
+        this.nonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced = value;
     }
 
 }

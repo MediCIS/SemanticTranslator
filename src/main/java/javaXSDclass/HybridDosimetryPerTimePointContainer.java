@@ -17,16 +17,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour HotInsertContainer complex type.
+ * <p>Classe Java pour HybridDosimetryPerTimePointContainer complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="HotInsertContainer">
+ * &lt;complexType name="HybridDosimetryPerTimePointContainer">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="HotInsert" type="{https://www.irdbb-medirad.com}HotInsert" maxOccurs="unbounded"/>
+ *         &lt;element name="HybridDosimetryPerTimePoint" type="{https://www.irdbb-medirad.com}HybridDosimetryPerTimePoint" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,41 +36,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HotInsertContainer", propOrder = {
-    "hotInsert"
+@XmlType(name = "HybridDosimetryPerTimePointContainer", propOrder = {
+    "hybridDosimetryPerTimePoint"
 })
-public class HotInsertContainer {
+public class HybridDosimetryPerTimePointContainer {
 
-    @XmlElement(name = "HotInsert", required = true)
-    protected List<HotInsert> hotInsert;
+    @XmlElement(name = "HybridDosimetryPerTimePoint", required = true)
+    protected List<HybridDosimetryPerTimePoint> hybridDosimetryPerTimePoint;
 
     /**
-     * Gets the value of the hotInsert property.
+     * Gets the value of the hybridDosimetryPerTimePoint property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the hotInsert property.
+     * This is why there is not a <CODE>set</CODE> method for the hybridDosimetryPerTimePoint property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getHotInsert().add(newItem);
+     *    getHybridDosimetryPerTimePoint().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link HotInsert }
+     * {@link HybridDosimetryPerTimePoint }
      * 
      * 
      */
-    public List<HotInsert> getHotInsert() {
-        if (hotInsert == null) {
-            hotInsert = new ArrayList<HotInsert>();
+    public List<HybridDosimetryPerTimePoint> getHybridDosimetryPerTimePoint() {
+        if (hybridDosimetryPerTimePoint == null) {
+            hybridDosimetryPerTimePoint = new ArrayList<HybridDosimetryPerTimePoint>();
         }
-        return this.hotInsert;
+        return this.hybridDosimetryPerTimePoint;
     }
 
 }

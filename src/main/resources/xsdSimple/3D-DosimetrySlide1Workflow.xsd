@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--VersionSchemas : 061-->
+<!--VersionSchemas : 096-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -12,6 +12,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:sequence>
 			<xs:element name="ReferencedClinicalResearchStudy" type="irdbb:ReferencedClinicalResearchStudy" />
 			<xs:element name="PatientId" type="xs:string"/>
+			<xs:element name="AcquisitionSettings" type="irdbb:AcquisitionSettings" />
 				<xs:element name="ThreeDimDosimetrySlide1workflow" type="irdbb:ThreeDimDosimetrySlide1workflow" />
 		</xs:sequence>
 	</xs:complexType>
@@ -21,6 +22,16 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 						<xs:element name="ClinicalResearchStudyID" type="xs:string"/>
 						<xs:element name="ClinicalResearchStudyTitle" type="xs:string"/>
 					</xs:sequence>
+				</xs:complexType>
+				<xs:complexType name="AcquisitionSettings">
+						<xs:sequence>
+						<xs:element name="Siteadministeringthetreatment" type="xs:string" />
+						<xs:element name="Dateandtimeofinjection" type="xs:string" />
+						<xs:element name="PreAdministeredActivity" type="irdbb:AdministeredActivity" />
+						<xs:element name="PostAdministeredActivity" type="irdbb:AdministeredActivity" minOccurs="0" />
+						<xs:element name="Radiopharmaceutical" type="xs:string" />
+						<xs:element name="Radionuclide" type="irdbb:Isotope" />
+						</xs:sequence>
 				</xs:complexType>
 
 			<xs:complexType name="ThreeDimDosimetrySlide1workflow">
@@ -263,6 +274,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:enumeration value="yttrium90"/>
 			<xs:enumeration value="radium223"/>
 			<xs:enumeration value="rhenium188"/>
+			<xs:enumeration value="technetium99m"/>
+			<xs:enumeration value="terbium161"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -285,6 +298,20 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:element name="CountsUnit" type="irdbb:CountsUnit" />
 			<xs:element name="VOIIdentifier" type="xs:integer"/>
 			<xs:element name="TimePointIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="OrganMassUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="gram"/>
+			<xs:enumeration value="kilogram"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="OrganMass">
+		<xs:sequence>
+			<xs:element name="OrganMassValue" type="xs:float"/>
+		<xs:element name="OrganMassUnit" type="irdbb:OrganMassUnit" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -354,20 +381,6 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:element name="NonDICOMDataContainer" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
 			<xs:element name="TimePointIdentifier" type="xs:string" minOccurs="0" />
 			<xs:element name="OrganMass" type="irdbb:OrganMass" minOccurs="0" />
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:simpleType name="OrganMassUnit">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="gram"/>
-			<xs:enumeration value="kilogram"/>
-		</xs:restriction>
-	</xs:simpleType>
-
-	<xs:complexType name="OrganMass">
-		<xs:sequence>
-			<xs:element name="OrganMassValue" type="xs:float"/>
-		<xs:element name="OrganMassUnit" type="irdbb:OrganMassUnit" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -444,8 +457,12 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:simpleType name="AbsorbedDoseInVOIUnit">
+	<xs:simpleType name="AbsorbedDoseUnit">
 		<xs:restriction base="xs:string">
+			<xs:enumeration value="milligray per (milligray per (100 milliampere second))"/>
+			<xs:enumeration value="milligray per (100 milliampere second)"/>
+			<xs:enumeration value="milligray"/>
+			<xs:enumeration value="milligray per (milligray per (1 milliampere second))"/>
 			<xs:enumeration value="gray"/>
 			<xs:enumeration value="milligray"/>
 		</xs:restriction>
@@ -454,7 +471,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 	<xs:complexType name="AbsorbedDoseInVOI">
 		<xs:sequence>
 			<xs:element name="AbsorbedDoseInVOIValue" type="xs:float"/>
-		<xs:element name="AbsorbedDoseInVOIUnit" type="irdbb:AbsorbedDoseInVOIUnit" />
+		<xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
 			<xs:element name="AbsorbedDoseInVOIUncertainty" type="xs:float" minOccurs="0" />
 			<xs:element name="VOIIdentifierList" type="irdbb:VOIIdentifierContainer"/>
 		</xs:sequence>
@@ -470,7 +487,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:sequence>
 			<xs:element name="TimeIntegratedActivityCoefficientPerVOIValue" type="xs:float"/>
 		<xs:element name="TimeUnit" type="irdbb:TimeUnit" />
-			<xs:element name="VOIIdentifier" type="xs:integer"/>
+			<xs:element name="VOIIdentifierList" type="irdbb:VOIIdentifierContainer"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -577,7 +594,9 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:enumeration value="3D Energy Deposition Rate Matrix"/>
 			<xs:enumeration value="NM Tomo Reconstruction"/>
 			<xs:enumeration value="CT Reconstruction"/>
-			<xs:enumeration value="Registration Matrix"/>
+			<xs:enumeration value="Linear transformation matrix"/>
+			<xs:enumeration value="BSpline transformation"/>
+			<xs:enumeration value="Advanced elastix transformation"/>
 			<xs:enumeration value="Density Image"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -590,7 +609,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:enumeration value="GIF format embedding imageJ contours"/>
 			<xs:enumeration value="NRRD format"/>
 			<xs:enumeration value="STL format"/>
-			<xs:enumeration value="HDF format"/>
+			<xs:enumeration value="HDF4 format"/>
+			<xs:enumeration value="HDF5 format"/>
 		</xs:restriction>
 	</xs:simpleType>
 

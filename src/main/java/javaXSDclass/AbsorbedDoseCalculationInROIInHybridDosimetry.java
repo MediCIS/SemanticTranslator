@@ -2,14 +2,12 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
 package javaXSDclass;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -29,7 +27,8 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="ROIIdentifierUsed" type="{https://www.irdbb-medirad.com}ROIIdentifierContainer"/>
  *         &lt;element name="OrganSValueUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMassInHybridDosimetry" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="PatientOrganMassUsed" type="{https://www.irdbb-medirad.com}PatientOrganMassInHybridDosimetry" minOccurs="0"/>
+ *         &lt;element name="OrganMassReference" type="{https://www.irdbb-medirad.com}OrganMass" minOccurs="0"/>
  *         &lt;element name="MeanAbsorbedDoseInVOIProduced" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseInVOIContainer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -45,6 +44,7 @@ import javax.xml.bind.annotation.XmlType;
     "roiIdentifierUsed",
     "organSValueUsed",
     "patientOrganMassUsed",
+    "organMassReference",
     "meanAbsorbedDoseInVOIProduced"
 })
 public class AbsorbedDoseCalculationInROIInHybridDosimetry {
@@ -56,7 +56,9 @@ public class AbsorbedDoseCalculationInROIInHybridDosimetry {
     @XmlElement(name = "OrganSValueUsed", required = true)
     protected String organSValueUsed;
     @XmlElement(name = "PatientOrganMassUsed")
-    protected List<PatientOrganMassInHybridDosimetry> patientOrganMassUsed;
+    protected PatientOrganMassInHybridDosimetry patientOrganMassUsed;
+    @XmlElement(name = "OrganMassReference")
+    protected OrganMass organMassReference;
     @XmlElement(name = "MeanAbsorbedDoseInVOIProduced", required = true)
     protected MeanAbsorbedDoseInVOIContainer meanAbsorbedDoseInVOIProduced;
 
@@ -133,32 +135,51 @@ public class AbsorbedDoseCalculationInROIInHybridDosimetry {
     }
 
     /**
-     * Gets the value of the patientOrganMassUsed property.
+     * Obtient la valeur de la propriété patientOrganMassUsed.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the patientOrganMassUsed property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getPatientOrganMassUsed().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link PatientOrganMassInHybridDosimetry }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link PatientOrganMassInHybridDosimetry }
+     *     
      */
-    public List<PatientOrganMassInHybridDosimetry> getPatientOrganMassUsed() {
-        if (patientOrganMassUsed == null) {
-            patientOrganMassUsed = new ArrayList<PatientOrganMassInHybridDosimetry>();
-        }
-        return this.patientOrganMassUsed;
+    public PatientOrganMassInHybridDosimetry getPatientOrganMassUsed() {
+        return patientOrganMassUsed;
+    }
+
+    /**
+     * Définit la valeur de la propriété patientOrganMassUsed.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link PatientOrganMassInHybridDosimetry }
+     *     
+     */
+    public void setPatientOrganMassUsed(PatientOrganMassInHybridDosimetry value) {
+        this.patientOrganMassUsed = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété organMassReference.
+     * 
+     * @return
+     *     possible object is
+     *     {@link OrganMass }
+     *     
+     */
+    public OrganMass getOrganMassReference() {
+        return organMassReference;
+    }
+
+    /**
+     * Définit la valeur de la propriété organMassReference.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link OrganMass }
+     *     
+     */
+    public void setOrganMassReference(OrganMass value) {
+        this.organMassReference = value;
     }
 
     /**

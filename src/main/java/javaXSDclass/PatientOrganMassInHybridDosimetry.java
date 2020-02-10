@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="PatientOrganMassValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="PatientOrganMassUnit" type="{https://www.irdbb-medirad.com}PatientOrganMassUnit"/>
+ *         &lt;element name="MassUnit" type="{https://www.irdbb-medirad.com}MassUnit"/>
  *         &lt;element name="VOIIdentifier" type="{http://www.w3.org/2001/XMLSchema}integer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -40,16 +40,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PatientOrganMassInHybridDosimetry", propOrder = {
     "patientOrganMassValue",
-    "patientOrganMassUnit",
+    "massUnit",
     "voiIdentifier"
 })
 public class PatientOrganMassInHybridDosimetry {
 
     @XmlElement(name = "PatientOrganMassValue")
     protected float patientOrganMassValue;
-    @XmlElement(name = "PatientOrganMassUnit", required = true)
+    @XmlElement(name = "MassUnit", required = true)
     @XmlSchemaType(name = "string")
-    protected PatientOrganMassUnit patientOrganMassUnit;
+    protected MassUnit massUnit;
     @XmlElement(name = "VOIIdentifier", required = true)
     protected BigInteger voiIdentifier;
 
@@ -70,27 +70,27 @@ public class PatientOrganMassInHybridDosimetry {
     }
 
     /**
-     * Obtient la valeur de la propriété patientOrganMassUnit.
+     * Obtient la valeur de la propriété massUnit.
      * 
      * @return
      *     possible object is
-     *     {@link PatientOrganMassUnit }
+     *     {@link MassUnit }
      *     
      */
-    public PatientOrganMassUnit getPatientOrganMassUnit() {
-        return patientOrganMassUnit;
+    public MassUnit getMassUnit() {
+        return massUnit;
     }
 
     /**
-     * Définit la valeur de la propriété patientOrganMassUnit.
+     * Définit la valeur de la propriété massUnit.
      * 
      * @param value
      *     allowed object is
-     *     {@link PatientOrganMassUnit }
+     *     {@link MassUnit }
      *     
      */
-    public void setPatientOrganMassUnit(PatientOrganMassUnit value) {
-        this.patientOrganMassUnit = value;
+    public void setMassUnit(MassUnit value) {
+        this.massUnit = value;
     }
 
     /**

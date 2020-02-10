@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
- *         &lt;element name="TimePointIdentifierUsedContainer" type="{https://www.irdbb-medirad.com}TimePointIdentifierUsedContainer"/>
+ *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="ROIIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="PlanarCalibrationFactorReference" type="{https://www.irdbb-medirad.com}NMRelevantCalibrationReference"/>
  *         &lt;element name="DataActivityPerROIAtTimePointContainer" type="{https://www.irdbb-medirad.com}DataActivityPerROIAtTimePointContainer"/>
@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ROIPlanarActivityDetermination", propOrder = {
     "processExecutionContext",
-    "timePointIdentifierUsedContainer",
+    "timePointIdentifierUsed",
     "roiIdentifierUsed",
     "planarCalibrationFactorReference",
     "dataActivityPerROIAtTimePointContainer"
@@ -49,8 +49,8 @@ public class ROIPlanarActivityDetermination {
 
     @XmlElement(name = "ProcessExecutionContext", required = true)
     protected ProcessExecutionContext processExecutionContext;
-    @XmlElement(name = "TimePointIdentifierUsedContainer", required = true)
-    protected TimePointIdentifierUsedContainer timePointIdentifierUsedContainer;
+    @XmlElement(name = "TimePointIdentifierUsed", required = true)
+    protected String timePointIdentifierUsed;
     @XmlElement(name = "ROIIdentifierUsed", required = true)
     protected String roiIdentifierUsed;
     @XmlElement(name = "PlanarCalibrationFactorReference", required = true)
@@ -83,27 +83,27 @@ public class ROIPlanarActivityDetermination {
     }
 
     /**
-     * Obtient la valeur de la propriété timePointIdentifierUsedContainer.
+     * Obtient la valeur de la propriété timePointIdentifierUsed.
      * 
      * @return
      *     possible object is
-     *     {@link TimePointIdentifierUsedContainer }
+     *     {@link String }
      *     
      */
-    public TimePointIdentifierUsedContainer getTimePointIdentifierUsedContainer() {
-        return timePointIdentifierUsedContainer;
+    public String getTimePointIdentifierUsed() {
+        return timePointIdentifierUsed;
     }
 
     /**
-     * Définit la valeur de la propriété timePointIdentifierUsedContainer.
+     * Définit la valeur de la propriété timePointIdentifierUsed.
      * 
      * @param value
      *     allowed object is
-     *     {@link TimePointIdentifierUsedContainer }
+     *     {@link String }
      *     
      */
-    public void setTimePointIdentifierUsedContainer(TimePointIdentifierUsedContainer value) {
-        this.timePointIdentifierUsedContainer = value;
+    public void setTimePointIdentifierUsed(String value) {
+        this.timePointIdentifierUsed = value;
     }
 
     /**

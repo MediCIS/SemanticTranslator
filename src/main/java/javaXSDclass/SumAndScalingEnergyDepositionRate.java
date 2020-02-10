@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="TimePointIdentifierUsed" type="{https://www.irdbb-medirad.com}TimePointIdentifierContainer"/>
  *         &lt;element name="ROIIdentifierUsed" type="{https://www.irdbb-medirad.com}ROIIdentifierContainer"/>
- *         &lt;element name="VOIIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
  *         &lt;element name="VOIInSPECTIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         &lt;element name="EnergyDepositionRatePerVOIAtTimePointProduced" type="{https://www.irdbb-medirad.com}EnergyDepositionRatePerVOIAtTimePointContainer"/>
  *       &lt;/sequence>
@@ -43,7 +42,6 @@ import javax.xml.bind.annotation.XmlType;
     "processExecutionContext",
     "timePointIdentifierUsed",
     "roiIdentifierUsed",
-    "voiIdentifierUsed",
     "voiInSPECTIdentifierUsed",
     "energyDepositionRatePerVOIAtTimePointProduced"
 })
@@ -55,8 +53,6 @@ public class SumAndScalingEnergyDepositionRate {
     protected TimePointIdentifierContainer timePointIdentifierUsed;
     @XmlElement(name = "ROIIdentifierUsed", required = true)
     protected ROIIdentifierContainer roiIdentifierUsed;
-    @XmlElement(name = "VOIIdentifierUsed", required = true)
-    protected VOIIdentifierContainer voiIdentifierUsed;
     @XmlElement(name = "VOIInSPECTIdentifierUsed", required = true)
     protected String voiInSPECTIdentifierUsed;
     @XmlElement(name = "EnergyDepositionRatePerVOIAtTimePointProduced", required = true)
@@ -132,30 +128,6 @@ public class SumAndScalingEnergyDepositionRate {
      */
     public void setROIIdentifierUsed(ROIIdentifierContainer value) {
         this.roiIdentifierUsed = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété voiIdentifierUsed.
-     * 
-     * @return
-     *     possible object is
-     *     {@link VOIIdentifierContainer }
-     *     
-     */
-    public VOIIdentifierContainer getVOIIdentifierUsed() {
-        return voiIdentifierUsed;
-    }
-
-    /**
-     * Définit la valeur de la propriété voiIdentifierUsed.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link VOIIdentifierContainer }
-     *     
-     */
-    public void setVOIIdentifierUsed(VOIIdentifierContainer value) {
-        this.voiIdentifierUsed = value;
     }
 
     /**

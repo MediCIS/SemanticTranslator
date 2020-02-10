@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -26,7 +26,8 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="TimePointDescription" type="{https://www.irdbb-medirad.com}TimePointDescription"/>
  *         &lt;element name="NMRelevantCalibrationReference" type="{https://www.irdbb-medirad.com}NMRelevantCalibrationReference"/>
- *         &lt;element name="NMStaticProduced" type="{https://www.irdbb-medirad.com}DICOMData"/>
+ *         &lt;element name="NMStaticProduced" type="{https://www.irdbb-medirad.com}DICOMData" minOccurs="0"/>
+ *         &lt;element name="NonDicomNMStaticProduced" type="{https://www.irdbb-medirad.com}NonDICOMData" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,7 +40,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "PlanarDataAcquisition", propOrder = {
     "timePointDescription",
     "nmRelevantCalibrationReference",
-    "nmStaticProduced"
+    "nmStaticProduced",
+    "nonDicomNMStaticProduced"
 })
 public class PlanarDataAcquisition {
 
@@ -47,8 +49,10 @@ public class PlanarDataAcquisition {
     protected TimePointDescription timePointDescription;
     @XmlElement(name = "NMRelevantCalibrationReference", required = true)
     protected NMRelevantCalibrationReference nmRelevantCalibrationReference;
-    @XmlElement(name = "NMStaticProduced", required = true)
+    @XmlElement(name = "NMStaticProduced")
     protected DICOMData nmStaticProduced;
+    @XmlElement(name = "NonDicomNMStaticProduced")
+    protected NonDICOMData nonDicomNMStaticProduced;
 
     /**
      * Obtient la valeur de la propriété timePointDescription.
@@ -120,6 +124,30 @@ public class PlanarDataAcquisition {
      */
     public void setNMStaticProduced(DICOMData value) {
         this.nmStaticProduced = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété nonDicomNMStaticProduced.
+     * 
+     * @return
+     *     possible object is
+     *     {@link NonDICOMData }
+     *     
+     */
+    public NonDICOMData getNonDicomNMStaticProduced() {
+        return nonDicomNMStaticProduced;
+    }
+
+    /**
+     * Définit la valeur de la propriété nonDicomNMStaticProduced.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link NonDICOMData }
+     *     
+     */
+    public void setNonDicomNMStaticProduced(NonDICOMData value) {
+        this.nonDicomNMStaticProduced = value;
     }
 
 }

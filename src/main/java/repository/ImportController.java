@@ -14,17 +14,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -755,7 +750,6 @@ public class ImportController extends CommonFunctions {
 		logger.info("Retrieving SR Kheops : " + targetURL);
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
 
-		
 		logger.debug(targetURL);
 
 		HttpURLConnection pacsConnection; 

@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="AbsorbedDoseInVOIValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="AbsorbedDoseInVOIUnit" type="{https://www.irdbb-medirad.com}AbsorbedDoseInVOIUnit"/>
+ *         &lt;element name="AbsorbedDoseUnit" type="{https://www.irdbb-medirad.com}AbsorbedDoseUnit"/>
  *         &lt;element name="AbsorbedDoseInVOIUncertainty" type="{http://www.w3.org/2001/XMLSchema}float" minOccurs="0"/>
  *         &lt;element name="VOIIdentifierList" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer"/>
  *       &lt;/sequence>
@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AbsorbedDoseInVOI", propOrder = {
     "absorbedDoseInVOIValue",
-    "absorbedDoseInVOIUnit",
+    "absorbedDoseUnit",
     "absorbedDoseInVOIUncertainty",
     "voiIdentifierList"
 })
@@ -48,9 +48,9 @@ public class AbsorbedDoseInVOI {
 
     @XmlElement(name = "AbsorbedDoseInVOIValue")
     protected float absorbedDoseInVOIValue;
-    @XmlElement(name = "AbsorbedDoseInVOIUnit", required = true)
+    @XmlElement(name = "AbsorbedDoseUnit", required = true)
     @XmlSchemaType(name = "string")
-    protected AbsorbedDoseInVOIUnit absorbedDoseInVOIUnit;
+    protected AbsorbedDoseUnit absorbedDoseUnit;
     @XmlElement(name = "AbsorbedDoseInVOIUncertainty")
     protected Float absorbedDoseInVOIUncertainty;
     @XmlElement(name = "VOIIdentifierList", required = true)
@@ -73,27 +73,27 @@ public class AbsorbedDoseInVOI {
     }
 
     /**
-     * Obtient la valeur de la propriété absorbedDoseInVOIUnit.
+     * Obtient la valeur de la propriété absorbedDoseUnit.
      * 
      * @return
      *     possible object is
-     *     {@link AbsorbedDoseInVOIUnit }
+     *     {@link AbsorbedDoseUnit }
      *     
      */
-    public AbsorbedDoseInVOIUnit getAbsorbedDoseInVOIUnit() {
-        return absorbedDoseInVOIUnit;
+    public AbsorbedDoseUnit getAbsorbedDoseUnit() {
+        return absorbedDoseUnit;
     }
 
     /**
-     * Définit la valeur de la propriété absorbedDoseInVOIUnit.
+     * Définit la valeur de la propriété absorbedDoseUnit.
      * 
      * @param value
      *     allowed object is
-     *     {@link AbsorbedDoseInVOIUnit }
+     *     {@link AbsorbedDoseUnit }
      *     
      */
-    public void setAbsorbedDoseInVOIUnit(AbsorbedDoseInVOIUnit value) {
-        this.absorbedDoseInVOIUnit = value;
+    public void setAbsorbedDoseUnit(AbsorbedDoseUnit value) {
+        this.absorbedDoseUnit = value;
     }
 
     /**

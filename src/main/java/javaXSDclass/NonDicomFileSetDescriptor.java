@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="ReferencedClinicalResearchStudy" type="{https://www.irdbb-medirad.com}ReferencedClinicalResearchStudy"/>
  *         &lt;element name="PatientId" type="{http://www.w3.org/2001/XMLSchema}string"/>
+ *         &lt;element name="AcquisitionSettings" type="{https://www.irdbb-medirad.com}AcquisitionSettings"/>
  *         &lt;element name="CalibrationWorkflow" type="{https://www.irdbb-medirad.com}CalibrationWorkflow" minOccurs="0"/>
  *         &lt;element name="WP2subtask212WorkflowData" type="{https://www.irdbb-medirad.com}WP2subtask212WorkflowData" minOccurs="0"/>
  *         &lt;element name="ThreeDimDosimetrySlide1workflow" type="{https://www.irdbb-medirad.com}ThreeDimDosimetrySlide1workflow" minOccurs="0"/>
@@ -44,6 +45,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "NonDicomFileSetDescriptor", propOrder = {
     "referencedClinicalResearchStudy",
     "patientId",
+    "acquisitionSettings",
     "calibrationWorkflow",
     "wp2Subtask212WorkflowData",
     "threeDimDosimetrySlide1Workflow",
@@ -57,6 +59,8 @@ public class NonDicomFileSetDescriptor {
     protected ReferencedClinicalResearchStudy referencedClinicalResearchStudy;
     @XmlElement(name = "PatientId", required = true)
     protected String patientId;
+    @XmlElement(name = "AcquisitionSettings", required = true)
+    protected AcquisitionSettings acquisitionSettings;
     @XmlElement(name = "CalibrationWorkflow")
     protected CalibrationWorkflow calibrationWorkflow;
     @XmlElement(name = "WP2subtask212WorkflowData")
@@ -116,6 +120,30 @@ public class NonDicomFileSetDescriptor {
      */
     public void setPatientId(String value) {
         this.patientId = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété acquisitionSettings.
+     * 
+     * @return
+     *     possible object is
+     *     {@link AcquisitionSettings }
+     *     
+     */
+    public AcquisitionSettings getAcquisitionSettings() {
+        return acquisitionSettings;
+    }
+
+    /**
+     * Définit la valeur de la propriété acquisitionSettings.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link AcquisitionSettings }
+     *     
+     */
+    public void setAcquisitionSettings(AcquisitionSettings value) {
+        this.acquisitionSettings = value;
     }
 
     /**

@@ -1732,7 +1732,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		case "volt":
 		case "V":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000218")); break;
-		case "Gy": case "gray" :
+		case "Gy": case "gray" : case "GRAY" :
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000134")); break;
 		case "milligray":
 		case "mGy":
@@ -1766,13 +1766,13 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			break;
 		case "gram":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000021")); break;	
-		case "kilogram":
+		case "kilogram": case "KILOGRAM":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000009")); break;	
 		case "becquerel":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000132")); break;	
 		case "kilobecquerel":
 			unit = createIndiv(model.getResource(racineURI+"kilobecquerel")); break;	
-		case "megabecquerel":
+		case "megabecquerel": case "MEGABECQUEREL" :
 			unit = createIndiv(model.getResource(racineURI+"megabecquerel")); break;	
 		case "curie":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000133")); break;	
@@ -1782,7 +1782,10 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000145")); break;	
 		case "counts":
 			unit = createIndiv(model.getResource(racineURI+"counts")); break;	
-			
+		case "MEGABECQUEREL_X_HOUR": 
+			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_hour"));
+		case "MEGABECQUEREL_X_SECOND":
+			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_second"));
 		default:
 			unit = createIndiv(generateName("Unknown_Unit"), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));
 			logger.warn("WARN Unknown Unit : "+u);

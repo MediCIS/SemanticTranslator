@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="MeanAbsorbedDoseInVOIValue" type="{http://www.w3.org/2001/XMLSchema}float"/>
- *         &lt;element name="MeanAbsorbedDoseInVOIUnit" type="{https://www.irdbb-medirad.com}MeanAbsorbedDoseInVOIUnit"/>
+ *         &lt;element name="AbsorbedDoseUnit" type="{https://www.irdbb-medirad.com}AbsorbedDoseUnit"/>
  *         &lt;element name="VOIIdentifier" type="{http://www.w3.org/2001/XMLSchema}integer"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
@@ -40,16 +40,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeanAbsorbedDoseInVOI", propOrder = {
     "meanAbsorbedDoseInVOIValue",
-    "meanAbsorbedDoseInVOIUnit",
+    "absorbedDoseUnit",
     "voiIdentifier"
 })
 public class MeanAbsorbedDoseInVOI {
 
     @XmlElement(name = "MeanAbsorbedDoseInVOIValue")
     protected float meanAbsorbedDoseInVOIValue;
-    @XmlElement(name = "MeanAbsorbedDoseInVOIUnit", required = true)
+    @XmlElement(name = "AbsorbedDoseUnit", required = true)
     @XmlSchemaType(name = "string")
-    protected MeanAbsorbedDoseInVOIUnit meanAbsorbedDoseInVOIUnit;
+    protected AbsorbedDoseUnit absorbedDoseUnit;
     @XmlElement(name = "VOIIdentifier", required = true)
     protected BigInteger voiIdentifier;
 
@@ -70,27 +70,27 @@ public class MeanAbsorbedDoseInVOI {
     }
 
     /**
-     * Obtient la valeur de la propriété meanAbsorbedDoseInVOIUnit.
+     * Obtient la valeur de la propriété absorbedDoseUnit.
      * 
      * @return
      *     possible object is
-     *     {@link MeanAbsorbedDoseInVOIUnit }
+     *     {@link AbsorbedDoseUnit }
      *     
      */
-    public MeanAbsorbedDoseInVOIUnit getMeanAbsorbedDoseInVOIUnit() {
-        return meanAbsorbedDoseInVOIUnit;
+    public AbsorbedDoseUnit getAbsorbedDoseUnit() {
+        return absorbedDoseUnit;
     }
 
     /**
-     * Définit la valeur de la propriété meanAbsorbedDoseInVOIUnit.
+     * Définit la valeur de la propriété absorbedDoseUnit.
      * 
      * @param value
      *     allowed object is
-     *     {@link MeanAbsorbedDoseInVOIUnit }
+     *     {@link AbsorbedDoseUnit }
      *     
      */
-    public void setMeanAbsorbedDoseInVOIUnit(MeanAbsorbedDoseInVOIUnit value) {
-        this.meanAbsorbedDoseInVOIUnit = value;
+    public void setAbsorbedDoseUnit(AbsorbedDoseUnit value) {
+        this.absorbedDoseUnit = value;
     }
 
     /**

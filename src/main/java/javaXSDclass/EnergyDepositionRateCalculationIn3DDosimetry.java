@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element name="ProcessExecutionContext" type="{https://www.irdbb-medirad.com}ProcessExecutionContext"/>
  *         &lt;element name="VOIIdentifierUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer" minOccurs="0"/>
  *         &lt;element name="TimePointIdentifierUsed" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="VOIUsed" type="{https://www.irdbb-medirad.com}VOIIdentifierContainer" minOccurs="0"/>
  *         &lt;element name="CTReconResampledOnNMReferenceUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="NMTomoReconUsed" type="{https://www.irdbb-medirad.com}DICOMData"/>
  *         &lt;element name="CalculationAlgorithmUsed" type="{https://www.irdbb-medirad.com}CalculationAlgorithmUsed"/>
@@ -47,7 +46,6 @@ import javax.xml.bind.annotation.XmlType;
     "processExecutionContext",
     "voiIdentifierUsed",
     "timePointIdentifierUsed",
-    "voiUsed",
     "ctReconResampledOnNMReferenceUsed",
     "nmTomoReconUsed",
     "calculationAlgorithmUsed",
@@ -62,8 +60,6 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
     protected VOIIdentifierContainer voiIdentifierUsed;
     @XmlElement(name = "TimePointIdentifierUsed", required = true)
     protected String timePointIdentifierUsed;
-    @XmlElement(name = "VOIUsed")
-    protected VOIIdentifierContainer voiUsed;
     @XmlElement(name = "CTReconResampledOnNMReferenceUsed", required = true)
     protected DICOMData ctReconResampledOnNMReferenceUsed;
     @XmlElement(name = "NMTomoReconUsed", required = true)
@@ -146,30 +142,6 @@ public class EnergyDepositionRateCalculationIn3DDosimetry {
      */
     public void setTimePointIdentifierUsed(String value) {
         this.timePointIdentifierUsed = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété voiUsed.
-     * 
-     * @return
-     *     possible object is
-     *     {@link VOIIdentifierContainer }
-     *     
-     */
-    public VOIIdentifierContainer getVOIUsed() {
-        return voiUsed;
-    }
-
-    /**
-     * Définit la valeur de la propriété voiUsed.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link VOIIdentifierContainer }
-     *     
-     */
-    public void setVOIUsed(VOIIdentifierContainer value) {
-        this.voiUsed = value;
     }
 
     /**

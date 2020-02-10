@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.04 à 12:01:52 PM CET 
+// Généré le : 2020.02.06 à 05:03:32 PM CET 
 //
 
 
@@ -793,6 +793,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link HybridDosimetryPerTimePointContainer }
+     * 
+     */
+    public HybridDosimetryPerTimePointContainer createHybridDosimetryPerTimePointContainer() {
+        return new HybridDosimetryPerTimePointContainer();
+    }
+
+    /**
      * Create an instance of {@link KernelLimitForConvolutions }
      * 
      */
@@ -854,6 +862,14 @@ public class ObjectFactory {
      */
     public AbsorbedDoseRatePerVOIAtTimePoint createAbsorbedDoseRatePerVOIAtTimePoint() {
         return new AbsorbedDoseRatePerVOIAtTimePoint();
+    }
+
+    /**
+     * Create an instance of {@link AcquisitionSettings }
+     * 
+     */
+    public AcquisitionSettings createAcquisitionSettings() {
+        return new AcquisitionSettings();
     }
 
     /**
@@ -1193,6 +1209,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link HybridDosimetryPerTimePoint }
+     * 
+     */
+    public HybridDosimetryPerTimePoint createHybridDosimetryPerTimePoint() {
+        return new HybridDosimetryPerTimePoint();
+    }
+
+    /**
      * Create an instance of {@link ROI }
      * 
      */
@@ -1246,14 +1270,6 @@ public class ObjectFactory {
      */
     public ROIcontainer createROIcontainer() {
         return new ROIcontainer();
-    }
-
-    /**
-     * Create an instance of {@link RegistrationVOISegmentation }
-     * 
-     */
-    public RegistrationVOISegmentation createRegistrationVOISegmentation() {
-        return new RegistrationVOISegmentation();
     }
 
     /**
