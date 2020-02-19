@@ -65,6 +65,9 @@ public class Memory extends OntologyPopulator {
 	private Hashtable<String, Individual> tableAuthorName;
 
 	private Hashtable<String, Individual> tableCalibrationIDs;
+	
+	private LinkedList<String> tableDicomIDs;
+
 
 
 	public Memory() throws  IOException, InvocationTargetException, ResultWritingFailed, JSONException {
@@ -110,9 +113,41 @@ public class Memory extends OntologyPopulator {
 		tableAuthorName  = new Hashtable<String, Individual>();
 
 		tableCalibrationIDs  = new Hashtable<String, Individual>();
+		
+		tableDicomIDs  = new LinkedList<String>();
 	}
 
+	public void initDicomIDsList() throws IOException, JSONException {
+		String request = "SELECT ?a ?seriesUID ?studyUID WHERE {\n" + 
+				"	?a ontomedirad:has_DICOM_series_instance_UID ?seriesUID .\n" + 
+				" 	?a ontomedirad:has_DICOM_study_instance_UID ?studyUID .\n" + 
+				"} ORDER BY ?seriesUID";
+		
+		String resultats = executeRequest(request);	
+		String seriesUID; String studyUID; 
+		
+		JSONArray jsonResults = new JSONObject(resultats).getJSONObject("results").getJSONArray("bindings");
+		for (int i=0; i<jsonResults.length(); i++) {
+			seriesUID = jsonResults.getJSONObject(i).getJSONObject("seriesUID").getString("value");
+			studyUID = jsonResults.getJSONObject(i).getJSONObject("studyUID").getString("value");
 
+			tableDicomIDs.add(seriesUID+"_"+studyUID);
+		}
+	
+		starDogConnection.close();
+	}
+	
+	public boolean hasDicomUIDs(String seriesUID, String studyUID) {
+		return tableDicomIDs.contains(seriesUID+"_"+studyUID);
+	}
+
+	
+	public void testDicomUIDs() {
+		System.out.println("testDicomUIDs");
+		for (int i=0; i<tableDicomIDs.size(); i++) {
+			System.out.println(tableDicomIDs.get(i));
+		}
+	}
 
 	public synchronized Individual getHuman(String patientID) {
 		System.out.println("getHuman");
@@ -236,7 +271,7 @@ public class Memory extends OntologyPopulator {
 		System.out.println("name : "+name);
 		System.out.println("human : "+human);
 		System.out.println("tablePatientNames : "+tablePatientNames);
-		if (tablePatientNames.containsKey(name) == false) { 
+		if (tablePatientNames.containsKey(name) == false && name != null && human != null) { 
 			tablePatientNames.put(name, human);
 		}
 	}

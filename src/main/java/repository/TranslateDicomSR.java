@@ -62,6 +62,7 @@ public class TranslateDicomSR extends OntologyPopulator {
 			switch (value) {
 			case "Study":
 				imagingStudy = memory.getImagingStudy(ImportController.studyInstanceUID);
+				//imagingStudy=null;
 				System.out.println(imagingStudy);
 				if (imagingStudy==null) {
 					logger.warn("Unknown imaging study in SR");
@@ -151,39 +152,16 @@ public class TranslateDicomSR extends OntologyPopulator {
 				logger.warn("Field "+name+" with Unknown Value "+value);
 			} break;
 
-			// Table 10012 CT Accumulated Dose data (part 16, p424)
+		// Table 10012 CT Accumulated Dose data (part 16, p424)
 		case "Total_Number_of_Irradiation_Events":
 			addDataProperty(study, racineURI+"has_number_of_irradiation_events", value.split("_")[0]);
 			break;	
-		case "CT_Dose_Length_Product_Total":	
-			break;
-		case "Measurement_Method":
-			switch (value) {
-			case "DLP_to_E_conversion_via_MC_computation":	     
-                    i = createIndiv(generateName(value),model.getResource("http://dicom.nema.org/resources/ontology/DCM/113800"));
-				addObjectProperty(irradEvent, "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_caracteristic", i);
-				break;
-			case "CTDIfreeair_to_E_conversion_via_MC_computation": 
-				i = createIndiv(generateName(value),model.getResource("http://dicom.nema.org/resources/ontology/DCM/113801"));
-				addObjectProperty(irradEvent, "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_caracteristic", i);
-				break;
-			case "DLP_to_E_conversion_via_measurement":		     
-				i = createIndiv(generateName(value),model.getResource("DLP_to_E_conversion_via_measurement"));
-				addObjectProperty(irradEvent, "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_caracteristic", i);
-				break;
-			case "CTDIfreeair_to_E_conversion_via_measurement":    
-				i = createIndiv(generateName(value),model.getResource("http://dicom.nema.org/resources/ontology/DCM/113802"));
-				addObjectProperty(irradEvent, "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_caracteristic", i);
-				break;  
-			case "AAPM_220 ": //From Table 10013
-				i = createIndiv(generateName(value),model.getResource("http://dicom.nema.org/resources/ontology/DCM/113987"));
-				addObjectProperty(irradEvent, "http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#has_caracteristic", i);
-				break;
-			}
+		case "CT_Dose_Length_Product_Total":break;
+			
 		case "Patient_Model":
 			logger.warn("Field "+name+" with Unknown Value "+value); break;	
 
-			// Table 10013 CT Irradiation Event data (part 16, p426)		
+		// Table 10013 CT Irradiation Event data (part 16, p426)		
 		case "Acquisition Protocol":
 			i = createIndiv(generateName("CT_acquisition_protocol"), model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#CT_acquisition"));
 			addObjectProperty(irradEvent, racineURI+"has_protocol", i);
@@ -213,8 +191,8 @@ public class TranslateDicomSR extends OntologyPopulator {
 		case "Irradiation_Event_UID":
 			addDataProperty(irradEvent, racineURI+"has_DICOM_UID", value); break; 
 		case "Irradiation_Event_Label":
-			addDataProperty(irradEvent, racineURI+"has_id", value); break;	// A vérifier
-		case "Label_Type":break;                                            // A vérifier
+			addDataProperty(irradEvent, racineURI+"has_id", value); break;	
+		case "Label_Type":break;                                           
 		case "Is_repeated_Acquisition":
 			if (value=="Yes") {irradEvent.addOntClass(model.getResource("http://dicom.nema.org/resources/ontology/DCM/128551"));}
 			break;

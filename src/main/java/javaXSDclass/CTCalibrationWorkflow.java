@@ -15,16 +15,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour SPECTCTCalibrationWorkflow complex type.
+ * <p>Classe Java pour CTCalibrationWorkflow complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="SPECTCTCalibrationWorkflow">
+ * &lt;complexType name="CTCalibrationWorkflow">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="SPECTAcqCTAcqAndReconstructionInCalibration" type="{https://www.irdbb-medirad.com}SPECTAcqCTAcqAndReconstructionInCalibration"/>
+ *         &lt;element name="CTNumberCalibrationWorkfow" type="{https://www.irdbb-medirad.com}CTNumberCalibrationWorkfow"/>
  *         &lt;element name="SPECTReconstructionInCalibration" type="{https://www.irdbb-medirad.com}SPECTReconstructionInCalibration"/>
  *         &lt;element name="CTSegmentationInCalibration" type="{https://www.irdbb-medirad.com}CTSegmentationInCalibration"/>
  *         &lt;element name="SPECTSensitivityCalculation" type="{https://www.irdbb-medirad.com}SPECTSensitivityCalculation"/>
@@ -38,17 +38,17 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SPECTCTCalibrationWorkflow", propOrder = {
-    "spectAcqCTAcqAndReconstructionInCalibration",
+@XmlType(name = "CTCalibrationWorkflow", propOrder = {
+    "ctNumberCalibrationWorkfow",
     "spectReconstructionInCalibration",
     "ctSegmentationInCalibration",
     "spectSensitivityCalculation",
     "spectRecoveryCoefficientCurveCalculation"
 })
-public class SPECTCTCalibrationWorkflow {
+public class CTCalibrationWorkflow {
 
-    @XmlElement(name = "SPECTAcqCTAcqAndReconstructionInCalibration", required = true)
-    protected SPECTAcqCTAcqAndReconstructionInCalibration spectAcqCTAcqAndReconstructionInCalibration;
+    @XmlElement(name = "CTNumberCalibrationWorkfow", required = true)
+    protected CTNumberCalibrationWorkfow ctNumberCalibrationWorkfow;
     @XmlElement(name = "SPECTReconstructionInCalibration", required = true)
     protected SPECTReconstructionInCalibration spectReconstructionInCalibration;
     @XmlElement(name = "CTSegmentationInCalibration", required = true)
@@ -59,27 +59,27 @@ public class SPECTCTCalibrationWorkflow {
     protected SPECTRecoveryCoefficientCurveCalculation spectRecoveryCoefficientCurveCalculation;
 
     /**
-     * Obtient la valeur de la propriété spectAcqCTAcqAndReconstructionInCalibration.
+     * Obtient la valeur de la propriété ctNumberCalibrationWorkfow.
      * 
      * @return
      *     possible object is
-     *     {@link SPECTAcqCTAcqAndReconstructionInCalibration }
+     *     {@link CTNumberCalibrationWorkfow }
      *     
      */
-    public SPECTAcqCTAcqAndReconstructionInCalibration getSPECTAcqCTAcqAndReconstructionInCalibration() {
-        return spectAcqCTAcqAndReconstructionInCalibration;
+    public CTNumberCalibrationWorkfow getCTNumberCalibrationWorkfow() {
+        return ctNumberCalibrationWorkfow;
     }
 
     /**
-     * Définit la valeur de la propriété spectAcqCTAcqAndReconstructionInCalibration.
+     * Définit la valeur de la propriété ctNumberCalibrationWorkfow.
      * 
      * @param value
      *     allowed object is
-     *     {@link SPECTAcqCTAcqAndReconstructionInCalibration }
+     *     {@link CTNumberCalibrationWorkfow }
      *     
      */
-    public void setSPECTAcqCTAcqAndReconstructionInCalibration(SPECTAcqCTAcqAndReconstructionInCalibration value) {
-        this.spectAcqCTAcqAndReconstructionInCalibration = value;
+    public void setCTNumberCalibrationWorkfow(CTNumberCalibrationWorkfow value) {
+        this.ctNumberCalibrationWorkfow = value;
     }
 
     /**

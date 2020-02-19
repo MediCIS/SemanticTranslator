@@ -81,7 +81,9 @@ public class TranslateDicomCT extends OntologyPopulator {
 				addDataProperty(ctImageAcquisition, racineURI+"has_beginning_date", serieDescriptorType.getSeriesDate00080021());
 				addDataProperty(ctImageAcquisition, racineURI+"has_beginning_time", serieDescriptorType.getSeriesTime00080031());
 				addDataProperty(imageDataSet, racineURI+"has_DICOM_series_instance_UID", serieDescriptorType.getSeriesInstanceUID0020000E());
+				addDataProperty(imageDataSet, racineURI+"has_DICOM_study_instance_UID", studyInstanceUID);
 
+				
 				scanner = createIndiv(generateName("CT_scanner"), model.getResource(racineURI+"CT_scanner"));
 				imageAccRole = createIndiv(generateName("image_acquisition_role"), model.getResource(racineURI+"image_acquisition_role"));
 

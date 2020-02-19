@@ -1,1821 +1,1860 @@
 <?xml version="1.0"?>
-<!--VersionSchemas : 052-->
+<!--VersionSchemas : 104-->
 <xs:schema
-    targetNamespace="https://www.irdbb-medirad.com"
-    elementFormDefault="qualified"
-    attributeFormDefault="unqualified"
-    xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:irdbb="https://www.irdbb-medirad.com">
-    <xs:element name="NonDicomFileSetDescriptor"  type="irdbb:NonDicomFileSetDescriptor" />
-    <xs:complexType name="NonDicomFileSetDescriptor">
-        <xs:sequence>
-            <xs:element name="ReferencedClinicalResearchStudy" type="irdbb:ReferencedClinicalResearchStudy" />
-            <xs:element name="PatientId" type="xs:string"/>
-            
-            <!--xmlRootElements-->
-            <xs:element name="CalibrationWorkflow" type="irdbb:CalibrationWorkflow" minOccurs="0" />
-            <xs:element name="WP2subtask212WorkflowData" type="irdbb:WP2subtask212WorkflowData" minOccurs="0" />
-            <xs:element name="ThreeDimDosimetrySlide1workflow" type="irdbb:ThreeDimDosimetrySlide1workflow" minOccurs="0" />
-            <xs:element name="TwoDimDosimetryworkflow" type="irdbb:TwoDimDosimetryworkflow" minOccurs="0" />
-            <xs:element name="HybridDosimetryworkflow" type="irdbb:HybridDosimetryworkflow" minOccurs="0" />
-            <xs:element name="ThreeDimDosimetrySlide2workflow" type="irdbb:ThreeDimDosimetrySlide2workflow" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ReferencedClinicalResearchStudy">
-        <xs:sequence>
-            <xs:element name="ClinicalResearchStudyID" type="xs:string"/>
-            <xs:element name="ClinicalResearchStudyTitle" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <!--xmlElements-->
-    <xs:complexType name="CalibrationWorkflow">
-        <xs:sequence>
-            <xs:element name="SPECTCTCalibrationWorkflow" type="irdbb:SPECTCTCalibrationWorkflow"/>
-            <xs:element name="PlanarCalibrationWorkflow" type="irdbb:PlanarCalibrationWorkflow"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="WP2subtask212WorkflowData">
-        <xs:sequence>
-            <xs:element name="CTSegmentation" type="irdbb:CTSegmentation" minOccurs="0" />
-            <xs:element name="SimpleCTMonteCarloDosimetry" type="irdbb:SimpleCTMonteCarloDosimetry" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ThreeDimDosimetrySlide1workflow">
-        <xs:sequence>
-            <xs:element name="SPECTDataAcquisitionAndReconstruction" type="irdbb:SPECTDataAcquisitionAndReconstruction"/>
-            <xs:element name="RegistrationVOISegmentationAndPropagationContainer" type="irdbb:RegistrationVOISegmentationAndPropagationContainer"/>
-            <xs:element name="VOIActivityDeterminationContainer" type="irdbb:VOIActivityDeterminationContainer"/>
-            <xs:element name="TimeActivityCurveFitIn3DDosimetryContainer" type="irdbb:TimeActivityCurveFitIn3DDosimetryContainer"/>
-            <xs:element name="AbsorbedDoseCalculationInVOI" type="irdbb:AbsorbedDoseCalculationInVOI"/>
-            <xs:element name="RadioBiologicalCalculationIn3DSlide1Dosimetry" type="irdbb:RadioBiologicalCalculationIn3DSlide1Dosimetry" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TwoDimDosimetryworkflow">
-        <xs:sequence>
-            <xs:element name="PlanarDataAcquisitionAndProcessingContainer" type="irdbb:PlanarDataAcquisitionAndProcessingContainer"/>
-            <xs:element name="TwoDimDosimetryViaAbsorbedDoseRateCalculation" type="irdbb:TwoDimDosimetryViaAbsorbedDoseRateCalculation" minOccurs="0" />
-            <xs:element name="TwoDimDosimetryViaTimeActivityCurveFit" type="irdbb:TwoDimDosimetryViaTimeActivityCurveFit" minOccurs="0" />
-            <xs:element name="RadioBiologicalCalculation" type="irdbb:RadioBiologicalCalculation" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="HybridDosimetryworkflow">
-        <xs:sequence>
-            <xs:element name="PlanarDataAcquisitionAndProcessing" type="irdbb:PlanarDataAcquisitionAndProcessing" maxOccurs="unbounded" />
-            <xs:element name="SPECTDataAcquisitionAndProcessing" type="irdbb:SPECTDataAcquisitionAndProcessing"/>
-            <xs:element name="HybridDosimetryViaAbsorbedDoseRateCalculation" type="irdbb:HybridDosimetryViaAbsorbedDoseRateCalculation" minOccurs="0" />
-            <xs:element name="HybridDosimetryViaTimeActivityCurveFit" type="irdbb:HybridDosimetryViaTimeActivityCurveFit" minOccurs="0" />
-            <xs:element name="RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry" type="irdbb:RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ThreeDimDosimetrySlide2workflow">
-        <xs:sequence>
-            <xs:element name="SPECTDataAcquisitionAndReconstruction" type="irdbb:SPECTDataAcquisitionAndReconstruction"/>
-            <xs:element name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculationContainer" type="irdbb:VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculationContainer"/>
-            <xs:element name="DoseRateCurveFitVOITimeIntegrationContainer" type="irdbb:DoseRateCurveFitVOITimeIntegrationContainer"/>
-            <xs:element name="RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry" type="irdbb:RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry" minOccurs="0" />
-            <xs:element name="RegistrationVOISegmentationAndPropagationContainer" type="irdbb:RegistrationVOISegmentationAndPropagationContainer" minOccurs="0" />
-            <xs:element name="AbsorbedDoseCalculationInVOI" type="irdbb:AbsorbedDoseCalculationInVOI" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <!--xmlTypes-->
-    <xs:complexType name="SPECTCTCalibrationWorkflow">
-        <xs:sequence>
-            <xs:element name="CTNumberCalibrationWorkfow" type="irdbb:CTNumberCalibrationWorkfow" minOccurs="0" />
-            <xs:element name="SPECTAcqCTAcqAndReconstructionInCalibration" type="irdbb:SPECTAcqCTAcqAndReconstructionInCalibration"/>
-            <xs:element name="SPECTReconstructionInCalibration" type="irdbb:SPECTReconstructionInCalibration"/>
-            <xs:element name="CTSegmentationInCalibration" type="irdbb:CTSegmentationInCalibration"/>
-            <xs:element name="SPECTSensitivityCalculation" type="irdbb:SPECTSensitivityCalculation"/>
-            <xs:element name="SPECTRecoveryCoefficientCurveCalculation" type="irdbb:SPECTRecoveryCoefficientCurveCalculation" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarCalibrationWorkflow">
-        <xs:sequence>
-            <xs:element name="PlanarAcquisition" type="irdbb:PlanarAcquisition"/>
-            <xs:element name="PlanarImageCorrections" type="irdbb:PlanarImageCorrections"/>
-            <xs:element name="PlanarImageSegmentation" type="irdbb:PlanarImageSegmentation"/>
-            <xs:element name="PlanarSensitivityCalculation" type="irdbb:PlanarSensitivityCalculation"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CTNumberCalibrationWorkfow">
-        <xs:sequence>
-            <xs:element name="CTAcqForCTNumberCalibrationCurve" type="irdbb:CTAcqForCTNumberCalibrationCurve"/>
-            <xs:element name="CalculationOfCTNumberCalibrationCurve" type="irdbb:CalculationOfCTNumberCalibrationCurve"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CTAcqForCTNumberCalibrationCurve">
-        <xs:sequence>
-            <xs:element name="DensityPhantomUsed" type="irdbb:DensityPhantom"/>
-            <xs:element name="CTReconProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CalculationOfCTNumberCalibrationCurve">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CTNumberCalibrationCurveProduced" type="irdbb:CTNumberCalibrationCurve"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTAcqCTAcqAndReconstructionInCalibration">
-        <xs:sequence>
-            <xs:element name="PhantomUsed" type="irdbb:NMPhantom"/>
-            <xs:element name="NMTomoProduced" type="irdbb:DICOMData"/>
-            <xs:element name="CTReconProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTReconstructionInCalibration">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="NMTomoUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="ReconstructionMethodAndCorrectionsUsed" type="xs:string"/>
-            <xs:element name="CTNumberCalibrationCurveUsed" type="irdbb:CTNumberCalibrationCurve" minOccurs="0" />
-            <xs:element name="CTNumberCalibrationCurveReference" type="irdbb:CTNumberCalibrationCurveReference" minOccurs="0" />
-            <xs:element name="NMTomoReconProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CTSegmentationInCalibration">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="SegmentationMethodMethodUsed" type="xs:string"/>
-            <xs:element name="VOIInCTProduced" type="irdbb:VOIInCTcontainer"/>
-            <xs:element name="VOIInSPECTProduced" type="irdbb:VOIInSPECTcontainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOIInSPECTcontainer">
-        <xs:sequence>
-            <xs:element name="VOIInSPECT" type="irdbb:VOIInSPECT" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOIInCTcontainer">
-        <xs:sequence>
-            <xs:element name="VOIInCT" type="irdbb:VOIInCT" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTSensitivityCalculation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIInCTIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="VOIInSPECTIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="SPECTCalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOIIdentifierContainer">
-        <xs:sequence>
-            <xs:element name="VOIIdentifierUsed" type="xs:integer" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTRecoveryCoefficientCurveCalculation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIInCTIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="VOIInSPECTIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="PhantomIdentifierUsed" type="xs:string"/>
-            <xs:element name="SPECTCalibrationCoefficientReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
-            <xs:element name="SPECTRecoveryCoefficientCurveInCalibrationProduced" type="irdbb:SPECTRecoveryCoefficientCurveInCalibration"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarAcquisition">
-        <xs:sequence>
-            <xs:element name="PhantomUsed" type="irdbb:NMPhantom"/>
-            <xs:element name="NMStaticProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarImageCorrections">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="NMStaticUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CorrectionsUsed" type="xs:string"/>
-            <xs:element name="NMStaticCorrectedProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarImageSegmentation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMData"/>
-            <xs:element name="SegmentationMethodUsed" type="xs:string"/>
-            <xs:element name="ROIInSPECTProduced" type="irdbb:ROIInSPECT" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarSensitivityCalculation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierContainer"/>
-            <xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMData"/>
-            <xs:element name="PlanarCalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ROIIdentifierContainer">
-        <xs:sequence>
-            <xs:element name="ROIIdentifier" type="xs:string" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="DensityPhantom">
-        <xs:sequence>
-            <xs:element name="DensityPhantomName" type="xs:string"/>
-            <xs:element name="DensityPhantomIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CTNumberCalibrationCurveReference">
-        <xs:sequence>
-            <xs:element name="ReferenceCalibrationDate" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CTNumberCalibrationCurve">
-        <xs:sequence>
-            <xs:element name="ElementsOfCTNumberCalibrationCurve" type="irdbb:ElementsOfCTNumberCalibrationCurve"/>
-            <xs:element name="ReferenceCalibrationDate" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ElementsOfCTNumberCalibrationCurve">
-        <xs:sequence>
-            <xs:element name="ElementOfCTNumberCalibrationCurve" type="irdbb:ElementOfCTNumberCalibrationCurve" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="RealDensityOfMaterialUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="hounsfield"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="ElementOfCTNumberCalibrationCurve">
-        <xs:sequence>
-            <xs:element name="HounsfieldMeasuredValue" type="xs:integer"/>
-            <xs:element name="RealDensityOfMaterialValue" type="xs:float"/>
-            <xs:element name="RealDensityOfMaterialUnit" type="irdbb:RealDensityOfMaterialUnit" />
-            <xs:element name="MaterialIdentifier" type="xs:string" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="Isotope">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="radium223"/>
-            <xs:enumeration value="iodine131"/>
-            <xs:enumeration value="lutetium177"/>
-            <xs:enumeration value="yttrium90"/>
-            <xs:enumeration value="radium223"/>
-            <xs:enumeration value="rhenium188"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="NMRelevantCalibrationReference">
-        <xs:sequence>
-            <xs:element name="ReferenceCalibrationDate" type="xs:string"/>
-            <xs:element name="Isotope" type="irdbb:Isotope" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="NMPhantom">
-        <xs:sequence>
-            <xs:element name="NMPhantomName" type="xs:string"/>
-            <xs:element name="NMPhantomIdentifier" type="xs:string"/>
-            <xs:element name="HotInsertContainer" type="irdbb:HotInsertContainer"/>
-            <xs:element name="ColdInsertContainer" type="irdbb:ColdInsertContainer"/>
-            <xs:element name="Tank" type="irdbb:Tank"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="HotInsertContainer">
-        <xs:sequence>
-            <xs:element name="HotInsert" type="irdbb:HotInsert" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ColdInsertContainer">
-        <xs:sequence>
-            <xs:element name="ColdInsert" type="irdbb:ColdInsert" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="VolumeUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="milliliter"/>
-            <xs:enumeration value="cubic centimeter"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="PreAdminActivity">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="becquerel"/>
-            <xs:enumeration value="kilobecquerel"/>
-            <xs:enumeration value="megabecquerel"/>
-            <xs:enumeration value="curie"/>
-            <xs:enumeration value="millicurie"/>
-            <xs:enumeration value="microcurie"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="PostAdminActivity">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="becquerel"/>
-            <xs:enumeration value="kilobecquerel"/>
-            <xs:enumeration value="megabecquerel"/>
-            <xs:enumeration value="curie"/>
-            <xs:enumeration value="millicurie"/>
-            <xs:enumeration value="microcurie"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="HotInsert">
-        <xs:sequence>
-            <xs:element name="VolumeValue" type="xs:float"/>
-            <xs:element name="VolumeUnit" type="irdbb:VolumeUnit" />
-            <xs:element name="PreAdminActivityValue" type="xs:float"/>
-            <xs:element name="PreAdminActivity" type="irdbb:PreAdminActivity" />
-            <xs:element name="PreAdminActivityTimestamp" type="xs:string"/>
-            <xs:element name="PostAdminActivityValue" type="xs:float"/>
-            <xs:element name="PostAdminActivity" type="irdbb:PostAdminActivity" />
-            <xs:element name="PostAdminActivityTimestamp" type="xs:string"/>
-            <xs:element name="HotInsertIdentifier" type="xs:string"/>
-            <xs:element name="Isotope" type="irdbb:Isotope" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ColdInsert">
-        <xs:sequence>
-            <xs:element name="VolumeValue" type="xs:float"/>
-            <xs:element name="VolumeUnit" type="irdbb:VolumeUnit" />
-            <xs:element name="ColdInsertIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="PreAdminBackgroundActivity">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="becquerel"/>
-            <xs:enumeration value="kilobecquerel"/>
-            <xs:enumeration value="megabecquerel"/>
-            <xs:enumeration value="curie"/>
-            <xs:enumeration value="millicurie"/>
-            <xs:enumeration value="microcurie"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="PostAdminBackgroundActivity">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="becquerel"/>
-            <xs:enumeration value="kilobecquerel"/>
-            <xs:enumeration value="megabecquerel"/>
-            <xs:enumeration value="curie"/>
-            <xs:enumeration value="millicurie"/>
-            <xs:enumeration value="microcurie"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="Tank">
-        <xs:sequence>
-            <xs:element name="VolumeValue" type="xs:float"/>
-            <xs:element name="VolumeUnit" type="irdbb:VolumeUnit" />
-            <xs:element name="PreAdminBackgroundActivityValue" type="xs:float"/>
-            <xs:element name="PreAdminBackgroundActivity" type="irdbb:PreAdminBackgroundActivity" />
-            <xs:element name="PreAdminBackgroundActivityTimestamp" type="xs:string"/>
-            <xs:element name="PostAdminBackgroundActivityValue" type="xs:float"/>
-            <xs:element name="PostAdminBackgroundActivity" type="irdbb:PostAdminBackgroundActivity" />
-            <xs:element name="PostAdminBackgroundActivityTimestamp" type="xs:string"/>
-            <xs:element name="TankIdentifier" type="xs:string"/>
-            <xs:element name="Isotope" type="irdbb:Isotope" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ProcessExecutionContext">
-        <xs:sequence>
-            <xs:element name="DateTimeProcessStarted" type="xs:string"/>
-            <xs:element name="PerformingInstitution" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="VOIVolumeUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="milliliter"/>
-            <xs:enumeration value="cubic centimeter"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="VOIInCT">
-        <xs:sequence>
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-            <xs:element name="VOIVolumeValue" type="xs:float"/>
-            <xs:element name="VOIVolumeUnit" type="irdbb:VOIVolumeUnit" />
-            <xs:element name="PhantomPartIdentifier" type="xs:string"/>
-            <xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
-            <xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="CountsInVOIUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="counts"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="VOIInSPECT">
-        <xs:sequence>
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-            <xs:element name="CountsInVOIValue" type="xs:float"/>
-            <xs:element name="CountsInVOIUnit" type="irdbb:CountsInVOIUnit" />
-            <xs:element name="PhantomPartIdentifier" type="xs:string"/>
-            <xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
-            <xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="CountsInROIUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="counts"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="ROIInSPECT">
-        <xs:sequence>
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-            <xs:element name="CountsInROIValue" type="xs:float"/>
-            <xs:element name="CountsInROIUnit" type="irdbb:CountsInROIUnit" />
-            <xs:element name="PhantomPartIdentifier" type="xs:string"/>
-            <xs:element name="DICOMROIContainer" type="irdbb:DICOMData" minOccurs="0" />
-            <xs:element name="NonDICOMROIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="CalibrationCoefficientUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="counts per second per megabecquerel"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="CalibrationCoefficient">
-        <xs:sequence>
-            <xs:element name="CalibrationCoefficientValue" type="xs:float"/>
-            <xs:element name="CalibrationCoefficientUnit" type="irdbb:CalibrationCoefficientUnit" />
-            <xs:element name="ReferenceCalibrationDate" type="xs:string"/>
-            <xs:element name="Isotope" type="irdbb:Isotope" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTRecoveryCoefficientCurveInCalibration">
-        <xs:sequence>
-            <xs:element name="ElementsOfSPECTRecoveryCoefficientCurve" type="irdbb:ElementOfSPECTRecoveryCoefficientCurveContainer"/>
-            <xs:element name="ReferenceCalibrationDate" type="xs:string"/>
-            <xs:element name="Isotope" type="irdbb:Isotope" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ElementOfSPECTRecoveryCoefficientCurveContainer">
-        <xs:sequence>
-            <xs:element name="ElementOfSPECTRecoveryCoefficientCurve" type="irdbb:ElementOfSPECTRecoveryCoefficientCurve" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="HotInsertVolumeUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="milliliter"/>
-            <xs:enumeration value="cubic centimeter"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="ElementOfSPECTRecoveryCoefficientCurve">
-        <xs:sequence>
-            <xs:element name="RatioMeasuredActivityToTrueActivity" type="xs:float"/>
-            <xs:element name="HotInsertVolumeValue" type="xs:float"/>
-            <xs:element name="HotInsertVolumeUnit" type="irdbb:HotInsertVolumeUnit" />
-            <xs:element name="HotInsertIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="DICOMData">
-        <xs:sequence>
-            <xs:element name="DICOMStudyUID" type="xs:string"/>
-            <xs:element name="DICOMSeriesUID" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="NonDICOMDataClass">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="VOI"/>
-            <xs:enumeration value="VOI superimposed on images"/>
-            <xs:enumeration value="3D absorbed dose map"/>
-            <xs:enumeration value="segmentation"/>
-            <xs:enumeration value="voxel activity map"/>
-            <xs:enumeration value="3D Energy Deposition Rate Matrix"/>
-            <xs:enumeration value="NM Tomo Reconstruction"/>
-            <xs:enumeration value="CT Reconstruction"/>
-            <xs:enumeration value="Registration Matrix"/>
-            <xs:enumeration value="Density Image"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="NonDICOMDataFormat">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="zipped imageJ contours format"/>
-            <xs:enumeration value="TIFF format embedding imageJ contours"/>
-            <xs:enumeration value="zipped pseudo DICOM ImpactMC"/>
-            <xs:enumeration value="GIF format embedding imageJ contours"/>
-            <xs:enumeration value="NRRD format"/>
-            <xs:enumeration value="STL format"/>
-            <xs:enumeration value="HDF format"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="NonDICOMData">
-        <xs:sequence>
-            <xs:element name="NonDICOMDataClass" type="irdbb:NonDICOMDataClass" />
-            <xs:element name="NonDICOMDataFormat" type="irdbb:NonDICOMDataFormat" />
-            <xs:element name="NonDICOMDataFileName" type="xs:string"/>
-            <xs:element name="FHIRIdentifier" type="xs:string" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SimpleCTMonteCarloDosimetry">
-        <xs:sequence>
-            <xs:element name="CalculationOfVoxelMap" type="irdbb:CalculationOfVoxelMap"/>
-            <xs:element name="CalculationOfAbsorbedDosesInVOIs" type="irdbb:CalculationOfAbsorbedDosesInVOIs"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CTSegmentation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="DICOMImageUsed" type="irdbb:DICOMData"/>
-            <xs:element name="SegmentationMethodUsed" type="irdbb:SegmentationMethodType" minOccurs="0" />
-            <xs:element name="VOIDescriptorProduced" type="irdbb:VOIList"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOIList">
-        <xs:sequence>
-            <xs:element name="VOI" type="irdbb:VOI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CalculationOfVoxelMap">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="AttenuatorUsed" type="irdbb:AttenuatorTypeContainer" minOccurs="0" />
-            <xs:element name="MonteCarloMethodUsed" type="irdbb:MonteCarloMethodType" minOccurs="0" />
-            <xs:element name="DICOMCTImageDataUsed" type="irdbb:DICOMData"/>
-            <xs:element name="VoxelBasedDistributionOfAbsorbedDoseProduced" type="irdbb:VoxelBasedDistributionOfAbsorbedDoseType" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AttenuatorTypeContainer">
-        <xs:sequence>
-            <xs:element name="AttenuatorType" type="irdbb:AttenuatorType" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CalculationOfAbsorbedDosesInVOIs">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VoxelBasedDistributionOfAbsorbedDoseIdentifierUsed" type="xs:string"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
-            <xs:element name="AbsorbedDosePerVOIProduced" type="irdbb:AbsorbedDosePerVOITypeContainer" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDosePerVOITypeContainer">
-        <xs:sequence>
-            <xs:element name="AbsorbedDosePerVOIType" type="irdbb:AbsorbedDosePerVOIType" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SegmentationMethodType">
-        <xs:sequence>
-            <xs:element name="SegmentationMethod" type="xs:string"/>
-            <xs:element name="SoftwareNamesUsed" type="irdbb:SoftwareNameContainer" minOccurs="0" />
-            <xs:element name="SegmentationMethodSetting" type="irdbb:MethodSettingTypeContainer" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SoftwareNameContainer">
-        <xs:sequence>
-            <xs:element name="SoftwareName" type="xs:string" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="MethodSettingTypeContainer">
-        <xs:sequence>
-            <xs:element name="MethodSettingType" type="irdbb:MethodSettingType" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="MonteCarloMethodType">
-        <xs:sequence>
-            <xs:element name="MonteCarloMethod" type="xs:string"/>
-            <xs:element name="SoftwareNames" type="irdbb:SoftwareNameContainer" minOccurs="0" />
-            <xs:element name="MonteCarloMethodSetting" type="irdbb:MethodSettingTypeContainer" minOccurs="0" />
-            <xs:element name="SimulatedImagingDevices" type="irdbb:SimulatedImagingDevicesContainer" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="MethodSettingType">
-        <xs:sequence>
-            <xs:element name="MethodSetting" type="xs:string" minOccurs="0" />
-            <xs:element name="MethodSettingValue" type="xs:string" minOccurs="0" />
-            <xs:element name="MethodSettingUnit" type="xs:string" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SimulatedImagingDevicesContainer">
-        <xs:sequence>
-            <xs:element name="SimulatedImagingDevice" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AttenuatorType">
-        <xs:sequence>
-            <xs:element name="AttenuatorCategory" type="xs:string"/>
-            <xs:element name="EquivalentAttenuatorDescription" type="xs:string"/>
-            <xs:element name="EquivalentAttenuatorMaterial" type="xs:string"/>
-            <xs:element name="EquivalentAttenuatorThicknessValue" type="xs:string"/>
-            <xs:element name="EquivalentAttenuatorThicknessUnit" type="xs:string"/>
-            <xs:element name="EquivalentAttenuatorModel" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="AbsorbedDoseCategory">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="mean absorbed dose normalized to CTDI free in air normalized to tube load"/>
-            <xs:enumeration value="mean absorbed dose normalized to CTDI vol normalized to tube load"/>
-            <xs:enumeration value="mean absorbed radiation dose"/>
-            <xs:enumeration value="maximum absorbed radiation dose"/>
-            <xs:enumeration value="minimum absorbed radiation dose"/>
-            <xs:enumeration value="median absorbed radiation dose"/>
-            <xs:enumeration value="mode absorbed radiation dose"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="StatisticalSubCategory">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="mean"/>
-            <xs:enumeration value="maximum"/>
-            <xs:enumeration value="minimum"/>
-            <xs:enumeration value="median"/>
-            <xs:enumeration value="mode"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="AbsorbedDoseUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="milligray per (milligray per (100 milliampere second))"/>
-            <xs:enumeration value="milligray per (100 milliampere second)"/>
-            <xs:enumeration value="milligray"/>
-            <xs:enumeration value="milligray per (milligray per (1 milliampere second))"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="AbsorbedDosePerVOIType">
-        <xs:sequence>
-            <xs:element name="AbsorbedDoseCategory" type="irdbb:AbsorbedDoseCategory" />
-            <xs:element name="StatisticalSubCategory" type="irdbb:StatisticalSubCategory" minOccurs="0" />
-            <xs:element name="AbsorbedDoseValue" type="xs:string"/>
-            <xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="VoxelBasedDistributionOfAbsorbedDoseCategory">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="absorbed dose normalized to CTDI free in air normalized to tube load"/>
-            <xs:enumeration value="absorbed dose normalized to CTDI vol normalized to tube load"/>
-            <xs:enumeration value="absorbed dose"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="VoxelBasedDistributionOfAbsorbedDoseType">
-        <xs:sequence>
-            <xs:element name="VoxelBasedDistributionOfAbsorbedDoseIdentifier" type="xs:string"/>
-            <xs:element name="VoxelBasedDistributionOfAbsorbedDoseCategory" type="irdbb:VoxelBasedDistributionOfAbsorbedDoseCategory" />
-            <xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
-            <xs:element name="NonDICOMVoxelBasedAbsorbedDoseDistribution" type="irdbb:NonDICOMData" minOccurs="0" />
-            <xs:element name="DICOMVoxelBasedAbsorbedDoseDistribution" type="irdbb:DICOMData" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="OrganOrTissue">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="bone"/>
-            <xs:enumeration value="bone surfaces"/>
-            <xs:enumeration value="red bone marrow"/>
-            <xs:enumeration value="bladder"/>
-            <xs:enumeration value="breasts"/>
-            <xs:enumeration value="left male breast"/>
-            <xs:enumeration value="left female breast"/>
-            <xs:enumeration value="right male breast"/>
-            <xs:enumeration value="right female breast"/>
-            <xs:enumeration value="colon"/>
-            <xs:enumeration value="testes"/>
-            <xs:enumeration value="left testis"/>
-            <xs:enumeration value="right testis"/>
-            <xs:enumeration value="ovaries"/>
-            <xs:enumeration value="left ovary"/>
-            <xs:enumeration value="right ovary"/>
-            <xs:enumeration value="liver"/>
-            <xs:enumeration value="lungs"/>
-            <xs:enumeration value="left lung"/>
-            <xs:enumeration value="right lung"/>
-            <xs:enumeration value="esophagus"/>
-            <xs:enumeration value="skin"/>
-            <xs:enumeration value="stomach"/>
-            <xs:enumeration value="thyroid"/>
-            <xs:enumeration value="brain"/>
-            <xs:enumeration value="salivary glands"/>
-            <xs:enumeration value="parotid glands"/>
-            <xs:enumeration value="left parotid gland"/>
-            <xs:enumeration value="right parotid gland"/>
-            <xs:enumeration value="submandibular glands"/>
-            <xs:enumeration value="left submandibular gland"/>
-            <xs:enumeration value="right submandibular gland"/>
-            <xs:enumeration value="adrenals"/>
-            <xs:enumeration value="extrathoracic region"/>
-            <xs:enumeration value="gallbladder"/>
-            <xs:enumeration value="heart"/>
-            <xs:enumeration value="kidneys"/>
-            <xs:enumeration value="left kidney"/>
-            <xs:enumeration value="right kidney"/>
-            <xs:enumeration value="lymphatic nodes"/>
-            <xs:enumeration value="muscle"/>
-            <xs:enumeration value="oral mucosa"/>
-            <xs:enumeration value="pancreas"/>
-            <xs:enumeration value="prostate"/>
-            <xs:enumeration value="small intestine"/>
-            <xs:enumeration value="spleen"/>
-            <xs:enumeration value="thymus"/>
-            <xs:enumeration value="uterus"/>
-            <xs:enumeration value="air"/>
-            <xs:enumeration value="body surface"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="VOI">
-        <xs:sequence>
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-            <xs:element name="OrganOrTissue" type="irdbb:OrganOrTissue" />
-            <xs:element name="DICOMDataContainer" type="irdbb:DICOMDataContainer" minOccurs="0" />
-            <xs:element name="NonDICOMDataContainer" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
-            <xs:element name="TimePointIdentifier" type="xs:string" minOccurs="0" />
-            <xs:element name="OrganMass" type="irdbb:OrganMass" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="OrganMassUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gram"/>
-            <xs:enumeration value="kilogram"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="OrganMass">
-        <xs:sequence>
-            <xs:element name="OrganMassValue" type="xs:float"/>
-            <xs:element name="OrganMassUnit" type="irdbb:OrganMassUnit" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="DICOMDataContainer">
-        <xs:sequence>
-            <xs:element name="DICOMData" type="irdbb:DICOMData" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="NonDICOMDataContainer">
-        <xs:sequence>
-            <xs:element name="NonDICOMData" type="irdbb:NonDICOMData" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeActivityCurveFitIn3DDosimetryContainer">
-        <xs:sequence>
-            <xs:element name="TimeActivityCurveFitIn3DDosimetry" type="irdbb:TimeActivityCurveFitIn3DDosimetry" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOIActivityDeterminationContainer">
-        <xs:sequence>
-            <xs:element name="VOIActivityDetermination" type="irdbb:VOIActivityDetermination" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="RegistrationVOISegmentationAndPropagationContainer">
-        <xs:sequence>
-            <xs:element name="RegistrationVOISegmentationAndPropagation" type="irdbb:RegistrationVOISegmentationAndPropagation" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTDataAcquisitionAndReconstruction">
-        <xs:sequence>
-            <xs:element name="SPECTAcqCTAcqAndReconstructionContainer" type="irdbb:SPECTAcqCTAcqAndReconstructionContainer"/>
-            <xs:element name="SPECTReconstructionContainer" type="irdbb:SPECTReconstructionContainer" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTAcqCTAcqAndReconstructionContainer">
-        <xs:sequence>
-            <xs:element name="SPECTAcqCTAcqAndReconstruction" type="irdbb:SPECTAcqCTAcqAndReconstruction" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTReconstructionContainer">
-        <xs:sequence>
-            <xs:element name="SPECTReconstruction" type="irdbb:SPECTReconstruction" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTAcqCTAcqAndReconstruction">
-        <xs:sequence>
-            <xs:element name="TimePointDescription" type="irdbb:TimePointDescription"/>
-            <xs:element name="NMRelevantCalibrationReference" type="irdbb:NMRelevantCalibrationReference"/>
-            <xs:element name="CTRelevantCalibrationReference" type="irdbb:CTRelevantCalibrationReference"/>
-            <xs:element name="NMTomoProduced" type="irdbb:DICOMData"/>
-            <xs:element name="CTReconProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTReconstruction">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="NMTomoUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="ReconstructionMethodAndCorrectionsUsed" type="xs:string"/>
-            <xs:element name="CTNumberCalibrationCurveUsed" type="irdbb:CTNumberCalibrationCurve" minOccurs="0" />
-            <xs:element name="CTNumberCalibrationCurveReference" type="irdbb:CTNumberCalibrationCurveReference" minOccurs="0" />
-            <xs:element name="NMTomoReconProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="RegistrationVOISegmentationAndPropagation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="CountsPerVOIAtTimePointProducedContainer" type="irdbb:CountsPerVOIAtTimePointProducedContainer" minOccurs="0" />
-            <xs:element name="NMTomoReconUsed" type="irdbb:DICOMDataContainer"/>
-            <xs:element name="CTReconUsed" type="irdbb:DICOMDataContainer"/>
-            <xs:element name="ImageProcessingMethodMethodUsed" type="xs:string"/>
-            <xs:element name="Segmentation" type="irdbb:Segmentation"/>
-            <xs:element name="CTReconResampledOnCommonReferenceProduced" type="irdbb:DICOMDataContainer" minOccurs="0" />
-            <xs:element name="NMTomoReconResampledOnCommonReferenceProduced" type="irdbb:DICOMDataContainer" minOccurs="0" />
-            <xs:element name="NonDICOMCTReconResampledOnCommonReferenceProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
-            <xs:element name="NonDICOMNMTomoReconResampledOnCommonReferenceProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
-            <xs:element name="DensityImageProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
-            <xs:element name="RegistrationMatrixUsed" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="Segmentation">
-        <xs:sequence>
-            <xs:element name="SegmentationIdentifier" type="xs:string"/>
-            <xs:element name="VOIContainer" type="irdbb:VoiProducedContainer"/>
-            <xs:element name="DICOMDataContainer" type="irdbb:DICOMDataContainer" minOccurs="0" />
-            <xs:element name="NonDICOMDataContainer" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CountsPerVOIAtTimePointProducedContainer">
-        <xs:sequence>
-            <xs:element name="CountsPerVOIAtTimePointProduced" type="irdbb:CountsPerVOIAtTimePoint" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VoiProducedContainer">
-        <xs:sequence>
-            <xs:element name="VOIProduced" type="irdbb:VOI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOIActivityDetermination">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="SegmentationIdentifierUsed" type="xs:string"/>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="SPECTCalibrationFactorReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
-            <xs:element name="SPECTRecoveryCoefficientCurveReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
-            <xs:element name="DataActivityPerVOIAtTimePointContainer" type="irdbb:DataActivityPerVOIAtTimePointContainer" minOccurs="0" />
-            <xs:element name="VoxelActivityMapProduced" type="irdbb:NonDICOMDataContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="DataActivityPerVOIAtTimePointContainer">
-        <xs:sequence>
-            <xs:element name="DataActivityPerVOIAtTimePointProduced" type="irdbb:DataActivityPerVOIAtTimePoint" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeActivityCurveFitIn3DDosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIIdentifierUsed" type="xs:integer" minOccurs="0" />
-            <xs:element name="SegmentationIdentifier" type="xs:string" minOccurs="0" />
-            <xs:element name="TimePointIdentifierUsed" type="xs:string" minOccurs="0" />
-            <xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod" minOccurs="0" />
-            <xs:element name="TimeIntegratedActivityCoefficientPerVOIProduced" type="irdbb:TimeIntegratedActivityCoefficientPerVOI" minOccurs="0" />
-            <xs:element name="TimeIntegratedActivityPerVOIProduced" type="irdbb:TimeIntegratedActivityPerVOI"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDoseCalculationInVOI">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="SegmentationIdentifierUsed" type="xs:string" minOccurs="0" />
-            <xs:element name="AbsorbedDoseCalculationMethodUsed" type="xs:string"/>
-            <xs:element name="VoxelAbsorbedDoseMapProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
-            <xs:element name="AbsorbedDoseInVOIContainer" type="irdbb:AbsorbedDoseInVOIContainer" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDoseInVOIContainer">
-        <xs:sequence>
-            <xs:element name="AbsorbedDoseInVOIProduced" type="irdbb:AbsorbedDoseInVOI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="RadioBiologicalCalculationIn3DSlide1Dosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIIdentifierUsed" type="xs:integer"/>
-            <xs:element name="VoxelAbsorbedDoseMapIdentifierUsed" type="irdbb:VoxelAbsorbedDoseMapIdentifierUsed" minOccurs="0" />
-            <xs:element name="RadioBiologicalCalculationMethod" type="xs:string"/>
-            <xs:element name="RadioBiologicalCalculationParameters" type="xs:string"/>
-            <xs:element name="BiologicalEffectiveDose" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VoxelAbsorbedDoseMapIdentifierUsed">
-        <xs:sequence>
-            <xs:element name="VoxelAbsorbedDoseMapIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimePointDescription">
-        <xs:sequence>
-            <xs:element name="TimePointDescriptionElement" type="irdbb:TimePointDescriptionElement" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="TimePointCategory">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="168h plus or minus 24h post RAIT timepoint"/>
-            <xs:enumeration value="96h plus or minus 12h post RAIT timepoint"/>
-            <xs:enumeration value="72h plus or minus 12h post RAIT timepoint"/>
-            <xs:enumeration value="48h plus or minus 4h post RAIT timepoint"/>
-            <xs:enumeration value="24h plus or minus 4h post RAIT timepoint"/>
-            <xs:enumeration value="6h plus or minus 2h post RAIT timepoint"/>
-            <xs:enumeration value="additional timepoint"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="TimeUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="seconds"/>
-            <xs:enumeration value="minutes"/>
-            <xs:enumeration value="hours"/>
-            <xs:enumeration value="days"/>
-            <xs:enumeration value="months"/>
-            <xs:enumeration value="years"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="TimePointDescriptionElement">
-        <xs:sequence>
-            <xs:element name="TimePointCategory" type="irdbb:TimePointCategory" />
-            <xs:element name="TimePointIdentifier" type="xs:string"/>
-            <xs:element name="TimePointDistanceFromReferenceEventValue" type="xs:integer"/>
-            <xs:element name="TimeUnit" type="irdbb:TimeUnit" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CTRelevantCalibrationReference">
-        <xs:sequence>
-            <xs:element name="ReferenceCalibrationDate" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="CountsUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="counts"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="CountsPerVOIAtTimePoint">
-        <xs:sequence>
-            <xs:element name="CountsValue" type="xs:float"/>
-            <xs:element name="CountsUnit" type="irdbb:CountsUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-            <xs:element name="TimePointIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTRecoveryCoefficientCurve">
-        <xs:sequence>
-            <xs:element name="SPECTRecoveryCoefficientCurve" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="ActivityUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="becquerel"/>
-            <xs:enumeration value="kilobecquerel"/>
-            <xs:enumeration value="megabecquerel"/>
-            <xs:enumeration value="curie"/>
-            <xs:enumeration value="millicurie"/>
-            <xs:enumeration value="microcurie"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="DataActivityPerVOIAtTimePoint">
-        <xs:sequence>
-            <xs:element name="DataActivityValue" type="xs:float"/>
-            <xs:element name="ActivityUnit" type="irdbb:ActivityUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-            <xs:element name="TimePointIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AdministeredActivity">
-        <xs:sequence>
-            <xs:element name="AdministeredActivityValue" type="xs:float"/>
-            <xs:element name="ActivityUnit" type="irdbb:ActivityUnit" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="AbsorbedDoseInVOIUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gray"/>
-            <xs:enumeration value="milligray"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="AbsorbedDoseInVOI">
-        <xs:sequence>
-            <xs:element name="AbsorbedDoseInVOIValue" type="xs:float"/>
-            <xs:element name="AbsorbedDoseInVOIUnit" type="irdbb:AbsorbedDoseInVOIUnit" />
-            <xs:element name="AbsorbedDoseInVOIUncertainty" type="xs:float" minOccurs="0" />
-            <xs:element name="VOIIdentifierList" type="irdbb:VOIIdentifierContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeIntegratedActivityCoefficientPerVOI">
-        <xs:sequence>
-            <xs:element name="TimeIntegratedActivityCoefficientPerVOIValue" type="xs:float"/>
-            <xs:element name="TimeUnit" type="irdbb:TimeUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeIntegratedActivityPerVOIContainer">
-        <xs:sequence>
-            <xs:element name="TimeIntegratedActivityPerVOI" type="irdbb:TimeIntegratedActivityPerVOI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="TimeIntegratedActivityPerVOIUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="MegabecquerelXSecond"/>
-            <xs:enumeration value="MegabecquerelXHour"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="TimeIntegratedActivityPerVOI">
-        <xs:sequence>
-            <xs:element name="ResidenceTimePerVOIValue" type="xs:float"/>
-            <xs:element name="TimeIntegratedActivityPerVOIUnit" type="irdbb:TimeIntegratedActivityPerVOIUnit" />
-            <xs:element name="VOIIdentifierList" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="TimeUnit" type="irdbb:TimeUnit" />
-            <xs:element name="TimeIntegratedActivityPerVOIValue" type="xs:float"/>
-            <xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="IncorporationFunction">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="constant"/>
-            <xs:enumeration value="linear"/>
-            <xs:enumeration value="exponential"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:simpleType name="IntegrationAlgorithm">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="trapezoid"/>
-            <xs:enumeration value="mono_exponential"/>
-            <xs:enumeration value="bi_exponential"/>
-            <xs:enumeration value="tri_exponential"/>
-            <xs:enumeration value="x_exponential"/>
-            <xs:enumeration value="other"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="CurveFittingMethod">
-        <xs:sequence>
-            <xs:element name="IncorporationFunction" type="irdbb:IncorporationFunction" />
-            <xs:element name="IntegrationAlgorithm" type="irdbb:IntegrationAlgorithm" />
-            <xs:element name="FittingFunction" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarDataAcquisitionAndProcessingContainer">
-        <xs:sequence>
-            <xs:element name="PlanarDataAcquisitionAndProcessing" type="irdbb:PlanarDataAcquisitionAndProcessing" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarDataAcquisitionAndProcessing">
-        <xs:sequence>
-            <xs:element name="PlanarDataAcquisition" type="irdbb:PlanarDataAcquisition"/>
-            <xs:element name="PlanarDataCorrections" type="irdbb:PlanarDataCorrections"/>
-            <xs:element name="PlanarDataSegmentationWithoutRegistration" type="irdbb:PlanarDataSegmentationWithoutRegistration" minOccurs="0" />
-            <xs:element name="PlanarDataSegmentationWithRegistrationAndPropagation" type="irdbb:PlanarDataSegmentationWithRegistrationAndPropagation" minOccurs="0" />
-            <xs:element name="ROIPlanarActivityDetermination" type="irdbb:ROIPlanarActivityDetermination" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TwoDimDosimetryViaAbsorbedDoseRateCalculation">
-        <xs:sequence>
-            <xs:element name="AbsorbedDoseRateCalculationIn2DDosimetryContainer" type="irdbb:AbsorbedDoseRateCalculationIn2DDosimetryContainer"/>
-            <xs:element name="TimeAbsorbedDoseCurveFit" type="irdbb:TimeAbsorbedDoseCurveFit"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDoseRateCalculationIn2DDosimetryContainer">
-        <xs:sequence>
-            <xs:element name="AbsorbedDoseRateCalculationIn2DDosimetry" type="irdbb:AbsorbedDoseRateCalculationIn2DDosimetry" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TwoDimDosimetryViaTimeActivityCurveFit">
-        <xs:sequence>
-            <xs:element name="TimeActivityCurveFit" type="irdbb:TimeActivityCurveFit"/>
-            <xs:element name="AbsorbedDoseCalculationInROIIn2DDosimetry" type="irdbb:AbsorbedDoseCalculationInROIIn2DDosimetry"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarDataAcquisition">
-        <xs:sequence>
-            <xs:element name="TimePointDescription" type="irdbb:TimePointDescription"/>
-            <xs:element name="NMRelevantCalibrationReference" type="irdbb:NMRelevantCalibrationReference"/>
-            <xs:element name="NMStaticProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarDataCorrections">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="NMStaticUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CorrectionsUsed" type="xs:string"/>
-            <xs:element name="NMStaticCorrectedProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarDataSegmentationWithoutRegistration">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsedContainer" type="irdbb:TimePointIdentifierUsedContainer"/>
-            <xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMDataContainer"/>
-            <xs:element name="SegmentationMethodUsed" type="xs:string"/>
-            <xs:element name="CountsPerROIAtTimePointContainer" type="irdbb:CountsPerROIAtTimePointContainer"/>
-            <xs:element name="ROIProduced" type="irdbb:ROIcontainer" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ROIcontainer">
-        <xs:sequence>
-            <xs:element name="ROI" type="irdbb:ROI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CountsPerROIAtTimePointContainer">
-        <xs:sequence>
-            <xs:element name="CountsPerROIAtTimePointProduced" type="irdbb:CountsPerROIAtTimePoint" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimePointIdentifierUsedContainer">
-        <xs:sequence>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarDataSegmentationWithRegistrationAndPropagation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsedContainer" type="irdbb:TimePointIdentifierUsedContainer"/>
-            <xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMDataContainer"/>
-            <xs:element name="ROIIdentifierUsed" type="xs:string" minOccurs="0" />
-            <xs:element name="SegmentationMethodUsed" type="xs:string"/>
-            <xs:element name="CountsPerROIAtTimePointContainer" type="irdbb:CountsPerROIAtTimePointContainer"/>
-            <xs:element name="ROIProduced" type="irdbb:ROIcontainer"/>
-            <xs:element name="NMStaticCorrectedResampledOnCommonReferenceProduced" type="irdbb:DICOMDataContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ROIIdentifierUsedContainer">
-        <xs:sequence>
-            <xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ROIPlanarActivityDetermination">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsedContainer" type="irdbb:TimePointIdentifierUsedContainer"/>
-            <xs:element name="ROIIdentifierUsed" type="xs:string"/>
-            <xs:element name="PlanarCalibrationFactorReference" type="irdbb:NMRelevantCalibrationReference"/>
-            <xs:element name="DataActivityPerROIAtTimePointContainer" type="irdbb:DataActivityPerROIAtTimePointContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="DataActivityPerROIAtTimePointContainer">
-        <xs:sequence>
-            <xs:element name="DataActivityPerROIAtTimePointProduced" type="irdbb:DataActivityPerROIAtTimePoint" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDoseRateCalculationIn2DDosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsedContainer" type="irdbb:TimePointIdentifierUsedContainer"/>
-            <xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
-            <xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="OrganSValueUsed" type="xs:string"/>
-            <xs:element name="ReferenceOrganMassUsed" type="xs:string"/>
-            <xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassUsedContainer"/>
-            <xs:element name="MeanAbsorbedDoseRateInROIProduced" type="irdbb:MeanAbsorbedDoseRateInROIContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PatientOrganMassUsedContainer">
-        <xs:sequence>
-            <xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassIn2DDosimetry" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="MeanAbsorbedDoseRateInROIContainer">
-        <xs:sequence>
-            <xs:element name="MeanAbsorbedDoseRateInROIProduced" type="irdbb:MeanAbsorbedDoseRateInROI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeAbsorbedDoseCurveFit">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierUsedContainer"/>
-            <xs:element name="TimePointIdentifierUsedContainer" type="irdbb:TimePointIdentifierUsedContainer"/>
-            <xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
-            <xs:element name="MeanAbsorbedDoseInROIcontainer" type="irdbb:MeanAbsorbedDoseInROIcontainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="MeanAbsorbedDoseInROIcontainer">
-        <xs:sequence>
-            <xs:element name="MeanAbsorbedDoseInROIProduced" type="irdbb:MeanAbsorbedDoseInROI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeActivityCurveFit">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierUsedContainer"/>
-            <xs:element name="TimePointIdentifierUsedContainer" type="irdbb:TimePointIdentifierUsedContainer"/>
-            <xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
-            <xs:element name="TimeIntegratedActivityCoefficientPerROIcontainer" type="irdbb:TimeIntegratedActivityCoefficientPerROIcontainer"/>
-            <xs:element name="TimeIntegratedActivityPerROIcontainer" type="irdbb:TimeIntegratedActivityPerROIcontainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeIntegratedActivityCoefficientPerROIcontainer">
-        <xs:sequence>
-            <xs:element name="TimeIntegratedActivityCoefficientPerROIProduced" type="irdbb:TimeIntegratedActivityCoefficientPerROI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeIntegratedActivityPerROIcontainer">
-        <xs:sequence>
-            <xs:element name="TimeIntegratedActivityPerROIProduced" type="irdbb:TimeIntegratedActivityPerROI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDoseCalculationInROIIn2DDosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierUsedContainer"/>
-            <xs:element name="OrgansValueUsed" type="xs:string"/>
-            <xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassUsedContainer" minOccurs="0" />
-            <xs:element name="MeanAbsorbedDoseInROIProduced" type="irdbb:MeanAbsorbedDoseInROIcontainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="RadioBiologicalCalculation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierUsedContainer"/>
-            <xs:element name="VoxelAbsorbedDoseMapIdentifierUsedContainer" type="irdbb:VoxelAbsorbedDoseMapIdentifierUsedContainer"/>
-            <xs:element name="RadioBiologicalCalculationMethod" type="xs:string"/>
-            <xs:element name="RadioBiologicalCalculationParameters" type="xs:string"/>
-            <xs:element name="BiologicalEffectiveDose" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOIIdentifierUsedContainer">
-        <xs:sequence>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VoxelAbsorbedDoseMapIdentifierUsedContainer">
-        <xs:sequence>
-            <xs:element name="VoxelAbsorbedDoseMapIdentifierUsed" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CountsPerROIAtTimePoint">
-        <xs:sequence>
-            <xs:element name="CountsValue" type="xs:float"/>
-            <xs:element name="CountsUnit" type="irdbb:CountsUnit" />
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-            <xs:element name="TimePointIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ROI">
-        <xs:sequence>
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-            <xs:element name="OrganOrTissue" type="xs:string"/>
-            <xs:element name="DICOMROIContainer" type="irdbb:DICOMData" minOccurs="0" />
-            <xs:element name="NonDICOMROIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="PlanarCalibrationFactorUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="counts per second per megabecquerel"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="ActualPlanarCalibrationFactor">
-        <xs:sequence>
-            <xs:element name="PlanarCalibrationFactorValue" type="xs:float"/>
-            <xs:element name="PlanarCalibrationFactorUnit" type="irdbb:PlanarCalibrationFactorUnit" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PlanarCalibrationFactorReference">
-        <xs:sequence>
-            <xs:element name="PlanarCalibrationFactorDate" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="DataActivityPerROIAtTimePoint">
-        <xs:sequence>
-            <xs:element name="DataActivityValue" type="xs:float"/>
-            <xs:element name="ActivityUnit" type="irdbb:ActivityUnit" />
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-            <xs:element name="TimePointIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="PatientOrganMassUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gram"/>
-            <xs:enumeration value="kilogram"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="PatientOrganMassIn2DDosimetry">
-        <xs:sequence>
-            <xs:element name="PatientOrganMassValue" type="xs:float"/>
-            <xs:element name="PatientOrganMassUnit" type="irdbb:PatientOrganMassUnit" />
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="MeanAbsorbedDoseRateInROIUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gram"/>
-            <xs:enumeration value="kilogram"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="MeanAbsorbedDoseRateInROI">
-        <xs:sequence>
-            <xs:element name="MeanAbsorbedDoseRateInROIValue" type="xs:float"/>
-            <xs:element name="MeanAbsorbedDoseRateInROIUnit" type="irdbb:MeanAbsorbedDoseRateInROIUnit" />
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="MeanAbsorbedDoseInROIUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gray"/>
-            <xs:enumeration value="milligray"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="MeanAbsorbedDoseInROI">
-        <xs:sequence>
-            <xs:element name="MeanAbsorbedDoseInROIValue" type="xs:float"/>
-            <xs:element name="MeanAbsorbedDoseInROIUnit" type="irdbb:MeanAbsorbedDoseInROIUnit" />
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeIntegratedActivityCoefficientPerROI">
-        <xs:sequence>
-            <xs:element name="TimeIntegratedActivityCoefficientPerROIValue" type="xs:float"/>
-            <xs:element name="TimeUnit" type="irdbb:TimeUnit" />
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeIntegratedActivityPerROI">
-        <xs:sequence>
-            <xs:element name="TimeIntegratedActivityPerROIValue" type="xs:float"/>
-            <xs:element name="TimeUnit" type="irdbb:TimeUnit" />
-            <xs:element name="ROIIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SPECTDataAcquisitionAndProcessing">
-        <xs:sequence>
-            <xs:element name="SPECTAcqCTAcqAndReconstruction" type="irdbb:SPECTAcqCTAcqAndReconstruction" minOccurs="0" />
-            <xs:element name="SPECTReconstruction" type="irdbb:SPECTReconstruction" minOccurs="0" />
-            <xs:element name="RegistrationVOISegmentation" type="irdbb:RegistrationVOISegmentation"/>
-            <xs:element name="VOIActivityDetermination" type="irdbb:VOIActivityDetermination"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="HybridDosimetryViaAbsorbedDoseRateCalculation">
-        <xs:sequence>
-            <xs:element name="EnergyDepositionRateCalculationInHybridDosimetry" type="irdbb:EnergyDepositionRateCalculationInHybridDosimetry"/>
-            <xs:element name="SumAndScalingEnergyDepositionRate" type="irdbb:SumAndScalingEnergyDepositionRate"/>
-            <xs:element name="AbsorbedDoseRateCalculationInHybridDosimetry" type="irdbb:AbsorbedDoseRateCalculationInHybridDosimetry"/>
-            <xs:element name="TimeAbsorbedDoseRateCurveFit" type="irdbb:TimeAbsorbedDoseRateCurveFit"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="HybridDosimetryViaTimeActivityCurveFit">
-        <xs:sequence>
-            <xs:element name="ActivityScaling" type="irdbb:ActivityScaling"/>
-            <xs:element name="TimeActivityCurveFit" type="irdbb:TimeActivityCurveFit"/>
-            <xs:element name="AbsorbedDoseCalculationInROIInHybridDosimetry" type="irdbb:AbsorbedDoseCalculationInROIInHybridDosimetry"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="RegistrationVOISegmentation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="RegistrationAndSegmentationMethodMethodUsed" type="xs:string"/>
-            <xs:element name="CountsPerVOIAtTimePointProduced" type="irdbb:CountsPerVOIAtTimePointContainer"/>
-            <xs:element name="VOIInSPECTProduced" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="CTReconResampledOnSPECTProduced" type="irdbb:DICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="CountsPerVOIAtTimePointContainer">
-        <xs:sequence>
-            <xs:element name="CountsPerVOIAtTimePointProduced" type="irdbb:CountsPerVOIAtTimePoint" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="EnergyDepositionRateCalculationInHybridDosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="VoxelDataActivityAtTimePointIdentifier" type="xs:string"/>
-            <xs:element name="CTReconResampledOnSPECTUsed" type="irdbb:DICOMData"/>
-            <xs:element name="ThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="irdbb:NonDICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SumAndScalingEnergyDepositionRate">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="irdbb:TimePointIdentifierContainer"/>
-            <xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierContainer"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="VOIInSPECTIdentifierUsed" type="xs:string"/>
-            <xs:element name="EnergyDepositionRatePerVOIAtTimePointProduced" type="irdbb:EnergyDepositionRatePerVOIAtTimePointContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="EnergyDepositionRatePerVOIAtTimePointContainer">
-        <xs:sequence>
-            <xs:element name="EnergyDepositionRatePerVOIAtTimePoint" type="irdbb:EnergyDepositionRatePerVOIAtTimePoint" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimePointIdentifierContainer">
-        <xs:sequence>
-            <xs:element name="TimePointIdentifier" type="xs:string" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDoseRateCalculationInHybridDosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassInHybridDosimetryContainer" minOccurs="0" />
-            <xs:element name="MeanAbsorbedDoseRateInVOIProduced" type="irdbb:MeanAbsorbedDoseRateInVOIContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="MeanAbsorbedDoseRateInVOIContainer">
-        <xs:sequence>
-            <xs:element name="MeanAbsorbedDoseRateInVOI" type="irdbb:MeanAbsorbedDoseRateInVOI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PatientOrganMassInHybridDosimetryContainer">
-        <xs:sequence>
-            <xs:element name="PatientOrganMassInHybridDosimetry" type="irdbb:PatientOrganMassInHybridDosimetry" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="TimeAbsorbedDoseRateCurveFit">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="TimePointIdentifierUsed" type="irdbb:TimePointIdentifierContainer"/>
-            <xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
-            <xs:element name="MeanAbsorbedDoseInVOIProduced" type="irdbb:MeanAbsorbedDoseInVOIContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="MeanAbsorbedDoseInVOIContainer">
-        <xs:sequence>
-            <xs:element name="MeanAbsorbedDoseInVOI" type="irdbb:MeanAbsorbedDoseInVOI" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="ActivityScaling">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="irdbb:TimePointIdentifierContainer"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierContainer"/>
-            <xs:element name="DataActivityPerROIAtTimePoint" type="irdbb:DataActivityPerROIAtTimePointContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDoseCalculationInROIInHybridDosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierContainer"/>
-            <xs:element name="OrganSValueUsed" type="xs:string"/>
-            <xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassInHybridDosimetry" minOccurs="0" maxOccurs="unbounded" />
-            <xs:element name="MeanAbsorbedDoseInVOIProduced" type="irdbb:MeanAbsorbedDoseInVOIContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="RadioBiologicalCalculationMethod" type="xs:string"/>
-            <xs:element name="RadioBiologicalCalculationParameters" type="xs:string"/>
-            <xs:element name="BiologicalEffectiveDose" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="EnergyDepositionRateUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="joule per second"/>
-            <xs:enumeration value="megaelectronvolt per second"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="EnergyDepositionRatePerVOIAtTimePoint">
-        <xs:sequence>
-            <xs:element name="EnergyDepositionRateValue" type="xs:float"/>
-            <xs:element name="EnergyDepositionRateUnit" type="irdbb:EnergyDepositionRateUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-            <xs:element name="TimePointIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="PatientOrganMassInHybridDosimetry">
-        <xs:sequence>
-            <xs:element name="PatientOrganMassValue" type="xs:float"/>
-            <xs:element name="PatientOrganMassUnit" type="irdbb:PatientOrganMassUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="MeanAbsorbedDoseRateInVOIUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gray per second"/>
-            <xs:enumeration value="milligray per second"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="MeanAbsorbedDoseRateInVOI">
-        <xs:sequence>
-            <xs:element name="MeanAbsorbedDoseRateInVOIValue" type="xs:float"/>
-            <xs:element name="MeanAbsorbedDoseRateInVOIUnit" type="irdbb:MeanAbsorbedDoseRateInVOIUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="MeanAbsorbedDoseInVOIUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gray"/>
-            <xs:enumeration value="milligray"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="MeanAbsorbedDoseInVOI">
-        <xs:sequence>
-            <xs:element name="MeanAbsorbedDoseInVOIValue" type="xs:float"/>
-            <xs:element name="MeanAbsorbedDoseInVOIUnit" type="irdbb:MeanAbsorbedDoseInVOIUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="DoseRateCurveFitVOITimeIntegrationContainer">
-        <xs:sequence>
-            <xs:element name="DoseRateCurveFitVOITimeIntegration" type="irdbb:DoseRateCurveFitVOITimeIntegration" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculationContainer">
-        <xs:sequence>
-            <xs:element name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation" type="irdbb:VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation">
-        <xs:sequence>
-            <xs:element name="VOISegmentationVOIMassDetermination" type="irdbb:VOISegmentationVOIMassDetermination"/>
-            <xs:element name="VOIActivityDetermination" type="irdbb:VOIActivityDetermination" minOccurs="0" />
-            <xs:element name="EnergyDepositionRateCalculationIn3DDosimetry" type="irdbb:EnergyDepositionRateCalculationIn3DDosimetry"/>
-            <xs:element name="SumAndScalingAbsorbedDoseRateCalculationContainer" type="irdbb:SumAndScalingAbsorbedDoseRateCalculationContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="VOISegmentationVOIMassDetermination">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="VOISegmentationMethodUsed" type="xs:string"/>
-            <xs:element name="CountsPerVOIAtTimePointContainer" type="irdbb:CountsPerVOIAtTimePointContainer" minOccurs="0" />
-            <xs:element name="VOIProduced" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
-            <xs:element name="SegmentationProduced" type="irdbb:Segmentation" minOccurs="0" />
-            <xs:element name="CTReconResampledOnNMReferenceProduced" type="irdbb:DICOMDataContainer"/>
-            <xs:element name="MassPerVOIAtTimePointContainer" type="irdbb:MassPerVOIAtTimePointContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="MassPerVOIAtTimePointContainer">
-        <xs:sequence>
-            <xs:element name="MassPerVOIAtTimePointProduced" type="irdbb:MassPerVOIAtTimePoint" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="CalculationAlgorithmUsed">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="local energy deposition"/>
-            <xs:enumeration value="FFT convolution"/>
-            <xs:enumeration value="homogeneous matrix convolution"/>
-            <xs:enumeration value="heterogeneous matrix convolution"/>
-            <xs:enumeration value="Monte Carlo"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="EnergyDepositionRateCalculationIn3DDosimetry">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="VOIUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
-            <xs:element name="CTReconResampledOnNMReferenceUsed" type="irdbb:DICOMData"/>
-            <xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
-            <xs:element name="CalculationAlgorithmUsed" type="irdbb:CalculationAlgorithmUsed" />
-            <xs:element name="KernelLimitForConvolutionsUsed" type="irdbb:KernelLimitForConvolutions" minOccurs="0" />
-            <xs:element name="ThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="irdbb:NonDICOMData"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SumAndScalingAbsorbedDoseRateCalculationContainer">
-        <xs:sequence>
-            <xs:element name="SumAndScalingAbsorbedDoseRateCalculation" type="irdbb:SumAndScalingAbsorbedDoseRateCalculation" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="SumAndScalingAbsorbedDoseRateCalculation">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
-            <xs:element name="TimePointIdentifierUsed" type="xs:string"/>
-            <xs:element name="SegmentationUsed" type="xs:string" minOccurs="0" />
-            <xs:element name="ThreeDimEnergyDepositionRateMatrixAtTimePointUsed" type="irdbb:NonDICOMData"/>
-            <xs:element name="AbsorbedDoseRatePerVOIAtTimePointProduced" type="irdbb:AbsorbedDoseRatePerVOIAtTimePointContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="AbsorbedDoseRatePerVOIAtTimePointContainer">
-        <xs:sequence>
-            <xs:element name="AbsorbedDoseRatePerVOIAtTimePointProduced" type="irdbb:AbsorbedDoseRatePerVOIAtTimePoint" maxOccurs="unbounded" />
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:complexType name="DoseRateCurveFitVOITimeIntegration">
-        <xs:sequence>
-            <xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
-            <xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
-            <xs:element name="TimePointIdentifierUsed" type="irdbb:TimePointIdentifierUsedContainer"/>
-            <xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
-            <xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
-            <xs:element name="AbsorbedDoseInVOIProduced" type="irdbb:AbsorbedDoseInVOIContainer"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="MassUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gram"/>
-            <xs:enumeration value="kilogram"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="MassPerVOIAtTimePoint">
-        <xs:sequence>
-            <xs:element name="MassValue" type="xs:float"/>
-            <xs:element name="MassUnit" type="irdbb:MassUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-            <xs:element name="TimePointIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="AbsorbedDoseRateUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="gray per second"/>
-            <xs:enumeration value="milligray per second"/>
-            <xs:enumeration value="milligray per hour"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="AbsorbedDoseRatePerVOIAtTimePoint">
-        <xs:sequence>
-            <xs:element name="AbsorbedDoseRateValue" type="xs:float"/>
-            <xs:element name="AbsorbedDoseRateUnit" type="irdbb:AbsorbedDoseRateUnit" />
-            <xs:element name="VOIIdentifier" type="xs:integer"/>
-            <xs:element name="TimePointIdentifier" type="xs:string"/>
-        </xs:sequence>
-    </xs:complexType>
-    
-    <xs:simpleType name="KernelLimitForConvolutionsUnit">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="millimeter"/>
-            <xs:enumeration value="centimeter"/>
-        </xs:restriction>
-    </xs:simpleType>
-    
-    <xs:complexType name="KernelLimitForConvolutions">
-        <xs:sequence>
-            <xs:element name="KernelLimitForConvolutionsValue" type="xs:float"/>
-            <xs:element name="KernelLimitForConvolutionsUnit" type="irdbb:KernelLimitForConvolutionsUnit" />
-        </xs:sequence>
-    </xs:complexType>
-    
+targetNamespace="https://www.irdbb-medirad.com"
+elementFormDefault="qualified"
+attributeFormDefault="unqualified"
+xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+xmlns:irdbb="https://www.irdbb-medirad.com">
+	<xs:element name="NonDicomFileSetDescriptor"  type="irdbb:NonDicomFileSetDescriptor" />
+	<xs:complexType name="NonDicomFileSetDescriptor">
+		<xs:sequence>
+			<xs:element name="ReferencedClinicalResearchStudy" type="irdbb:ReferencedClinicalResearchStudy" />
+			<xs:element name="PatientId" type="xs:string"/>
+			<xs:element name="AcquisitionSettings" type="irdbb:AcquisitionSettings" />
+
+				<!--xmlRootElements-->
+				<xs:element name="CalibrationWorkflow" type="irdbb:CalibrationWorkflow" minOccurs="0" />
+				<xs:element name="WP2subtask212WorkflowData" type="irdbb:WP2subtask212WorkflowData" minOccurs="0" />
+				<xs:element name="ThreeDimDosimetrySlide1workflow" type="irdbb:ThreeDimDosimetrySlide1workflow" minOccurs="0" />
+				<xs:element name="TwoDimDosimetryworkflow" type="irdbb:TwoDimDosimetryworkflow" minOccurs="0" />
+				<xs:element name="HybridDosimetryworkflow" type="irdbb:HybridDosimetryworkflow" minOccurs="0" />
+				<xs:element name="ThreeDimDosimetrySlide2workflow" type="irdbb:ThreeDimDosimetrySlide2workflow" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+			<xs:complexType name="ReferencedClinicalResearchStudy">
+					<xs:sequence>
+						<xs:element name="ClinicalResearchStudyID" type="xs:string"/>
+						<xs:element name="ClinicalResearchStudyTitle" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+
+	<!--xmlElements-->
+			<xs:complexType name="CalibrationWorkflow">
+				<xs:sequence>
+					<xs:element name="SPECTCTCalibrationWorkflow" type="irdbb:SPECTCTCalibrationWorkflow"/>
+					<xs:element name="PlanarCalibrationWorkflow" type="irdbb:PlanarCalibrationWorkflow"/>
+					<xs:element name="CTCalibrationWorkflow" type="irdbb:CTCalibrationWorkflow"/>
+						</xs:sequence>
+				</xs:complexType>
+
+			<xs:complexType name="WP2subtask212WorkflowData">
+				<xs:sequence>
+					<xs:element name="CTSegmentation" type="irdbb:CTSegmentation" minOccurs="0" />
+					<xs:element name="SimpleCTMonteCarloDosimetry" type="irdbb:SimpleCTMonteCarloDosimetry" minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+				</xs:complexType>
+
+			<xs:complexType name="ThreeDimDosimetrySlide1workflow">
+				<xs:sequence>
+					<xs:element name="SPECTDataAcquisitionAndReconstruction" type="irdbb:SPECTDataAcquisitionAndReconstruction"/>
+					<xs:element name="RegistrationVOISegmentationAndPropagationContainer" type="irdbb:RegistrationVOISegmentationAndPropagationContainer"/>
+					<xs:element name="VOIActivityDeterminationContainer" type="irdbb:VOIActivityDeterminationContainer"/>
+					<xs:element name="TimeActivityCurveFitIn3DDosimetryContainer" type="irdbb:TimeActivityCurveFitIn3DDosimetryContainer"/>
+					<xs:element name="AbsorbedDoseCalculationInVOI" type="irdbb:AbsorbedDoseCalculationInVOI"/>
+					<xs:element name="RadioBiologicalCalculationIn3DSlide1Dosimetry" type="irdbb:RadioBiologicalCalculationIn3DSlide1Dosimetry" minOccurs="0" />
+						</xs:sequence>
+				</xs:complexType>
+
+			<xs:complexType name="TwoDimDosimetryworkflow">
+				<xs:sequence>
+					<xs:element name="PlanarDataAcquisitionAndProcessingContainer" type="irdbb:PlanarDataAcquisitionAndProcessingContainer"/>
+					<xs:element name="TwoDimDosimetryViaAbsorbedDoseRateCalculation" type="irdbb:TwoDimDosimetryViaAbsorbedDoseRateCalculation" minOccurs="0" />
+					<xs:element name="TwoDimDosimetryViaTimeActivityCurveFit" type="irdbb:TwoDimDosimetryViaTimeActivityCurveFit" minOccurs="0" />
+					<xs:element name="RadioBiologicalCalculation" type="irdbb:RadioBiologicalCalculation" minOccurs="0" />
+						</xs:sequence>
+				</xs:complexType>
+
+			<xs:complexType name="HybridDosimetryworkflow">
+				<xs:sequence>
+					<xs:element name="PlanarDataAcquisitionAndProcessingContainer" type="irdbb:PlanarDataAcquisitionAndProcessingContainer"/>
+					<xs:element name="SPECTDataAcquisitionAndProcessing" type="irdbb:SPECTDataAcquisitionAndProcessing"/>
+					<xs:element name="HybridDosimetryViaAbsorbedDoseRateCalculation" type="irdbb:HybridDosimetryViaAbsorbedDoseRateCalculation" minOccurs="0" />
+					<xs:element name="HybridDosimetryViaTimeActivityCurveFit" type="irdbb:HybridDosimetryViaTimeActivityCurveFit" minOccurs="0" />
+					<xs:element name="RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry" type="irdbb:RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry" minOccurs="0" />
+						</xs:sequence>
+				</xs:complexType>
+
+			<xs:complexType name="ThreeDimDosimetrySlide2workflow">
+				<xs:sequence>
+					<xs:element name="SPECTDataAcquisitionAndReconstruction" type="irdbb:SPECTDataAcquisitionAndReconstruction"/>
+					<xs:element name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculationContainer" type="irdbb:VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculationContainer"/>
+					<xs:element name="DoseRateCurveFitVOITimeIntegrationContainer" type="irdbb:DoseRateCurveFitVOITimeIntegrationContainer"/>
+					<xs:element name="RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry" type="irdbb:RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry" minOccurs="0" />
+					<xs:element name="RegistrationVOISegmentationAndPropagationContainer" type="irdbb:RegistrationVOISegmentationAndPropagationContainer" minOccurs="0" />
+					<xs:element name="AbsorbedDoseCalculationInVOI" type="irdbb:AbsorbedDoseCalculationInVOI" minOccurs="0" />
+						</xs:sequence>
+				</xs:complexType>
+
+	<!--xmlTypes-->
+	<xs:simpleType name="Radiopharmaceutical">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="sodiumIodideI131"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Isotope">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="radium223"/>
+			<xs:enumeration value="iodine131"/>
+			<xs:enumeration value="lutetium177"/>
+			<xs:enumeration value="yttrium90"/>
+			<xs:enumeration value="radium223"/>
+			<xs:enumeration value="rhenium188"/>
+			<xs:enumeration value="technetium99m"/>
+			<xs:enumeration value="terbium161"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AcquisitionSettings">
+		<xs:sequence>
+			<xs:element name="Siteadministeringthetreatment" type="xs:string"/>
+			<xs:element name="Dateandtimeofinjection" type="xs:string"/>
+			<xs:element name="PreAdministeredActivity" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PostAdministeredActivity" type="irdbb:AdministeredActivity" minOccurs="0" />
+		<xs:element name="Radiopharmaceutical" type="irdbb:Radiopharmaceutical" />
+		<xs:element name="Isotope" type="irdbb:Isotope" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTCalibrationWorkflow">
+		<xs:sequence>
+			<xs:element name="CTNumberCalibrationWorkfow" type="irdbb:CTNumberCalibrationWorkfow"/>
+			<xs:element name="SPECTReconstructionInCalibration" type="irdbb:SPECTReconstructionInCalibration"/>
+			<xs:element name="CTSegmentationInCalibration" type="irdbb:CTSegmentationInCalibration"/>
+			<xs:element name="SPECTSensitivityCalculation" type="irdbb:SPECTSensitivityCalculation"/>
+			<xs:element name="SPECTRecoveryCoefficientCurveCalculation" type="irdbb:SPECTRecoveryCoefficientCurveCalculation" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTCTCalibrationWorkflow">
+		<xs:sequence>
+			<xs:element name="SPECTAcqCTAcqAndReconstructionInCalibration" type="irdbb:SPECTAcqCTAcqAndReconstructionInCalibration"/>
+			<xs:element name="SPECTReconstructionInCalibration" type="irdbb:SPECTReconstructionInCalibration"/>
+			<xs:element name="CTSegmentationInCalibration" type="irdbb:CTSegmentationInCalibration"/>
+			<xs:element name="SPECTSensitivityCalculation" type="irdbb:SPECTSensitivityCalculation"/>
+			<xs:element name="SPECTRecoveryCoefficientCurveCalculation" type="irdbb:SPECTRecoveryCoefficientCurveCalculation" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarCalibrationWorkflow">
+		<xs:sequence>
+			<xs:element name="PlanarAcquisition" type="irdbb:PlanarAcquisition"/>
+			<xs:element name="PlanarImageCorrections" type="irdbb:PlanarImageCorrections"/>
+			<xs:element name="PlanarImageSegmentation" type="irdbb:PlanarImageSegmentation"/>
+			<xs:element name="PlanarSensitivityCalculation" type="irdbb:PlanarSensitivityCalculation"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTNumberCalibrationWorkfow">
+		<xs:sequence>
+			<xs:element name="CTAcqForCTNumberCalibrationCurve" type="irdbb:CTAcqForCTNumberCalibrationCurve"/>
+			<xs:element name="CalculationOfCTNumberCalibrationCurve" type="irdbb:CalculationOfCTNumberCalibrationCurve"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTAcqForCTNumberCalibrationCurve">
+		<xs:sequence>
+			<xs:element name="DensityPhantomUsed" type="irdbb:DensityPhantom"/>
+			<xs:element name="CTReconProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CalculationOfCTNumberCalibrationCurve">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
+			<xs:element name="CTNumberCalibrationCurveProduced" type="irdbb:CTNumberCalibrationCurve"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTAcqCTAcqAndReconstructionInCalibration">
+		<xs:sequence>
+			<xs:element name="PhantomUsed" type="irdbb:NMPhantom"/>
+			<xs:element name="NMTomoProduced" type="irdbb:DICOMData"/>
+			<xs:element name="CTReconProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTReconstructionInCalibration">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="NMTomoUsed" type="irdbb:DICOMData"/>
+			<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
+			<xs:element name="ReconstructionMethodAndCorrectionsUsed" type="xs:string"/>
+			<xs:element name="CTNumberCalibrationCurveUsed" type="irdbb:CTNumberCalibrationCurve" minOccurs="0" />
+			<xs:element name="CTNumberCalibrationCurveReference" type="irdbb:CTNumberCalibrationCurveReference" minOccurs="0" />
+			<xs:element name="NMTomoReconProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTSegmentationInCalibration">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
+			<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
+			<xs:element name="SegmentationMethodMethodUsed" type="xs:string"/>
+			<xs:element name="VOIInCTProduced" type="irdbb:VOIInCTcontainer"/>
+			<xs:element name="VOIInSPECTProduced" type="irdbb:VOIInSPECTcontainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIInSPECTcontainer">
+		<xs:sequence>
+			<xs:element name="VOIInSPECT" type="irdbb:VOIInSPECT" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIInCTcontainer">
+		<xs:sequence>
+			<xs:element name="VOIInCT" type="irdbb:VOIInCT" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTSensitivityCalculation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIInCTIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="VOIInSPECTIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="SPECTCalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIIdentifierContainer">
+		<xs:sequence>
+			<xs:element name="VOIIdentifierUsed" type="xs:integer" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTRecoveryCoefficientCurveCalculation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIInCTIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="VOIInSPECTIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="PhantomIdentifierUsed" type="xs:string"/>
+			<xs:element name="SPECTCalibrationCoefficientReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
+			<xs:element name="SPECTRecoveryCoefficientCurveInCalibrationProduced" type="irdbb:SPECTRecoveryCoefficientCurveInCalibration"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarAcquisition">
+		<xs:sequence>
+			<xs:element name="PhantomUsed" type="irdbb:NMPhantom"/>
+			<xs:element name="NMStaticProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarImageCorrections">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="NMStaticUsed" type="irdbb:DICOMData"/>
+			<xs:element name="CorrectionsUsed" type="xs:string"/>
+			<xs:element name="NMStaticCorrectedProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarImageSegmentation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMData"/>
+			<xs:element name="SegmentationMethodUsed" type="xs:string"/>
+			<xs:element name="ROIInSPECTProduced" type="irdbb:ROIInSPECT" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarSensitivityCalculation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierContainer"/>
+			<xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMData"/>
+			<xs:element name="PlanarCalibrationCoefficientProduced" type="irdbb:CalibrationCoefficient"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ROIIdentifierContainer">
+		<xs:sequence>
+			<xs:element name="ROIIdentifier" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DensityPhantom">
+		<xs:sequence>
+			<xs:element name="DensityPhantomName" type="xs:string"/>
+			<xs:element name="DensityPhantomIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTNumberCalibrationCurveReference">
+		<xs:sequence>
+			<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTNumberCalibrationCurve">
+		<xs:sequence>
+			<xs:element name="ElementsOfCTNumberCalibrationCurve" type="irdbb:ElementsOfCTNumberCalibrationCurve"/>
+			<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ElementsOfCTNumberCalibrationCurve">
+		<xs:sequence>
+			<xs:element name="ElementOfCTNumberCalibrationCurve" type="irdbb:ElementOfCTNumberCalibrationCurve" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="RealDensityOfMaterialUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="hounsfield"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ElementOfCTNumberCalibrationCurve">
+		<xs:sequence>
+			<xs:element name="HounsfieldMeasuredValue" type="xs:integer"/>
+			<xs:element name="RealDensityOfMaterialValue" type="xs:float"/>
+		<xs:element name="RealDensityOfMaterialUnit" type="irdbb:RealDensityOfMaterialUnit" />
+			<xs:element name="MaterialIdentifier" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NMRelevantCalibrationReference">
+		<xs:sequence>
+			<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		<xs:element name="Isotope" type="irdbb:Isotope" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NMPhantom">
+		<xs:sequence>
+			<xs:element name="NMPhantomName" type="xs:string"/>
+			<xs:element name="NMPhantomIdentifier" type="xs:string"/>
+			<xs:element name="HotInsertContainer" type="irdbb:HotInsertContainer"/>
+			<xs:element name="ColdInsertContainer" type="irdbb:ColdInsertContainer"/>
+			<xs:element name="Tank" type="irdbb:Tank"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HotInsertContainer">
+		<xs:sequence>
+			<xs:element name="HotInsert" type="irdbb:HotInsert" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ColdInsertContainer">
+		<xs:sequence>
+			<xs:element name="ColdInsert" type="irdbb:ColdInsert" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="VolumeUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="milliliter"/>
+			<xs:enumeration value="cubic centimeter"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PreAdminActivity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="becquerel"/>
+			<xs:enumeration value="kilobecquerel"/>
+			<xs:enumeration value="megabecquerel"/>
+			<xs:enumeration value="curie"/>
+			<xs:enumeration value="millicurie"/>
+			<xs:enumeration value="microcurie"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PostAdminActivity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="becquerel"/>
+			<xs:enumeration value="kilobecquerel"/>
+			<xs:enumeration value="megabecquerel"/>
+			<xs:enumeration value="curie"/>
+			<xs:enumeration value="millicurie"/>
+			<xs:enumeration value="microcurie"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="HotInsert">
+		<xs:sequence>
+			<xs:element name="VolumeValue" type="xs:float"/>
+		<xs:element name="VolumeUnit" type="irdbb:VolumeUnit" />
+			<xs:element name="PreAdminActivityValue" type="xs:float"/>
+		<xs:element name="PreAdminActivity" type="irdbb:PreAdminActivity" />
+			<xs:element name="PreAdminActivityTimestamp" type="xs:string"/>
+			<xs:element name="PostAdminActivityValue" type="xs:float"/>
+		<xs:element name="PostAdminActivity" type="irdbb:PostAdminActivity" />
+			<xs:element name="PostAdminActivityTimestamp" type="xs:string"/>
+			<xs:element name="HotInsertIdentifier" type="xs:string"/>
+		<xs:element name="Isotope" type="irdbb:Isotope" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ColdInsert">
+		<xs:sequence>
+			<xs:element name="VolumeValue" type="xs:float"/>
+		<xs:element name="VolumeUnit" type="irdbb:VolumeUnit" />
+			<xs:element name="ColdInsertIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="PreAdminBackgroundActivity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="becquerel"/>
+			<xs:enumeration value="kilobecquerel"/>
+			<xs:enumeration value="megabecquerel"/>
+			<xs:enumeration value="curie"/>
+			<xs:enumeration value="millicurie"/>
+			<xs:enumeration value="microcurie"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PostAdminBackgroundActivity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="becquerel"/>
+			<xs:enumeration value="kilobecquerel"/>
+			<xs:enumeration value="megabecquerel"/>
+			<xs:enumeration value="curie"/>
+			<xs:enumeration value="millicurie"/>
+			<xs:enumeration value="microcurie"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="Tank">
+		<xs:sequence>
+			<xs:element name="VolumeValue" type="xs:float"/>
+		<xs:element name="VolumeUnit" type="irdbb:VolumeUnit" />
+			<xs:element name="PreAdminBackgroundActivityValue" type="xs:float"/>
+		<xs:element name="PreAdminBackgroundActivity" type="irdbb:PreAdminBackgroundActivity" />
+			<xs:element name="PreAdminBackgroundActivityTimestamp" type="xs:string"/>
+			<xs:element name="PostAdminBackgroundActivityValue" type="xs:float"/>
+		<xs:element name="PostAdminBackgroundActivity" type="irdbb:PostAdminBackgroundActivity" />
+			<xs:element name="PostAdminBackgroundActivityTimestamp" type="xs:string"/>
+			<xs:element name="TankIdentifier" type="xs:string"/>
+		<xs:element name="Isotope" type="irdbb:Isotope" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ProcessExecutionContext">
+		<xs:sequence>
+			<xs:element name="DateTimeProcessStarted" type="xs:string"/>
+			<xs:element name="PerformingInstitution" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="VOIVolumeUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="milliliter"/>
+			<xs:enumeration value="cubic centimeter"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="VOIInCT">
+		<xs:sequence>
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+			<xs:element name="VOIVolumeValue" type="xs:float"/>
+		<xs:element name="VOIVolumeUnit" type="irdbb:VOIVolumeUnit" />
+			<xs:element name="PhantomPartIdentifier" type="xs:string"/>
+			<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
+			<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="CountsInVOIUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="counts"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="VOIInSPECT">
+		<xs:sequence>
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+			<xs:element name="CountsInVOIValue" type="xs:float"/>
+		<xs:element name="CountsInVOIUnit" type="irdbb:CountsInVOIUnit" />
+			<xs:element name="PhantomPartIdentifier" type="xs:string"/>
+			<xs:element name="DICOMVOIContainer" type="irdbb:DICOMData" minOccurs="0" />
+			<xs:element name="NonDICOMVOIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="CountsInROIUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="counts"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ROIInSPECT">
+		<xs:sequence>
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+			<xs:element name="CountsInROIValue" type="xs:float"/>
+		<xs:element name="CountsInROIUnit" type="irdbb:CountsInROIUnit" />
+			<xs:element name="PhantomPartIdentifier" type="xs:string"/>
+			<xs:element name="DICOMROIContainer" type="irdbb:DICOMData" minOccurs="0" />
+			<xs:element name="NonDICOMROIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="CalibrationCoefficientUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="counts per second per megabecquerel"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="CalibrationCoefficient">
+		<xs:sequence>
+			<xs:element name="CalibrationCoefficientValue" type="xs:float"/>
+		<xs:element name="CalibrationCoefficientUnit" type="irdbb:CalibrationCoefficientUnit" />
+			<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		<xs:element name="Isotope" type="irdbb:Isotope" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTRecoveryCoefficientCurveInCalibration">
+		<xs:sequence>
+			<xs:element name="ElementsOfSPECTRecoveryCoefficientCurve" type="irdbb:ElementOfSPECTRecoveryCoefficientCurveContainer"/>
+			<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		<xs:element name="Isotope" type="irdbb:Isotope" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ElementOfSPECTRecoveryCoefficientCurveContainer">
+		<xs:sequence>
+			<xs:element name="ElementOfSPECTRecoveryCoefficientCurve" type="irdbb:ElementOfSPECTRecoveryCoefficientCurve" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="HotInsertVolumeUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="milliliter"/>
+			<xs:enumeration value="cubic centimeter"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ElementOfSPECTRecoveryCoefficientCurve">
+		<xs:sequence>
+			<xs:element name="RatioMeasuredActivityToTrueActivity" type="xs:float"/>
+			<xs:element name="HotInsertVolumeValue" type="xs:float"/>
+		<xs:element name="HotInsertVolumeUnit" type="irdbb:HotInsertVolumeUnit" />
+			<xs:element name="HotInsertIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TransformationIdentifierContainer">
+		<xs:sequence>
+			<xs:element name="TransformationIdentifier" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DICOMData">
+		<xs:sequence>
+			<xs:element name="DICOMStudyUID" type="xs:string"/>
+			<xs:element name="DICOMSeriesUID" type="xs:string"/>
+			<xs:element name="TransformationsUsed" type="irdbb:TransformationIdentifierContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="NonDICOMDataClass">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="VOI"/>
+			<xs:enumeration value="VOI superimposed on images"/>
+			<xs:enumeration value="3D absorbed dose map"/>
+			<xs:enumeration value="segmentation"/>
+			<xs:enumeration value="voxel activity map"/>
+			<xs:enumeration value="3D Energy Deposition Rate Matrix"/>
+			<xs:enumeration value="NM Tomo Reconstruction"/>
+			<xs:enumeration value="CT Reconstruction"/>
+			<xs:enumeration value="Linear transformation matrix"/>
+			<xs:enumeration value="BSpline transformation"/>
+			<xs:enumeration value="Advanced elastix transformation"/>
+			<xs:enumeration value="Density Image"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NonDICOMDataFormat">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="zipped imageJ contours format"/>
+			<xs:enumeration value="TIFF format embedding imageJ contours"/>
+			<xs:enumeration value="zipped pseudo DICOM ImpactMC"/>
+			<xs:enumeration value="GIF format embedding imageJ contours"/>
+			<xs:enumeration value="NRRD format"/>
+			<xs:enumeration value="STL format"/>
+			<xs:enumeration value="HDF4 format"/>
+			<xs:enumeration value="HDF5 format"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="NonDICOMData">
+		<xs:sequence>
+		<xs:element name="NonDICOMDataClass" type="irdbb:NonDICOMDataClass" />
+		<xs:element name="NonDICOMDataFormat" type="irdbb:NonDICOMDataFormat" />
+			<xs:element name="NonDICOMDataFileName" type="xs:string"/>
+			<xs:element name="FHIRIdentifier" type="xs:string" minOccurs="0" />
+			<xs:element name="TransformationsUsed" type="irdbb:TransformationIdentifierContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="ActivityUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="becquerel"/>
+			<xs:enumeration value="kilobecquerel"/>
+			<xs:enumeration value="megabecquerel"/>
+			<xs:enumeration value="curie"/>
+			<xs:enumeration value="millicurie"/>
+			<xs:enumeration value="microcurie"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AdministeredActivity">
+		<xs:sequence>
+			<xs:element name="AdministeredActivityValue" type="xs:float"/>
+		<xs:element name="ActivityUnit" type="irdbb:ActivityUnit" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SimpleCTMonteCarloDosimetry">
+		<xs:sequence>
+			<xs:element name="CalculationOfVoxelMap" type="irdbb:CalculationOfVoxelMap"/>
+			<xs:element name="CalculationOfAbsorbedDosesInVOIs" type="irdbb:CalculationOfAbsorbedDosesInVOIs"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTSegmentation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="DICOMImageUsed" type="irdbb:DICOMData"/>
+			<xs:element name="SegmentationMethodUsed" type="irdbb:SegmentationMethodType" minOccurs="0" />
+			<xs:element name="VOIDescriptorProduced" type="irdbb:VOIList"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIList">
+		<xs:sequence>
+			<xs:element name="VOI" type="irdbb:VOI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CalculationOfVoxelMap">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="AttenuatorUsed" type="irdbb:AttenuatorTypeContainer" minOccurs="0" />
+			<xs:element name="MonteCarloMethodUsed" type="irdbb:MonteCarloMethodType" minOccurs="0" />
+			<xs:element name="DICOMCTImageDataUsed" type="irdbb:DICOMData"/>
+			<xs:element name="VoxelBasedDistributionOfAbsorbedDoseProduced" type="irdbb:VoxelBasedDistributionOfAbsorbedDoseType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AttenuatorTypeContainer">
+		<xs:sequence>
+			<xs:element name="AttenuatorType" type="irdbb:AttenuatorType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CalculationOfAbsorbedDosesInVOIs">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VoxelBasedDistributionOfAbsorbedDoseIdentifierUsed" type="xs:string"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
+			<xs:element name="AbsorbedDosePerVOIProduced" type="irdbb:AbsorbedDosePerVOITypeContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDosePerVOITypeContainer">
+		<xs:sequence>
+			<xs:element name="AbsorbedDosePerVOIType" type="irdbb:AbsorbedDosePerVOIType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SegmentationMethodType">
+		<xs:sequence>
+			<xs:element name="SegmentationMethod" type="xs:string"/>
+			<xs:element name="SoftwareNamesUsed" type="irdbb:SoftwareNameContainer" minOccurs="0" />
+			<xs:element name="SegmentationMethodSetting" type="irdbb:MethodSettingTypeContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SoftwareNameContainer">
+		<xs:sequence>
+			<xs:element name="SoftwareName" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MethodSettingTypeContainer">
+		<xs:sequence>
+			<xs:element name="MethodSettingType" type="irdbb:MethodSettingType" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MonteCarloMethodType">
+		<xs:sequence>
+			<xs:element name="MonteCarloMethod" type="xs:string"/>
+			<xs:element name="SoftwareNames" type="irdbb:SoftwareNameContainer" minOccurs="0" />
+			<xs:element name="MonteCarloMethodSetting" type="irdbb:MethodSettingTypeContainer" minOccurs="0" />
+			<xs:element name="SimulatedImagingDevices" type="irdbb:SimulatedImagingDevicesContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MethodSettingType">
+		<xs:sequence>
+			<xs:element name="MethodSetting" type="xs:string" minOccurs="0" />
+			<xs:element name="MethodSettingValue" type="xs:string" minOccurs="0" />
+			<xs:element name="MethodSettingUnit" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SimulatedImagingDevicesContainer">
+		<xs:sequence>
+			<xs:element name="SimulatedImagingDevice" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AttenuatorType">
+		<xs:sequence>
+			<xs:element name="AttenuatorCategory" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorDescription" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorMaterial" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorThicknessValue" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorThicknessUnit" type="xs:string"/>
+			<xs:element name="EquivalentAttenuatorModel" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="AbsorbedDoseCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="mean absorbed dose normalized to CTDI free in air normalized to tube load"/>
+			<xs:enumeration value="mean absorbed dose normalized to CTDI vol normalized to tube load"/>
+			<xs:enumeration value="mean absorbed radiation dose"/>
+			<xs:enumeration value="maximum absorbed radiation dose"/>
+			<xs:enumeration value="minimum absorbed radiation dose"/>
+			<xs:enumeration value="median absorbed radiation dose"/>
+			<xs:enumeration value="mode absorbed radiation dose"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="StatisticalSubCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="mean"/>
+			<xs:enumeration value="maximum"/>
+			<xs:enumeration value="minimum"/>
+			<xs:enumeration value="median"/>
+			<xs:enumeration value="mode"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AbsorbedDoseUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="milligray per (milligray per (100 milliampere second))"/>
+			<xs:enumeration value="milligray per (100 milliampere second)"/>
+			<xs:enumeration value="milligray"/>
+			<xs:enumeration value="milligray per (milligray per (1 milliampere second))"/>
+			<xs:enumeration value="gray"/>
+			<xs:enumeration value="milligray"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AbsorbedDosePerVOIType">
+		<xs:sequence>
+		<xs:element name="AbsorbedDoseCategory" type="irdbb:AbsorbedDoseCategory" />
+		<xs:element name="StatisticalSubCategory" type="irdbb:StatisticalSubCategory" minOccurs="0" />
+			<xs:element name="AbsorbedDoseValue" type="xs:string"/>
+		<xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="VoxelBasedDistributionOfAbsorbedDoseCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="absorbed dose normalized to CTDI free in air normalized to tube load"/>
+			<xs:enumeration value="absorbed dose normalized to CTDI vol normalized to tube load"/>
+			<xs:enumeration value="absorbed dose"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="VoxelBasedDistributionOfAbsorbedDoseType">
+		<xs:sequence>
+			<xs:element name="VoxelBasedDistributionOfAbsorbedDoseIdentifier" type="xs:string"/>
+		<xs:element name="VoxelBasedDistributionOfAbsorbedDoseCategory" type="irdbb:VoxelBasedDistributionOfAbsorbedDoseCategory" />
+		<xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
+			<xs:element name="NonDICOMVoxelBasedAbsorbedDoseDistribution" type="irdbb:NonDICOMData" minOccurs="0" />
+			<xs:element name="DICOMVoxelBasedAbsorbedDoseDistribution" type="irdbb:DICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="OrganOrTissue">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="bone"/>
+			<xs:enumeration value="bone surfaces"/>
+			<xs:enumeration value="red bone marrow"/>
+			<xs:enumeration value="bladder"/>
+			<xs:enumeration value="breasts"/>
+			<xs:enumeration value="left male breast"/>
+			<xs:enumeration value="left female breast"/>
+			<xs:enumeration value="right male breast"/>
+			<xs:enumeration value="right female breast"/>
+			<xs:enumeration value="colon"/>
+			<xs:enumeration value="testes"/>
+			<xs:enumeration value="left testis"/>
+			<xs:enumeration value="right testis"/>
+			<xs:enumeration value="ovaries"/>
+			<xs:enumeration value="left ovary"/>
+			<xs:enumeration value="right ovary"/>
+			<xs:enumeration value="liver"/>
+			<xs:enumeration value="lungs"/>
+			<xs:enumeration value="left lung"/>
+			<xs:enumeration value="right lung"/>
+			<xs:enumeration value="esophagus"/>
+			<xs:enumeration value="skin"/>
+			<xs:enumeration value="stomach"/>
+			<xs:enumeration value="thyroid"/>
+			<xs:enumeration value="brain"/>
+			<xs:enumeration value="salivary glands"/>
+			<xs:enumeration value="parotid glands"/>
+			<xs:enumeration value="left parotid gland"/>
+			<xs:enumeration value="right parotid gland"/>
+			<xs:enumeration value="submandibular glands"/>
+			<xs:enumeration value="left submandibular gland"/>
+			<xs:enumeration value="right submandibular gland"/>
+			<xs:enumeration value="adrenals"/>
+			<xs:enumeration value="extrathoracic region"/>
+			<xs:enumeration value="gallbladder"/>
+			<xs:enumeration value="heart"/>
+			<xs:enumeration value="kidneys"/>
+			<xs:enumeration value="left kidney"/>
+			<xs:enumeration value="right kidney"/>
+			<xs:enumeration value="lymphatic nodes"/>
+			<xs:enumeration value="muscle"/>
+			<xs:enumeration value="oral mucosa"/>
+			<xs:enumeration value="pancreas"/>
+			<xs:enumeration value="prostate"/>
+			<xs:enumeration value="small intestine"/>
+			<xs:enumeration value="spleen"/>
+			<xs:enumeration value="thymus"/>
+			<xs:enumeration value="uterus"/>
+			<xs:enumeration value="air"/>
+			<xs:enumeration value="body surface"/>
+			<xs:enumeration value="tumor"/>
+			<xs:enumeration value="soft tissue"/>
+			<xs:enumeration value="L2"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="VOI">
+		<xs:sequence>
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+		<xs:element name="OrganOrTissue" type="irdbb:OrganOrTissue" />
+			<xs:element name="DICOMDataContainer" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMDataContainer" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="TimePointIdentifier" type="xs:string" minOccurs="0" />
+			<xs:element name="OrganMass" type="irdbb:OrganMass" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="OrganMassUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="gram"/>
+			<xs:enumeration value="kilogram"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="OrganMass">
+		<xs:sequence>
+			<xs:element name="OrganMassValue" type="xs:float"/>
+		<xs:element name="OrganMassUnit" type="irdbb:OrganMassUnit" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DICOMDataContainer">
+		<xs:sequence>
+			<xs:element name="DICOMData" type="irdbb:DICOMData" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NonDICOMDataContainer">
+		<xs:sequence>
+			<xs:element name="NonDICOMData" type="irdbb:NonDICOMData" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeActivityCurveFitIn3DDosimetryContainer">
+		<xs:sequence>
+			<xs:element name="TimeActivityCurveFitIn3DDosimetry" type="irdbb:TimeActivityCurveFitIn3DDosimetry" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIActivityDeterminationContainer">
+		<xs:sequence>
+			<xs:element name="VOIActivityDetermination" type="irdbb:VOIActivityDetermination" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RegistrationVOISegmentationAndPropagationContainer">
+		<xs:sequence>
+			<xs:element name="RegistrationVOISegmentationAndPropagation" type="irdbb:RegistrationVOISegmentationAndPropagation" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTDataAcquisitionAndReconstruction">
+		<xs:sequence>
+			<xs:element name="SPECTAcqCTAcqAndReconstructionContainer" type="irdbb:SPECTAcqCTAcqAndReconstructionContainer"/>
+			<xs:element name="SPECTReconstructionContainer" type="irdbb:SPECTReconstructionContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTAcqCTAcqAndReconstructionContainer">
+		<xs:sequence>
+			<xs:element name="SPECTAcqCTAcqAndReconstruction" type="irdbb:SPECTAcqCTAcqAndReconstruction" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTReconstructionContainer">
+		<xs:sequence>
+			<xs:element name="SPECTReconstruction" type="irdbb:SPECTReconstruction" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTAcqCTAcqAndReconstruction">
+		<xs:sequence>
+			<xs:element name="TimePointDescription" type="irdbb:TimePointDescription"/>
+			<xs:element name="NMRelevantCalibrationReference" type="irdbb:NMRelevantCalibrationReference"/>
+			<xs:element name="CTRelevantCalibrationReference" type="irdbb:CTRelevantCalibrationReference"/>
+			<xs:element name="NMTomoProduced" type="irdbb:DICOMData"/>
+			<xs:element name="CTReconProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTReconstruction">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="NMTomoUsed" type="irdbb:DICOMData"/>
+			<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
+			<xs:element name="ReconstructionMethodAndCorrectionsUsed" type="xs:string"/>
+			<xs:element name="CTNumberCalibrationCurveUsed" type="irdbb:CTNumberCalibrationCurve" minOccurs="0" />
+			<xs:element name="CTNumberCalibrationCurveReference" type="irdbb:CTNumberCalibrationCurveReference" minOccurs="0" />
+			<xs:element name="NMTomoReconProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RegistrationVOISegmentationAndPropagation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="CountsPerVOIAtTimePointProducedContainer" type="irdbb:CountsPerVOIAtTimePointProducedContainer" minOccurs="0" />
+			<xs:element name="NMTomoReconUsed" type="irdbb:DICOMDataContainer"/>
+			<xs:element name="CTReconUsed" type="irdbb:DICOMDataContainer"/>
+			<xs:element name="ImageProcessingMethodMethodUsed" type="xs:string"/>
+			<xs:element name="Segmentation" type="irdbb:Segmentation"/>
+			<xs:element name="CTReconResampledOnCommonReferenceProduced" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NMTomoReconResampledOnCommonReferenceProduced" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMCTReconResampledOnCommonReferenceProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMNMTomoReconResampledOnCommonReferenceProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="DensityImageProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="GeometricalTransformationContainer" type="irdbb:GeometricalTransformationContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Segmentation">
+		<xs:sequence>
+			<xs:element name="SegmentationIdentifier" type="xs:string"/>
+			<xs:element name="VOIContainer" type="irdbb:VoiProducedContainer"/>
+			<xs:element name="DICOMDataContainer" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMDataContainer" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CountsPerVOIAtTimePointProducedContainer">
+		<xs:sequence>
+			<xs:element name="CountsPerVOIAtTimePointProduced" type="irdbb:CountsPerVOIAtTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VoiProducedContainer">
+		<xs:sequence>
+			<xs:element name="VOIProduced" type="irdbb:VOI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIActivityDetermination">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="SegmentationIdentifierUsed" type="xs:string"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="SPECTCalibrationFactorReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
+			<xs:element name="SPECTRecoveryCoefficientCurveReferenceUsed" type="irdbb:NMRelevantCalibrationReference"/>
+			<xs:element name="DataActivityPerVOIAtTimePointContainer" type="irdbb:DataActivityPerVOIAtTimePointContainer" minOccurs="0" />
+			<xs:element name="VoxelActivityMapProduced" type="irdbb:NonDICOMDataContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DataActivityPerVOIAtTimePointContainer">
+		<xs:sequence>
+			<xs:element name="DataActivityPerVOIAtTimePointProduced" type="irdbb:DataActivityPerVOIAtTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeActivityCurveFitIn3DDosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIIdentifierUsed" type="xs:integer" minOccurs="0" />
+			<xs:element name="SegmentationIdentifier" type="xs:string" minOccurs="0" />
+			<xs:element name="TimePointIdentifierUsed" type="xs:string" minOccurs="0" />
+			<xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod" minOccurs="0" />
+			<xs:element name="TimeIntegratedActivityCoefficientPerVOIProduced" type="irdbb:TimeIntegratedActivityCoefficientPerVOI" minOccurs="0" />
+			<xs:element name="TimeIntegratedActivityPerVOIProduced" type="irdbb:TimeIntegratedActivityPerVOI"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseCalculationInVOI">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="SegmentationIdentifierUsed" type="xs:string" minOccurs="0" />
+			<xs:element name="AbsorbedDoseCalculationMethodUsed" type="xs:string"/>
+			<xs:element name="VoxelAbsorbedDoseMapProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="AbsorbedDoseInVOIContainer" type="irdbb:AbsorbedDoseInVOIContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseInVOIContainer">
+		<xs:sequence>
+			<xs:element name="AbsorbedDoseInVOIProduced" type="irdbb:AbsorbedDoseInVOI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RadioBiologicalCalculationIn3DSlide1Dosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIIdentifierUsed" type="xs:integer"/>
+			<xs:element name="VoxelAbsorbedDoseMapIdentifierUsed" type="irdbb:VoxelAbsorbedDoseMapIdentifierUsed" minOccurs="0" />
+			<xs:element name="RadioBiologicalCalculationMethod" type="xs:string"/>
+			<xs:element name="RadioBiologicalCalculationParameters" type="xs:string"/>
+			<xs:element name="BiologicalEffectiveDose" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VoxelAbsorbedDoseMapIdentifierUsed">
+		<xs:sequence>
+			<xs:element name="VoxelAbsorbedDoseMapIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimePointDescription">
+		<xs:sequence>
+			<xs:element name="TimePointDescriptionElement" type="irdbb:TimePointDescriptionElement" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TimePointCategory">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="168h plus or minus 24h post RAIT timepoint"/>
+			<xs:enumeration value="96h plus or minus 12h post RAIT timepoint"/>
+			<xs:enumeration value="72h plus or minus 12h post RAIT timepoint"/>
+			<xs:enumeration value="48h plus or minus 4h post RAIT timepoint"/>
+			<xs:enumeration value="24h plus or minus 4h post RAIT timepoint"/>
+			<xs:enumeration value="6h plus or minus 2h post RAIT timepoint"/>
+			<xs:enumeration value="additional timepoint"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TimeUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="seconds"/>
+			<xs:enumeration value="minutes"/>
+			<xs:enumeration value="hours"/>
+			<xs:enumeration value="days"/>
+			<xs:enumeration value="months"/>
+			<xs:enumeration value="years"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TimePointDescriptionElement">
+		<xs:sequence>
+		<xs:element name="TimePointCategory" type="irdbb:TimePointCategory" />
+			<xs:element name="TimePointIdentifier" type="xs:string"/>
+			<xs:element name="TimePointDistanceFromReferenceEventValue" type="xs:integer"/>
+		<xs:element name="TimeUnit" type="irdbb:TimeUnit" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTRelevantCalibrationReference">
+		<xs:sequence>
+			<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="CountsUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="counts"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="CountsPerVOIAtTimePoint">
+		<xs:sequence>
+			<xs:element name="CountsValue" type="xs:float"/>
+		<xs:element name="CountsUnit" type="irdbb:CountsUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+			<xs:element name="TimePointIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTRecoveryCoefficientCurve">
+		<xs:sequence>
+			<xs:element name="SPECTRecoveryCoefficientCurve" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DataActivityPerVOIAtTimePoint">
+		<xs:sequence>
+			<xs:element name="DataActivityValue" type="xs:float"/>
+		<xs:element name="ActivityUnit" type="irdbb:ActivityUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+			<xs:element name="TimePointIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseInVOI">
+		<xs:sequence>
+			<xs:element name="AbsorbedDoseInVOIValue" type="xs:float"/>
+		<xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
+			<xs:element name="AbsorbedDoseInVOIUncertainty" type="xs:float" minOccurs="0" />
+			<xs:element name="VOIIdentifierList" type="irdbb:VOIIdentifierContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeIntegratedActivityCoefficientPerVOI">
+		<xs:sequence>
+			<xs:element name="TimeIntegratedActivityCoefficientPerVOIValue" type="xs:float"/>
+		<xs:element name="TimeUnit" type="irdbb:TimeUnit" />
+			<xs:element name="VOIIdentifierList" type="irdbb:VOIIdentifierContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeIntegratedActivityPerVOIContainer">
+		<xs:sequence>
+			<xs:element name="TimeIntegratedActivityPerVOI" type="irdbb:TimeIntegratedActivityPerVOI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TimeIntegratedActivityPerVOIUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MegabecquerelXSecond"/>
+			<xs:enumeration value="MegabecquerelXHour"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="TimeIntegratedActivityPerVOI">
+		<xs:sequence>
+			<xs:element name="ResidenceTimePerVOIValue" type="xs:float"/>
+		<xs:element name="TimeUnit" type="irdbb:TimeUnit" />
+			<xs:element name="TimeIntegratedActivityPerVOIValue" type="xs:float"/>
+		<xs:element name="TimeIntegratedActivityPerVOIUnit" type="irdbb:TimeIntegratedActivityPerVOIUnit" />
+			<xs:element name="VOIIdentifierList" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="IncorporationFunction">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="constant"/>
+			<xs:enumeration value="linear"/>
+			<xs:enumeration value="exponential"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="IntegrationAlgorithm">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="trapezoid"/>
+			<xs:enumeration value="mono_exponential"/>
+			<xs:enumeration value="bi_exponential"/>
+			<xs:enumeration value="tri_exponential"/>
+			<xs:enumeration value="x_exponential"/>
+			<xs:enumeration value="other"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="CurveFittingMethod">
+		<xs:sequence>
+		<xs:element name="IncorporationFunction" type="irdbb:IncorporationFunction" />
+		<xs:element name="IntegrationAlgorithm" type="irdbb:IntegrationAlgorithm" />
+			<xs:element name="FittingFunction" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="GeometricalTransformationContainer">
+		<xs:sequence>
+			<xs:element name="GeometricalTransformation" type="irdbb:GeometricalTransformation" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="TransformationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Linear transformation matrix"/>
+			<xs:enumeration value="BSpline transformation"/>
+			<xs:enumeration value="Advanced elastix transformation"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="GeometricalTransformation">
+		<xs:sequence>
+			<xs:element name="GeometricalTransformationValue" type="irdbb:NonDICOMDataContainer"/>
+		<xs:element name="TransformationType" type="irdbb:TransformationType" />
+			<xs:element name="TransformationIdentifier" type="xs:string"/>
+			<xs:element name="DICOMCTSourceCoordinateSpaceUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="DICOMCTDestinationCoordinateSpaceUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="DICOMSPECTSourceCoordinateSpaceUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="DICOMSPECTDestinationCoordinateSpaceUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMSourceCoordinateSpaceUsed" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMDestinationCoordinateSpaceUsed" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarDataAcquisitionAndProcessingContainer">
+		<xs:sequence>
+			<xs:element name="PlanarDataAcquisitionAndProcessing" type="irdbb:PlanarDataAcquisitionAndProcessing" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarDataAcquisitionAndProcessing">
+		<xs:sequence>
+			<xs:element name="PlanarDataAcquisition" type="irdbb:PlanarDataAcquisition" minOccurs="0" />
+			<xs:element name="PlanarDataCorrections" type="irdbb:PlanarDataCorrections"/>
+			<xs:element name="PlanarDataSegmentationWithoutRegistration" type="irdbb:PlanarDataSegmentationWithoutRegistration" minOccurs="0" />
+			<xs:element name="PlanarDataSegmentationWithRegistrationAndPropagation" type="irdbb:PlanarDataSegmentationWithRegistrationAndPropagation" minOccurs="0" />
+			<xs:element name="ROIPlanarActivityDetermination" type="irdbb:ROIPlanarActivityDetermination" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TwoDimDosimetryViaAbsorbedDoseRateCalculation">
+		<xs:sequence>
+			<xs:element name="AbsorbedDoseRateCalculationIn2DDosimetryContainer" type="irdbb:AbsorbedDoseRateCalculationIn2DDosimetryContainer"/>
+			<xs:element name="TimeAbsorbedDoseCurveFit" type="irdbb:TimeAbsorbedDoseCurveFit"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseRateCalculationIn2DDosimetryContainer">
+		<xs:sequence>
+			<xs:element name="AbsorbedDoseRateCalculationIn2DDosimetry" type="irdbb:AbsorbedDoseRateCalculationIn2DDosimetry" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TwoDimDosimetryViaTimeActivityCurveFit">
+		<xs:sequence>
+			<xs:element name="TimeActivityCurveFit" type="irdbb:TimeActivityCurveFit"/>
+			<xs:element name="AbsorbedDoseCalculationInROIIn2DDosimetry" type="irdbb:AbsorbedDoseCalculationInROIIn2DDosimetry"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarDataAcquisition">
+		<xs:sequence>
+			<xs:element name="TimePointDescription" type="irdbb:TimePointDescription"/>
+			<xs:element name="NMRelevantCalibrationReference" type="irdbb:NMRelevantCalibrationReference"/>
+			<xs:element name="NMStaticProduced" type="irdbb:DICOMData" minOccurs="0" />
+			<xs:element name="NonDicomNMStaticProduced" type="irdbb:NonDICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarDataCorrections">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="NMStaticUsed" type="irdbb:DICOMData"/>
+			<xs:element name="CorrectionsUsed" type="xs:string"/>
+			<xs:element name="NMStaticCorrectedProduced" type="irdbb:DICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarDataSegmentationWithoutRegistration">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMNMStaticCorrectedUsed" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="SegmentationMethodUsed" type="xs:string"/>
+			<xs:element name="CountsPerROIAtTimePointContainer" type="irdbb:CountsPerROIAtTimePointContainer"/>
+			<xs:element name="ROIProduced" type="irdbb:ROIcontainer" minOccurs="0" />
+			<xs:element name="SegmentationProduced" type="irdbb:Segmentation" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ROIcontainer">
+		<xs:sequence>
+			<xs:element name="ROI" type="irdbb:ROI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CountsPerROIAtTimePointContainer">
+		<xs:sequence>
+			<xs:element name="CountsPerROIAtTimePointProduced" type="irdbb:CountsPerROIAtTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimePointIdentifierUsedContainer">
+		<xs:sequence>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarDataSegmentationWithRegistrationAndPropagation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="NMStaticCorrectedUsed" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMNMStaticCorrectedUsed" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+			<xs:element name="SegmentationMethodUsed" type="xs:string"/>
+			<xs:element name="CountsPerROIAtTimePointContainer" type="irdbb:CountsPerROIAtTimePointContainer"/>
+			<xs:element name="ROIProduced" type="irdbb:ROIcontainer" minOccurs="0" />
+			<xs:element name="SegmentationProduced" type="irdbb:Segmentation" minOccurs="0" />
+			<xs:element name="NMStaticCorrectedResampledOnCommonReferenceProduced" type="irdbb:DICOMDataContainer" minOccurs="0" />
+			<xs:element name="NonDICOMNMStaticCorrectedResampledOnCommonReferenceProduced" type="irdbb:NonDICOMDataContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ROIIdentifierUsedContainer">
+		<xs:sequence>
+			<xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ROIPlanarActivityDetermination">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="ROIIdentifierUsed" type="xs:string"/>
+			<xs:element name="PlanarCalibrationFactorReference" type="irdbb:NMRelevantCalibrationReference"/>
+			<xs:element name="DataActivityPerROIAtTimePointContainer" type="irdbb:DataActivityPerROIAtTimePointContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DataActivityPerROIAtTimePointContainer">
+		<xs:sequence>
+			<xs:element name="DataActivityPerROIAtTimePointProduced" type="irdbb:DataActivityPerROIAtTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseRateCalculationIn2DDosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="ROIIdentifierUsed" type="xs:string" maxOccurs="unbounded" />
+			<xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="OrganSValueUsed" type="xs:string"/>
+			<xs:element name="ReferenceOrganMassUsed" type="xs:string" minOccurs="0" />
+			<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassUsedContainer" minOccurs="0" />
+			<xs:element name="MeanAbsorbedDoseRateInROIProduced" type="irdbb:MeanAbsorbedDoseRateInROIContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PatientOrganMassUsedContainer">
+		<xs:sequence>
+			<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassIn2DDosimetry" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MeanAbsorbedDoseRateInROIContainer">
+		<xs:sequence>
+			<xs:element name="MeanAbsorbedDoseRateInROIProduced" type="irdbb:MeanAbsorbedDoseRateInROI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeAbsorbedDoseCurveFit">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierUsedContainer"/>
+			<xs:element name="TimePointIdentifierUsedContainer" type="irdbb:TimePointIdentifierUsedContainer"/>
+			<xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
+			<xs:element name="MeanAbsorbedDoseInROIcontainer" type="irdbb:MeanAbsorbedDoseInROIcontainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MeanAbsorbedDoseInROIcontainer">
+		<xs:sequence>
+			<xs:element name="MeanAbsorbedDoseInROIProduced" type="irdbb:MeanAbsorbedDoseInROI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeActivityCurveFit">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierUsedContainer"/>
+			<xs:element name="TimePointIdentifierUsedContainer" type="irdbb:TimePointIdentifierUsedContainer"/>
+			<xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
+			<xs:element name="TimeIntegratedActivityCoefficientPerROIcontainer" type="irdbb:TimeIntegratedActivityCoefficientPerROIcontainer"/>
+			<xs:element name="TimeIntegratedActivityPerROIcontainer" type="irdbb:TimeIntegratedActivityPerROIcontainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeIntegratedActivityCoefficientPerROIcontainer">
+		<xs:sequence>
+			<xs:element name="TimeIntegratedActivityCoefficientPerROIProduced" type="irdbb:TimeIntegratedActivityCoefficientPerROI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeIntegratedActivityPerROIcontainer">
+		<xs:sequence>
+			<xs:element name="TimeIntegratedActivityPerROIProduced" type="irdbb:TimeIntegratedActivityPerROI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseCalculationInROIIn2DDosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierUsedContainer"/>
+			<xs:element name="OrganSValueUsed" type="xs:string"/>
+			<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassInHybridDosimetry" minOccurs="0" />
+			<xs:element name="OrganMassReference" type="irdbb:OrganMass" minOccurs="0" />
+			<xs:element name="MeanAbsorbedDoseInROIProduced" type="irdbb:MeanAbsorbedDoseInROIcontainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="MassUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="gram"/>
+			<xs:enumeration value="kilogram"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="PatientOrganMassInHybridDosimetry">
+		<xs:sequence>
+			<xs:element name="PatientOrganMassValue" type="xs:float"/>
+		<xs:element name="MassUnit" type="irdbb:MassUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RadioBiologicalCalculation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierUsedContainer"/>
+			<xs:element name="VoxelAbsorbedDoseMapIdentifierUsedContainer" type="irdbb:VoxelAbsorbedDoseMapIdentifierUsedContainer"/>
+			<xs:element name="RadioBiologicalCalculationMethod" type="xs:string"/>
+			<xs:element name="RadioBiologicalCalculationParameters" type="xs:string"/>
+			<xs:element name="BiologicalEffectiveDose" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOIIdentifierUsedContainer">
+		<xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VoxelAbsorbedDoseMapIdentifierUsedContainer">
+		<xs:sequence>
+			<xs:element name="VoxelAbsorbedDoseMapIdentifierUsed" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CountsPerROIAtTimePoint">
+		<xs:sequence>
+			<xs:element name="CountsValue" type="xs:float"/>
+		<xs:element name="CountsUnit" type="irdbb:CountsUnit" />
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+			<xs:element name="TimePointIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ROI">
+		<xs:sequence>
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+		<xs:element name="OrganOrTissue" type="irdbb:OrganOrTissue" />
+			<xs:element name="DICOMROIContainer" type="irdbb:DICOMData" minOccurs="0" />
+			<xs:element name="NonDICOMROIContainer" type="irdbb:NonDICOMData" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="PlanarCalibrationFactorUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="counts per second per megabecquerel"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ActualPlanarCalibrationFactor">
+		<xs:sequence>
+			<xs:element name="PlanarCalibrationFactorValue" type="xs:float"/>
+		<xs:element name="PlanarCalibrationFactorUnit" type="irdbb:PlanarCalibrationFactorUnit" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PlanarCalibrationFactorReference">
+		<xs:sequence>
+			<xs:element name="PlanarCalibrationFactorDate" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DataActivityPerROIAtTimePoint">
+		<xs:sequence>
+			<xs:element name="DataActivityValue" type="xs:float"/>
+		<xs:element name="ActivityUnit" type="irdbb:ActivityUnit" />
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+			<xs:element name="TimePointIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PatientOrganMassIn2DDosimetry">
+		<xs:sequence>
+			<xs:element name="PatientOrganMassValue" type="xs:float"/>
+		<xs:element name="MassUnit" type="irdbb:MassUnit" />
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="AbsorbedDoseRateUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="gray per second"/>
+			<xs:enumeration value="milligray per second"/>
+			<xs:enumeration value="milligray per hour"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="MeanAbsorbedDoseRateInROI">
+		<xs:sequence>
+			<xs:element name="MeanAbsorbedDoseRateInROIValue" type="xs:float"/>
+		<xs:element name="AbsorbedDoseRateUnit" type="irdbb:AbsorbedDoseRateUnit" />
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MeanAbsorbedDoseInROI">
+		<xs:sequence>
+			<xs:element name="MeanAbsorbedDoseInROIValue" type="xs:float"/>
+		<xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeIntegratedActivityCoefficientPerROI">
+		<xs:sequence>
+			<xs:element name="TimeIntegratedActivityCoefficientPerROIValue" type="xs:float"/>
+		<xs:element name="TimeUnit" type="irdbb:TimeUnit" />
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeIntegratedActivityPerROI">
+		<xs:sequence>
+			<xs:element name="TimeIntegratedActivityPerROIValue" type="xs:float"/>
+		<xs:element name="TimeUnit" type="irdbb:TimeUnit" />
+			<xs:element name="ROIIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SPECTDataAcquisitionAndProcessing">
+		<xs:sequence>
+			<xs:element name="SPECTAcqCTAcqAndReconstruction" type="irdbb:SPECTAcqCTAcqAndReconstruction" minOccurs="0" />
+			<xs:element name="SPECTReconstruction" type="irdbb:SPECTReconstruction" minOccurs="0" />
+			<xs:element name="RegistrationVOISegmentation" type="irdbb:RegistrationVOISegmentationAndPropagation"/>
+			<xs:element name="VOIActivityDetermination" type="irdbb:VOIActivityDetermination"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HybridDosimetryViaAbsorbedDoseRateCalculation">
+		<xs:sequence>
+			<xs:element name="HybridDosimetryPerTimePointContainer" type="irdbb:HybridDosimetryPerTimePointContainer"/>
+			<xs:element name="TimeAbsorbedDoseRateCurveFit" type="irdbb:TimeAbsorbedDoseRateCurveFit"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HybridDosimetryPerTimePointContainer">
+		<xs:sequence>
+			<xs:element name="HybridDosimetryPerTimePoint" type="irdbb:HybridDosimetryPerTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HybridDosimetryPerTimePoint">
+		<xs:sequence>
+			<xs:element name="EnergyDepositionRateCalculationInHybridDosimetry" type="irdbb:EnergyDepositionRateCalculationInHybridDosimetry"/>
+			<xs:element name="SumAndScalingEnergyDepositionRate" type="irdbb:SumAndScalingEnergyDepositionRate"/>
+			<xs:element name="AbsorbedDoseRateCalculationInHybridDosimetry" type="irdbb:AbsorbedDoseRateCalculationInHybridDosimetry"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HybridDosimetryViaTimeActivityCurveFit">
+		<xs:sequence>
+			<xs:element name="ActivityScaling" type="irdbb:ActivityScaling"/>
+			<xs:element name="TimeActivityCurveFit" type="irdbb:TimeActivityCurveFit"/>
+			<xs:element name="AbsorbedDoseCalculationInROIInHybridDosimetry" type="irdbb:AbsorbedDoseCalculationInROIInHybridDosimetry"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EnergyDepositionRateCalculationInHybridDosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="VoxelDataActivityAtTimePointIdentifier" type="irdbb:DICOMData" minOccurs="0" />
+			<xs:element name="NonDicomVoxelDataActivityAtTimePointIdentifier" type="irdbb:NonDICOMData" minOccurs="0" />
+			<xs:element name="CTReconResampledOnSPECTUsed" type="irdbb:DICOMData"/>
+			<xs:element name="ThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="irdbb:DICOMData"/>
+			<xs:element name="NonDICOMThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="irdbb:NonDICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SumAndScalingEnergyDepositionRate">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="irdbb:TimePointIdentifierContainer"/>
+			<xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierContainer"/>
+			<xs:element name="VOIInSPECTIdentifierUsed" type="xs:string"/>
+			<xs:element name="EnergyDepositionRatePerVOIAtTimePointProduced" type="irdbb:EnergyDepositionRatePerVOIAtTimePointContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="EnergyDepositionRatePerVOIAtTimePointContainer">
+		<xs:sequence>
+			<xs:element name="EnergyDepositionRatePerVOIAtTimePoint" type="irdbb:EnergyDepositionRatePerVOIAtTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimePointIdentifierContainer">
+		<xs:sequence>
+			<xs:element name="TimePointIdentifier" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseRateCalculationInHybridDosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassInHybridDosimetryContainer" minOccurs="0" />
+			<xs:element name="MeanAbsorbedDoseRateInVOIProduced" type="irdbb:MeanAbsorbedDoseRateInVOIContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MeanAbsorbedDoseRateInVOIContainer">
+		<xs:sequence>
+			<xs:element name="MeanAbsorbedDoseRateInVOI" type="irdbb:MeanAbsorbedDoseRateInVOI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="PatientOrganMassInHybridDosimetryContainer">
+		<xs:sequence>
+			<xs:element name="PatientOrganMassInHybridDosimetry" type="irdbb:PatientOrganMassInHybridDosimetry" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="TimeAbsorbedDoseRateCurveFit">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="TimePointIdentifierUsed" type="irdbb:TimePointIdentifierContainer"/>
+			<xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
+			<xs:element name="MeanAbsorbedDoseInVOIProduced" type="irdbb:MeanAbsorbedDoseInVOIContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MeanAbsorbedDoseInVOIContainer">
+		<xs:sequence>
+			<xs:element name="MeanAbsorbedDoseInVOI" type="irdbb:MeanAbsorbedDoseInVOI" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ActivityScaling">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="irdbb:TimePointIdentifierContainer"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierContainer"/>
+			<xs:element name="DataActivityPerROIAtTimePoint" type="irdbb:DataActivityPerROIAtTimePointContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseCalculationInROIInHybridDosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="ROIIdentifierUsed" type="irdbb:ROIIdentifierContainer"/>
+			<xs:element name="OrganSValueUsed" type="xs:string"/>
+			<xs:element name="PatientOrganMassUsed" type="irdbb:PatientOrganMassInHybridDosimetry" minOccurs="0" />
+			<xs:element name="OrganMassReference" type="irdbb:OrganMass" minOccurs="0" />
+			<xs:element name="MeanAbsorbedDoseInVOIProduced" type="irdbb:MeanAbsorbedDoseInVOIContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="RadioBiologicalCalculationInHybridOr3DSlide2Dosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="RadioBiologicalCalculationMethod" type="xs:string"/>
+			<xs:element name="RadioBiologicalCalculationParameters" type="xs:string"/>
+			<xs:element name="BiologicalEffectiveDose" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="EnergyDepositionRateUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="joule per second"/>
+			<xs:enumeration value="megaelectronvolt per second"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="EnergyDepositionRatePerVOIAtTimePoint">
+		<xs:sequence>
+			<xs:element name="EnergyDepositionRateValue" type="xs:float"/>
+		<xs:element name="EnergyDepositionRateUnit" type="irdbb:EnergyDepositionRateUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+			<xs:element name="TimePointIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MeanAbsorbedDoseRateInVOI">
+		<xs:sequence>
+			<xs:element name="MeanAbsorbedDoseRateInVOIValue" type="xs:float"/>
+		<xs:element name="AbsorbedDoseRateUnit" type="irdbb:AbsorbedDoseRateUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MeanAbsorbedDoseInVOI">
+		<xs:sequence>
+			<xs:element name="MeanAbsorbedDoseInVOIValue" type="xs:float"/>
+		<xs:element name="AbsorbedDoseUnit" type="irdbb:AbsorbedDoseUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DoseRateCurveFitVOITimeIntegrationContainer">
+		<xs:sequence>
+			<xs:element name="DoseRateCurveFitVOITimeIntegration" type="irdbb:DoseRateCurveFitVOITimeIntegration" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculationContainer">
+		<xs:sequence>
+			<xs:element name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation" type="irdbb:VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOISegmentationEnergyDepositionCalculationAbsorbedDoseRateCalculation">
+		<xs:sequence>
+			<xs:element name="VOISegmentationVOIMassDetermination" type="irdbb:VOISegmentationVOIMassDetermination"/>
+			<xs:element name="VOIActivityDetermination" type="irdbb:VOIActivityDetermination" minOccurs="0" />
+			<xs:element name="EnergyDepositionRateCalculationIn3DDosimetry" type="irdbb:EnergyDepositionRateCalculationIn3DDosimetry"/>
+			<xs:element name="SumAndScalingAbsorbedDoseRateCalculationContainer" type="irdbb:SumAndScalingAbsorbedDoseRateCalculationContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="VOISegmentationVOIMassDetermination">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
+			<xs:element name="CTReconUsed" type="irdbb:DICOMData"/>
+			<xs:element name="VOISegmentationMethodUsed" type="xs:string"/>
+			<xs:element name="CountsPerVOIAtTimePointContainer" type="irdbb:CountsPerVOIAtTimePointContainer" minOccurs="0" />
+			<xs:element name="VOIProduced" type="irdbb:VoiProducedContainer" minOccurs="0" />
+			<xs:element name="SegmentationProduced" type="irdbb:Segmentation" minOccurs="0" />
+			<xs:element name="CTReconResampledOnNMReferenceProduced" type="irdbb:DICOMDataContainer"/>
+			<xs:element name="MassPerVOIAtTimePointContainer" type="irdbb:MassPerVOIAtTimePointContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MassPerVOIAtTimePointContainer">
+		<xs:sequence>
+			<xs:element name="MassPerVOIAtTimePointProduced" type="irdbb:MassPerVOIAtTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CountsPerVOIAtTimePointContainer">
+		<xs:sequence>
+			<xs:element name="CountsPerVOIAtTimePointProduced" type="irdbb:CountsPerVOIAtTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="CalculationAlgorithmUsed">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="local energy deposition"/>
+			<xs:enumeration value="FFT convolution"/>
+			<xs:enumeration value="homogeneous matrix convolution"/>
+			<xs:enumeration value="heterogeneous matrix convolution"/>
+			<xs:enumeration value="Monte Carlo"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="EnergyDepositionRateCalculationIn3DDosimetry">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="CTReconResampledOnNMReferenceUsed" type="irdbb:DICOMData"/>
+			<xs:element name="NMTomoReconUsed" type="irdbb:DICOMData"/>
+		<xs:element name="CalculationAlgorithmUsed" type="irdbb:CalculationAlgorithmUsed" />
+			<xs:element name="KernelLimitForConvolutionsUsed" type="irdbb:KernelLimitForConvolutions" minOccurs="0" />
+			<xs:element name="ThreeDimEnergyDepositionRateMatrixAtTimePointProduced" type="irdbb:NonDICOMData"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SumAndScalingAbsorbedDoseRateCalculationContainer">
+		<xs:sequence>
+			<xs:element name="SumAndScalingAbsorbedDoseRateCalculation" type="irdbb:SumAndScalingAbsorbedDoseRateCalculation" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SumAndScalingAbsorbedDoseRateCalculation">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer" minOccurs="0" />
+			<xs:element name="TimePointIdentifierUsed" type="xs:string"/>
+			<xs:element name="SegmentationUsed" type="xs:string" minOccurs="0" />
+			<xs:element name="ThreeDimEnergyDepositionRateMatrixAtTimePointUsed" type="irdbb:NonDICOMData"/>
+			<xs:element name="AbsorbedDoseRatePerVOIAtTimePointProduced" type="irdbb:AbsorbedDoseRatePerVOIAtTimePointContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseRatePerVOIAtTimePointContainer">
+		<xs:sequence>
+			<xs:element name="AbsorbedDoseRatePerVOIAtTimePointProduced" type="irdbb:AbsorbedDoseRatePerVOIAtTimePoint" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="DoseRateCurveFitVOITimeIntegration">
+		<xs:sequence>
+			<xs:element name="ProcessExecutionContext" type="irdbb:ProcessExecutionContext"/>
+			<xs:element name="VOIIdentifierUsed" type="irdbb:VOIIdentifierContainer"/>
+			<xs:element name="TimePointIdentifierUsed" type="irdbb:TimePointIdentifierUsedContainer"/>
+			<xs:element name="PKAssessmentMethodUsed" type="irdbb:CurveFittingMethod"/>
+			<xs:element name="PreAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PostAdministeredActivityUsed" type="irdbb:AdministeredActivity"/>
+			<xs:element name="AbsorbedDoseInVOIProduced" type="irdbb:AbsorbedDoseInVOIContainer"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="MassPerVOIAtTimePoint">
+		<xs:sequence>
+			<xs:element name="MassValue" type="xs:float"/>
+		<xs:element name="MassUnit" type="irdbb:MassUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+			<xs:element name="TimePointIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AbsorbedDoseRatePerVOIAtTimePoint">
+		<xs:sequence>
+			<xs:element name="AbsorbedDoseRateValue" type="xs:float"/>
+		<xs:element name="AbsorbedDoseRateUnit" type="irdbb:AbsorbedDoseRateUnit" />
+			<xs:element name="VOIIdentifier" type="xs:integer"/>
+			<xs:element name="TimePointIdentifier" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="KernelLimitForConvolutionsUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="millimeter"/>
+			<xs:enumeration value="centimeter"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="KernelLimitForConvolutions">
+		<xs:sequence>
+			<xs:element name="KernelLimitForConvolutionsValue" type="xs:float"/>
+		<xs:element name="KernelLimitForConvolutionsUnit" type="irdbb:KernelLimitForConvolutionsUnit" />
+		</xs:sequence>
+	</xs:complexType>
+
 </xs:schema>

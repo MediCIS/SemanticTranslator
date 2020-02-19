@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--VersionSchemas : 052-->
+<!--VersionSchemas : 104-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -12,6 +12,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:sequence>
 			<xs:element name="ReferencedClinicalResearchStudy" type="irdbb:ReferencedClinicalResearchStudy" />
 			<xs:element name="PatientId" type="xs:string"/>
+			<xs:element name="AcquisitionSettings" type="irdbb:AcquisitionSettings" />
 				<xs:element name="CalibrationWorkflow" type="irdbb:CalibrationWorkflow" />
 		</xs:sequence>
 	</xs:complexType>
@@ -27,12 +28,52 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 				<xs:sequence>
 					<xs:element name="SPECTCTCalibrationWorkflow" type="irdbb:SPECTCTCalibrationWorkflow"/>
 					<xs:element name="PlanarCalibrationWorkflow" type="irdbb:PlanarCalibrationWorkflow"/>
+					<xs:element name="CTCalibrationWorkflow" type="irdbb:CTCalibrationWorkflow"/>
 						</xs:sequence>
 				</xs:complexType>
 
+	<xs:simpleType name="Radiopharmaceutical">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="sodiumIodideI131"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Isotope">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="radium223"/>
+			<xs:enumeration value="iodine131"/>
+			<xs:enumeration value="lutetium177"/>
+			<xs:enumeration value="yttrium90"/>
+			<xs:enumeration value="radium223"/>
+			<xs:enumeration value="rhenium188"/>
+			<xs:enumeration value="technetium99m"/>
+			<xs:enumeration value="terbium161"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AcquisitionSettings">
+		<xs:sequence>
+			<xs:element name="Siteadministeringthetreatment" type="xs:string"/>
+			<xs:element name="Dateandtimeofinjection" type="xs:string"/>
+			<xs:element name="PreAdministeredActivity" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PostAdministeredActivity" type="irdbb:AdministeredActivity" minOccurs="0" />
+		<xs:element name="Radiopharmaceutical" type="irdbb:Radiopharmaceutical" />
+		<xs:element name="Isotope" type="irdbb:Isotope" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CTCalibrationWorkflow">
+		<xs:sequence>
+			<xs:element name="CTNumberCalibrationWorkfow" type="irdbb:CTNumberCalibrationWorkfow"/>
+			<xs:element name="SPECTReconstructionInCalibration" type="irdbb:SPECTReconstructionInCalibration"/>
+			<xs:element name="CTSegmentationInCalibration" type="irdbb:CTSegmentationInCalibration"/>
+			<xs:element name="SPECTSensitivityCalculation" type="irdbb:SPECTSensitivityCalculation"/>
+			<xs:element name="SPECTRecoveryCoefficientCurveCalculation" type="irdbb:SPECTRecoveryCoefficientCurveCalculation" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="SPECTCTCalibrationWorkflow">
 		<xs:sequence>
-			<xs:element name="CTNumberCalibrationWorkfow" type="irdbb:CTNumberCalibrationWorkfow" minOccurs="0" />
 			<xs:element name="SPECTAcqCTAcqAndReconstructionInCalibration" type="irdbb:SPECTAcqCTAcqAndReconstructionInCalibration"/>
 			<xs:element name="SPECTReconstructionInCalibration" type="irdbb:SPECTReconstructionInCalibration"/>
 			<xs:element name="CTSegmentationInCalibration" type="irdbb:CTSegmentationInCalibration"/>
@@ -221,17 +262,6 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:element name="MaterialIdentifier" type="xs:string" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
-
-	<xs:simpleType name="Isotope">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="radium223"/>
-			<xs:enumeration value="iodine131"/>
-			<xs:enumeration value="lutetium177"/>
-			<xs:enumeration value="yttrium90"/>
-			<xs:enumeration value="radium223"/>
-			<xs:enumeration value="rhenium188"/>
-		</xs:restriction>
-	</xs:simpleType>
 
 	<xs:complexType name="NMRelevantCalibrationReference">
 		<xs:sequence>
@@ -455,10 +485,17 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="TransformationIdentifierContainer">
+		<xs:sequence>
+			<xs:element name="TransformationIdentifier" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
 	<xs:complexType name="DICOMData">
 		<xs:sequence>
 			<xs:element name="DICOMStudyUID" type="xs:string"/>
 			<xs:element name="DICOMSeriesUID" type="xs:string"/>
+			<xs:element name="TransformationsUsed" type="irdbb:TransformationIdentifierContainer" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -472,7 +509,9 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:enumeration value="3D Energy Deposition Rate Matrix"/>
 			<xs:enumeration value="NM Tomo Reconstruction"/>
 			<xs:enumeration value="CT Reconstruction"/>
-			<xs:enumeration value="Registration Matrix"/>
+			<xs:enumeration value="Linear transformation matrix"/>
+			<xs:enumeration value="BSpline transformation"/>
+			<xs:enumeration value="Advanced elastix transformation"/>
 			<xs:enumeration value="Density Image"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -485,7 +524,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:enumeration value="GIF format embedding imageJ contours"/>
 			<xs:enumeration value="NRRD format"/>
 			<xs:enumeration value="STL format"/>
-			<xs:enumeration value="HDF format"/>
+			<xs:enumeration value="HDF4 format"/>
+			<xs:enumeration value="HDF5 format"/>
 		</xs:restriction>
 	</xs:simpleType>
 
@@ -495,6 +535,25 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:element name="NonDICOMDataFormat" type="irdbb:NonDICOMDataFormat" />
 			<xs:element name="NonDICOMDataFileName" type="xs:string"/>
 			<xs:element name="FHIRIdentifier" type="xs:string" minOccurs="0" />
+			<xs:element name="TransformationsUsed" type="irdbb:TransformationIdentifierContainer" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="ActivityUnit">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="becquerel"/>
+			<xs:enumeration value="kilobecquerel"/>
+			<xs:enumeration value="megabecquerel"/>
+			<xs:enumeration value="curie"/>
+			<xs:enumeration value="millicurie"/>
+			<xs:enumeration value="microcurie"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AdministeredActivity">
+		<xs:sequence>
+			<xs:element name="AdministeredActivityValue" type="xs:float"/>
+		<xs:element name="ActivityUnit" type="irdbb:ActivityUnit" />
 		</xs:sequence>
 	</xs:complexType>
 

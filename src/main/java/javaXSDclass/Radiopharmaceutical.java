@@ -14,43 +14,28 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour IntegrationAlgorithm.
+ * <p>Classe Java pour Radiopharmaceutical.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * <p>
  * <pre>
- * &lt;simpleType name="IntegrationAlgorithm">
+ * &lt;simpleType name="Radiopharmaceutical">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
- *     &lt;enumeration value="trapezoid"/>
- *     &lt;enumeration value="mono_exponential"/>
- *     &lt;enumeration value="bi_exponential"/>
- *     &lt;enumeration value="tri_exponential"/>
- *     &lt;enumeration value="x_exponential"/>
- *     &lt;enumeration value="other"/>
+ *     &lt;enumeration value="sodiumIodideI131"/>
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
  * 
  */
-@XmlType(name = "IntegrationAlgorithm")
+@XmlType(name = "Radiopharmaceutical")
 @XmlEnum
-public enum IntegrationAlgorithm {
+public enum Radiopharmaceutical {
 
-    @XmlEnumValue("trapezoid")
-    TRAPEZOID("trapezoid"),
-    @XmlEnumValue("mono_exponential")
-    MONO_EXPONENTIAL("mono_exponential"),
-    @XmlEnumValue("bi_exponential")
-    BI_EXPONENTIAL("bi_exponential"),
-    @XmlEnumValue("tri_exponential")
-    TRI_EXPONENTIAL("tri_exponential"),
-    @XmlEnumValue("x_exponential")
-    X_EXPONENTIAL("x_exponential"),
-    @XmlEnumValue("other")
-    OTHER("other");
+    @XmlEnumValue("sodiumIodideI131")
+    SODIUM_IODIDE_I_131("sodiumIodideI131");
     private final String value;
 
-    IntegrationAlgorithm(String v) {
+    Radiopharmaceutical(String v) {
         value = v;
     }
 
@@ -58,8 +43,8 @@ public enum IntegrationAlgorithm {
         return value;
     }
 
-    public static IntegrationAlgorithm fromValue(String v) {
-        for (IntegrationAlgorithm c: IntegrationAlgorithm.values()) {
+    public static Radiopharmaceutical fromValue(String v) {
+        for (Radiopharmaceutical c: Radiopharmaceutical.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

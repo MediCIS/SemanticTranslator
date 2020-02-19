@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.06 à 05:03:32 PM CET 
+// Généré le : 2020.02.12 à 04:30:42 PM CET 
 //
 
 
@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="SPECTCTCalibrationWorkflow" type="{https://www.irdbb-medirad.com}SPECTCTCalibrationWorkflow"/>
  *         &lt;element name="PlanarCalibrationWorkflow" type="{https://www.irdbb-medirad.com}PlanarCalibrationWorkflow"/>
+ *         &lt;element name="CTCalibrationWorkflow" type="{https://www.irdbb-medirad.com}CTCalibrationWorkflow"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -37,7 +38,8 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CalibrationWorkflow", propOrder = {
     "spectctCalibrationWorkflow",
-    "planarCalibrationWorkflow"
+    "planarCalibrationWorkflow",
+    "ctCalibrationWorkflow"
 })
 public class CalibrationWorkflow {
 
@@ -45,6 +47,8 @@ public class CalibrationWorkflow {
     protected SPECTCTCalibrationWorkflow spectctCalibrationWorkflow;
     @XmlElement(name = "PlanarCalibrationWorkflow", required = true)
     protected PlanarCalibrationWorkflow planarCalibrationWorkflow;
+    @XmlElement(name = "CTCalibrationWorkflow", required = true)
+    protected CTCalibrationWorkflow ctCalibrationWorkflow;
 
     /**
      * Obtient la valeur de la propriété spectctCalibrationWorkflow.
@@ -92,6 +96,30 @@ public class CalibrationWorkflow {
      */
     public void setPlanarCalibrationWorkflow(PlanarCalibrationWorkflow value) {
         this.planarCalibrationWorkflow = value;
+    }
+
+    /**
+     * Obtient la valeur de la propriété ctCalibrationWorkflow.
+     * 
+     * @return
+     *     possible object is
+     *     {@link CTCalibrationWorkflow }
+     *     
+     */
+    public CTCalibrationWorkflow getCTCalibrationWorkflow() {
+        return ctCalibrationWorkflow;
+    }
+
+    /**
+     * Définit la valeur de la propriété ctCalibrationWorkflow.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link CTCalibrationWorkflow }
+     *     
+     */
+    public void setCTCalibrationWorkflow(CTCalibrationWorkflow value) {
+        this.ctCalibrationWorkflow = value;
     }
 
 }

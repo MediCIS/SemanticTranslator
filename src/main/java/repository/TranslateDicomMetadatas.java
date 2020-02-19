@@ -432,6 +432,10 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			
 			String StudyInstanceUID = root.getString(Tag.StudyInstanceUID);
 			logger.debug("StudyInstanceUID : "+StudyInstanceUID);
+			
+			String SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
+			logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+			
 			if (StudyInstanceUID!=null) {
 				imagingStudy = memory.getImagingStudy(StudyInstanceUID);
 			}
@@ -444,6 +448,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			}
 			
 			addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
+			addDataProperty(imagingStudy, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 			
 			Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy(ClinicalResearchStudyId);
 			System.out.println("clinicalResearchStudy : "+clinicalResearchStudy);
@@ -612,8 +617,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				} else {
 					addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_CT_image_storage_SOP_class")));
 				}
-				String SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
-				logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+				
+				addDataProperty(dataSet, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 				addDataProperty(dataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 				addObjectProperty(dataSet, racineURI+"is_specified_output_of", acquisition);
 	
@@ -653,12 +658,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				addDataProperty(acquisition, racineURI+"has_beginning_time", SeriesTime);
 			}
 	
-			String SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
-			logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
-			if (SeriesInstanceUID!=null) {
-				addDataProperty(acquisition, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
-			}
-			
+			addDataProperty(acquisition, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
+			addDataProperty(acquisition, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
+						
 			//ontomedirad:SPECT_acquisition
 	
 			if (acquisitionDevice!=null) {
@@ -1012,6 +1014,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				
 				SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
 				logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+				addDataProperty(dataSet, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 				addDataProperty(dataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 				addObjectProperty(dataSet, racineURI+"is_specified_output_of", acquisition);
 	
@@ -1266,6 +1269,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 					SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
 					logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+					addDataProperty(dataset, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 					addDataProperty(dataset, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 					addObjectProperty(dataset, racineURI+"is_specified_output_of", acquisition);
 					
@@ -1414,6 +1418,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					addObjectProperty(NMDataSet, racineURI+"has_format", i);
 					
 					logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+					addDataProperty(NMDataSet, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 					addDataProperty(NMDataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 					addObjectProperty(NMDataSet, racineURI+"is_specified_output_of", acquisition);
 	
@@ -1542,6 +1547,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					addObjectProperty(NMDataSet, racineURI+"has_format", i);
 					
 					logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+					addDataProperty(NMDataSet, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 					addDataProperty(NMDataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 					addObjectProperty(NMDataSet, racineURI+"is_specified_output_of", acquisition);
 	
@@ -1659,6 +1665,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					addObjectProperty(NMDataSet, racineURI+"has_format", i);
 					
 					logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+					addDataProperty(NMDataSet, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 					addDataProperty(NMDataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 					addObjectProperty(NMDataSet, racineURI+"is_specified_output_of", acquisition);
 	
@@ -1779,6 +1786,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				addObjectProperty(PETDataSet, racineURI+"has_format", i);
 				
 				logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+				addDataProperty(PETDataSet, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 				addDataProperty(PETDataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 				//Individual PETDataAcquisition = createIndiv(generateName("PET_data_acquisition"), model.getResource(racineURI+"PET_data_acquisition"));
 				addObjectProperty(PETDataSet, racineURI+"is_specified_output_of", acquisition);
@@ -1879,6 +1887,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				Individual PETDataAcquisition = createIndiv(generateName("SPECT_data_acquisition"), model.getResource(racineURI+"SPECT_data_acquisition"));
 				
 				logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
+				addDataProperty(PETDataSet, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 				addDataProperty(PETDataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 				addObjectProperty(PETDataSet, racineURI+"is_specified_output_of", acquisition);
 	
