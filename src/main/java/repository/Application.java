@@ -47,17 +47,20 @@ public class Application {
 			"bfo.owl","FMA_for_OntoMEDIRAD.owl","IAO_for_OntoSPM.owl",
 			"MEDIRADClinicalResearchStudies.owl","ontoMedirad.owl",
 			"PATO_for_OntoMEDIRAD.owl","Radionuclides_for_OntoMEDIRAD.owl",
-			"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl");
+			"radiopharmaceuticals.owl","skos.rdf","UO_for_OntoMEDIRAD.owl",
+			"MPATH_for_OntoMEDIRAD.owl", "SPARKLISlabels.owl");
 		
     public static void main(String[] args) throws IOException, InvocationTargetException, ResultWritingFailed, JSONException {    			
-		
+		/*
     	int nMinutes = 10;
 
       	if (args.length>=1) {
      		if (args[0]=="express") {nMinutes = 0;}
      		else {nMinutes = Integer.parseInt(args[0]);}
      	}
-      	
+      	*/
+    	
+    	
     	System.out.println("Hello World !");
 
     	loadProperties();									     // Load some settings from a text file (pathOntology, dockerHost, starDogUrl)
@@ -65,6 +68,7 @@ public class Application {
 		listQuerries = new ListQuerries(); 							// Init a querry list (read from the excel file)
     	loadOntology(pathOntology);
     	
+    	/*
         System.out.println("Wait for Stardog"); 	
     	try {
 			TimeUnit.MINUTES.sleep(nMinutes);
@@ -73,7 +77,8 @@ public class Application {
 			e1.printStackTrace();
 		}
         System.out.println("Wait end"); 	
-		
+		*/
+    	
         memory = new Memory();										// Going to request to get usefull object inside semantic database    	
             	
         SpringApplication.run(Application.class, args);					 // Spring Boot
