@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--VersionSchemas : 096-->
+<!--VersionSchemas : 104-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -44,6 +44,36 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 					<xs:element name="RadioBiologicalCalculationIn3DSlide1Dosimetry" type="irdbb:RadioBiologicalCalculationIn3DSlide1Dosimetry" minOccurs="0" />
 						</xs:sequence>
 				</xs:complexType>
+
+	<xs:simpleType name="Radiopharmaceutical">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="sodiumIodideI131"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="Isotope">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="radium223"/>
+			<xs:enumeration value="iodine131"/>
+			<xs:enumeration value="lutetium177"/>
+			<xs:enumeration value="yttrium90"/>
+			<xs:enumeration value="radium223"/>
+			<xs:enumeration value="rhenium188"/>
+			<xs:enumeration value="technetium99m"/>
+			<xs:enumeration value="terbium161"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AcquisitionSettings">
+		<xs:sequence>
+			<xs:element name="Siteadministeringthetreatment" type="xs:string"/>
+			<xs:element name="Dateandtimeofinjection" type="xs:string"/>
+			<xs:element name="PreAdministeredActivity" type="irdbb:AdministeredActivity"/>
+			<xs:element name="PostAdministeredActivity" type="irdbb:AdministeredActivity" minOccurs="0" />
+		<xs:element name="Radiopharmaceutical" type="irdbb:Radiopharmaceutical" />
+		<xs:element name="Isotope" type="irdbb:Isotope" />
+		</xs:sequence>
+	</xs:complexType>
 
 	<xs:complexType name="TimeActivityCurveFitIn3DDosimetryContainer">
 		<xs:sequence>
@@ -265,19 +295,6 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:element name="ReferenceCalibrationDate" type="xs:string"/>
 		</xs:sequence>
 	</xs:complexType>
-
-	<xs:simpleType name="Isotope">
-		<xs:restriction base="xs:string">
-			<xs:enumeration value="radium223"/>
-			<xs:enumeration value="iodine131"/>
-			<xs:enumeration value="lutetium177"/>
-			<xs:enumeration value="yttrium90"/>
-			<xs:enumeration value="radium223"/>
-			<xs:enumeration value="rhenium188"/>
-			<xs:enumeration value="technetium99m"/>
-			<xs:enumeration value="terbium161"/>
-		</xs:restriction>
-	</xs:simpleType>
 
 	<xs:complexType name="NMRelevantCalibrationReference">
 		<xs:sequence>

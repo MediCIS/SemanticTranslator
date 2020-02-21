@@ -4,12 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import org.openrdf.query.QueryEvaluationException;
-import org.openrdf.query.TupleQueryResult;
-import org.openrdf.query.TupleQueryResultHandlerException;
-import org.openrdf.query.resultio.QueryResultIO;
-import org.openrdf.query.resultio.TupleQueryResultFormat;
-import org.openrdf.query.resultio.UnsupportedQueryResultFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,6 +14,10 @@ import com.complexible.stardog.api.ConnectionConfiguration;
 import com.complexible.stardog.api.ConnectionPool;
 import com.complexible.stardog.api.ConnectionPoolConfig;
 import com.complexible.stardog.api.SelectQuery;
+import com.stardog.stark.query.SelectQueryResult;
+import com.stardog.stark.query.io.QueryResultFormats;
+import com.stardog.stark.query.io.QueryResultWriters;
+import com.stardog.stark.query.io.ResultWritingFailed;
 
 import repository.ImportController.database;
 
@@ -65,36 +63,24 @@ public abstract class CommonFunctions {
 			break;
 		}
 
-		logger.debug("request : ");
-		logger.debug(request);
-
-		SelectQuery aQuery = starDogConnection.select(request);         // Put the request to the StarDog
-
-		TupleQueryResult aResult = null;							    // Create an object to receive the result
-
-		aResult = aQuery.execute();										// Execute Request (StarDog Exception)
-
-		ByteArrayOutputStream out = new ByteArrayOutputStream();	    // Create an OuputStream to receive result
+		createAdminConnection(database.ontoMedirad, false);
+		logger.debug("Request "+request);
+		SelectQuery aQuery = starDogConnection.select(request);
+		SelectQueryResult aResult=null; ByteArrayOutputStream out=null;
+		aResult = aQuery.execute();
+		out = new ByteArrayOutputStream();
 		try {
-			QueryResultIO.writeTuple(aResult,                           // Write the request result in the ByteArrayOutputStream
-					TupleQueryResultFormat.JSON, out);
-		} catch (TupleQueryResultHandlerException e) {
+			QueryResultWriters.write(aResult, out, QueryResultFormats.JSON);
+		} catch (ResultWritingFailed e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("TupleQueryResultHandlerException");
-		} catch (QueryEvaluationException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("QueryEvaluationException");
-		} catch (UnsupportedQueryResultFormatException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("UnsupportedQueryResultFormatException");
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("IOException");
-		}	
+		}
 
-		starDogConnection.close();										// Close The Connection to Stardog (despite the errors)
-		aResult.close();												// Close The Object (despite the errors)
-
+		if (aResult!=null) {aResult.close();}
+		starDogConnection.close();
 		logger.debug("result : ");
 		logger.debug(out.toString());
 
