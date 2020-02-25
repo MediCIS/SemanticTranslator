@@ -94,6 +94,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 	static Individual human;
 	static Individual patient;
 	static Individual internalRadiotherapy;
+	static Individual RadiopharmaceuticalAdmin;
 
 	public static void translateNonDicomData(NonDicomFileSetDescriptor nonDicomFileSetDescriptor) { // 1st function to read XML, check what is inside and call the appropritae function
 		populateModel = ModelFactory.createOntologyModel();
@@ -866,8 +867,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					addObjectProperty(registration, racineURI+"has_specified_output", densityImage);
 					addObjectProperty(registration, racineURI+"is_about", timePointUsed);
 					addObjectProperty(registration, racineURI+"has_patient", patient);
-
-
 				}
 			}
 
@@ -1056,6 +1055,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				default:
 					break;
 				}
+				
+				addObjectProperty(timeActivityCurveFit, racineURI+"has_protocol", PKAssessmentMethod);
 
 				String fittingFunction = timeIntegratedActivityPerVOIProduced.getPKAssessmentMethodUsed().getFittingFunction();
 				addDataProperty(PKAssessmentMethod, racineURI+"has_name", fittingFunction);
@@ -1074,7 +1075,9 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			addObjectProperty(calculationOfMeanAbsorbedDosesInVOI, racineURI+"has_specified_input", segmentation);
 		}
 
-		addDataProperty(calculationOfMeanAbsorbedDosesInVOI, racineURI+"has_method_name", absorbedDoseCalculationInVOI.getAbsorbedDoseCalculationMethodUsed());
+		Individual absorbedDoseMethod = createIndiv(generateName("absorbed_dose_estimate_method"), model.getResource(racineURI+"absorbed_dose_estimate_method"));
+		addDataProperty(absorbedDoseMethod, racineURI+"has_name", absorbedDoseCalculationInVOI.getAbsorbedDoseCalculationMethodUsed());
+		addObjectProperty(calculationOfMeanAbsorbedDosesInVOI, racineURI+"has_protocol", absorbedDoseMethod);
 
 		if (absorbedDoseCalculationInVOI.getVoxelAbsorbedDoseMapProduced()!=null) {
 			Iterator<NonDICOMData> voxelAbsorbedDoseMapProducedIterator = absorbedDoseCalculationInVOI.getVoxelAbsorbedDoseMapProduced().getNonDICOMData().iterator();
@@ -1090,8 +1093,12 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			Iterator<AbsorbedDoseInVOI> absorbedDoseInVOIProducedIterator = absorbedDoseCalculationInVOI.getAbsorbedDoseInVOIContainer().getAbsorbedDoseInVOIProduced().iterator();
 			while (absorbedDoseInVOIProducedIterator.hasNext()) {
 				AbsorbedDoseInVOI absorbedDoseInVOI = absorbedDoseInVOIProducedIterator.next();
-				Individual absorbedDose = createIndiv(generateName("absorbed_dose"), model.getResource(racineURI+"total_absorbed_dose_per_VOI"));
+				Individual absorbedDose = createIndiv(generateName("total_absorbed_dose_per_VOI"), model.getResource(racineURI+"total_absorbed_dose_per_VOI"));
 				addDataProperty(absorbedDose, "http://purl.obolibrary.org/obo/IAO_0000004",absorbedDoseInVOI.getAbsorbedDoseInVOIValue());
+				addObjectProperty(absorbedDose, racineURI+"is_about", clinicalresearchStudy);
+				addObjectProperty(absorbedDose, racineObo+"BFO_0000132", clinicalresearchStudy);
+				addObjectProperty(absorbedDose, racineURI+"has_protocol", absorbedDoseMethod);
+				addObjectProperty(absorbedDose, racineURI+"is_specified_output", calculationOfMeanAbsorbedDosesInVOI);
 				switch (absorbedDoseInVOI.getAbsorbedDoseUnit()) {
 				case GRAY:
 					addObjectProperty(absorbedDose, racineURI+"has_measurement_unit_label", getUnit("gray"));
@@ -1123,6 +1130,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					BigInteger VOIIdentifierUsed = VOIIdentifierUsedIterator.next();
 					Individual voi = tableVOI.get(VOIIdentifierUsed.toString());
 					addObjectProperty(calculationOfMeanAbsorbedDosesInVOI, racineURI+"has_specified_input", voi);
+					addObjectProperty(absorbedDose, racineURI+"is_about", voi);
+					addObjectProperty(absorbedDose, racineURI+"has_patient", voi);
 				}	
 				addObjectProperty(calculationOfMeanAbsorbedDosesInVOI, racineURI+"has_specified_output", absorbedDose);
 			}
@@ -1132,6 +1141,10 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			RadioBiologicalCalculationIn3DSlide1Dosimetry radioBiologicalCalculationIn3DSlide1Dosimetry = threeDimDosimetrySlide1Workflow.getRadioBiologicalCalculationIn3DSlide1Dosimetry();
 			Individual radioBiologicalCalculation = createIndiv(generateName("radio_biological_calculation"), model.getResource(racineURI+"radio_biological_calculation"));
 
+			addObjectProperty(radioBiologicalCalculation, racineURI+"has_patient", clinicalresearchStudy);
+			addObjectProperty(radioBiologicalCalculation, racineObo+"BFO_0000132", internalRadiotherapy);
+
+			
 			processExecutionContext = radioBiologicalCalculationIn3DSlide1Dosimetry.getProcessExecutionContext();
 			translateProcessExecutionContext(processExecutionContext, radioBiologicalCalculation);
 
@@ -1139,12 +1152,12 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			addObjectProperty(radioBiologicalCalculation,racineURI+"has_specified_input",voi);
 
 			if (radioBiologicalCalculationIn3DSlide1Dosimetry.getVoxelAbsorbedDoseMapIdentifierUsed()!= null) {
-				//TODO
 				Iterator<String> voxelAbsorbedDoseMapIdentifierUsedIterator = radioBiologicalCalculationIn3DSlide1Dosimetry.getVoxelAbsorbedDoseMapIdentifierUsed().getVoxelAbsorbedDoseMapIdentifierUsed().iterator();
 				while (voxelAbsorbedDoseMapIdentifierUsedIterator.hasNext()) {
 					String voxelAbsorbedDoseMapIdentifierUsed = voxelAbsorbedDoseMapIdentifierUsedIterator.next();
 					Individual voxelAbsorbedDoseMap = tableVoxelAbsorbedDoseMap.get(voxelAbsorbedDoseMapIdentifierUsed);
-					addObjectProperty(radioBiologicalCalculation,racineURI+"has_specified_input",voxelAbsorbedDoseMap);
+					addObjectProperty(radioBiologicalCalculation, racineURI+"has_specified_input", voxelAbsorbedDoseMap);
+					addObjectProperty(voxelAbsorbedDoseMap, racineURI+"has_patient", human);
 				}
 			}
 
@@ -1154,9 +1167,11 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			addDataProperty(radioBiologicalCalculation, racineURI+"has_description", RadioBiologicalCalculationParameters);
 
 			String BiologicalEffectiveDose = radioBiologicalCalculationIn3DSlide1Dosimetry.getBiologicalEffectiveDose();
-			addDataProperty(radioBiologicalCalculation, "http://purl.obolibrary.org/obo/IAO_0000004", BiologicalEffectiveDose);
+			Individual effectiveDose = createIndiv(generateName("effective_dose"), model.getResource(racineURI+"effective_dose"));
+			addDataProperty(effectiveDose, "http://purl.obolibrary.org/obo/IAO_0000004", BiologicalEffectiveDose);
+			addObjectProperty(radioBiologicalCalculation, racineURI+"has_specified_output", effectiveDose);
+			addObjectProperty(radioBiologicalCalculation, racineURI+"has_patient", human);
 		}
-
 	}
 
 	public static void retreiveThreeDimDosimetrySlide2Workflow(ThreeDimDosimetrySlide2Workflow threeDimDosimetrySlide2Workflow) {
@@ -1631,11 +1646,14 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			Individual preActivity = createIndiv(generateName("pre-administration_measured_activity"), model.getResource(racineDCM+"113508"));
 			addDataProperty(preActivity, "http://purl.obolibrary.org/obo/IAO_0000004", preAdministeredActivityUsed.getAdministeredActivityValue());
 			addObjectProperty(preActivity, racineURI+"has_measurement_unit_label", getUnit(preAdministeredActivityUsed.getActivityUnit().toString()));
+			addObjectProperty(preActivity, racineURI+"is_about", RadiopharmaceuticalAdmin);
 
 			AdministeredActivity postAdministeredActivityUsed = doseRateCurveFitVOITimeIntegration.getPostAdministeredActivityUsed();
 			Individual postActivity = createIndiv(generateName("post-administration_measured_activity"), model.getResource(racineDCM+"113509"));
 			addDataProperty(preActivity, "http://purl.obolibrary.org/obo/IAO_0000004", postAdministeredActivityUsed.getAdministeredActivityValue());
 			addObjectProperty(preActivity, racineURI+"has_measurement_unit_label", getUnit(postAdministeredActivityUsed.getActivityUnit().toString()));
+			addObjectProperty(preActivity, racineURI+"is_about", RadiopharmaceuticalAdmin);
+
 
 			Iterator<AbsorbedDoseInVOI> AbsorbedDoseInVOIProducedIterator = doseRateCurveFitVOITimeIntegration.getAbsorbedDoseInVOIProduced().getAbsorbedDoseInVOIProduced().iterator();
 			while (AbsorbedDoseInVOIProducedIterator.hasNext()) {
