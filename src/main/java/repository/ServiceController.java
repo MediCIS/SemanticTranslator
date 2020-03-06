@@ -67,12 +67,12 @@ import com.pixelmed.dicom.DicomException;
 import com.pixelmed.dicom.StructuredReport;
 
 import javaXSDclass.NonDicomFileSetDescriptor;
-import querries.Querry;
+import queries.Querry;
 
 @Controller
 @RestController
 
-public class ImportController extends CommonFunctions {	
+public class ServiceController extends CommonFunctions {	
 	public enum database {ontoMedirad, test}; 	// StarDog Database list ()
 
 	String rdfName;								// Name of the RDF file that wille writen before transfer to StarDog (for backup)
@@ -87,10 +87,11 @@ public class ImportController extends CommonFunctions {
 	
 	static Boolean testValidDicom = true;
 
-	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 	
+	private final static Logger logger = LoggerFactory.getLogger(ServiceController.class); 	
 
 	@RequestMapping (value = "/testXML", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/xml")
-	public String testXML(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor) throws FileNotFoundException  {      
+	public String testXML(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor) throws FileNotFoundException  {   
+		// read XML file content and translate it in RDF
 		TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor);
 		rdfName = "testXML.rdf";	
 		writingRDF(rdfName);
@@ -139,7 +140,6 @@ public class ImportController extends CommonFunctions {
 		NodeList test = document.getChildNodes();
 		visitChildNodes(test);
 		
-		System.out.println("Test Dicom Datas : "+testValidDicom);
 		return "Tipoui !\n";
 	}
 	
@@ -160,7 +160,6 @@ public class ImportController extends CommonFunctions {
 	}
 
 	public static void readDicomData(Node nodeDicomdata) {
-		System.out.println("\nreadDicomData");
 		NodeList nodesList = nodeDicomdata.getChildNodes();
 		String DICOMStudyUID =  null;
 		String DICOMSeriesUID =  null;
@@ -178,9 +177,6 @@ public class ImportController extends CommonFunctions {
 		if (memory.hasDicomUIDs(DICOMStudyUID, DICOMSeriesUID)==false) {
 			testValidDicom=false;
 		}
-		
-		System.out.println("DICOMStudyUID : "+DICOMStudyUID);
-		System.out.println("DICOMSeriesUID : "+DICOMSeriesUID);
 	}
 	
 	@RequestMapping (value = "/testSR", method = RequestMethod.GET)
@@ -231,6 +227,32 @@ public class ImportController extends CommonFunctions {
 		
 		return "Tipoui !\n";
 	}
+	
+	@RequestMapping (value = "/testSRkheops", method = RequestMethod.GET)
+	public String testSRkheops() throws IOException {    
+		String fileName = "uploadFiles/SR_Kheops _IM-0001-0001.dcm";
+				
+		File f = new File(fileName);																	// SR file that will be read 
+
+		org.dcm4che3.io.DicomInputStream input;
+		Attributes obj;
+		input = new org.dcm4che3.io.DicomInputStream(f);
+		obj = input.readDataset(-1, -1);
+		input.close();
+
+		TranslateDicomMetadatas.translateSRmaienz(obj);
+
+		createAdminConnection(database.ontoMedirad);
+
+		rdfName = "RdfBackup/SR_Kheops.rdf";		// Name for the RDF File (won't be overwritten)
+		writingRDF(rdfName);																			// Write the populated graph in the RDF file
+		setInStarDog(rdfName);
+		
+		starDogConnection.close();
+		
+		return "Tipoui !\n";
+	}
+	
 	
 	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
 	public String testMetadatas() throws IOException, DicomException {      
@@ -375,14 +397,6 @@ public class ImportController extends CommonFunctions {
 					if (ReferencedSOPClassUID.contains("1.2.840.10008.5.1.4.1.1.88")) { // SR
 						retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
 						retrieveSR(studyId, seriesUID);
-						//						1.2.840.10008.5.1.4.1.1.88.11	Basic Text SR	 
-						//						1.2.840.10008.5.1.4.1.1.88.22	Enhanced SR	 
-						//						1.2.840.10008.5.1.4.1.1.88.33	Comprehensive SR	 
-						//						1.2.840.10008.5.1.4.1.1.88.40	Procedure Log Storage	 
-						//						1.2.840.10008.5.1.4.1.1.88.50	Mammography CAD SR	 
-						//						1.2.840.10008.5.1.4.1.1.88.59	Key Object Selection Document	 
-						//						1.2.840.10008.5.1.4.1.1.88.65	Chest CAD SR	 
-						//						1.2.840.10008.5.1.4.1.1.88.67	X-Ray Radiation Dose SR
 					} else if (ReferencedSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2")) { // CT
 						String cleCT = studyId + seriesUID;
 						boolean testCleCt = true;
@@ -396,7 +410,6 @@ public class ImportController extends CommonFunctions {
 							retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
 							listCleCT.add(cleCT);
 						}
-
 					} else {
 						retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
 					}
@@ -409,33 +422,27 @@ public class ImportController extends CommonFunctions {
 		fhirConnection.disconnect();                                   // Close coonection to fhir
 
 		return "{\"res\":\"importDicomMetadata Request received\"}";
-
 	}
-	
 	
 	@RequestMapping(value = "/importKheopsSR", method = RequestMethod.POST, produces = {"application/json"}, consumes= "text/plain")	
 	public String importKheopsSR(@RequestBody String SRurl) throws IOException, JSONException, DicomException {	
-		//
-		
+		// Retrieve and translate a Kheops SR
+		// These function is called by Kheops Software (only used on  Geneva server)
 		retrieveSRKheopsFile(SRurl);
-		
 		return "{\"res\":\"importKheopsSR Request received\"}";
 	}
 
 	@RequestMapping( value = "/importNonDicomFileSetDescriptor", method = RequestMethod.POST, headers = "Accept=text/xml")
 	public String importNonDicomData(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor,  	// Import Non Dicom data XML valid file
 			@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {						    
-
+		// Import and translate a non dicom file
+		// nonDicomFileSetDescriptor class (ands subclass) are created with JAXB anf follow the nonDicomFileSetDescriptor Schema
 		if (pacsUrl==null) {pacsUrl = Application.pacsUrl ;}
 		if (starDogUrl==null) {starDogUrl = Application.starDogUrl ;}	
 
-		if (nonDicomFileSetDescriptor!=null) {									    						// If there is a nonDicomFileSetDescriptor
-			lastXML = nonDicomFileSetDescriptor.toString();
-			logger.debug("PatientId : "+nonDicomFileSetDescriptor.getPatientId());
-			TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data
-		} else {
-			logger.error("nonDicomFileSetDescriptor is Null");
-		}
+		lastXML = nonDicomFileSetDescriptor.toString();
+		logger.debug("PatientId : "+nonDicomFileSetDescriptor.getPatientId());
+		TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor); 						// Translate these Data
 
 		logger.info("Retrieving NON Dicom FileSetDescriptor");
 		z++;																								// Z is a number for the file name (will avoid overwriting)
@@ -450,34 +457,34 @@ public class ImportController extends CommonFunctions {
 		return "{\"res\": \"ImportNonDicomFileSetDescriptor Request received\"}";							// Return these message if there's no Error
 	}
 
-	
-	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/xml")
+	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, produces = {"application/json"}, consumes= "text/plain")
 	public @ResponseBody String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {
+		// validate an XML received by the irdbb ui against the XSD schema
 		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
-		String tmpFilePath = "tmp.xml";
+		String tmpFilePath = "tmp.xml";  // path for write xml file
 		InputStream xsdStream;
 		Validator validator;
 		try {
-			PrintWriter out = new PrintWriter(tmpFilePath);
+			PrintWriter out = new PrintWriter(tmpFilePath);				// Object for write xml inside a file
 			out.println(filesetDescriptorString);						// Write XML content to be validated in the file
-			out.close();
-			SchemaFactory factory =  SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			xsdStream = new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream();
+			out.close();												// Close the object
+			SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI); // Initialize an empty object for store the schema
+			xsdStream = new ClassPathResource("/xsd/nonDicomFileSetDescriptor.xsd").getInputStream(); // convert the XSD schema file as an object
 			Source schemaSource = new StreamSource(xsdStream);
 			Schema schema = factory.newSchema(schemaSource);
-			validator = schema.newValidator();
-			validator.validate(new StreamSource(new File(tmpFilePath))); // TODO eviter NullPointeresxception
+			validator = schema.newValidator();    // create an object for validate xml against XSD
+			validator.validate(new StreamSource(new File(tmpFilePath))); // validate XMl against XSD
 		} catch (IOException e) {
 			logger.debug("IO Error when reading XML or XSD File");
 			e.printStackTrace();
-			return new ValidationReport(false, e.getMessage()).getJson();
-		} catch (SAXException e) {
+			return new ValidationReport(false, e.getMessage()).getJson(); // return a json object to answer to IRDBB UI with an error
+		} catch (SAXException e) { // these error is not really an error it the XMl that is not valid
 			logger.debug("NonDicomFileSetDescriptor is not Valid");
 			e.printStackTrace();
-			return new ValidationReport(false, e.getMessage()).getJson();
+			return new ValidationReport(false, e.getMessage()).getJson(); // return a json object to answer to IRDBB UI that XMl is not valid
 		}
-		logger.debug("NonDicomFileSetDescriptor is Valid");
-		String test = new ValidationReport(true, "XML is Valid").getJson();
+		logger.debug("NonDicomFileSetDescriptor is Valid"); // If there is no exception the XML is valid
+		String test = new ValidationReport(true, "XML is Valid").getJson();// return a json object to answer to IRDBB UI that XMl is valid
 		System.out.print(test);
 		return test;
 	}
@@ -485,6 +492,8 @@ public class ImportController extends CommonFunctions {
 	// Services Annexes
 	@RequestMapping (value = "/getVersion", method = RequestMethod.GET)
 	public String returnVersionNumber()  {
+		// parse pom.xml to extract semantic translator version 
+		// it was necessary to know which semantic translation is inside a docker 
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = null;
 		Document doc = null;
@@ -514,17 +523,17 @@ public class ImportController extends CommonFunctions {
 
 	@RequestMapping (value = "/downloadDatasFromStarDog", method = RequestMethod.GET, headers = "Accept=text/rdf")
 	public @ResponseBody FileSystemResource downloadStarDogDatabase(@RequestParam(value = "db", required = false) String db) throws FileNotFoundException {		
-
+		// return as an RDF file the content of a Stardog Database
 		String fileName; File file = null;
 		if (db==null)  {
-			createAdminConnection(database.ontoMedirad);										// If no DB provided create a connection to ontoMedirad
+			createAdminConnection(database.ontoMedirad);				// If no DB provided create a connection to ontoMedirad
 			fileName = "stardogData_ontoMedirad.rdf";
-		} else {
+		} else {														// else connect to a specific database
 			createAdminConnection(db);
 			fileName = "stardogData_"+db.toString()+".rdf";
 		}
 
-		Exporter exporter = starDogConnection.export();
+		Exporter exporter = starDogConnection.export();   
 
 		file = new File(fileName);
 		FileOutputStream output = new FileOutputStream(file);
@@ -532,18 +541,18 @@ public class ImportController extends CommonFunctions {
 
 		starDogConnection.close();
 
-		return new FileSystemResource(file); 
+		return new FileSystemResource(file); // return the RDF file
 	}
 
 	@RequestMapping (value = "/downloadRequests", method = RequestMethod.GET , headers = "Accept=text/csv")
 	public String downloadRequests() {
+		// return as a CSV file the request list (only for technical issues)
 		return Application.listQuerries.getRequestListsinCSV();
 	}
 
 	@RequestMapping( value = "/requestFromList", method = RequestMethod.GET, headers = "Accept=text/xml", produces = "application/sparql-results+json")
-	public ResponseEntity<String> requestFromList(@RequestParam("id") String id)        // Shortcut to execute a request from the request list
-		{    
-		//String isReasoning = "false";
+	public ResponseEntity<String> requestFromList(@RequestParam("id") String id) {      
+		// these function execute a request from the request list
 		Querry q = Application.listQuerries.getRequest(id);             // Retrieve request from the list (can be null if request name is unknown)
 		if (q!=null) {											   	    // If request is NOT null
 			logger.debug("Request : "+q.getLabel());
@@ -558,6 +567,8 @@ public class ImportController extends CommonFunctions {
 
 	@RequestMapping (value = "/getMimeTypeDataFormat", method = RequestMethod.GET)
 	public ResponseEntity<String> getMimeTypeDataFormat(@RequestParam("nonDICOMDataFormat") String nonDICOMDataFormat) {  
+		// These function send a specific request for retreive mime type for a nonDICOMDataFormat
+		// It is used to build the IRDBB UI interface so errors in these function can block IRDBB UI 
 		ResponseEntity<String> res = null;
 		res = executeQuerry("  SELECT DISTINCT  ?label ?class\n" + 
 				"           WHERE {\n" + 
@@ -571,6 +582,8 @@ public class ImportController extends CommonFunctions {
 
 	@RequestMapping (value = "/getResearchStudies", method = RequestMethod.GET, produces = {"application/json"})
 	public ResponseEntity<String> getResearchStudies()  {   
+		// These function send a specific request for retreive all research studies
+		// It is used to build the IRDBB UI interface so errors in these function can block IRDBB UI 
 		ResponseEntity<String> res = executeQuerry("SELECT DISTINCT ?study ?id ?name ?description\n" + 
 				"          WHERE {\n" + 
 				"      ?study rdf:type ontomedirad:clinical_research_study .\n" + 
@@ -583,45 +596,51 @@ public class ImportController extends CommonFunctions {
 
 	@RequestMapping (value = "/getXSDfilesName", method = RequestMethod.GET, produces = {"application/json"})
 	public String getXSDfilesName() {  
-		JSONArray listeJSON = new JSONArray();
+		// The function provide the XSD file list to IRDBB UI 
+		// It is used to build the IRDBB UI interface so errors in these function can block IRDBB UI 
+		JSONArray listeJSON = new JSONArray(); // create an empty list for store XSD file information as JSON Object
 		try {
-			InputStream stream = new ClassPathResource("xsdTableau.txt").getInputStream();
+			InputStream stream = new ClassPathResource("xsdTableau.txt").getInputStream(); // read file as a stream
 			String line; String name; String fileName;  String description;
-			BufferedReader br = new BufferedReader(new InputStreamReader(stream));
-			while ((line = br.readLine()) != null) {
-				name = line.split(";")[0];
+			BufferedReader br = new BufferedReader(new InputStreamReader(stream)); // convert stream to BufferedReader for read line by line
+			while ((line = br.readLine()) != null) { // while has line
+				name = line.split(";")[0];          // split line and extract values
 				fileName = line.split(";")[1];
 				description = line.split(";")[2];
 
-				JSONObject obj = new JSONObject();
+				JSONObject obj = new JSONObject(); // create a new JSON Object for an xsd file
 				try {
-					obj.put("label", name);
+					obj.put("label", name);        // add values to the json object
 					obj.put("fileName", fileName);
 					obj.put("description", description);
-					listeJSON.put(obj);		
+					listeJSON.put(obj);				// add json object to a list
 				} catch (JSONException e) {e.printStackTrace();}
 			}
 
-			stream.close();
+			br.close(); // close BufferedReader
+			stream.close();  // close stream file
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		return listeJSON.toString();	
+		return listeJSON.toString(); // export JSON list as a string
 	} 
 
 	@RequestMapping (value = "/getXSD", method = RequestMethod.GET, produces = {"text/xml"} )
-	public String getXSD(@RequestParam("fileName") String fileName) {  
-		String path = "/xsdSimple/"+fileName;
+	public String getXSD(@RequestParam("fileName") String fileName) { 
+		// These function provide XML file asked
+		// It is used to build the IRDBB UI interface so errors in these function can block IRDBB UI 
+		String path = "/xsdSimple/"+fileName; // path to XSD
 		try {
-			ClassPathResource res = new ClassPathResource(path);
+			ClassPathResource res = new ClassPathResource(path); // get XSD file as a ressource
 			System.out.println(res.getFilename());
-			InputStream stream = res.getInputStream();
+			InputStream stream = res.getInputStream();	// create stream to read XSD content
 			StringWriter writer = new StringWriter();
-			IOUtils.copy(stream, writer, "UTF-8");
-			String theString = writer.toString();
-			return(theString);
+			IOUtils.copy(stream, writer, "UTF-8"); // convertioon from stream...
+			String theString = writer.toString();  // ... to string
+			stream.close(); // close stream
+			return(theString); //send XSD content as a string
 		} catch (IOException e) {
 			System.out.print("IOException");
 			System.out.print(e.getMessage());
@@ -632,6 +651,8 @@ public class ImportController extends CommonFunctions {
 
 	@RequestMapping(value = "/getRequestList", method = RequestMethod.GET, produces = {"application/json"})
 	public String getRequestList()  throws JSONException  {
+		// The function provide the request list to IRDBB UI 
+		// It is used to build the IRDBB UI interface so errors in these function can block IRDBB UI 
 		JSONArray res = Application.listQuerries.getJsonString();
 		return res.toString();
 	} // return request list in JSON
@@ -652,60 +673,59 @@ public class ImportController extends CommonFunctions {
 		pacsConnection.setRequestMethod("GET");
 		pacsConnection.setRequestProperty("Accept", "multipart/related; type=\"application/dicom\";");
 
-		String boundary = "";																			// Create object for retrieve SR as a text  
-		String boundaryHeader = "boundary=";															// Same
-		String contentType = pacsConnection.getHeaderField("Content-Type");								// Get header at "Content-Type"
+		String boundary = "";															// Create object for retrieve SR as a text  
+		String boundaryHeader = "boundary=";															
+		String contentType = pacsConnection.getHeaderField("Content-Type");				// Get header at "Content-Type"
 		int bufsize = pacsConnection.getContentLength();	
 
-		String[] contentTypeArray = contentType.split(";");												// Split the text received as a list of String
+		String[] contentTypeArray = contentType.split(";");								// Split the text received as a list of String
 		for (String content : contentTypeArray ) {														 
 			if (content.contains(boundaryHeader)) {
-				boundary = content.substring(content.indexOf("=")+1);									// Extract the content
+				boundary = content.substring(content.indexOf("=")+1);					// Extract the content
 			}
 		}
 
-		if (bufsize<=0) { 																				// Correction when bufsize = -1
+		if (bufsize<=0) { 																// Correction when bufsize = -1
 			logger.warn("bufsize : "+bufsize);
-			bufsize=50;																					// Buffsize correction (50 is a random number enough big)
+			bufsize=50;																	// Buffsize correction (50 is a random number enough big)
 			logger.warn("bufsize corrected to  "+bufsize);
 		} else {
 			logger.debug("bufsize : "+bufsize);
 		}
 
-		String srFilename = "CT"+compteurCT+".dcm";																	// Filename for write the SR and read it after
+		String srFilename = "CT"+compteurCT+".dcm";										// Filename for write the SR and read it after
 		MultipartStream multipartStream;
 		multipartStream = new MultipartStream(											// MultipartStream will receive the input stream containing the SR
 				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
 		logger.debug("Writing File in : "+srFilename);
-		File file = new File(srFilename);																// Create the file for write the SR
-		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());							// New stream to write in the file
+		File file = new File(srFilename);												// Create the file for write the SR
+		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());			// New stream to write in the file
 		boolean nextPart = multipartStream.skipPreamble();
 
-		if (nextPart) {																					// Iterate as a while (X.hasNext())
-			multipartStream.readHeaders();																// Header of the part won't be written
-			multipartStream.readBodyData(out);															// Write in the file
+		if (nextPart) {													// Iterate as a while (X.hasNext())
+			multipartStream.readHeaders();								// Header of the part won't be written
+			multipartStream.readBodyData(out);							// Write in the file
 		}
 		out.close();
-		if(pacsConnection != null) {pacsConnection.disconnect();}											// Close the connection to the Stardog
+		closeAdminConnection();											// Close the connection to the Stardog
 
 		logger.debug("Reading SR (local file)");	
-		File f = new File(srFilename);																	// SR file that will be read 
+		File f = new File(srFilename);									// SR file that will be read 
 
 		org.dcm4che3.io.DicomInputStream input;
 		Attributes obj;
-		input = new org.dcm4che3.io.DicomInputStream(f);
+		input = new org.dcm4che3.io.DicomInputStream(f);				// open stream for read the dicom file
 		obj = input.readDataset(-1, -1);
-		input.close();
+		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, handle); // translate the dicom file from the stream
+		input.close();													// close stream 						
 
-		TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, handle);
-
-		createAdminConnection(database.ontoMedirad);
+		createAdminConnection(database.ontoMedirad);					// open connection to stardog
 
 		rdfName = "RdfBackup/CT_metadata" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";		// Name for the RDF File (won't be overwritten)
-		writingRDF(rdfName);																			// Write the populated graph in the RDF file
-		setInStarDog(rdfName);
+		writingRDF(rdfName);		// Write the populated graph in the RDF file
+		setInStarDog(rdfName);      // Push file to Stardog
 		
-		starDogConnection.close();
+		starDogConnection.close(); //close connnection to stardog
 
 		logger.debug("Retrieving File : No exception catched");
 	}
@@ -718,48 +738,48 @@ public class ImportController extends CommonFunctions {
 
 		HttpURLConnection pacsConnection; 
 		URL url = new URL(targetURL);
-		pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
-		pacsConnection.setRequestMethod("GET");
-		pacsConnection.setRequestProperty("Accept", "multipart/related; type=\"application/dicom\";");
+		pacsConnection = (HttpURLConnection) url.openConnection();					    // Open Connection with server
+		pacsConnection.setRequestMethod("GET");											// Request Parameters for http connection
+		pacsConnection.setRequestProperty("Accept", "multipart/related; type=\"application/dicom\";"); // Request Parameters for http connection
 
-		String boundary = "";																			// Create object for retrieve SR as a text  
-		String boundaryHeader = "boundary=";															// Same
-		String contentType = pacsConnection.getHeaderField("Content-Type");								// Get header at "Content-Type"
+		String boundary = "";															// Create object for retrieve SR as a text  
+		String boundaryHeader = "boundary=";															
+		String contentType = pacsConnection.getHeaderField("Content-Type");				// Get header at "Content-Type"
 		int bufsize = pacsConnection.getContentLength();	
 
-		String[] contentTypeArray = contentType.split(";");												// Split the text received as a list of String
+		String[] contentTypeArray = contentType.split(";");								// Split the text received as a list of String
 		for (String content : contentTypeArray ) {														 
 			if (content.contains(boundaryHeader)) {
-				boundary = content.substring(content.indexOf("=")+1);									// Extract the content
+				boundary = content.substring(content.indexOf("=")+1);					// Extract the content
 			}
 		}
 
-		if (bufsize<=0) { 																				// Correction when bufsize = -1
+		if (bufsize<=0) { 																// Correction when bufsize = -1
 			logger.warn("bufsize : "+bufsize);
-			bufsize=50;																					// Buffsize correction (50 is a random number enough big)
+			bufsize=50;																	// Buffsize correction (50 is a random number enough big)
 			logger.warn("bufsize corrected to  "+bufsize);
 		} else {
 			logger.debug("bufsize : "+bufsize);
 		}
 
-		String srFilename = "CT"+compteurCT+".dcm";																	// Filename for write the SR and read it after
+		String srFilename = "CT"+compteurCT+".dcm";										// Filename for write the CT and read it after
 		MultipartStream multipartStream;
 		multipartStream = new MultipartStream(											// MultipartStream will receive the input stream containing the SR
 				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
 		logger.debug("Writing File in : "+srFilename);
-		File file = new File(srFilename);																// Create the file for write the SR
-		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());							// New stream to write in the file
+		File file = new File(srFilename);												// Create the file for write the SR
+		FileOutputStream out = new FileOutputStream(file.getAbsolutePath());			// New stream to write in the file
 		boolean nextPart = multipartStream.skipPreamble();
 
-		if (nextPart) {																					// Iterate as a while (X.hasNext())
-			multipartStream.readHeaders();																// Header of the part won't be written
-			multipartStream.readBodyData(out);															// Write in the file
+		if (nextPart) {																	// Iterate as a while (X.hasNext())
+			multipartStream.readHeaders();												// Header of the part won't be written
+			multipartStream.readBodyData(out);											// Write in the file
 		}
 		out.close();
-		if(pacsConnection != null) {pacsConnection.disconnect();}											// Close the connection to the Stardog
+		closeAdminConnection();										// Close the connection to the Stardog
 
 		logger.debug("Reading SR (local file)");	
-		File f = new File(srFilename);																	// SR file that will be read 
+		File f = new File(srFilename);								// SR file that will be read 
 
 		org.dcm4che3.io.DicomInputStream input;
 		Attributes obj;
@@ -771,8 +791,8 @@ public class ImportController extends CommonFunctions {
 
 		createAdminConnection(database.ontoMedirad);
 
-		rdfName = "RdfBackup/SR_Kheops.rdf";		// Name for the RDF File (won't be overwritten)
-		writingRDF(rdfName);																			// Write the populated graph in the RDF file
+		rdfName = "RdfBackup/SR_Kheops.rdf";						// Name for the RDF File (will be overwritten)
+		writingRDF(rdfName);										// Write the populated graph in the RDF file
 		setInStarDog(rdfName);
 		
 		starDogConnection.close();
@@ -780,7 +800,12 @@ public class ImportController extends CommonFunctions {
 		logger.debug("Retrieving File : No exception catched");
 	}
 
-	public static boolean databaseContains(String test) { 				// Function for check if Database name provided is a real database (in the enumeration)
+	public static boolean databaseContains(String test) {
+		// Function for check if Database name provided is a real database (in the enumeration)
+		// These function was built for allow export in a stardog with multiples databases
+		// Because our stardog has only one database these function is not usefull
+		// It is kept for allow new development with multiple databases
+		
 		for (database b : database.values()) {							// Iterate the iteration
 			if (b.name().equals(test)) {								// Compare name provided with name in the iterartion
 				return true;											// Return True if name provided is in the iterartion
@@ -789,7 +814,8 @@ public class ImportController extends CommonFunctions {
 		return false;													// Return False if name provided is NOT in the iterartion
 	}
 
-	public boolean retrieveSR(String studyInstanceUID, String seriesInstanceUID) throws DicomException, IOException {							// Treat SR (before and after translation)
+	public boolean retrieveSR(String studyInstanceUID, String seriesInstanceUID) throws DicomException, IOException {							
+		// Import SR from DCM4CHEE, call translation function and push graph to Stardog
 		logger.info("Retrieving SR StudyInstanceUID: " + studyInstanceUID+" SeriesInstanceUID: " + seriesInstanceUID);
 		if (pacsUrl==null) {pacsUrl=Application.pacsUrl;}
 		String targetURL = pacsUrl+"/dcm4chee-arc/aets/DCM4CHEE/rs/studies/" + studyInstanceUID + "/series/" + seriesInstanceUID;  // URL in DCM4CHEE
@@ -802,33 +828,33 @@ public class ImportController extends CommonFunctions {
 		HttpURLConnection pacsConnection; 
 		URL url = new URL(targetURL);
 		pacsConnection = (HttpURLConnection) url.openConnection();					// Open Connection
-		pacsConnection.setRequestMethod("GET");
-		pacsConnection.setRequestProperty("Accept",  "multipart/related; type=application/dicom;");
+		pacsConnection.setRequestMethod("GET");										// Request Parameters for http connection
+		pacsConnection.setRequestProperty("Accept",  "multipart/related; type=application/dicom;"); // Request Parameters for http connection
 
-		String boundary = "";																			// Create object for retrieve SR as a text  
-		String boundaryHeader = "boundary=";															// Same
-		String contentType = pacsConnection.getHeaderField("Content-Type");								// Get header at "Content-Type"
+		String boundary = "";									// Create object for retrieve SR as a text  
+		String boundaryHeader = "boundary=";								
+		String contentType = pacsConnection.getHeaderField("Content-Type");	// Get header at "Content-Type"
 		int bufsize = pacsConnection.getContentLength();	
 
 		if (contentType!=null ) {
-			String[] contentTypeArray = contentType.split(";");											// Split the text received as a list of String
+			String[] contentTypeArray = contentType.split(";");			// Split the text received as a list of String
 			for (String content : contentTypeArray ) {														 
 				if (content.contains(boundaryHeader)) {
-					boundary = content.substring(content.indexOf("=")+1);								// Extract the content
+					boundary = content.substring(content.indexOf("=")+1);// Extract the content
 				}
 			}
 		}
-		if (bufsize<=0) { 																			// Correction when bufsize = -1
+		if (bufsize<=0) { 						// Correction when bufsize = -1
 			logger.warn("bufsize : "+bufsize);
-			bufsize=100;																				// Buffsize correction (50 is a random number enough big)
+			bufsize=100;						// Buffsize correction (50 is a random number enough big)
 			logger.warn("bufsize corrected to  "+bufsize);
 		} else {
 			logger.debug("bufsize : "+bufsize);
 		}
 
-		String srFilename = "SR.dcm";																	// Filename for write the SR and read it after
+		String srFilename = "SR.dcm";		// Filename for write the SR and read it after
 		MultipartStream multipartStream;
-		multipartStream = new MultipartStream(											     // MultipartStream will receive the input stream containing the SR
+		multipartStream = new MultipartStream(	// MultipartStream will receive the input stream containing the SR
 				pacsConnection.getInputStream(), boundary.getBytes(), bufsize, null);
 		logger.debug("Writing SR in : "+srFilename);
 		File file = new File(srFilename);																// Create the file for write the SR
@@ -844,31 +870,33 @@ public class ImportController extends CommonFunctions {
 
 		org.dcm4che3.io.DicomInputStream input;
 		Attributes obj;
-		input = new org.dcm4che3.io.DicomInputStream(file);
+		input = new org.dcm4che3.io.DicomInputStream(file);				   // open the SR for extract patientID
 		obj = input.readDataset(-1, -1);
-		String PatientID = obj.getString(Tag.PatientID);
-		input.close();
+		String PatientID = obj.getString(Tag.PatientID);                   // extract PatientId
+		input.close();													   // close the SR
 
 		logger.debug("Reading SR (local file)");	
-		File f = new File(srFilename);																	// SR file that will be read 																	// SR file that will be read 
-		AttributeList attributeList = new AttributeList();												// Crate an empty attribute that will receive SR Datas
+		File f = new File(srFilename);										// SR file that will be read 																	// SR file that will be read 
+		AttributeList attributeList = new AttributeList();					// Crate an empty attribute that will receive SR Datas
 
-		attributeList.read(f);																			// Read SR from file and put contain in attributeList
-		StructuredReport SR = new StructuredReport(attributeList);														// Convert the attributeList in StructuredReport
-		TranslateDicomSR.readingSR((ContentItem) SR.getRoot(), PatientID);										// Read and Translate the SR from the root
+		attributeList.read(f);												// Read SR from file and put contain in attributeList
+		StructuredReport SR = new StructuredReport(attributeList);			// Convert the attributeList in StructuredReport
+		TranslateDicomSR.readingSR((ContentItem) SR.getRoot(), PatientID);	// Read and Translate the SR from the root
 
 		createAdminConnection(database.ontoMedirad);
-		rdfName = "RdfBackup/SR_study" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";		// Name for the RDF File (won't be overwritten)
-		writingRDF(rdfName);																			// Write the populated graph in the RDF file
+		rdfName = "RdfBackup/SR_study" + studyInstanceUID+"_series_" + seriesInstanceUID+".rdf";		
+		// Name for the RDF File (won't be overwritten)
+		writingRDF(rdfName);	// Write the populated graph in the RDF file
 		setInStarDog(rdfName);
 
 		logger.debug("Retrieving SR : No exception catched");
-		if(pacsConnection != null) {pacsConnection.disconnect(); }											// Close the connection to the Stardog
+		closeAdminConnection();	// Close the connection to the Stardog
 
-		return true;																						// End : everything was good
+		return true;			// End : everything was good
 	}
 
-	public void writingRDF(String pathOut) throws FileNotFoundException  {									// Write the RDF 
+	public void writingRDF(String pathOut) throws FileNotFoundException  {		
+		// Write in a RDF file the graph created (populateModel)
 		logger.info("Writing RDF file in "+pathOut);		
 
 		FileOutputStream sortie = new FileOutputStream(pathOut);
@@ -879,14 +907,14 @@ public class ImportController extends CommonFunctions {
 		OntologyPopulator.imagingStudy = null;
 	}
 
-	public void setInStarDog(String path) throws StardogException, FileNotFoundException  {					// Import a RDF file in stardog
+	public void setInStarDog(String path) throws StardogException, FileNotFoundException  {	
+		// Import a RDF file in stardog 
 		logger.info("Transfer to stardog...");
-		starDogConnection.begin();																			// Begin the import action 
+		starDogConnection.begin();						// Begin the import action 
 		Path p = Paths.get(path);
-		//starDogConnection.add().io().format(RDFFormat).stream(new FileInputStream(path)); 
 		starDogConnection.add().io().file(p);
 
-		starDogConnection.commit();																			// End of the import action (without commit the import is not valid)
+		starDogConnection.commit();						// End of the import action (without commit the import is not valid)
 		logger.info("Transfer to stardog : Complete");
 	}
 

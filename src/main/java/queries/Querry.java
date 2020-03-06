@@ -1,4 +1,4 @@
-package querries;
+package queries;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -116,19 +116,19 @@ public class TranslateDicomCT extends OntologyPopulator {
 						addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.getKVP00180060());
 						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("kV"));
 						addObjectProperty(ctImageAcquisition,racineURI+"has_setting",i);
-						addObjectProperty(i,racineURI+"is_device_setting",scanner);
+						addObjectProperty(i,racineURI+"is_device_setting_of",scanner);
 	
 						i =  createIndiv(generateName("Exposure_Time"), model.getResource(racineDCM+"113824"));
 						addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.getExposureTime00181150());
 						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("ms")); 
 						addObjectProperty(ctImageAcquisition,racineURI+"has_setting",i);
-						addObjectProperty(i,racineURI+"is_device_setting",scanner);
+						addObjectProperty(i,racineURI+"is_device_setting_of",scanner);
 	
 						i =  createIndiv(generateName("X-Ray_Tube_Current"), model.getResource(racineDCM+"113734"));
 						addDataProperty(i, racineObo+"IAO_0000004", ctimageAcquisitionDescriptorType.getXRayTubeCurrent00181151());
 						addObjectProperty(i, racineObo+"IAO_0000039", getUnit("mA"));
 						addObjectProperty(ctImageAcquisition,racineURI+"has_setting",i);
-						addObjectProperty(i,racineURI+"is_device_setting",scanner);
+						addObjectProperty(i,racineURI+"is_device_setting_of",scanner);
 					}
 				}
 			}

@@ -107,7 +107,9 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		patient = memory.getPatientbyId(patientID);
 		human = memory.getHuman(patientID);
 
-		translateAcquisitionSettings(nonDicomFileSetDescriptor.getAcquisitionSettings());
+		if (nonDicomFileSetDescriptor.getAcquisitionSettings()!= null) {
+			translateAcquisitionSettings(nonDicomFileSetDescriptor.getAcquisitionSettings());
+		}
 
 		if (nonDicomFileSetDescriptor.getWP2Subtask212WorkflowData()!=null) {
 			clinicalresearchStudy = createIndiv("clinical_research_study_755523_subtask2.1.2", model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2"));
@@ -243,7 +245,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			addDataProperty(postAdministeredActivityIndiv,"http://purl.obolibrary.org/obo/IAO_0000004", postAdministeredActivityValue);
 		}
 
-		Radiopharmaceutical radiopharmaceutical = settings.getRadiopharmaceutical();
 		Individual radiopharmaceuticalIndiv = null;
 		switch(settings.getRadiopharmaceutical()) {
 		case SODIUM_IODIDE_I_131:
@@ -363,7 +364,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			break;						
 		}
 
-
 		String fileName = nonDICOMData.getNonDICOMDataFileName();
 		addDataProperty(nonDICOMDataIndividual, racineURI+"has_name", fileName);
 
@@ -374,14 +374,13 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			for (int i = 0; i<transformationList.size(); i++) {
 				String transformationId = transformationList.get(i);
 				Individual transformation = tableTransformation.get(transformationId);
-				// TODO add property
-				// i have to be recorded (because order is important here)
+				addDataProperty(transformation, racineURI+"has_id", i);
 			}
 		}
 
 	}
 
-	public static void translateGeometricalTransformation(GeometricalTransformationContainer geometricalTransformationContainer, Individual outputFrom) {
+	public static void translateGeometricalTransformation(GeometricalTransformationContainer geometricalTransformationContainer, Individual outputFrom, Individual timepoint) {
 		List<GeometricalTransformation> geometricalTransformationList = geometricalTransformationContainer.getGeometricalTransformation();
 		for (int i = 0; i<geometricalTransformationList.size(); i++) {
 			GeometricalTransformation geometricalTransformation = geometricalTransformationList.get(i);
@@ -406,6 +405,8 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			addDataProperty(geometricalTransfo, racineURI+"has_id", transfoIdent);
 			addDataProperty(geometricalTransfo, racineURI+"has_id", i); // à améliorer pour classer les transformations dans l'ordre
 			addObjectProperty(outputFrom, racineURI+"has_specified_output", geometricalTransfo);
+			addObjectProperty(geometricalTransfo, racineURI+"has_patient", human);
+			addObjectProperty(geometricalTransfo, racineURI+"has_patient", timepoint);
 
 			// output
 			Iterator<NonDICOMData> transfoOutputIterator = geometricalTransformation.getGeometricalTransformationValue().getNonDICOMData().iterator();
@@ -414,7 +415,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 
 				Individual transfoOutputIndiv = createIndiv(generateName("geometrical_transformation"), model.getResource(racineURI+"geometrical_transformation"));
 				translateNonDicomDataObject(transfoOutput, transfoOutputIndiv);
-				addObjectProperty(geometricalTransfo, racineURI+"has_specified_output", transfoOutputIndiv);
+				addObjectProperty(geometricalTransfo, racineURI+"has_destination_coordinate_space_specified_by", transfoOutputIndiv);
 			}
 
 			//inputs 
@@ -423,7 +424,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				while (DICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
 					DICOMData DICOMSourceCoordinateSpaceUsed = DICOMSourceCoordinateSpaceUsedIterator.next();
 					Individual input = getDicomInputOutput(DICOMSourceCoordinateSpaceUsed.getDICOMStudyUID(), DICOMSourceCoordinateSpaceUsed.getDICOMSeriesUID(), typeInputOutput.CTRecon);
-					addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+					addObjectProperty(geometricalTransfo, racineURI+"has_source_coordinate_space_specified_by", input);
 				}
 			}
 
@@ -432,7 +433,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				while (DICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
 					DICOMData DICOMSourceCoordinateSpaceUsed = DICOMSourceCoordinateSpaceUsedIterator.next();
 					Individual input = getDicomInputOutput(DICOMSourceCoordinateSpaceUsed.getDICOMStudyUID(), DICOMSourceCoordinateSpaceUsed.getDICOMSeriesUID(), typeInputOutput.CTRecon);
-					addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+					addObjectProperty(geometricalTransfo, racineURI+"has_source_coordinate_space_specified_by", input);
 				}
 			}
 
@@ -441,7 +442,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				while (DICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
 					DICOMData DICOMSourceCoordinateSpaceUsed = DICOMSourceCoordinateSpaceUsedIterator.next();
 					Individual input = getDicomInputOutput(DICOMSourceCoordinateSpaceUsed.getDICOMStudyUID(), DICOMSourceCoordinateSpaceUsed.getDICOMSeriesUID(), typeInputOutput.SPECTCTacq);
-					addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+					addObjectProperty(geometricalTransfo, racineURI+"has_source_coordinate_space_specified_by", input);
 				}
 			}
 
@@ -450,7 +451,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				while (DICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
 					DICOMData DICOMSourceCoordinateSpaceUsed = DICOMSourceCoordinateSpaceUsedIterator.next();
 					Individual input = getDicomInputOutput(DICOMSourceCoordinateSpaceUsed.getDICOMStudyUID(), DICOMSourceCoordinateSpaceUsed.getDICOMSeriesUID(), typeInputOutput.SPECTCTacq);
-					addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+					addObjectProperty(geometricalTransfo, racineURI+"has_source_coordinate_space_specified_by", input);
 				}
 			}
 
@@ -459,7 +460,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				while (NonDICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
 					NonDICOMData NonDICOMSourceCoordinateSpaceUsed = NonDICOMSourceCoordinateSpaceUsedIterator.next();
 					Individual input = getNonDicomInputOutput(NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataFileName(), NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataClass(), NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataFormat());
-					addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+					addObjectProperty(geometricalTransfo, racineURI+"has_source_coordinate_space_specified_by", input);
 				}
 			}
 
@@ -468,7 +469,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				while (NonDICOMSourceCoordinateSpaceUsedIterator.hasNext()) {
 					NonDICOMData NonDICOMSourceCoordinateSpaceUsed = NonDICOMSourceCoordinateSpaceUsedIterator.next();
 					Individual input = getNonDicomInputOutput(NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataFileName(), NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataClass(), NonDICOMSourceCoordinateSpaceUsed.getNonDICOMDataFormat());
-					addObjectProperty(geometricalTransfo, racineURI+"has_specified_input", input);
+					addObjectProperty(geometricalTransfo, racineURI+"has_source_coordinate_space_specified_by", input);
 				}
 			}
 		}
@@ -538,7 +539,6 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			Individual internalRadiotherapy = createIndiv(generateName("internal_radiotherapy"), model.getResource(racineURI+"internal_radiotherapy"));
 			addObjectProperty(internalRadiotherapy, racineURI+"part_of_study", clinicalresearchStudy);
 			addObjectProperty(internalRadiotherapy, racineURI+"treats", human);
-
 
 			Individual reconstruction = createIndiv(generateName("SPECT_data_reconstruction"), model.getResource(racineURI+"SPECT_data_reconstruction"));
 			DICOMData NMTomoProduced = SPECTAcqCTAcqAndReconstruction.getNMTomoProduced();
@@ -871,7 +871,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			}
 
 			if (registrationVOISegmentationAndPropagation.getGeometricalTransformationContainer() != null) {
-				translateGeometricalTransformation(registrationVOISegmentationAndPropagation.getGeometricalTransformationContainer(), registration);
+				translateGeometricalTransformation(registrationVOISegmentationAndPropagation.getGeometricalTransformationContainer(), registration, timePointUsed);
 			}
 
 			Iterator<VOIActivityDetermination> VOIActivityDeterminationIterator = threeDimDosimetrySlide1Workflow.getVOIActivityDeterminationContainer().getVOIActivityDetermination().iterator();
@@ -1892,7 +1892,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					}
 
 					if (registrationVOISegmentationAndPropagation.getGeometricalTransformationContainer() != null) {
-						translateGeometricalTransformation(registrationVOISegmentationAndPropagation.getGeometricalTransformationContainer(), registration);
+						translateGeometricalTransformation(registrationVOISegmentationAndPropagation.getGeometricalTransformationContainer(), registration, timePointUsed);
 					}
 				}
 
@@ -2156,7 +2156,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							settingMC = createIndiv(generateName("KVP"), model.getResource(racineDCM+"113733"));
 						break;
 						default:
-							settingMC = createIndiv(generateName("device_setting"), model.getResource(racineURI+"is_device_setting"));
+							settingMC = createIndiv(generateName("device_setting"), model.getResource(racineURI+"is_device_setting_of"));
 							logger.warn("Unknown mcSetting : "+mcSetting.getMethodSetting());
 							break;
 						}

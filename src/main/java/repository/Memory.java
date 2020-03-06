@@ -24,7 +24,7 @@ import com.stardog.stark.query.io.QueryResultFormats;
 import com.stardog.stark.query.io.QueryResultWriters;
 import com.stardog.stark.query.io.ResultWritingFailed;
 
-import repository.ImportController.database;
+import repository.ServiceController.database;
 
 
 public class Memory extends OntologyPopulator {
@@ -68,6 +68,8 @@ public class Memory extends OntologyPopulator {
 	
 	private LinkedList<String> tableDicomIDs;
 
+	private Hashtable<String, Individual> tableTemplateOfSR;
+	
 
 
 	public Memory() throws  IOException, InvocationTargetException, ResultWritingFailed, JSONException {
@@ -77,6 +79,7 @@ public class Memory extends OntologyPopulator {
 		requestInstit();
 		requestPatientCTImageDS();
 		requestHuman();
+		requestTemplateOfSR();
 	}
 
 	public synchronized void initVoidMemory() {
@@ -114,9 +117,45 @@ public class Memory extends OntologyPopulator {
 
 		tableCalibrationIDs  = new Hashtable<String, Individual>();
 		
-		tableDicomIDs  = new LinkedList<String>();
+		tableDicomIDs = new LinkedList<String>();
+		
+		tableTemplateOfSR = new Hashtable<String, Individual>();
 	}
 
+	public Individual getTemplateOfSR(String protocolName) {
+		if (tableTemplateOfSR.containsKey(protocolName)) {
+			return tableTemplateOfSR.get(protocolName);
+		} else {
+			Individual template = createIndiv(generateName("template_of_structured_report"), model.getResource(racineURI+"template_of_structured_report"));
+			addDataProperty(template, racineURI+"has_name", protocolName);
+			return template;
+		}
+	}
+	
+	public synchronized void requestTemplateOfSR() throws IOException, JSONException  {
+		logger.debug("requestTemplateOfSR");
+		starDogUrl = Application.starDogUrl ;	
+		if (model==null) {model=Application.model;}
+
+		String sparql = "SELECT DISTINCT ?template ?name WHERE {\n" + 
+				"				?template rdf:type ontomedirad:template_of_structured_report .\n" + 
+				"				?template ontomedirad:has_name ?name .\n" + 
+				"		} ORDER BY ?template";
+
+		String resultats = executeRequest(sparql);			
+		String name; String template;
+		JSONArray jsonResults = new JSONObject(resultats).getJSONObject("results").getJSONArray("bindings");
+		for (int i=0; i<jsonResults.length(); i++) {
+			template = jsonResults.getJSONObject(i).getJSONObject("template").getString("value");
+			name = jsonResults.getJSONObject(i).getJSONObject("name").getString("value");
+			tableTemplateOfSR.put(name, createIndiv(template, model.createResource(racineURI+"template_of_structured_report")));
+		}
+
+		starDogConnection.close();
+
+		logger.debug("requestTemplateOfSR OK");
+	}
+	
 	public void initDicomIDsList() throws IOException, JSONException {
 		String request = "SELECT ?a ?seriesUID ?studyUID WHERE {\n" + 
 				"	?a ontomedirad:has_DICOM_series_instance_UID ?seriesUID .\n" + 
@@ -611,7 +650,7 @@ public class Memory extends OntologyPopulator {
 		if (starDogUrl==null) {starDogUrl=Application.starDogUrl;}
 		logger.debug("Creation of the StarDog connection (Database : "+db.toString()+") at "+starDogUrl);
 		ConnectionConfiguration connectionConfig = ConnectionConfiguration
-				.to(db.toString()).server(starDogUrl).reasoning(true).credentials(ImportController.username, ImportController.password);
+				.to(db.toString()).server(starDogUrl).reasoning(true).credentials(ServiceController.username, ServiceController.password);
 		// create the Stardog connection 
 		ConnectionPool connectionPool = createConnectionPool(connectionConfig);
 		starDogConnection = connectionPool.obtain();

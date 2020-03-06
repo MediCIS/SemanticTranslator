@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.02.12 à 04:30:42 PM CET 
+// Généré le : 2020.03.03 à 04:03:33 PM CET 
 //
 
 
@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="ReferencedClinicalResearchStudy" type="{https://www.irdbb-medirad.com}ReferencedClinicalResearchStudy"/>
  *         &lt;element name="PatientId" type="{http://www.w3.org/2001/XMLSchema}string"/>
- *         &lt;element name="AcquisitionSettings" type="{https://www.irdbb-medirad.com}AcquisitionSettings"/>
+ *         &lt;element name="AcquisitionSettings" type="{https://www.irdbb-medirad.com}AcquisitionSettings" minOccurs="0"/>
  *         &lt;element name="CalibrationWorkflow" type="{https://www.irdbb-medirad.com}CalibrationWorkflow" minOccurs="0"/>
  *         &lt;element name="WP2subtask212WorkflowData" type="{https://www.irdbb-medirad.com}WP2subtask212WorkflowData" minOccurs="0"/>
  *         &lt;element name="ThreeDimDosimetrySlide1workflow" type="{https://www.irdbb-medirad.com}ThreeDimDosimetrySlide1workflow" minOccurs="0"/>
@@ -59,7 +59,7 @@ public class NonDicomFileSetDescriptor {
     protected ReferencedClinicalResearchStudy referencedClinicalResearchStudy;
     @XmlElement(name = "PatientId", required = true)
     protected String patientId;
-    @XmlElement(name = "AcquisitionSettings", required = true)
+    @XmlElement(name = "AcquisitionSettings")
     protected AcquisitionSettings acquisitionSettings;
     @XmlElement(name = "CalibrationWorkflow")
     protected CalibrationWorkflow calibrationWorkflow;

@@ -19,7 +19,7 @@ import com.stardog.stark.query.io.QueryResultFormats;
 import com.stardog.stark.query.io.QueryResultWriters;
 import com.stardog.stark.query.io.ResultWritingFailed;
 
-import repository.ImportController.database;
+import repository.ServiceController.database;
 
 public abstract class CommonFunctions {
 
@@ -34,7 +34,7 @@ public abstract class CommonFunctions {
 	Connection starDogConnection;				// Connection to Stardog (will be activated only when necessary)
 	ConnectionPool connectionPool;
 	
-	private final static Logger logger = LoggerFactory.getLogger(ImportController.class); 
+	private final static Logger logger = LoggerFactory.getLogger(ServiceController.class); 
 
 
 	public static boolean GateKeeper(String request) {	   				// Security Check for request sent to StarDog

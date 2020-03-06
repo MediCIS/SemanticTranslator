@@ -1250,6 +1250,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		ArrayList<Individual> listOrgans = new ArrayList<Individual>();
 		Individual indOrgane = null; 
 		logger.debug("Creating Organ (Individual) from organ name : "+name);
+		if (name.contains("/")) {name = name.split("/")[0];}
 		name=name.toLowerCase();
 		switch (name) {
 

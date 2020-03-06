@@ -20,7 +20,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.stardog.stark.query.io.ResultWritingFailed;
 
-import querries.ListQuerries;
+import queries.ListQuerries;
 
 
 @SpringBootApplication

@@ -1295,7 +1295,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				if (EnergyWindowInformationSequence!=null) {
 					Individual energyWindow = createIndiv(generateName("energy_window"), model.getResource(racineURI+"energy_window"));
 					addObjectProperty(energyWindow, racineObo+"BFO_0000177", acquisitionProtocol);
-					addObjectProperty(energyWindow, racineURI+"is_device_setting", acquisitionDevice);
+					addObjectProperty(energyWindow, racineURI+"is_device_setting_of", acquisitionDevice);
 					addObjectProperty(acquisition, racineURI+"has_setting", energyWindow);
 
 					iter = EnergyWindowInformationSequence.iterator();
@@ -1446,7 +1446,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				if (EnergyWindowInformationSequence!=null) {
 					Individual energyWindow = createIndiv(generateName("energy_window"), model.getResource(racineURI+"energy_window"));
 					addObjectProperty(energyWindow, racineObo+"BFO_0000177", acquisitionProtocol);
-					addObjectProperty(energyWindow, racineURI+"is_device_setting", acquisitionDevice);
+					addObjectProperty(energyWindow, racineURI+"is_device_setting_of", acquisitionDevice);
 					addObjectProperty(acquisition, racineURI+"has_setting", energyWindow);
 					iter = EnergyWindowInformationSequence.iterator();
 					while (iter.hasNext()) {
@@ -1572,7 +1572,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				if (EnergyWindowInformationSequence!=null) {
 					Individual energyWindow = createIndiv(generateName("energy_window"), model.getResource(racineURI+"energy_window"));
 					addObjectProperty(energyWindow, racineObo+"BFO_0000177", acquisitionProtocol);
-					addObjectProperty(energyWindow, racineURI+"is_device_setting", acquisitionDevice);
+					addObjectProperty(energyWindow, racineURI+"is_device_setting_of", acquisitionDevice);
 					addObjectProperty(acquisition, racineURI+"has_setting", energyWindow);
 					iter = EnergyWindowInformationSequence.iterator();
 					while (iter.hasNext()) {
@@ -1690,7 +1690,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				if (EnergyWindowInformationSequence!=null) {
 					Individual energyWindow = createIndiv(generateName("energy_window"), model.getResource(racineURI+"energy_window"));
 					addObjectProperty(energyWindow, racineObo+"BFO_0000177", acquisitionProtocol);
-					addObjectProperty(energyWindow, racineURI+"is_device_setting", acquisitionDevice);
+					addObjectProperty(energyWindow, racineURI+"is_device_setting_of", acquisitionDevice);
 					addObjectProperty(acquisition, racineURI+"has_setting", energyWindow);
 					iter = EnergyWindowInformationSequence.iterator();
 					while (iter.hasNext()) {
@@ -1818,7 +1818,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			if (EnergyWindowRangeSequence!=null) {
 				Individual energyWindow = createIndiv(generateName("energy_window"), model.getResource(racineURI+"energy_window"));
 				addObjectProperty(energyWindow, racineObo+"BFO_0000177", acquisitionProtocol);
-				addObjectProperty(energyWindow, racineURI+"is_device_setting", acquisitionDevice);
+				addObjectProperty(energyWindow, racineURI+"is_device_setting_of", acquisitionDevice);
 				addObjectProperty(acquisition, racineURI+"has_setting", energyWindow);
 				iter = EnergyWindowRangeSequence.iterator();
 				Attributes t;
@@ -1917,7 +1917,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			while (iter.hasNext()) {
 				Individual energyWindow = createIndiv(generateName("energy_window"), model.getResource(racineURI+"energy_window"));
 				addObjectProperty(energyWindow, racineObo+"BFO_0000177", acquisitionProtocol);
-				addObjectProperty(energyWindow, racineURI+"is_device_setting", acquisitionDevice);
+				addObjectProperty(energyWindow, racineURI+"is_device_setting_of", acquisitionDevice);
 				addObjectProperty(acquisition, racineURI+"has_setting", energyWindow);
 				Attributes t = iter.next();
 				if (t.getString(Tag.EnergyWindowName)!=null) {
@@ -2004,6 +2004,10 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 		logger.debug("SR Maienz");
 		
+		if (model==null) {model = Application.getModel();}
+		populateModel = ModelFactory.createOntologyModel();
+		if (memory==null) {memory = Application.memory;}
+		
 		String clinicalResearchStudyID;
 		
 
@@ -2011,12 +2015,14 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		Individual creatingStructuredReport = createIndiv(generateName("creating_structured_report"), model.getResource(racineURI+"creating_structured_report"));
 		addObjectProperty(SRImagingStudy,racineURI+"is_specified_output_of", creatingStructuredReport);
 
+		String SOPInstanceUID = root.getString(Tag.SOPInstanceUID);
+		logger.debug("SOPInstanceUID : "+SOPInstanceUID);
+		addDataProperty(SRImagingStudy, racineURI+"has_SOP_instance_UID", SOPInstanceUID);
+		
 		String SOPClassUID = root.getString(Tag.SOPClassUID);
 		logger.debug("SOPClassUID : "+SOPClassUID);
-
 		i = createIndiv("enhanced_SR_storage_SOP_class", model.getResource(racineURI+"enhanced_SR_storage_SOP_class"));
 		addObjectProperty(SRImagingStudy, racineURI+"has_format", i);
-		addDataProperty(SRImagingStudy, racineURI+"has_SOP_instance_UID", SOPClassUID);
 
 		Sequence conceptNameCodeSeq = root.getSequence(Tag.ConceptNameCodeSequence);
 		Iterator<Attributes> conceptNameCodeSeqIter = conceptNameCodeSeq.iterator();
@@ -2024,26 +2030,37 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			Attributes t = conceptNameCodeSeqIter.next();
 			if (t.getString(Tag.CodeValue)!=null) {
 				String codeValue = t.getString(Tag.CodeValue);
-
+				if (codeValue.contains("IUCT")) {
+					SRImagingStudy.addOntClass(model.getResource(racineURI+"CRF_WP3_IUCT_version"));
+				} else if (codeValue.contains("RMH")) {
+					SRImagingStudy.addOntClass(model.getResource(racineURI+"CRF_WP3_RMH_version"));
+				} else if (codeValue.contains("UMR")) {
+					SRImagingStudy.addOntClass(model.getResource(racineURI+"CRF_WP3_UMR_version"));
+				} else if (codeValue.contains("UKW")) {
+					SRImagingStudy.addOntClass(model.getResource(racineURI+"CRF_WP3_UKW_version"));
+				} 
 			}
 		}
 
 		String PatientName = root.getString(Tag.PatientName);
 		logger.debug("PatientName : "+PatientName);
 		patient = memory.getPatientByName(PatientName);
+		addObjectProperty(SRImagingStudy, racineURI+"has_patient", patient);
 
 		String PatientID = root.getString(Tag.PatientID);
 		logger.debug("PatientID : "+PatientID);
-		patient = memory.getPatientbyId(PatientID);	
+		Individual human = memory.getHuman(PatientID);	
 
 		String StudyInstanceUID = root.getString(Tag.StudyInstanceUID);
 		logger.debug("StudyInstanceUID : "+StudyInstanceUID);
-		memory.getStudyInstanceByUID(StudyInstanceUID);
+		Individual studyInstance = memory.getStudyInstanceByUID(StudyInstanceUID);
+		addObjectProperty(studyInstance, racineURI+"is_about_procedure", SRImagingStudy);
 
 		String SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
 		logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
 		
 		String handle = "/pacs/studies/"+StudyInstanceUID+"/series/"+SeriesInstanceUID;	
+		addDataProperty(SRImagingStudy, racineURI+"has_irdbb_fhir_handle", handle);
 
 		addObjectProperty(SRImagingStudy, racineURI+"has_patient", patient);
 
@@ -2056,6 +2073,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					String PersonName = t.getString(Tag.PersonName);
 					Individual author = memory.getAuthorByName(PersonName);
 					addObjectProperty(author, racineObo+"BFO_0000054", creatingStructuredReport);
+					Individual humanAuthor = memory.getHuman(PersonName);
+					addObjectProperty(author, racineObo+"BFO_0000052", humanAuthor);
 				}
 				if (t.getString(Tag.ObserverType)!=null) {
 					String ObserverType = t.getString(Tag.ObserverType);
@@ -2073,19 +2092,20 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 		String ContentDate = root.getString(Tag.ContentDate);
 		logger.debug("ContentDate : "+ContentDate);
-		addDataProperty(creatingStructuredReport,racineURI+"has_end", ContentDate);
+		addDataProperty(creatingStructuredReport,racineURI+"has_end_date", ContentDate);
 
 		String ContentTime = root.getString(Tag.ContentTime);
 		logger.debug("ContentTime : "+ContentTime);
-		addDataProperty(creatingStructuredReport,racineURI+"has_end", ContentTime);
-
+		addDataProperty(creatingStructuredReport,racineURI+"has_end_time", ContentTime);
 
 		String ProtocolName = root.getString(Tag.ProtocolName);
 		logger.debug("ProtocolName : "+ProtocolName);
+		Individual template = memory.getTemplateOfSR(ProtocolName);
+		addObjectProperty(SRImagingStudy, racineURI+"has_protocol", template);
 
 		String SeriesDescription = root.getString(Tag.SeriesDescription);
 		logger.debug("SeriesDescription : "+SeriesDescription);
-
+		addDataProperty(template, racineURI+"has_name", SeriesDescription);
 
 	}
 

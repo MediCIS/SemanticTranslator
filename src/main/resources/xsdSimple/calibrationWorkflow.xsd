@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--VersionSchemas : 104-->
+<!--VersionSchemas : 105-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -12,7 +12,7 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 		<xs:sequence>
 			<xs:element name="ReferencedClinicalResearchStudy" type="irdbb:ReferencedClinicalResearchStudy" />
 			<xs:element name="PatientId" type="xs:string"/>
-			<xs:element name="AcquisitionSettings" type="irdbb:AcquisitionSettings" />
+			<xs:element name="AcquisitionSettings" type="irdbb:AcquisitionSettings"  minOccurs="0" />
 				<xs:element name="CalibrationWorkflow" type="irdbb:CalibrationWorkflow" />
 		</xs:sequence>
 	</xs:complexType>
@@ -22,16 +22,6 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 						<xs:element name="ClinicalResearchStudyID" type="xs:string"/>
 						<xs:element name="ClinicalResearchStudyTitle" type="xs:string"/>
 					</xs:sequence>
-				</xs:complexType>
-				<xs:complexType name="AcquisitionSettings">
-						<xs:sequence>
-						<xs:element name="Siteadministeringthetreatment" type="xs:string" />
-						<xs:element name="Dateandtimeofinjection" type="xs:string" />
-						<xs:element name="PreAdministeredActivity" type="irdbb:AdministeredActivity" />
-						<xs:element name="PostAdministeredActivity" type="irdbb:AdministeredActivity" minOccurs="0" />
-						<xs:element name="Radiopharmaceutical" type="xs:string" />
-						<xs:element name="Radionuclide" type="irdbb:Isotope" />
-						</xs:sequence>
 				</xs:complexType>
 
 			<xs:complexType name="CalibrationWorkflow">

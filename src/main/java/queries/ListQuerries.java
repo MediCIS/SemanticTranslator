@@ -1,4 +1,4 @@
-package querries;
+package queries;
 
 
 import java.io.BufferedReader;

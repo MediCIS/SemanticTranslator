@@ -61,7 +61,7 @@ public class TranslateDicomSR extends OntologyPopulator {
 		case "Scope_of_Accumulation":
 			switch (value) {
 			case "Study":
-				imagingStudy = memory.getImagingStudy(ImportController.studyInstanceUID);
+				imagingStudy = memory.getImagingStudy(ServiceController.studyInstanceUID);
 				//imagingStudy=null;
 				System.out.println(imagingStudy);
 				if (imagingStudy==null) {
@@ -70,7 +70,7 @@ public class TranslateDicomSR extends OntologyPopulator {
 				}
 				addObjectProperty(CTradSR, racineURI+"has_scope_of_accumulation", imagingStudy);
 				addObjectProperty(CTradSR, racineURI+"is_about", imagingStudy);  
-				addDataProperty(study, racineURI+"has_dicom_UID", ImportController.studyInstanceUID);
+				addDataProperty(study, racineURI+"has_dicom_UID", ServiceController.studyInstanceUID);
 				if (memory==null) {memory=Application.memory;}
 				patient = memory.getHuman(patientId);														// create human
 				addDataProperty(patient, racineURI+"has_name", patientId);
