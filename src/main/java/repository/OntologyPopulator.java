@@ -1717,37 +1717,38 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 
 	public static Individual getUnit(String u) {											 // Generate unit individuals from a name
 		Individual unit; 
-		logger.debug("Creating Unit (Individual) from unit name : "+u);
 		u = u.trim();
+		u = u.toLowerCase();
+		logger.debug("Creating Unit (Individual) from unit name : "+u);
 		switch (u) {
 		case "second": case "seconds":
 		case "s":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000010")); break;
-		case "mGy.cm":
+		case "mgy.cm":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_centimeter")); break;
 		case "mA":	case "ma": case "milliampere":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000037")); break;
 		case "kilovolt":
-		case "kV":
+		case "kv":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000248")); break;
 		case "volt":
-		case "V":
+		case "v":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000218")); break;
-		case "Gy": case "gray" : case "GRAY" :
+		case "gy": case "gray" :
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000134")); break;
 		case "milligray":
-		case "mGy":
+		case "mgy":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000142")); break;
-		case "mSv":
+		case "msv":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000138")); break;
 		case "mm":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000016")); break;
-		case "mS": case "ms":
+		case "ms":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000028")); break;	
 		case "milligray per (milligray per (1 milliampere second))":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(1_milliampere_second))")); 
 			break;
-		case "milligray per (milligray per (100 milliampere second))":
+		case "milligray per (milligray per (100 milliampere second))": case "milligray_per_milligray_per_100_milliampere_second" :
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_per_(milligray_per_(100_milliampere_second))")); 
 			break;
 		case "milligray per (100 milliampere second)":
@@ -1762,18 +1763,18 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		case "ma.s":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milliampere_second"));
 			break;
-		case "microAmp.s":
+		case "microamp.s":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#microampere_second"));
 			break;
 		case "gram":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000021")); break;	
-		case "kilogram": case "KILOGRAM":
+		case "kilogram": 
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000009")); break;	
 		case "becquerel":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000132")); break;	
 		case "kilobecquerel":
 			unit = createIndiv(model.getResource(racineURI+"kilobecquerel")); break;	
-		case "megabecquerel": case "MEGABECQUEREL" :
+		case "megabecquerel": 
 			unit = createIndiv(model.getResource(racineURI+"megabecquerel")); break;	
 		case "curie":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000133")); break;	
@@ -1783,12 +1784,12 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000145")); break;	
 		case "counts":
 			unit = createIndiv(model.getResource(racineURI+"counts")); break;	
-		case "MEGABECQUEREL_X_HOUR": 
+		case "megabecquerel_x_hour": 
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_hour"));
-		case "MEGABECQUEREL_X_SECOND":
+		case "megabecquerel_x_second":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_second"));
 		default:
-			unit = createIndiv(generateName("Unknown_Unit"), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));
+			unit = createIndiv(generateName("Unknown_Unit_"+u), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));
 			logger.warn("WARN Unknown Unit : "+u);
 		}
 		return unit;

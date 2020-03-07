@@ -339,8 +339,10 @@ public class ServiceController extends CommonFunctions {
 	}
 
 	// Principaux Services
-	@RequestMapping(value = "/importDicomMetadata", method = RequestMethod.POST)	//, headers = "Accept=application/json"
-	public String importDicomMetadata(@RequestBody String kosString) throws IOException, JSONException, DicomException {	
+	@RequestMapping(value = "/importDicomMetadata", method = RequestMethod.POST)
+	public String importDicomMetadata(@RequestBody String kosString) throws IOException, JSONException, DicomException {
+		// function to import metadatas from a dicom file
+		// Dicom file are referenced in a Dicom KOS file
 		logger.info("importDicomMetadata");
 
 		logger.info("kosString : "+kosString);
@@ -362,26 +364,26 @@ public class ServiceController extends CommonFunctions {
 
 		HttpURLConnection fhirConnection = (HttpURLConnection) url.openConnection(); // Connection to retrieve dicom KOS file in Fhir
 		fhirConnection.setRequestMethod("GET");
-		fhirConnection.setRequestProperty("Accept",  "type=application/dicom;"); 
+		fhirConnection.setRequestProperty("Accept", "type=application/dicom;"); 
 
 		org.dcm4che3.io.DicomInputStream dis = new org.dcm4che3.io.DicomInputStream(fhirConnection.getInputStream());
-				// Read dicom file as a dicom stream
+				// Read KOS file as a dicom stream
 		Attributes attr  = dis.readDataset(-1, -1);                    // Get Attributes tree
 
 		Sequence mainSeq = attr.getSequence(Tag.CurrentRequestedProcedureEvidenceSequence); 
 		Iterator<Attributes> itr = mainSeq.iterator(); // Iterator for iter belong CurrentRequestedProcedureEvidenceSequence
 
-		while(itr.hasNext()) {
+		while(itr.hasNext()) { // iter on KOS content study by study
 
 			Attributes element = itr.next();
 			Sequence referencedSeriesSeq = element.getSequence(Tag.ReferencedSeriesSequence);
 
-			String studyId = element.getString(Tag.StudyInstanceUID);
+			String studyId = element.getString(Tag.StudyInstanceUID); 
 			studyInstanceUID = studyId;
 
 			Iterator<Attributes> seriesItr = referencedSeriesSeq.iterator();
 
-			while(seriesItr.hasNext()) {
+			while(seriesItr.hasNext()) { // iter on KOS content series by series inside a study
 				Attributes seriesItem = seriesItr.next();
 				Sequence referencedSOPSeq = seriesItem.getSequence(Tag.ReferencedSOPSequence);			
 				String seriesUID = seriesItem.getString(Tag.SeriesInstanceUID);

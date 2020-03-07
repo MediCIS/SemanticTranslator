@@ -95,6 +95,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 	static Individual patient;
 	static Individual internalRadiotherapy;
 	static Individual RadiopharmaceuticalAdmin;
+	static String patientID;
 
 	public static void translateNonDicomData(NonDicomFileSetDescriptor nonDicomFileSetDescriptor) { // 1st function to read XML, check what is inside and call the appropritae function
 		populateModel = ModelFactory.createOntologyModel();
@@ -103,7 +104,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 		logger.error("translateNonDicomData is Work in Progress");
 
 		clinicalresearchStudy = retrieveClinicalResearchStudy(nonDicomFileSetDescriptor.getReferencedClinicalResearchStudy().getClinicalResearchStudyID());
-		String patientID = nonDicomFileSetDescriptor.getPatientId();
+		patientID = nonDicomFileSetDescriptor.getPatientId();
 		patient = memory.getPatientbyId(patientID);
 		human = memory.getHuman(patientID);
 
@@ -163,7 +164,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				tableVOI.put(VOIIdentifier, voi);
 				addDataProperty(voi, racineURI+"has_id", VOIIdentifier);
 				organ = getOrganOrTissue(VOIProduced.getOrganOrTissue());
-				addObjectProperty(organ,racineObo+"BFO_0000176", patient);
+				addObjectProperty(organ,racineObo+"BFO_0000175", human);
 				addObjectProperty(voi,racineURI+"represents", organ);
 				addObjectProperty(voi,racineURI+"is_About", patient);
 			}
@@ -1357,7 +1358,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						tableVOI.put(VOIIdentifier, voi);
 						addDataProperty(voi, racineURI+"has_id", VOIIdentifier);
 						organ = getOrganOrTissue(VOIProduced.getOrganOrTissue());
-						addObjectProperty(organ,racineObo+"BFO_0000176", patient);
+						addObjectProperty(organ,racineObo+"BFO_0000175", human);
 						addObjectProperty(voi,racineURI+"represents", organ);
 						addObjectProperty(VOIsegmentation,racineURI+"has_specified_output", voi);
 					}
@@ -2025,12 +2026,11 @@ public class TranslateNonDicomData extends OntologyPopulator {
 			addObjectProperty(institution, racineObo+"BFO_0000161", roleOfOrganization);
 			addObjectProperty(roleOfOrganization,racineObo+"BFO_0000054",imageSegmentation);
 
-			image = createIndiv(generateName("Image"), model.getResource(racineURI+"CT_image_reconstruction")); 
 			if (ctSegmentation.getDICOMImageUsed().getDICOMSeriesUID()!=null) {
-				addDataProperty(image, racineURI+"has_DICOM_series_instance_UID", ctSegmentation.getDICOMImageUsed().getDICOMSeriesUID());
+				addDataProperty(imageSegmentation, racineURI+"has_DICOM_series_instance_UID", ctSegmentation.getDICOMImageUsed().getDICOMSeriesUID());
 			}
 			if (ctSegmentation.getDICOMImageUsed().getDICOMStudyUID()!=null) {
-				addDataProperty(image, racineURI+"has_DICOM_study_instance_UID", ctSegmentation.getDICOMImageUsed().getDICOMStudyUID());
+				addDataProperty(imageSegmentation, racineURI+"has_DICOM_study_instance_UID", ctSegmentation.getDICOMImageUsed().getDICOMStudyUID());
 			}
 
 			if (ctSegmentation.getSegmentationMethodUsed().getSegmentationMethod()!=null) {
@@ -2077,7 +2077,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 						addObjectProperty(voiFile, racineURI+"has_patient",patient);
 						addObjectProperty(imageSegmentation,racineURI+"has_specified_output", voiFile);
 						addObjectProperty(voiFile, racineURI+"is_specified_output_of", imageSegmentation);
-						addObjectProperty(organ,racineObo+"BFO_0000176", patient);	
+						addObjectProperty(organ,racineObo+"BFO_0000175", human);	
 						addObjectProperty(voiFile,racineURI+"represents", organ);
 
 						NonDICOMData voiContainer = voiContainerIter.next();
@@ -2119,6 +2119,7 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					attenuator = createIndiv(generateName("Attenuator"), model.createResource(racineDCM+"128472"));  
 
 					addObjectProperty(calculationof3Ddosemap, racineURI+"has_setting", attenuator); 
+
 
 					addDataProperty(attenuator, racineURI+"has_description", attenuatorParam.getAttenuatorCategory());
 					addDataProperty(attenuator, racineURI+"has_description", attenuatorParam.getEquivalentAttenuatorDescription());
@@ -2175,11 +2176,12 @@ public class TranslateNonDicomData extends OntologyPopulator {
 				imagingDeviceIter = calculationOfVoxelMap.getMonteCarloMethodUsed().getSimulatedImagingDevices().getSimulatedImagingDevice().iterator();;
 				while (imagingDeviceIter.hasNext()) {
 					imagingDevice = imagingDeviceIter.next();
-					i = createIndiv(model.getResource(racineURI+"medical_imaging_device")); 
+					i = createIndiv(generateName("medical_imaging_device"), model.getResource(racineURI+"medical_imaging_device")); 
 					addDataProperty(i, racineURI+"has_name", imagingDevice);
-					addObjectProperty(i, racineURI+"used_as_instrument_in", ctDosiMc); 
-					modelOfImagingDevice = createIndiv(model.getResource(racineURI+"model_of_medical_imaging_device"));
+					modelOfImagingDevice = createIndiv(generateName("model_of_medical_imaging_device"), model.getResource(racineURI+"model_of_medical_imaging_device"));
 					addObjectProperty(modelOfImagingDevice, racineURI+"refers_to_device", i);
+					addObjectProperty(modelOfImagingDevice, racineURI+"used_as_instrument_in", ctDosiMc); 
+
 				}
 
 				MCsoftwareIter = calculationOfVoxelMap.getMonteCarloMethodUsed().getSoftwareNames().getSoftwareName().iterator();
@@ -2205,8 +2207,23 @@ public class TranslateNonDicomData extends OntologyPopulator {
 					addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType, racineObo+"IAO_0000039", getUnit(voxelBasedDistribution.getAbsorbedDoseUnit().toString()));
 				}	
 
-				addDataProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_description", voxelBasedDistribution.getVoxelBasedDistributionOfAbsorbedDoseCategory().toString());
-
+				Individual absorbedDoseCat;
+				switch (voxelBasedDistribution.getVoxelBasedDistributionOfAbsorbedDoseCategory() ) {
+				case ABSORBED_DOSE:
+					absorbedDoseCat = createIndiv(model.getResource(racineDCM+"128513"));
+					break;
+				case ABSORBED_DOSE_NORMALIZED_TO_CTDI_FREE_IN_AIR_NORMALIZED_TO_TUBE_LOAD:
+					absorbedDoseCat = createIndiv(model.getResource(racineURI+"absorbed_dose_normalized_to_CTDI_free_in_air_normalized_to_tube_load"));
+					break;
+				case ABSORBED_DOSE_NORMALIZED_TO_CTDI_VOL_NORMALIZED_TO_TUBE_LOAD:
+					absorbedDoseCat = createIndiv(model.getResource(racineURI+"absorbed_dose_normalized_to_CTDI_vol_normalized_to_tube_load"));
+					break;
+				default:
+					absorbedDoseCat = createIndiv(model.getResource(racineDCM+"128513"));
+					break;
+				}
+				addObjectProperty(voxelBasedDistributionOfAbsorbedDoseType, racineURI+"has_member_part_at_all_times", absorbedDoseCat);
+				
 				if (voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution()!=null) {
 
 					NonDICOMData NonDICOM = voxelBasedDistribution.getNonDICOMVoxelBasedAbsorbedDoseDistribution();
@@ -2290,19 +2307,15 @@ public class TranslateNonDicomData extends OntologyPopulator {
 							}
 						}
 
-						//DICOMData imageDataUsed = ctMonteCarloDosimetry.getCalculationOfVoxelMap().getDICOMCTImageDataUsed();
-						//String series = imageDataUsed.getDICOMSeriesUID();
-						//patient = memory.getPatient(series, imageDataUsed.getDICOMStudyUID()); 
 						if (patient!=null) {
 							addObjectProperty(absorbedDoseVoi, racineURI+"has_patient", patient);
-							//addObjectProperty(clinicalresearchStudy, racineURI+"has_patient", patient);
 						}
 
 						addObjectProperty(calculationOfMeanAbsorbedDosesinVOIs,racineURI+"has_specified_output",absorbedDoseVoi);
 						addDataProperty(absorbedDoseVoi, racineObo+"IAO_0000004", absorbedDosePerVOI.getAbsorbedDoseValue()); 
 						addObjectProperty(absorbedDoseVoi, racineObo+"IAO_0000039", getUnit(absorbedDosePerVOI.getAbsorbedDoseUnit().toString()));
 
-						addObjectProperty(absorbedDoseVoi,racineURI+"is_dose_absorbed_by",tableVOIorgans.get(absorbedDosePerVOI.getVOIIdentifier()));
+						addObjectProperty(absorbedDoseVoi,racineURI+"is_dose_absorbed_by",tableVOIorgans.get(absorbedDosePerVOI.getVOIIdentifier().toString()));
 
 					}
 				}
@@ -2312,188 +2325,186 @@ public class TranslateNonDicomData extends OntologyPopulator {
 
 	public static Individual getOrgan(String organName) {
 		Individual indOrgane = null; 
-		String UID = UUID.randomUUID().toString();
 		switch (organName) {
 		case "bone":
-			indOrgane = createIndiv(organName+"_"+UID, model.getResource(racineObo+"FMA_5018")); 
+			indOrgane = createIndiv(organName+"_"+patientID, model.getResource(racineObo+"FMA_5018")); 
 			break;
 		case "breast": case "breasts":
-			indOrgane =  createIndiv("breasts"+"_"+UID, model.getResource(racineURI+"breasts")); 
+			indOrgane =  createIndiv("breasts"+"_"+patientID, model.getResource(racineURI+"breasts")); 
 			break;
 		case "esophagus":
-			indOrgane =  createIndiv(organName+"_"+UID, model.getResource(racineObo+"FMA_7131")); 
+			indOrgane =  createIndiv(organName+"_"+patientID, model.getResource(racineObo+"FMA_7131")); 
 			break;
 		case "heart":
-			indOrgane =  createIndiv(organName+"_"+UID, model.getResource(racineObo+"FMA_7088")); 
+			indOrgane =  createIndiv(organName+"_"+patientID, model.getResource(racineObo+"FMA_7088")); 
 			break;
 		case "lungs":
-			indOrgane =  createIndiv(organName+"_"+UID, model.getResource(racineObo+"FMA_68877")); 
+			indOrgane =  createIndiv(organName+"_"+patientID, model.getResource(racineObo+"FMA_68877")); 
 			break;
 		case "skin":
-			indOrgane =  createIndiv(organName+"_"+UID, model.getResource(racineObo+"FMA_7163")); 
+			indOrgane =  createIndiv(organName+"_"+patientID, model.getResource(racineObo+"FMA_7163")); 
 			break;
 		}
 		return indOrgane;
 	}
 
-
 	public static Individual getOrganOrTissue(OrganOrTissue organ) {
 		Individual organIndiv = null;
 		switch (organ) {
 		case ADRENALS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_264816"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID,  model.getResource(racineObo+"FMA_264816"));
 			break;
 		case AIR:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_84580"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_84580"));
 			break;
 		case BLADDER:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_15900"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_15900"));
 			break;
 		case BODY_SURFACE:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_61695"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_61695"));
 			break;
 		case BONE:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_30317"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_30317"));
 			break;
 		case BONE_SURFACES:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_33535"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_33535"));
 			break;
 		case BRAIN:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_50801"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_50801"));
 			break;
 		case BREASTS:
-			organIndiv = createIndiv(model.getResource(racineURI+"breasts"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineURI+"breasts"));
 			break;
 		case COLON:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7201"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7201"));
 			break;
 		case ESOPHAGUS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7131"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7131"));
 			break;
 		case EXTRATHORACIC_REGION:
 			break;
 		case GALLBLADDER:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7202"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7202"));
 			break;
 		case HEART:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7088"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7088"));
 			break;
 		case KIDNEYS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_264815"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_264815"));
 			break;
 		case LEFT_FEMALE_BREAST:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_19910"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_19910"));
 			break;
 		case LEFT_KIDNEY:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7205"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7205"));
 			break;
 		case LEFT_LUNG:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7310"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7310"));
 			break;
 		case LEFT_MALE_BREAST:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_19913"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_19913"));
 			break;
 		case LEFT_OVARY:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7214"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7214"));
 			break;
 		case LEFT_PAROTID_GLAND:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_59798"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_59798"));
 			break;
 		case LEFT_SUBMANDIBULAR_GLAND:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_59803"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_59803"));
 			break;
 		case LEFT_TESTIS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7212"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7212"));
 			break;
 		case LIVER:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7197"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7197"));
 			break;
 		case LUNGS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_68877"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_68877"));
 			break;
 		case LYMPHATIC_NODES:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_70776"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_70776"));
 			break;
 		case MUSCLE:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_30316"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_30316"));
 			break;
 		case ORAL_MUCOSA:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_54933"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_54933"));
 			break;
 		case OVARIES:
-			organIndiv = createIndiv(model.getResource(racineURI+"ovaries"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineURI+"ovaries"));
 			break;
 		case PANCREAS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7198"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7198"));
 			break;
 		case PAROTID_GLANDS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_320436"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_320436"));
 			break;
 		case PROSTATE:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7600"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7600"));
 			break;
 		case RED_BONE_MARROW:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_74595"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_74595"));
 			break;
 		case RIGHT_FEMALE_BREAST:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_19908"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_19908"));
 			break;
 		case RIGHT_KIDNEY:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7204"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7204"));
 			break;
 		case RIGHT_LUNG:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7309"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7309"));
 			break;
 		case RIGHT_MALE_BREAST:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_19912"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_19912"));
 			break;
 		case RIGHT_OVARY:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7213"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7213"));
 			break;
 		case RIGHT_PAROTID_GLAND:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_59797"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_59797"));
 			break;
 		case RIGHT_SUBMANDIBULAR_GLAND:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_59802"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_59802"));
 			break;
 		case RIGHT_TESTIS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7211"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7211"));
 			break;
 		case SALIVARY_GLANDS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_322428"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_322428"));
 			break;
 		case SKIN:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7163"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7163"));
 			break;
 		case SMALL_INTESTINE:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7200"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7200"));
 			break;
 		case SPLEEN:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7196"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7196"));
 			break;
 		case STOMACH:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_7148"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_7148"));
 			break;
 		case SUBMANDIBULAR_GLANDS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_320442"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_320442"));
 			break;
 		case TESTES:
-			organIndiv = createIndiv(model.getResource(racineURI+"testes"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineURI+"testes"));
 			break;
 		case THYMUS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_9607"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_9607"));
 			break;
 		case THYROID:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_9603"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_9603"));
 			break;
 		case UTERUS:
-			organIndiv = createIndiv(model.getResource(racineObo+"FMA_17558"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineObo+"FMA_17558"));
 			break;
 		case L_2:
-			organIndiv = createIndiv(model.getResource(racineURI+"L3_L5_bone_marrow"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineURI+"L3_L5_bone_marrow"));
 			break;
 		case SOFT_TISSUE:
-			organIndiv = createIndiv(model.getResource(racineURI+"soft_tissue"));
+			organIndiv = createIndiv(organ.toString().toLowerCase()+"_"+patientID, model.getResource(racineURI+"soft_tissue"));
 			break;
 		case TUMOR:
 			break;
