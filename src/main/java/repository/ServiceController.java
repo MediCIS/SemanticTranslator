@@ -89,255 +89,7 @@ public class ServiceController extends CommonFunctions {
 
 	private final static Logger logger = LoggerFactory.getLogger(ServiceController.class); 	
 
-	@RequestMapping (value = "/testXML", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/xml")
-	public String testXML(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor) throws FileNotFoundException  {   
-		// read XML file content and translate it in RDF
-		TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor);
-		rdfName = "testXML.rdf";	
-		writingRDF(rdfName);
-		createAdminConnection(database.ontoMedirad);
-
-		setInStarDog(rdfName);
-		
-		closeAdminConnection();
-		return "Tipoui !\n";
-	}
 	
-	@RequestMapping (value = "/testDICOMuids", method = RequestMethod.POST)
-	public String testDICOMuids()  {  
-		try {
-			memory.initDicomIDsList();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		memory.testDicomUIDs();
-		return "Tipoui !\n";
-	}
-	
-	@RequestMapping (value = "/testValidationDicomReferenced", method = RequestMethod.POST, headers = "Accept=text/xml")
-	public String testValidationDicomReferenced(@RequestBody String filesetDescriptorString) throws ParserConfigurationException, SAXException, IOException  {      
-		testValidDicom = true;
-		try {memory.initDicomIDsList();}
-		catch (JSONException e) {e.printStackTrace();}
-		String tmpFilePath = "tmp.xml";
-		PrintWriter out = new PrintWriter(tmpFilePath);
-		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
-		out.close();
-	
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder builder = factory.newDocumentBuilder();
-		
-		File f = new File(tmpFilePath);		
-		Document document = builder.parse(f);
-		document.normalizeDocument();
-		document.normalize();
-		document.getDocumentElement().normalize();
-		
-		NodeList test = document.getChildNodes();
-		visitChildNodes(test);
-		
-		return "Tipoui !\n";
-	}
-	
-	private static void visitChildNodes(NodeList nList) {
-		//System.out.println("visitChildNodes");
-		//System.out.println("nList.getLength() : "+nList.getLength());
-		for (int temp = 0; temp < nList.getLength(); temp++) {
-			Node node = nList.item(temp);
-			if (node.getNodeType() == Node.ELEMENT_NODE) {
-				//System.out.println("Node Name = " + node.getNodeName()); 
-				if (node.getNodeName().contains("irdbb:DICOMData")) {
-					readDicomData(node);
-				} else if (node.hasChildNodes()) {
-					visitChildNodes(node.getChildNodes());
-				}
-			}
-		}
-	}
-
-	public static void readDicomData(Node nodeDicomdata) {
-		NodeList nodesList = nodeDicomdata.getChildNodes();
-		String DICOMStudyUID =  null;
-		String DICOMSeriesUID =  null;
-		for (int i = 0; i < nodesList.getLength(); i++) {
-			Node node = nodesList.item(i);
-			//System.out.println("Node Name = " + node.getNodeName() + "; Value = " + node.getTextContent());
-			if (node.getNodeName().contains("DICOMStudyUID")) {
-				DICOMStudyUID = node.getTextContent();
-			}
-			if (node.getNodeName().contains("DICOMSeriesUID")) {
-				DICOMSeriesUID = node.getTextContent();
-			}
-		}
-		
-		if (memory.hasDicomUIDs(DICOMStudyUID, DICOMSeriesUID)==false) {
-			testValidDicom=false;
-		}
-	}
-	
-	@RequestMapping (value = "/testSR", method = RequestMethod.GET)
-	public String testSR() throws IOException, DicomException {    
-
-		List<String> listeSR = new ArrayList<String>();
-		listeSR.add("srPhilips1.3.46.670589.33.1.63639248000522907300001.4948198664952878862_5000_000001_1503644282031e.dcm");
-		listeSR.add("SRd.1.3.12.2.1107.5.1.4.64144.30000018031207153259200003616.dcm");
-		listeSR.add("SR.dcm");
-		listeSR.add("SR_IM-0001-0003.dcm");
-		listeSR.add("SR_d.1.3.12.2.1107.5.1.4.64144.30000018031207153259200003616.dcm");
-		listeSR.add("SR_Philips1.3.46.670589.33.1.63639248000522907300001.4948198664952878862_5000_000001_1503644282031e.dcm");
-		
-		studyInstanceUID="test";
-
-		
-		Iterator<String> iteratorSR = listeSR.iterator();
-		
-		while (iteratorSR.hasNext()) {
-			String srFilename = iteratorSR.next();
-			System.out.println("srFilename : "+srFilename);
-			
-			File file = new File("uploadFiles/SR/"+srFilename);																// Create the file for write the SR
-
-			
-			org.dcm4che3.io.DicomInputStream input;
-			Attributes obj;
-			input = new org.dcm4che3.io.DicomInputStream(file);
-			obj = input.readDataset(-1, -1);
-			String PatientID = obj.getString(Tag.PatientID);
-			input.close();
-
-			logger.debug("Reading SR (local file)");	
-			File f = new File("uploadFiles/SR/"+srFilename);																	// SR file that will be read 																	// SR file that will be read 
-			AttributeList attributeList = new AttributeList();												// Crate an empty attribute that will receive SR Datas
-
-			attributeList.read(f);																			// Read SR from file and put contain in attributeList
-			StructuredReport SR = new StructuredReport(attributeList);														// Convert the attributeList in StructuredReport
-			TranslateDicomSR.readingSR((ContentItem) SR.getRoot(), PatientID);										// Read and Translate the SR from the root
-
-			createAdminConnection(database.ontoMedirad);
-			rdfName = "RdfBackup/"+srFilename.replace("dcm", "rdf");		// Name for the RDF File (won't be overwritten)
-			writingRDF(rdfName);																			// Write the populated graph in the RDF file
-			setInStarDog(rdfName);
-
-			logger.debug("Retrieving SR : No exception catched");
-		}
-		
-		return "Tipoui !\n";
-	}
-	
-	@RequestMapping (value = "/testSRkheops", method = RequestMethod.GET)
-	public String testSRkheops() throws IOException {    
-		String fileName = "uploadFiles/SR_Kheops _IM-0001-0001.dcm";
-				
-		File f = new File(fileName);																	// SR file that will be read 
-
-		org.dcm4che3.io.DicomInputStream input;
-		Attributes obj;
-		input = new org.dcm4che3.io.DicomInputStream(f);
-		obj = input.readDataset(-1, -1);
-		input.close();
-
-		TranslateDicomMetadatas.translateSRmaienz(obj);
-
-		createAdminConnection(database.ontoMedirad);
-
-		rdfName = "RdfBackup/SR_Kheops.rdf";		// Name for the RDF File (won't be overwritten)
-		writingRDF(rdfName);																			// Write the populated graph in the RDF file
-		setInStarDog(rdfName);
-		
-		starDogConnection.close();
-		
-		return "Tipoui !\n";
-	}
-	
-	
-	@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
-	public String testMetadatas() throws IOException, DicomException {      
-		List<String> listeRDF = Stream.of(
-				"NM_00000631.dcm",
-				"1.2.392.200036.9116.2.5.1.37.2424156756.1562828030.518650.dcm",
-				"NM_royal_1.3.12.2.1107.5.6.1.0.30800119042309091780800000006.dcm",
-				"CTlocalizer 0000003.dcm",
-				"CTlocalizer 000000.dcm",
-				"CTlocalizer 000001.dcm",
-				"pet 66863 000000.dcm",
-				"pet 69357 000000.dcm",
-				"pet ct 13979 000000.dcm",
-				"pet ct 33633 000000.dcm",
-				"pet ct 77667 000000.dcm",
-				"NM_1.2.826.0.1.3680043.2.1143.9044577508240762692299637257578126775.dcm",
-				"NM_1.2.826.0.1.3680043.2.1143.4166221461035278595477829423829815483.dcm",
-				"NM_1.2.826.0.1.3680043.2.1143.5291241776818564084362627452114139907.dcm",
-				"NM_1.2.826.0.1.3680043.2.1143.4439810664766913333893527940924912402.dcm",
-				"NM_1.2.840.113619.2.281.3562.103051.1493996811.123212500.dcm",
-				"NM_22739480.dcm",
-				"CT_1.2.840.113619.2.281.3562.103051.1493996663.372826500.dcm",
-				"CT_1.2.840.113619.2.281.3562.103051.1493996667.372868700.dcm",
-				"CT_1.2.840.113619.2.281.3562.103051.1493996672.372829600.dcm",
-				"CT 96821 000000.dcm",
-				"CT 11200 000000.dcm",
-				"CTenhanced0011.dcm",
-				"CTenhanced0050.dcm",
-				"CTenhanced0053.dcm",
-				"CTenhanced0070.dcm",
-				"CTenhanced0011.dcm",
-				"CTenhanced0050.dcm",
-				"CTenhanced0053.dcm",
-				"CTenhanced0070.dcm",
-				"SR_Maienz_Report-15-2_sr.xml.dcm",
-				"SR_Maienz_Report-79538-1_sr.xml.dcm",
-				"SR_Maienz_Report-81000-1_sr.xml.dcm",
-				"SR_Maienz_Report-81223-1_sr.xml.dcm",
-				"SR_Maienz_Report-81322-1_sr.xml.dcm",
-				"SR_Maienz_Report-84044-1_sr.xml.dcm"
-				).collect(Collectors.toList());
-
-		int nIter = 1;
-		
-		for (int i = 0; i<nIter; i++) {
-			System.out.println("\tIteration"+i);
-			Iterator<String> RDFIter = listeRDF.iterator();
-			while (RDFIter.hasNext()) {
-				String ClinicalResearchStudyId = "2.1.2";
-				String fileName = RDFIter.next();
-				File f = new File("uploadFiles/Dicom/"+fileName);																	// SR file that will be read 
-	
-				org.dcm4che3.io.DicomInputStream input;
-				Attributes obj = null;
-				try {
-					input = new org.dcm4che3.io.DicomInputStream(f);
-					obj = input.readDataset(-1, -1);
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	
-				System.out.println("\n\n-------------------------------------------------------------------------------------");
-	
-				System.out.println("\t"+fileName);
-				if (obj!=null) {
-					TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, "exampleHandle");
-				}
-	
-				rdfName = fileName.replace(".dcm", ".rdf");	
-				writingRDF(rdfName);
-				createAdminConnection(database.ontoMedirad);
-	
-				setInStarDog(rdfName);
-				
-				closeAdminConnection();
-				System.out.println("\n\n-------------------------------------------------------------------------------------");
-	
-			}
-			
-			//Application.memory.initVoidMemory();
-		}
-		return "Tipoui !\n";
-	}
-
 	// Principaux Services
 	@RequestMapping(value = "/importDicomMetadata", method = RequestMethod.POST)
 	public String importDicomMetadata(@RequestBody String kosString) throws IOException, JSONException, DicomException {
@@ -393,14 +145,13 @@ public class ServiceController extends CommonFunctions {
 				while(sopItr.hasNext()) {
 					Attributes sopItem = sopItr.next();
 
-					//String referencedSOPInstancesUID = sopItem.getString(Tag.ReferencedSOPInstanceUID);
 					String ReferencedSOPClassUID = sopItem.getString(Tag.ReferencedSOPClassUID);
 
-					if (ReferencedSOPClassUID.contains("1.2.840.10008.5.1.4.1.1.88")) { // SR
-						retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
+					if (ReferencedSOPClassUID.contains("1.2.840.10008.5.1.4.1.1.88")) { // If Dicom file referenced is a SR
+						retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId); // read meta datas
 						retrieveSR(studyId, seriesUID);
-					} else if (ReferencedSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2")) { // CT
-						String cleCT = studyId + seriesUID;
+					} else if (ReferencedSOPClassUID.equals("1.2.840.10008.5.1.4.1.1.2")) { // If Dicom file referenced is a CT
+						String cleCT = studyId + seriesUID; 
 						boolean testCleCt = true;
 						Iterator<String> iterCleCt = listCleCT.iterator();
 						while (iterCleCt.hasNext()) {
@@ -408,11 +159,11 @@ public class ServiceController extends CommonFunctions {
 								testCleCt = false;
 							}
 						}
-						if (testCleCt == true) {						
+						if (testCleCt == true) { // If any CT with these seriesUID and these studyId has ever been read
 							retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
 							listCleCT.add(cleCT);
 						}
-					} else {
+					} else { // If Dicom file referenced is not a CT and not an SR
 						retrieveDicomFile(studyId, seriesUID, ClinicalResearchStudyId);
 					}
 
@@ -460,9 +211,15 @@ public class ServiceController extends CommonFunctions {
 	}
 
 	@RequestMapping(value = "/validateNonDicomFileSetDescriptor", method = RequestMethod.POST, produces = {"application/json"}, consumes= "text/plain")
-	public @ResponseBody String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException {
+	public @ResponseBody String validateNonDicomFileSetDescriptor(@RequestBody String filesetDescriptorString) throws SAXException, IOException, ParserConfigurationException {
 		// validate an XML received by the irdbb ui against the XSD schema
 		logger.info("Validating NonDicomFileSetDescriptor");			// Log a message 
+		/*
+		if (validationDicomReferenced(filesetDescriptorString)==false) {
+			logger.debug("Dicom Files referenced in XML were not imported");
+			return new ValidationReport(false, "Dicom Files referenced in XML were not imported").getJson(); 
+		}*/
+		
 		String tmpFilePath = "tmp.xml";  // path for write xml file
 		InputStream xsdStream;
 		Validator validator;
@@ -489,6 +246,66 @@ public class ServiceController extends CommonFunctions {
 		String test = new ValidationReport(true, "XML is Valid").getJson();// return a json object to answer to IRDBB UI that XMl is valid
 		System.out.print(test);
 		return test;
+	}
+	
+	public Boolean validationDicomReferenced(String filesetDescriptorString) throws ParserConfigurationException, SAXException, IOException  {      
+		testValidDicom = true;
+		try {memory.initDicomIDsList();}
+		catch (JSONException e) {e.printStackTrace();}
+		String tmpFilePath = "tmp.xml";
+		PrintWriter out = new PrintWriter(tmpFilePath);
+		out.println(filesetDescriptorString);						// Write XML content to be validated in the file
+		out.close();
+	
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = factory.newDocumentBuilder();
+		
+		File f = new File(tmpFilePath);		
+		Document document = builder.parse(f);
+		document.normalizeDocument();
+		document.normalize();
+		document.getDocumentElement().normalize();
+		
+		NodeList test = document.getChildNodes();
+		visitChildNodes(test);
+		
+		return testValidDicom;
+	}
+	
+	private static void visitChildNodes(NodeList nList) {
+		//System.out.println("visitChildNodes");
+		//System.out.println("nList.getLength() : "+nList.getLength());
+		for (int temp = 0; temp < nList.getLength(); temp++) {
+			Node node = nList.item(temp);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				//System.out.println("Node Name = " + node.getNodeName()); 
+				if (node.getNodeName().contains("irdbb:DICOMData")) {
+					readDicomData(node);
+				} else if (node.hasChildNodes()) {
+					visitChildNodes(node.getChildNodes());
+				}
+			}
+		}
+	}
+
+	public static void readDicomData(Node nodeDicomdata) {
+		NodeList nodesList = nodeDicomdata.getChildNodes();
+		String DICOMStudyUID =  null;
+		String DICOMSeriesUID =  null;
+		for (int i = 0; i < nodesList.getLength(); i++) {
+			Node node = nodesList.item(i);
+			//System.out.println("Node Name = " + node.getNodeName() + "; Value = " + node.getTextContent());
+			if (node.getNodeName().contains("DICOMStudyUID")) {
+				DICOMStudyUID = node.getTextContent();
+			}
+			if (node.getNodeName().contains("DICOMSeriesUID")) {
+				DICOMSeriesUID = node.getTextContent();
+			}
+		}
+		
+		if (memory.hasDicomUIDs(DICOMStudyUID, DICOMSeriesUID)==false) {
+			testValidDicom=false;
+		}
 	}
 
 	// Services Annexes
@@ -921,4 +738,196 @@ public class ServiceController extends CommonFunctions {
 	}
 
 
+	
+	
+	
+	
+	@RequestMapping (value = "/testXML", method = RequestMethod.POST, produces = {"application/json"},consumes= "text/xml")
+	public String testXML(@RequestBody NonDicomFileSetDescriptor nonDicomFileSetDescriptor) throws FileNotFoundException  {   
+		// read XML file content and translate it in RDF
+		TranslateNonDicomData.translateNonDicomData(nonDicomFileSetDescriptor);
+		rdfName = "testXML.rdf";	
+		writingRDF(rdfName);
+		createAdminConnection(database.ontoMedirad);
+
+		setInStarDog(rdfName);
+		
+		closeAdminConnection();
+		return "Tipoui !\n";
+	}
+	
+	//@RequestMapping (value = "/testDICOMuids", method = RequestMethod.POST)
+	public String testDICOMuids()  {  
+		try {
+			memory.initDicomIDsList();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		memory.testDicomUIDs();
+		return "Tipoui !\n";
+	}
+	
+	//@RequestMapping (value = "/testSR", method = RequestMethod.GET)
+	public String testSR() throws IOException, DicomException {    
+
+		List<String> listeSR = new ArrayList<String>();
+		listeSR.add("srPhilips1.3.46.670589.33.1.63639248000522907300001.4948198664952878862_5000_000001_1503644282031e.dcm");
+		listeSR.add("SRd.1.3.12.2.1107.5.1.4.64144.30000018031207153259200003616.dcm");
+		listeSR.add("SR.dcm");
+		listeSR.add("SR_IM-0001-0003.dcm");
+		listeSR.add("SR_d.1.3.12.2.1107.5.1.4.64144.30000018031207153259200003616.dcm");
+		listeSR.add("SR_Philips1.3.46.670589.33.1.63639248000522907300001.4948198664952878862_5000_000001_1503644282031e.dcm");
+		
+		studyInstanceUID="test";
+
+		
+		Iterator<String> iteratorSR = listeSR.iterator();
+		
+		while (iteratorSR.hasNext()) {
+			String srFilename = iteratorSR.next();
+			System.out.println("srFilename : "+srFilename);
+			
+			File file = new File("uploadFiles/SR/"+srFilename);																// Create the file for write the SR
+
+			
+			org.dcm4che3.io.DicomInputStream input;
+			Attributes obj;
+			input = new org.dcm4che3.io.DicomInputStream(file);
+			obj = input.readDataset(-1, -1);
+			String PatientID = obj.getString(Tag.PatientID);
+			input.close();
+
+			logger.debug("Reading SR (local file)");	
+			File f = new File("uploadFiles/SR/"+srFilename);																	// SR file that will be read 																	// SR file that will be read 
+			AttributeList attributeList = new AttributeList();												// Crate an empty attribute that will receive SR Datas
+
+			attributeList.read(f);																			// Read SR from file and put contain in attributeList
+			StructuredReport SR = new StructuredReport(attributeList);														// Convert the attributeList in StructuredReport
+			TranslateDicomSR.readingSR((ContentItem) SR.getRoot(), PatientID);										// Read and Translate the SR from the root
+
+			createAdminConnection(database.ontoMedirad);
+			rdfName = "RdfBackup/"+srFilename.replace("dcm", "rdf");		// Name for the RDF File (won't be overwritten)
+			writingRDF(rdfName);																			// Write the populated graph in the RDF file
+			setInStarDog(rdfName);
+
+			logger.debug("Retrieving SR : No exception catched");
+		}
+		
+		return "Tipoui !\n";
+	}
+	
+	//@RequestMapping (value = "/testSRkheops", method = RequestMethod.GET)
+	public String testSRkheops() throws IOException {    
+		String fileName = "uploadFiles/SR_Kheops _IM-0001-0001.dcm";
+				
+		File f = new File(fileName);																	// SR file that will be read 
+
+		org.dcm4che3.io.DicomInputStream input;
+		Attributes obj;
+		input = new org.dcm4che3.io.DicomInputStream(f);
+		obj = input.readDataset(-1, -1);
+		input.close();
+
+		TranslateDicomMetadatas.translateSRmaienz(obj);
+
+		createAdminConnection(database.ontoMedirad);
+
+		rdfName = "RdfBackup/SR_Kheops.rdf";		// Name for the RDF File (won't be overwritten)
+		writingRDF(rdfName);																			// Write the populated graph in the RDF file
+		setInStarDog(rdfName);
+		
+		starDogConnection.close();
+		
+		return "Tipoui !\n";
+	}
+	
+	//@RequestMapping (value = "/testMetadatas", method = RequestMethod.GET)
+	public String testMetadatas() throws IOException, DicomException {      
+		List<String> listeRDF = Stream.of(
+				"NM_00000631.dcm",
+				"1.2.392.200036.9116.2.5.1.37.2424156756.1562828030.518650.dcm",
+				"NM_royal_1.3.12.2.1107.5.6.1.0.30800119042309091780800000006.dcm",
+				"CTlocalizer 0000003.dcm",
+				"CTlocalizer 000000.dcm",
+				"CTlocalizer 000001.dcm",
+				"pet 66863 000000.dcm",
+				"pet 69357 000000.dcm",
+				"pet ct 13979 000000.dcm",
+				"pet ct 33633 000000.dcm",
+				"pet ct 77667 000000.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.9044577508240762692299637257578126775.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.4166221461035278595477829423829815483.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.5291241776818564084362627452114139907.dcm",
+				"NM_1.2.826.0.1.3680043.2.1143.4439810664766913333893527940924912402.dcm",
+				"NM_1.2.840.113619.2.281.3562.103051.1493996811.123212500.dcm",
+				"NM_22739480.dcm",
+				"CT_1.2.840.113619.2.281.3562.103051.1493996663.372826500.dcm",
+				"CT_1.2.840.113619.2.281.3562.103051.1493996667.372868700.dcm",
+				"CT_1.2.840.113619.2.281.3562.103051.1493996672.372829600.dcm",
+				"CT 96821 000000.dcm",
+				"CT 11200 000000.dcm",
+				"CTenhanced0011.dcm",
+				"CTenhanced0050.dcm",
+				"CTenhanced0053.dcm",
+				"CTenhanced0070.dcm",
+				"CTenhanced0011.dcm",
+				"CTenhanced0050.dcm",
+				"CTenhanced0053.dcm",
+				"CTenhanced0070.dcm",
+				"SR_Maienz_Report-15-2_sr.xml.dcm",
+				"SR_Maienz_Report-79538-1_sr.xml.dcm",
+				"SR_Maienz_Report-81000-1_sr.xml.dcm",
+				"SR_Maienz_Report-81223-1_sr.xml.dcm",
+				"SR_Maienz_Report-81322-1_sr.xml.dcm",
+				"SR_Maienz_Report-84044-1_sr.xml.dcm"
+				).collect(Collectors.toList());
+
+		int nIter = 1;
+		
+		for (int i = 0; i<nIter; i++) {
+			System.out.println("\tIteration"+i);
+			Iterator<String> RDFIter = listeRDF.iterator();
+			while (RDFIter.hasNext()) {
+				String ClinicalResearchStudyId = "2.1.2";
+				String fileName = RDFIter.next();
+				File f = new File("uploadFiles/Dicom/"+fileName);																	// SR file that will be read 
+	
+				org.dcm4che3.io.DicomInputStream input;
+				Attributes obj = null;
+				try {
+					input = new org.dcm4che3.io.DicomInputStream(f);
+					obj = input.readDataset(-1, -1);
+					input.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	
+				System.out.println("\n\n-------------------------------------------------------------------------------------");
+	
+				System.out.println("\t"+fileName);
+				if (obj!=null) {
+					TranslateDicomMetadatas.translateDicomMetaData(obj, ClinicalResearchStudyId, "exampleHandle");
+				}
+	
+				rdfName = fileName.replace(".dcm", ".rdf");	
+				writingRDF(rdfName);
+				createAdminConnection(database.ontoMedirad);
+	
+				setInStarDog(rdfName);
+				
+				closeAdminConnection();
+				System.out.println("\n\n-------------------------------------------------------------------------------------");
+			}
+		}
+		return "Tipoui !\n";
+	}
+
+	
+	
+	
+	
 }

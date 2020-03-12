@@ -1719,6 +1719,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		Individual unit; 
 		u = u.trim();
 		u = u.toLowerCase();
+		
 		logger.debug("Creating Unit (Individual) from unit name : "+u);
 		switch (u) {
 		case "second": case "seconds":
@@ -1784,13 +1785,19 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000145")); break;	
 		case "counts":
 			unit = createIndiv(model.getResource(racineURI+"counts")); break;	
-		case "megabecquerel_x_hour": 
+		case "megabecquerel_x_hour": case "MEGABECQUEREL_X_HOUR":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_hour"));
-		case "megabecquerel_x_second":
+		case "megabecquerel_x_second": case "MEGABECQUEREL_X_SECOND":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_second"));
 		default:
-			unit = createIndiv(generateName("Unknown_Unit_"+u), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));
-			logger.warn("WARN Unknown Unit : "+u);
+			if (u.contains("megabecquerel") && u.contains("hour")) {
+				unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_hour"));
+			} else if (u.contains("megabecquerel") && u.contains("second")) {
+				unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_second"));
+			} else {
+				unit = createIndiv(generateName("Unknown_Unit_"+u), model.getResource("http://purl.obolibrary.org/obo/UO_0000000"));
+				logger.warn("WARN Unknown Unit : "+u);
+			}
 		}
 		return unit;
 	}

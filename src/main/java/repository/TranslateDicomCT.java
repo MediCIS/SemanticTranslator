@@ -97,7 +97,7 @@ public class TranslateDicomCT extends OntologyPopulator {
 					role_of_responsible_organization = memory.getRoleOfResponsibleOrganization(serieDescriptorType.getInstitutionName00080080());
 				}
 
-				addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000052", institution);
+				addObjectProperty(institution, racineObo+"BFO_0000052", role_of_responsible_organization);
 				addObjectProperty(role_of_responsible_organization, racineObo+"BFO_0000054", ctImageAcquisition);
 
 				protocol = createIndiv(generateName("Protocol"), model.getResource(racineURI+"CT_acquisition_protocol"));

@@ -330,7 +330,15 @@ public class Memory extends OntologyPopulator {
 	}
 
 	public synchronized Individual getPatientbyId(String Id) {
-		return tablePatientID.get(Id);
+		if (tablePatientID.containsKey(Id)) {
+			return tablePatientID.get(Id);
+		} else {
+			Individual human = createIndiv(generateName("human"), model.getResource(racineURI+"human"));
+			addDataProperty(human, racineURI+"has_id", Id);
+			setPatientId(Id,human);
+			return human;
+		}
+		
 	}
 
 	public synchronized void setImagingStudy(String DicomUID, Individual imagingStudy) {
