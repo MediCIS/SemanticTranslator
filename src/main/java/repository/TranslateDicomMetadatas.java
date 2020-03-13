@@ -403,7 +403,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					addObjectProperty(createIndiv(model.getResource(racineURI+"no_use_of_X_ray_modulation")), racineObo+"BFO_0000177", acquisitionProtocol);
 				} else {
 					logger.debug("ExposureModulationType : "+ExposureModulationType);
-					i = createIndiv(model.getResource(racineURI+"use_of_x_ray_modulation"));
+					i = createIndiv(model.getResource(racineURI+"use_of_X_ray_modulation"));
 					addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 					addDataProperty(i,racineURI+"has_name",ExposureModulationType);
 				}
@@ -895,7 +895,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			if (ExposureModulationType==null || ExposureModulationType.equalsIgnoreCase("none")) {
 				addObjectProperty(createIndiv(model.getResource(racineURI+"no_use_of_X_ray_modulation")), racineObo+"BFO_0000177", acquisitionProtocol);
 			} else {
-				i = createIndiv(model.getResource(racineURI+"use_of_x_ray_modulation"));
+				i = createIndiv(model.getResource(racineURI+"use_of_X_ray_modulation"));
 				addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 				addDataProperty(i,racineURI+"has_name",ExposureModulationType);
 			}
@@ -1232,7 +1232,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 					if (ExposureModulationType==null || ExposureModulationType.equalsIgnoreCase("none")) {
 						addObjectProperty(createIndiv(model.getResource(racineURI+"no_use_of_X_ray_modulation")), racineObo+"BFO_0000177", acquisition);
 					} else {
-						i = createIndiv(model.getResource(racineURI+"use_of_x_ray_modulation"));
+						i = createIndiv(model.getResource(racineURI+"use_of_X_ray_modulation"));
 						addObjectProperty(i, racineObo+"BFO_0000177", acquisitionProtocol);
 						addDataProperty(i,racineURI+"has_name",ExposureModulationType);
 					}

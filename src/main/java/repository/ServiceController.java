@@ -73,9 +73,9 @@ import queries.Querry;
 @RestController
 
 public class ServiceController extends CommonFunctions {	
-	public enum database {ontoMedirad, test}; 	// StarDog Database list ()
+	public enum database {ontoMedirad}; 	// StarDog Database list ()
 
-	String rdfName;								// Name of the RDF file that wille writen before transfer to StarDog (for backup)
+	String rdfName;								// Name of the RDF file that will be writen before transfer to StarDog (for backup)
 	int z = 0; 									// Used for names RDF files and avoid overwriting
 	int compteurCT = 0;
 
