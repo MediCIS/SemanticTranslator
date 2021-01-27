@@ -123,31 +123,31 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		Individual researchClinicalStudy;
 		Resource classStudy = model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study");
 		
-		if (name.contains("755523-st212")) {
+		if (name.contains("755523-st212") || name.contains("st212") || name.contains("2.1.2") )  {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#clinical_research_study_755523_subtask2.1.2", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("755523-st2321")) {
+		} else if (name.contains("755523-st2321") || name.contains("st2321") || name.contains("2.3.2.1") )  {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask2.3.2.1", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-			} else if (name.contains("755523-st2322")) {
+			} else if (name.contains("755523-st2322") || name.contains("st2322") || name.contains("2.3.2.2") )  {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask2.3.2.2", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("755523-st531")) {
+		} else if (name.contains("755523-st531") || name.contains("st531") || name.contains("5.3.1") )  {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask5.3.1", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("755523-st532")) {
+		} else if (name.contains("755523-st532") || name.contains("st532") || name.contains("5.3.2") )  {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_subtask5.3.2", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("755523-t32")) {
+		} else if (name.contains("755523-t32")  || name.contains("t32") || name.contains("t.3.2") )  {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_task3.2", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
-		} else if (name.contains("755523-t33") || name.contains("33")  ) {
+		} else if (name.contains("755523-t33") || name.contains("33") || name.contains("t.3.3") ) {
 			researchClinicalStudy = populateModel.createIndividual("http://medicis.univ-rennes1.fr/ontologies/ontospm/MEDIRADClinicalResearchStudies.owl#clinical_research_study_755523_task3.3", classStudy);
 			System.out.println("researchClinicalStudy : "+researchClinicalStudy);
 			return researchClinicalStudy;
@@ -260,7 +260,10 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 	public static ArrayList<Individual> createIndividualOrgan(String name, ContentItem e, String patientID) {  // Special function used to send a list of organs (DICOM)
 		ArrayList<Individual> listOrgans = new ArrayList<Individual>();
 		Individual indOrgane = null; ContentItem lat; String latStr;
+
 		logger.debug("Creating Organ (Individual) from organ name : "+name);
+		logger.debug("createIndividualOrgan 3 param et patienID: "+patientID);
+
 		switch (name) {
 		//CID 4030
 		case "Abdominal_aorta": 
@@ -1250,6 +1253,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		ArrayList<Individual> listOrgans = new ArrayList<Individual>();
 		Individual indOrgane = null; 
 		logger.debug("Creating Organ (Individual) from organ name : "+name);
+		logger.debug("createIndividualOrgan 2 param et patienID: "+patientID);
 		if (name.contains("/")) {name = name.split("/")[0];}
 		name=name.toLowerCase();
 		switch (name) {
@@ -1725,7 +1729,7 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 		case "second": case "seconds":
 		case "s":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000010")); break;
-		case "mgy.cm":
+		case "mgy.cm": case "mgycm":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#milligray_centimeter")); break;
 		case "mA":	case "ma": case "milliampere":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000037")); break;
@@ -1744,6 +1748,10 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000138")); break;
 		case "mm":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000016")); break;
+		case "milliliter":
+			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000098")); break;
+		case "cubic centimeter":
+			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000097")); break;
 		case "ms":
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000028")); break;	
 		case "milligray per (milligray per (1 milliampere second))":
@@ -1785,6 +1793,10 @@ public abstract class OntologyPopulator {															// Abstract Class becaus
 			unit = createIndiv(model.getResource("http://purl.obolibrary.org/obo/UO_0000145")); break;	
 		case "counts":
 			unit = createIndiv(model.getResource(racineURI+"counts")); break;	
+		case "counts per second per megabecquerel":
+			unit = createIndiv(model.getResource(racineURI+"counts_per_second_per_megabecquerel")); break;	
+		case "hounsfield":
+			unit = createIndiv(model.getResource(racineURI+"Hounsfield_unit")); break;	
 		case "megabecquerel_x_hour": case "MEGABECQUEREL_X_HOUR":
 			unit = createIndiv(model.getResource("http://medicis.univ-rennes1.fr/ontologies/ontospm/OntoMEDIRAD.owl#megabecquerel_hour"));
 		case "megabecquerel_x_second": case "MEGABECQUEREL_X_SECOND":

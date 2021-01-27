@@ -69,7 +69,28 @@ public class Memory extends OntologyPopulator {
 	private LinkedList<String> tableDicomIDs;
 
 	private Hashtable<String, Individual> tableTemplateOfSR;
-	
+
+	// added Bernard 15-06-2020
+	public LinkedList<Individual> listIRIInternalRadiotherapy;
+	public LinkedList<Individual> listIRIRadiopharmaceuticalAdministration;
+	public LinkedList<String> listRadiopharmaceuticalAdministrationId;
+	public LinkedList<String> listHumanIdOfInternalRadiotherapy ;
+
+	public LinkedList<Individual> listIRITimePoint;
+	public LinkedList<String> listHumanIdOfTimePoint;
+	public LinkedList<String> listTimePointId;
+
+	// added Bernard 31-07-2020
+	public LinkedList<Individual> listIRISPECTCalibration;
+	// public LinkedList<Individual> listIRIIsotopeOfSPECTCalibration;
+	public LinkedList<Individual> listIRISPECTRecoveryCoefficientCurve;
+	public LinkedList<Individual> listIRISPECTCalibrationCoefficient;
+	public LinkedList<String> listSPECTReferenceCalibrationDate;
+	public LinkedList<String> listIdOfSPECTCalibration; // date+labelisotope
+
+	public LinkedList<Individual> listIRICTCalibration;
+	public LinkedList<Individual> listIRICTNumberCalibrationCurve;
+	public LinkedList<String> listCTReferenceCalibrationDate;
 
 
 	public Memory() throws  IOException, InvocationTargetException, ResultWritingFailed, JSONException {
@@ -77,9 +98,14 @@ public class Memory extends OntologyPopulator {
 		requestSoftware();
 		requestMCMethod();
 		requestInstit();
-		requestPatientCTImageDS();
+		requestDicomDatasets();
 		requestHuman();
 		requestTemplateOfSR();
+		requestStudyInstanceUID();
+		requestInternalRadiotherapy();
+		requestTimePoint();
+		requestSPECTCalibration();
+		requestCTCalibration();
 	}
 
 	public synchronized void initVoidMemory() {
@@ -120,14 +146,46 @@ public class Memory extends OntologyPopulator {
 		tableDicomIDs = new LinkedList<String>();
 		
 		tableTemplateOfSR = new Hashtable<String, Individual>();
+
+		//added by Bernard 15-06-2020
+
+		listIRIInternalRadiotherapy = new LinkedList<Individual>();
+
+		listIRIRadiopharmaceuticalAdministration = new LinkedList<Individual>();
+
+		listRadiopharmaceuticalAdministrationId = new LinkedList<String>();
+
+		listHumanIdOfInternalRadiotherapy = new LinkedList<String>();
+
+		listIRITimePoint  = new LinkedList<Individual>();
+
+		listHumanIdOfTimePoint = new LinkedList<String>();
+
+		listTimePointId = new LinkedList<String>();
+
+		//added by Bernard 31-07-2020
+
+		listIRISPECTCalibration = new LinkedList<Individual>();
+		//listIRIIsotopeOfSPECTCalibration = new LinkedList<Individual>();
+		listIRISPECTRecoveryCoefficientCurve = new LinkedList<Individual>();
+		listIRISPECTCalibrationCoefficient = new LinkedList<Individual>();
+		listSPECTReferenceCalibrationDate = new LinkedList<String>();
+		listIdOfSPECTCalibration = new LinkedList<String>();
+		listIRICTCalibration = new LinkedList<Individual>();
+		listIRICTNumberCalibrationCurve = new LinkedList<Individual>();
+		listCTReferenceCalibrationDate = new LinkedList<String>();
+
 	}
 
-	public Individual getTemplateOfSR(String protocolName) {
+	public Individual getTemplateOfSR(String protocolName, String protocolID) {
 		if (tableTemplateOfSR.containsKey(protocolName)) {
 			return tableTemplateOfSR.get(protocolName);
 		} else {
 			Individual template = createIndiv(generateName("template_of_structured_report"), model.getResource(racineURI+"template_of_structured_report"));
 			addDataProperty(template, racineURI+"has_name", protocolName);
+			if (protocolID != null) {
+				addDataProperty(template, racineURI+"has_id", protocolID);
+			} 
 			return template;
 		}
 	}
@@ -148,7 +206,8 @@ public class Memory extends OntologyPopulator {
 		for (int i=0; i<jsonResults.length(); i++) {
 			template = jsonResults.getJSONObject(i).getJSONObject("template").getString("value");
 			name = jsonResults.getJSONObject(i).getJSONObject("name").getString("value");
-			tableTemplateOfSR.put(name, createIndiv(template, model.createResource(racineURI+"template_of_structured_report")));
+//			tableTemplateOfSR.put(name, createIndiv(template, model.createResource(racineURI+"template_of_structured_report")));
+			tableTemplateOfSR.put(name, model.createIndividual(template, model.getResource(racineURI+"template_of_structured_report")));
 		}
 
 		starDogConnection.close();
@@ -192,7 +251,7 @@ public class Memory extends OntologyPopulator {
 		System.out.println("getHuman");
 
 		for (int i = 0; i<listIRIHuman.size(); i++) {
-			System.out.println(listIDsHuman.get(i)+" : "+listIRIHuman.get(i));
+			//System.out.println(listIDsHuman.get(i)+" : "+listIRIHuman.get(i));
 
 			if (listIDsHuman.get(i).equalsIgnoreCase(patientID)) {
 				System.out.println("return human : "+listIRIHuman.get(i));
@@ -208,7 +267,7 @@ public class Memory extends OntologyPopulator {
 	}
 
 	public synchronized void requestHuman() throws IOException, JSONException  {
-		logger.debug("requestHumans");
+		logger.debug("requestHuman");
 		starDogUrl = Application.starDogUrl ;	
 		if (model==null) {model=Application.model;}
 
@@ -223,9 +282,11 @@ public class Memory extends OntologyPopulator {
 		for (int i=0; i<jsonResults.length(); i++) {
 			human = jsonResults.getJSONObject(i).getJSONObject("human").getString("value");
 			id = jsonResults.getJSONObject(i).getJSONObject("patientID").getString("value");
-
+			//logger.debug("memory requestHumans id "+id.trim());
 			listIDsHuman.add(id.trim());
-			listIRIHuman.add(model.getIndividual(human.trim()));
+			//logger.debug("memory requestHumans human"+model.getIndividual(human.trim()));
+			//listIRIHuman.add(model.getIndividual(human.trim()));
+			listIRIHuman.add(model.createIndividual(human.trim(), model.getResource(racineURI+"human"))) ;
 		}
 
 		starDogConnection.close();
@@ -243,7 +304,7 @@ public class Memory extends OntologyPopulator {
 	} 
 
 	public synchronized void requestStudyInstanceUID() throws IOException, InvocationTargetException, JSONException {
-		logger.debug("requestHumans");
+		logger.debug("requestStudyInstanceUID");
 		starDogUrl = Application.starDogUrl ;	
 		if (model==null) {model=Application.model;}
 
@@ -264,7 +325,7 @@ public class Memory extends OntologyPopulator {
 	
 		starDogConnection.close();
 
-		logger.debug("requestHuman OK");
+		logger.debug("requestStudyInstanceUID OK");
 	}
 
 	//public synchronized void setStudyInstance(String UID, Individual studyInstance) {
@@ -277,7 +338,7 @@ public class Memory extends OntologyPopulator {
 	}
 
 	public synchronized void requestPatientNameIDs() throws IOException, InvocationTargetException, JSONException {
-		logger.debug("requestHumans");
+		logger.debug("requestPatientNameIDs");
 		starDogUrl = Application.starDogUrl ;	
 		if (model==null) {model=Application.model;}
 
@@ -302,7 +363,7 @@ public class Memory extends OntologyPopulator {
 	
 		starDogConnection.close();
 
-		logger.debug("requestHuman OK");
+		logger.debug("requestPatientNameIDs OK");
 	}
 
 	public synchronized void setPatientName(String name, Individual human) {
@@ -360,7 +421,7 @@ public class Memory extends OntologyPopulator {
 		return null;
 	}
 
-	public synchronized void setPatient(String SeriesID, String StudyID, Individual patient) {
+	public synchronized void setHuman(String SeriesID, String StudyID, Individual patient) {
 		for (int i = 0; i<listSeriesPatient.size(); i++) {
 			if (listSeriesPatient.get(i).equalsIgnoreCase(SeriesID.trim()) && listStudyPatient.get(i).equalsIgnoreCase(StudyID.trim())) {
 				listIRIPatient.add(i, patient); return;
@@ -380,7 +441,7 @@ public class Memory extends OntologyPopulator {
 		return null;
 	}
 
-	public synchronized void setCtDataSet(String SeriesID, String StudyID, Individual CtDataSet) {
+	public synchronized void setDataset(String SeriesID, String StudyID, Individual CtDataSet) {
 		for (int i = 0; i<listSeriesctDataset.size(); i++) {
 			if (listSeriesctDataset.get(i).equalsIgnoreCase(SeriesID.trim()) && listStudyctDataset.get(i).equalsIgnoreCase(StudyID.trim())) {
 				listIRIctDataset.add(i, CtDataSet); return;
@@ -526,25 +587,28 @@ public class Memory extends OntologyPopulator {
 		logger.debug("requestInstit OK");
 	}
 
-	public synchronized void requestPatientCTImageDS() throws ResultWritingFailed, IOException, JSONException{
-		logger.debug("requestPatientCTImageDS");
+	public synchronized void requestDicomDatasets() throws ResultWritingFailed, IOException, JSONException {
+		logger.debug("requestDicomDatasets");
 		starDogUrl = Application.starDogUrl ;	
 				
-		String sparql = "SELECT DISTINCT ?patient ?CT_ImageDataSet ?handle WHERE {" + 
+		String sparql = "SELECT DISTINCT ?human ?dataset ?handle ?datasetclass WHERE {" + 
 				"	?patient rdf:type ontomedirad:patient ." + 
-				"  	?patient purl:BFO_0000054 ?CT_Acquisition ." + 
-				"   ?CT_ImageDataSet ontomedirad:is_specified_output_of ?CT_Acquisition ." + 
-				"  	?CT_ImageDataSet ontomedirad:has_IRDBB_WADO_handle ?handle ." + 
-				"} ORDER BY ?software";
+				"   ?human purl:BFO_0000087 ?patient ." +
+				"  	?patient purl:BFO_0000054 ?acquisition ." + 
+				"   ?dataset ontomedirad:is_specified_output_of ?acquisition ." + 
+				"  	?dataset ontomedirad:has_IRDBB_WADO_handle ?handle ." + 
+				"  	?dataset rdf:type ?datasetclass ." + 
+				"} ";
 	
 		String resultats = executeRequest(sparql);	
-		String patientIRI; String CTImageDsIRI; String handle;
+		String humanIRI; String datasetIRI; String handle; String datasetclass;
 		
 		JSONArray jsonResults = new JSONObject(resultats).getJSONObject("results").getJSONArray("bindings");
 		for (int i=0; i<jsonResults.length(); i++) {
-			patientIRI = jsonResults.getJSONObject(i).getJSONObject("patient").getString("value");
-			CTImageDsIRI = jsonResults.getJSONObject(i).getJSONObject("CT_ImageDataSet").getString("value");			
-			handle = jsonResults.getJSONObject(i).getJSONObject("handle").getString("value");			
+			humanIRI = jsonResults.getJSONObject(i).getJSONObject("human").getString("value");
+			datasetIRI = jsonResults.getJSONObject(i).getJSONObject("dataset").getString("value");			
+			handle = jsonResults.getJSONObject(i).getJSONObject("handle").getString("value");	
+			datasetclass = jsonResults.getJSONObject(i).getJSONObject("datasetclass").getString("value");						
 
 			if (handle.contains("/studies/")) {
 				handle = handle.split("/studies/")[1];
@@ -555,15 +619,252 @@ public class Memory extends OntologyPopulator {
 				String series = handle.split("/series/")[1];
 				if (model==null) {model=Application.model;}
 				
-				setPatient(series, study, model.createIndividual(patientIRI, model.getResource(racineURI+"human")));
-				setCtDataSet(series, study, model.createIndividual(CTImageDsIRI, model.getResource(racineURI+"CT_image_dataset")));
-
+				setHuman(series, study, model.createIndividual(humanIRI.trim(), model.getResource(racineURI+"human")));
+				setDataset(series, study, model.createIndividual(datasetIRI.trim(), model.getResource(datasetclass)));
 			}
+			logger.debug("requestDicomDatasets humanIRI"+ humanIRI );
+			logger.debug("requestDicomDatasets datasetIRI"+ datasetIRI );
+			logger.debug("requestDicomDatasets handle"+ handle );
 		}
 		
 		starDogConnection.close();
-		logger.debug("requestPatientCTImageDS OK");
+		logger.debug("requestDicomDatasets OK");
 	}
+
+	// added by Bernard 15-06-2020
+	public synchronized void requestInternalRadiotherapy() throws IOException, InvocationTargetException, JSONException {
+		logger.debug("requestInternalRadiotherapy");
+		starDogUrl = Application.starDogUrl ;	
+		if (model==null) {model=Application.model;}
+
+		String sparql = "SELECT DISTINCT ?PatientId ?InternalRadiotherapy ?RadiopharmaceuticalAdmin ?RadiopharmaceuticalAdminId WHERE {\n" + 
+				"				?InternalRadiotherapy rdf:type ontomedirad:internal_radiotherapy .\n" + 
+				"				?InternalRadiotherapy ontomedirad:treats ?Human .\n" + 
+				"				?Human ontomedirad:has_id ?PatientId .\n" +
+				"				?RadiopharmaceuticalAdmin rdf:type ontomedirad:radiopharmaceutical_administration .\n" +
+				"				?RadiopharmaceuticalAdmin purl:BFO_0000132 ?InternalRadiotherapy .\n" +
+				"				?RadiopharmaceuticalAdmin ontomedirad:has_id ?RadiopharmaceuticalAdminId .\n" +
+				"		} ORDER BY ?PatientId";
+
+		String resultats = executeRequest(sparql);			
+		String patientid; String internalradiotherapy; String radiopharmaceuticaladmin; String radiopharmaceuticaladminid;
+		JSONArray jsonResults = new JSONObject(resultats).getJSONObject("results").getJSONArray("bindings");
+		for (int i=0; i<jsonResults.length(); i++) {
+			patientid = jsonResults.getJSONObject(i).getJSONObject("PatientId").getString("value");
+			internalradiotherapy = jsonResults.getJSONObject(i).getJSONObject("InternalRadiotherapy").getString("value");
+			radiopharmaceuticaladmin = jsonResults.getJSONObject(i).getJSONObject("RadiopharmaceuticalAdmin").getString("value");
+			radiopharmaceuticaladminid = jsonResults.getJSONObject(i).getJSONObject("RadiopharmaceuticalAdminId").getString("value");
+		    logger.debug("internal radiotherapy value  : "+internalradiotherapy);
+			logger.debug("radiopharmaceuticaladmin  value  : "+radiopharmaceuticaladmin);
+			logger.debug("radiopharmaceuticaladminid  value  : "+radiopharmaceuticaladminid);
+
+			listIRIInternalRadiotherapy.add(model.createIndividual(internalradiotherapy.trim(), model.getResource(racineURI+"internal_radiotherapy"))) ;
+			listIRIRadiopharmaceuticalAdministration.add(model.createIndividual(radiopharmaceuticaladmin.trim(), model.getResource(racineURI+"radiopharmaceutical_administration"))) ;
+
+			listRadiopharmaceuticalAdministrationId.add(radiopharmaceuticaladminid);
+			listHumanIdOfInternalRadiotherapy.add(patientid);
+		}
+
+		starDogConnection.close();
+
+		logger.debug("requestInternalRadiotherapy OK");
+	}
+
+	public synchronized void requestTimePoint() throws IOException, InvocationTargetException, JSONException {
+		logger.debug("requestTimePoint");
+		starDogUrl = Application.starDogUrl ;	
+		if (model==null) {model=Application.model;}
+
+		String sparql = "SELECT DISTINCT ?TimePoint ?TimePointId ?HumanId ?TimePointClass  WHERE {\n" + 
+				"				?TimePoint rdf:type ?TimePointClass .\n" + 
+				"				?TimePoint ontomedirad:has_id ?TimePointId .\n" + 
+				"				?TimePointClass rdfs:subClassOf* ontomedirad:timepoint_of_internal_radiotherapy .\n" +
+				"				?TimePoint ontomedirad:has_patient ?Human .\n" +
+				"				?Human ontomedirad:has_id ?HumanId .\n" +
+				"				?Human rdf:type ontomedirad:human .\n" +
+				"		} ORDER BY ?HumanId";
+
+		String resultats = executeRequest(sparql);			
+		String timepoint; String timepointid; String humanid; String timepointclass;
+		JSONArray jsonResults = new JSONObject(resultats).getJSONObject("results").getJSONArray("bindings");
+		for (int i=0; i<jsonResults.length(); i++) {
+			timepoint = jsonResults.getJSONObject(i).getJSONObject("TimePoint").getString("value");
+			timepointid = jsonResults.getJSONObject(i).getJSONObject("TimePointId").getString("value");
+			humanid = jsonResults.getJSONObject(i).getJSONObject("HumanId").getString("value");
+			timepointclass = jsonResults.getJSONObject(i).getJSONObject("TimePointClass").getString("value");
+		    logger.debug("timepoint value  : "+timepoint);
+			logger.debug("timepointid  value  : "+timepointid);
+			logger.debug("humanid  value  : "+humanid);
+			logger.debug("timepointclass  value  : "+timepointclass);
+			listIRITimePoint.add(model.createIndividual(timepoint.trim(), model.getResource(timepointclass)));
+
+
+			listHumanIdOfTimePoint.add(humanid);
+			listTimePointId.add(timepointid);
+		}
+
+		starDogConnection.close();
+
+		logger.debug("requestTimePoint OK");
+	}
+
+	// added by Bernard 31-07-2020
+
+	public synchronized void requestSPECTCalibration() throws IOException, InvocationTargetException, JSONException {
+		logger.debug("requestSPECTCalibration");
+		starDogUrl = Application.starDogUrl ;	
+		if (model==null) {model=Application.model;}
+
+		String sparql = "SELECT DISTINCT ?SPECTCalibration ?ReferenceCalibrationDate ?Radionuclide ?RadionuclideLabel ?CalibrationCoefficient ?RecoveryCoefficientCurve ?IdOfSPECTCalibration  WHERE {\n" + 
+				"				?SPECTCalibration rdf:type ontomedirad:SPECT_CT_calibration .\n" + 
+				"				?CalibrationCoefficient rdf:type ontomedirad:SPECT_calibration_coefficient .\n" + 
+				"				?CalibrationCoefficient ontomedirad:is_specified_output_of ?CalibrationCoefficientCalculation .\n" +
+				"				?CalibrationCoefficientCalculation rdf:type ontomedirad:SPECT_calibration_coefficient_calculation .\n" +
+				"				?CalibrationCoefficientCalculation purl:BFO_0000132 ?SPECTCalibration .\n" +
+				"				?CalibrationCoefficient ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .\n" + 
+				"				?CalibrationCoefficient ontomedirad:is_about ?Radionuclide .\n" + 
+				"				?RecoveryCoefficientCurve rdf:type ontomedirad:SPECT_recovery_coefficient_curve .\n" +
+				"				?RecoveryCoefficientCurve ontomedirad:is_specified_output_of ?RecoveryCoefficientCurveCalculation .\n" +
+				"				?RecoveryCoefficientCurveCalculation rdf:type ontomedirad:SPECT_recovery_coefficient_curve_calculation .\n" +
+				"				?RecoveryCoefficientCurveCalculation purl:BFO_0000132 ?SPECTCalibration .\n" +
+				"				?RecoveryCoefficientCurve ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .\n" + 
+				"				?RecoveryCoefficientCurve ontomedirad:is_about ?Radionuclide .\n" + 
+				"				?Radionuclide rdf:type ?RadionuclideClass .\n" + 
+				"				?RadionuclideClass rdfs:subClassOf* radionuclides:radionuclide .\n" + 
+				"				?RadionuclideClass rdfs:label ?RadionuclideLabel .\n" + 
+				"				OPTIONAL {?SPECTCalibration ontomedirad:has_id ?IdOfSPECTCalibration } } \n";
+
+		String resultats = executeRequest(sparql);			
+		String spectCalibration; String referenceCalibrationDate; String radionuclide; String radionuclideLabel; String calibrationCoefficient; String recoveryCoefficientCurve; String idOfSPECTCalibration;
+		JSONArray jsonResults = new JSONObject(resultats).getJSONObject("results").getJSONArray("bindings");
+		for (int i=0; i<jsonResults.length(); i++) {
+			spectCalibration = jsonResults.getJSONObject(i).getJSONObject("SPECTCalibration").getString("value");
+			referenceCalibrationDate = jsonResults.getJSONObject(i).getJSONObject("ReferenceCalibrationDate").getString("value");
+			radionuclide = jsonResults.getJSONObject(i).getJSONObject("Radionuclide").getString("value");
+			radionuclideLabel = jsonResults.getJSONObject(i).getJSONObject("RadionuclideLabel").getString("value");
+			calibrationCoefficient = jsonResults.getJSONObject(i).getJSONObject("CalibrationCoefficient").getString("value");
+			recoveryCoefficientCurve = jsonResults.getJSONObject(i).getJSONObject("RecoveryCoefficientCurve").getString("value");
+			idOfSPECTCalibration = jsonResults.getJSONObject(i).getJSONObject("IdOfSPECTCalibration").getString("value");
+
+		    	logger.debug("spectCalibration value  : "+ spectCalibration);
+		    	logger.debug("referenceCalibrationDate value  : "+referenceCalibrationDate);
+		    	logger.debug("radionuclide value  : "+ radionuclide);
+		    	logger.debug("radionuclideLabel value  : "+ radionuclideLabel);
+		    	logger.debug("calibrationCoefficient value  : "+ calibrationCoefficient);
+		    	logger.debug("recoveryCoefficientCurve value  : "+ recoveryCoefficientCurve);
+		    	logger.debug("idOfSPECTCalibration value  : "+ idOfSPECTCalibration);
+
+			listIRISPECTCalibration.add(model.createIndividual(spectCalibration.trim(), model.getResource(racineURI+"SPECT_CT_calibration"))) ;
+			listSPECTReferenceCalibrationDate.add(referenceCalibrationDate);
+			listIRISPECTRecoveryCoefficientCurve.add(model.createIndividual(recoveryCoefficientCurve.trim(), model.getResource(racineURI+"SPECT_recovery_coefficient_curve"))) ;
+			listIRISPECTCalibrationCoefficient.add(model.createIndividual(calibrationCoefficient.trim(), model.getResource(racineURI+"SPECT_calibration_coefficient"))) ;
+			listIdOfSPECTCalibration.add(idOfSPECTCalibration);
+			//listIdOfSPECTCalibration.add("toto");
+
+		}
+
+		starDogConnection.close();
+
+		logger.debug("requestSPECTCalibration OK");
+	}
+
+	public synchronized void requestCTCalibration() throws IOException, InvocationTargetException, JSONException {
+		logger.debug("requestCTCalibration");
+		starDogUrl = Application.starDogUrl ;	
+		if (model==null) {model=Application.model;}
+
+		String sparql = "SELECT DISTINCT ?CTCalibration ?ReferenceCalibrationDate ?CTNumberCalibrationCurve WHERE {\n" + 
+				"				?CTCalibration rdf:type ontomedirad:CT_calibration .\n" + 
+				"				?CTNumberCalibrationCurve rdf:type ontomedirad:CT_number_calibration_curve .\n" + 
+				"				?CTNumberCalibrationCurve ontomedirad:is_specified_output_of ?CTNumberCalibrationCurveCalculation .\n" +
+				"				?CTNumberCalibrationCurveCalculation rdf:type ontomedirad:calculation_of_CT_number_calibration_curve .\n" +
+				"				?CTNumberCalibrationCurveCalculation purl:BFO_0000132 ?CTCalibration .\n" +
+				"				?CTNumberCalibrationCurve ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .\n" + 		
+				"				 } \n";
+
+		String resultats = executeRequest(sparql);			
+		String ctCalibration; String referenceCalibrationDate; String ctNumberCalibrationCurve; 
+		JSONArray jsonResults = new JSONObject(resultats).getJSONObject("results").getJSONArray("bindings");
+		for (int i=0; i<jsonResults.length(); i++) {
+			ctCalibration = jsonResults.getJSONObject(i).getJSONObject("CTCalibration").getString("value");
+			referenceCalibrationDate = jsonResults.getJSONObject(i).getJSONObject("ReferenceCalibrationDate").getString("value");
+			ctNumberCalibrationCurve = jsonResults.getJSONObject(i).getJSONObject("CTNumberCalibrationCurve").getString("value");
+
+		    	logger.debug("ctCalibration value  : "+ ctCalibration);
+		    	logger.debug("referenceCalibrationDate value  : "+referenceCalibrationDate);
+		    	logger.debug("ctNumberCalibrationCurve value  : "+ ctNumberCalibrationCurve);
+
+			listIRICTCalibration.add(model.createIndividual(ctCalibration.trim(), model.getResource(racineURI+"CT_calibration"))) ;
+			listCTReferenceCalibrationDate.add(referenceCalibrationDate);
+			listIRICTNumberCalibrationCurve.add(model.createIndividual(ctNumberCalibrationCurve.trim(), model.getResource(racineURI+"CT_number_calibration_curve"))) ;
+		}
+
+		starDogConnection.close();
+
+		logger.debug("requestCTCalibration OK");
+	}
+	public synchronized LinkedList<Individual> getlistIRIInternalRadiotherapy() {
+	return listIRIInternalRadiotherapy;
+	}
+
+	public synchronized LinkedList<Individual> getlistIRIRadiopharmaceuticalAdministration() {
+	return listIRIRadiopharmaceuticalAdministration;
+	}
+
+	public synchronized LinkedList<String> getlistRadiopharmaceuticalAdministrationId() {
+	return listRadiopharmaceuticalAdministrationId;
+	}
+
+	public synchronized LinkedList<String> getlistHumanIdOfInternalRadiotherapy() {
+	return listHumanIdOfInternalRadiotherapy;
+	}
+
+	public synchronized LinkedList<Individual> getlistIRITimePoint() {
+	return listIRITimePoint;
+	}
+
+	public synchronized LinkedList<String> getlistHumanIdOfTimePoint() {
+	return listHumanIdOfTimePoint;
+	}
+
+	public synchronized LinkedList<String> getlistTimePointId() {
+	return listTimePointId;
+	}
+
+	// added by Bernard 31-07-2020
+
+		/* public synchronized LinkedList<Individual> getlistIRIIsotopeOfSPECTCalibration() {
+	return listIRIIsotopeOfSPECTCalibration;
+	}*/
+
+	public synchronized LinkedList<Individual> getlistIRISPECTCalibration() {
+	return listIRISPECTCalibration;
+	}
+	public synchronized LinkedList<Individual> getlistIRISPECTRecoveryCoefficientCurve() {
+	return listIRISPECTRecoveryCoefficientCurve;
+	}
+	public synchronized LinkedList<Individual> getlistIRISPECTCalibrationCoefficient() {
+	return listIRISPECTCalibrationCoefficient;
+	}
+	public synchronized LinkedList<String> getlistSPECTReferenceCalibrationDate() {
+	return listSPECTReferenceCalibrationDate;
+	}
+	public synchronized LinkedList<String> getlistIdOfSPECTCalibration() {
+	return listIdOfSPECTCalibration;
+	}
+	public synchronized LinkedList<Individual> getlistIRICTCalibration() {
+		logger.debug("memory : getlistIRICTCalibration  OK");
+	return listIRICTCalibration;
+	}
+	public synchronized LinkedList<Individual> getlistIRICTNumberCalibrationCurve() {
+		logger.debug("memory : getlistIRICTNumberCalibrationCurve  OK");
+	return listIRICTNumberCalibrationCurve;
+	}
+	public synchronized LinkedList<String> getlistCTReferenceCalibrationDate() {
+			logger.debug("memory : getlistCTReferenceCalibrationDate  OK");
+	return listCTReferenceCalibrationDate;
+	}
+
 
 	public synchronized void setMCMethod(String nameMethod, String iri) {
 		logger.debug("setMCMethod IRI : "+iri+" name : "+nameMethod);
@@ -658,7 +959,7 @@ public class Memory extends OntologyPopulator {
 		if (starDogUrl==null) {starDogUrl=Application.starDogUrl;}
 		logger.debug("Creation of the StarDog connection (Database : "+db.toString()+") at "+starDogUrl);
 		ConnectionConfiguration connectionConfig = ConnectionConfiguration
-				.to(db.toString()).server(starDogUrl).reasoning(true).credentials(ServiceController.username, ServiceController.password);
+				.to(db.toString()).server(starDogUrl).reasoning(false).credentials(ServiceController.username, ServiceController.password);
 		// create the Stardog connection 
 		ConnectionPool connectionPool = createConnectionPool(connectionConfig);
 		starDogConnection = connectionPool.obtain();

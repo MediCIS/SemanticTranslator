@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.03.03 à 04:03:33 PM CET 
+// Généré le : 2020.07.30 à 02:06:37 PM CEST 
 //
 
 
@@ -24,9 +24,9 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="SPECTCTCalibrationWorkflow" type="{https://www.irdbb-medirad.com}SPECTCTCalibrationWorkflow"/>
- *         &lt;element name="PlanarCalibrationWorkflow" type="{https://www.irdbb-medirad.com}PlanarCalibrationWorkflow"/>
- *         &lt;element name="CTCalibrationWorkflow" type="{https://www.irdbb-medirad.com}CTCalibrationWorkflow"/>
+ *         &lt;element name="SPECTCTCalibrationWorkflow" type="{https://www.irdbb-medirad.com}SPECTCTCalibrationWorkflow" minOccurs="0"/>
+ *         &lt;element name="PlanarCalibrationWorkflow" type="{https://www.irdbb-medirad.com}PlanarCalibrationWorkflow" minOccurs="0"/>
+ *         &lt;element name="CTCalibrationWorkflow" type="{https://www.irdbb-medirad.com}CTCalibrationWorkflow" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -43,11 +43,11 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class CalibrationWorkflow {
 
-    @XmlElement(name = "SPECTCTCalibrationWorkflow", required = true)
+    @XmlElement(name = "SPECTCTCalibrationWorkflow")
     protected SPECTCTCalibrationWorkflow spectctCalibrationWorkflow;
-    @XmlElement(name = "PlanarCalibrationWorkflow", required = true)
+    @XmlElement(name = "PlanarCalibrationWorkflow")
     protected PlanarCalibrationWorkflow planarCalibrationWorkflow;
-    @XmlElement(name = "CTCalibrationWorkflow", required = true)
+    @XmlElement(name = "CTCalibrationWorkflow")
     protected CTCalibrationWorkflow ctCalibrationWorkflow;
 
     /**

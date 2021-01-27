@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.03.03 à 04:03:33 PM CET 
+// Généré le : 2020.07.30 à 02:06:37 PM CEST 
 //
 
 
@@ -24,11 +24,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="CTNumberCalibrationWorkfow" type="{https://www.irdbb-medirad.com}CTNumberCalibrationWorkfow"/>
- *         &lt;element name="SPECTReconstructionInCalibration" type="{https://www.irdbb-medirad.com}SPECTReconstructionInCalibration"/>
- *         &lt;element name="CTSegmentationInCalibration" type="{https://www.irdbb-medirad.com}CTSegmentationInCalibration"/>
- *         &lt;element name="SPECTSensitivityCalculation" type="{https://www.irdbb-medirad.com}SPECTSensitivityCalculation"/>
- *         &lt;element name="SPECTRecoveryCoefficientCurveCalculation" type="{https://www.irdbb-medirad.com}SPECTRecoveryCoefficientCurveCalculation" minOccurs="0"/>
+ *         &lt;element name="CTAcqForCTNumberCalibrationCurve" type="{https://www.irdbb-medirad.com}CTAcqForCTNumberCalibrationCurve"/>
+ *         &lt;element name="CalculationOfCTNumberCalibrationCurve" type="{https://www.irdbb-medirad.com}CalculationOfCTNumberCalibrationCurve"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -39,143 +36,62 @@ import javax.xml.bind.annotation.XmlType;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CTCalibrationWorkflow", propOrder = {
-    "ctNumberCalibrationWorkfow",
-    "spectReconstructionInCalibration",
-    "ctSegmentationInCalibration",
-    "spectSensitivityCalculation",
-    "spectRecoveryCoefficientCurveCalculation"
+    "ctAcqForCTNumberCalibrationCurve",
+    "calculationOfCTNumberCalibrationCurve"
 })
 public class CTCalibrationWorkflow {
 
-    @XmlElement(name = "CTNumberCalibrationWorkfow", required = true)
-    protected CTNumberCalibrationWorkfow ctNumberCalibrationWorkfow;
-    @XmlElement(name = "SPECTReconstructionInCalibration", required = true)
-    protected SPECTReconstructionInCalibration spectReconstructionInCalibration;
-    @XmlElement(name = "CTSegmentationInCalibration", required = true)
-    protected CTSegmentationInCalibration ctSegmentationInCalibration;
-    @XmlElement(name = "SPECTSensitivityCalculation", required = true)
-    protected SPECTSensitivityCalculation spectSensitivityCalculation;
-    @XmlElement(name = "SPECTRecoveryCoefficientCurveCalculation")
-    protected SPECTRecoveryCoefficientCurveCalculation spectRecoveryCoefficientCurveCalculation;
+    @XmlElement(name = "CTAcqForCTNumberCalibrationCurve", required = true)
+    protected CTAcqForCTNumberCalibrationCurve ctAcqForCTNumberCalibrationCurve;
+    @XmlElement(name = "CalculationOfCTNumberCalibrationCurve", required = true)
+    protected CalculationOfCTNumberCalibrationCurve calculationOfCTNumberCalibrationCurve;
 
     /**
-     * Obtient la valeur de la propriété ctNumberCalibrationWorkfow.
+     * Obtient la valeur de la propriété ctAcqForCTNumberCalibrationCurve.
      * 
      * @return
      *     possible object is
-     *     {@link CTNumberCalibrationWorkfow }
+     *     {@link CTAcqForCTNumberCalibrationCurve }
      *     
      */
-    public CTNumberCalibrationWorkfow getCTNumberCalibrationWorkfow() {
-        return ctNumberCalibrationWorkfow;
+    public CTAcqForCTNumberCalibrationCurve getCTAcqForCTNumberCalibrationCurve() {
+        return ctAcqForCTNumberCalibrationCurve;
     }
 
     /**
-     * Définit la valeur de la propriété ctNumberCalibrationWorkfow.
+     * Définit la valeur de la propriété ctAcqForCTNumberCalibrationCurve.
      * 
      * @param value
      *     allowed object is
-     *     {@link CTNumberCalibrationWorkfow }
+     *     {@link CTAcqForCTNumberCalibrationCurve }
      *     
      */
-    public void setCTNumberCalibrationWorkfow(CTNumberCalibrationWorkfow value) {
-        this.ctNumberCalibrationWorkfow = value;
+    public void setCTAcqForCTNumberCalibrationCurve(CTAcqForCTNumberCalibrationCurve value) {
+        this.ctAcqForCTNumberCalibrationCurve = value;
     }
 
     /**
-     * Obtient la valeur de la propriété spectReconstructionInCalibration.
+     * Obtient la valeur de la propriété calculationOfCTNumberCalibrationCurve.
      * 
      * @return
      *     possible object is
-     *     {@link SPECTReconstructionInCalibration }
+     *     {@link CalculationOfCTNumberCalibrationCurve }
      *     
      */
-    public SPECTReconstructionInCalibration getSPECTReconstructionInCalibration() {
-        return spectReconstructionInCalibration;
+    public CalculationOfCTNumberCalibrationCurve getCalculationOfCTNumberCalibrationCurve() {
+        return calculationOfCTNumberCalibrationCurve;
     }
 
     /**
-     * Définit la valeur de la propriété spectReconstructionInCalibration.
+     * Définit la valeur de la propriété calculationOfCTNumberCalibrationCurve.
      * 
      * @param value
      *     allowed object is
-     *     {@link SPECTReconstructionInCalibration }
+     *     {@link CalculationOfCTNumberCalibrationCurve }
      *     
      */
-    public void setSPECTReconstructionInCalibration(SPECTReconstructionInCalibration value) {
-        this.spectReconstructionInCalibration = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété ctSegmentationInCalibration.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CTSegmentationInCalibration }
-     *     
-     */
-    public CTSegmentationInCalibration getCTSegmentationInCalibration() {
-        return ctSegmentationInCalibration;
-    }
-
-    /**
-     * Définit la valeur de la propriété ctSegmentationInCalibration.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CTSegmentationInCalibration }
-     *     
-     */
-    public void setCTSegmentationInCalibration(CTSegmentationInCalibration value) {
-        this.ctSegmentationInCalibration = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété spectSensitivityCalculation.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SPECTSensitivityCalculation }
-     *     
-     */
-    public SPECTSensitivityCalculation getSPECTSensitivityCalculation() {
-        return spectSensitivityCalculation;
-    }
-
-    /**
-     * Définit la valeur de la propriété spectSensitivityCalculation.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SPECTSensitivityCalculation }
-     *     
-     */
-    public void setSPECTSensitivityCalculation(SPECTSensitivityCalculation value) {
-        this.spectSensitivityCalculation = value;
-    }
-
-    /**
-     * Obtient la valeur de la propriété spectRecoveryCoefficientCurveCalculation.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SPECTRecoveryCoefficientCurveCalculation }
-     *     
-     */
-    public SPECTRecoveryCoefficientCurveCalculation getSPECTRecoveryCoefficientCurveCalculation() {
-        return spectRecoveryCoefficientCurveCalculation;
-    }
-
-    /**
-     * Définit la valeur de la propriété spectRecoveryCoefficientCurveCalculation.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SPECTRecoveryCoefficientCurveCalculation }
-     *     
-     */
-    public void setSPECTRecoveryCoefficientCurveCalculation(SPECTRecoveryCoefficientCurveCalculation value) {
-        this.spectRecoveryCoefficientCurveCalculation = value;
+    public void setCalculationOfCTNumberCalibrationCurve(CalculationOfCTNumberCalibrationCurve value) {
+        this.calculationOfCTNumberCalibrationCurve = value;
     }
 
 }

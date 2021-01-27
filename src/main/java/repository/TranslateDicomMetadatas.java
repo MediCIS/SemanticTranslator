@@ -445,7 +445,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		}
 
 		addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
-		addDataProperty(imagingStudy, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
+		//addDataProperty(imagingStudy, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 
 		Individual clinicalResearchStudy = OntologyPopulator.retrieveClinicalResearchStudy(ClinicalResearchStudyId);
 		System.out.println("clinicalResearchStudy : "+clinicalResearchStudy);
@@ -479,7 +479,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		String PatientBirthDate = root.getString(Tag.PatientBirthDate);
 		logger.debug("PatientBirthDate : "+PatientBirthDate);
 		if (PatientBirthDate!=null) {
-			addDataProperty(patient, racineURI+"has_birthdate", PatientBirthDate);
+			addDataProperty(human, racineURI+"has_birthdate", PatientBirthDate);
 		}
 
 		String PatientSex = root.getString(Tag.PatientSex);
@@ -489,10 +489,10 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			switch (PatientSex) {
 			case "M":
 				sexe = createIndiv(model.getResource(racineObo+"PATO_0000384"));
-				addObjectProperty(patient, racineURI+"has_sex", sexe); break;
+				addObjectProperty(human, racineURI+"has_sex", sexe); break;
 			case "F":
 				sexe = createIndiv(model.getResource(racineObo+"PATO_0000383")); 
-				addObjectProperty(patient, racineURI+"has_sex", sexe); break;	
+				addObjectProperty(human, racineURI+"has_sex", sexe); break;	
 			default:break;
 			}
 		}
@@ -511,7 +511,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			default:
 				addDataProperty(i, "http://purl.obolibrary.org/obo/IAO_0000004", Integer.valueOf(number)); break;
 			}
-			addObjectProperty(i, racineURI+"is_about", patient);
+			addObjectProperty(i, racineURI+"is_about", human);
 			addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
 		}
 
@@ -519,7 +519,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		logger.debug("PatientSize : "+PatientSize);
 		if (PatientSize != null) {
 			i = createIndiv(generateName("Patient_Height"), model.getResource(racineURI+"patient_height"));
-			addObjectProperty(i, racineURI+"is_about", patient);
+			addObjectProperty(i, racineURI+"is_about", human);
 			addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
 			addDataProperty(i, "http://purl.obolibrary.org/obo/IAO_0000004", PatientSize);
 			addObjectProperty(i, "http://purl.obolibrary.org/obo/IAO_0000039", createIndiv(model.getResource(racineObo+"UO_0000008")));
@@ -530,7 +530,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		if (PatientWeight!=null) {
 			i = createIndiv(generateName("Patient_Weight"), model.getResource(racineURI+"patient_weight"));
 			addDataProperty(i, "http://purl.obolibrary.org/obo/IAO_0000004", PatientWeight);
-			addObjectProperty(i, racineURI+"is_about", patient);
+			addObjectProperty(i, racineURI+"is_about", human);
 			addObjectProperty(i, racineURI+"is_about_procedure", imagingStudy);
 			addObjectProperty(i, "http://purl.obolibrary.org/obo/IAO_0000039", createIndiv(model.getResource(racineObo+"UO_0000009")));
 		}
@@ -607,6 +607,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			} else {
 				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
 			}
+			memory.setDataset(SeriesInstanceUID, StudyInstanceUID, dataSet);
+			addObjectProperty(dataSet ,racineURI+"has_patient",human);
 			addDataProperty(dataSet ,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 			addDataProperty(dataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 			addObjectProperty(acquisition, racineObo+"BFO_0000132", imagingStudy); 
@@ -616,7 +618,7 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			} else {
 				addObjectProperty(dataSet, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_CT_image_storage_SOP_class")));
 			}
-
+			addObjectProperty(dataSet ,racineURI+"has_patient",human);
 			addDataProperty(dataSet, racineURI+"has_DICOM_study_instance_UID", StudyInstanceUID);
 			addDataProperty(dataSet, racineURI+"has_DICOM_series_instance_UID", SeriesInstanceUID);
 			addObjectProperty(dataSet, racineURI+"is_specified_output_of", acquisition);
@@ -1004,6 +1006,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			} else {
 				dataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
 			}
+			memory.setDataset(SeriesInstanceUID, StudyInstanceUID, dataSet);
+			addObjectProperty(dataSet ,racineURI+"has_patient",human);
 			addDataProperty(dataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 			addDataProperty(dataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
@@ -1262,6 +1266,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 
 				Individual dataset = createIndiv(generateName("NM_tomo_dataset"), model.getResource(racineURI+"NM_tomo_dataset"));
+				memory.setDataset(SeriesInstanceUID, StudyInstanceUID, dataset);
+				addObjectProperty(dataset ,racineURI+"has_patient",human);
 				addObjectProperty(dataset, racineURI+"has_format", createIndiv(model.getResource(racineURI+"DICOM_NM_image_storage_SOP_class")));
 				addDataProperty(dataset,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 				addDataProperty(dataset, racineURI+"has_IRDBB_WADO_handle", handle);
@@ -1409,6 +1415,8 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				System.out.println("section 4.2");
 				logger.debug("Positron Emission Tomography Image Storage");
 				Individual NMDataSet = createIndiv(generateName("NM_recon_tomo_dataset"), model.getResource(racineURI+"NM_recon_tomo_dataset"));
+				memory.setDataset(SeriesInstanceUID, StudyInstanceUID, NMDataSet);
+				addObjectProperty(NMDataSet ,racineURI+"has_patient",human);
 				addDataProperty(NMDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 				addDataProperty(NMDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
@@ -1538,6 +1546,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 				System.out.println("section 4.3");
 
 				Individual NMDataSet = createIndiv(generateName("NM_static_dataset"), model.getResource(racineURI+"NM_static_dataset"));
+				memory.setDataset(SeriesInstanceUID, StudyInstanceUID, NMDataSet);
+				addObjectProperty(NMDataSet ,racineURI+"has_patient",human);
+
 				addDataProperty(NMDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 				addDataProperty(NMDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
@@ -1655,7 +1666,10 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 			} else if (ImageType[2].contains("WHOLE BODY")) { // 4.4
 				System.out.println("section 4.4");
-				Individual NMDataSet = createIndiv(generateName("NM_whole_body_dataset"), model.getResource(racineURI+"NM_whole_body_dataset"));					
+				Individual NMDataSet = createIndiv(generateName("NM_whole_body_dataset"), model.getResource(racineURI+"NM_whole_body_dataset"));
+				memory.setDataset(SeriesInstanceUID, StudyInstanceUID, NMDataSet);
+				addObjectProperty(NMDataSet ,racineURI+"has_patient",human);
+				
 				addDataProperty(NMDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 				addDataProperty(NMDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 
@@ -1777,6 +1791,9 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			System.out.println("section 5.1");
 			logger.debug("Positron Emission Tomography Image Storage");
 			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));
+			memory.setDataset(SeriesInstanceUID, StudyInstanceUID, PETDataSet);
+			addObjectProperty(PETDataSet ,racineURI+"has_patient",human);
+
 			addDataProperty(PETDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 			addDataProperty(PETDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
@@ -1875,7 +1892,10 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 			System.out.println("section 5.2");
 
 			logger.debug("Enhanced PET Image Storage");
-			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));			
+			Individual PETDataSet = createIndiv(generateName("PET_recon_tomo_dataset"), model.getResource(racineURI+"PET_recon_tomo_dataset"));
+			memory.setDataset(SeriesInstanceUID, StudyInstanceUID, PETDataSet);	
+			addObjectProperty(PETDataSet ,racineURI+"has_patient",human);
+
 			addDataProperty(PETDataSet,racineURI+"has_DICOM_image_type_description",ImageTypeLog);
 			addDataProperty(PETDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 
@@ -2009,60 +2029,65 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 		if (memory==null) {memory = Application.memory;}
 		
 		String clinicalResearchStudyID;
-		
 
-		Individual SRImagingStudy = createIndiv(generateName("structured_report_of_imaging_study"), model.getResource(racineURI+"structured_report_of_imaging_study"));
+		Individual SRImagingStudy = createIndiv(generateName("case_report_form"), model.getResource(racineURI+"case_report_form"));
 		Individual creatingStructuredReport = createIndiv(generateName("creating_structured_report"), model.getResource(racineURI+"creating_structured_report"));
 		addObjectProperty(SRImagingStudy,racineURI+"is_specified_output_of", creatingStructuredReport);
 
 		String SOPInstanceUID = root.getString(Tag.SOPInstanceUID);
 		logger.debug("SOPInstanceUID : "+SOPInstanceUID);
-		addDataProperty(SRImagingStudy, racineURI+"has_SOP_instance_UID", SOPInstanceUID);
+		addDataProperty(SRImagingStudy, racineURI+"has_DICOM_SOP_instance_UID", SOPInstanceUID);
 		
 		String SOPClassUID = root.getString(Tag.SOPClassUID);
 		logger.debug("SOPClassUID : "+SOPClassUID);
-		i = createIndiv("enhanced_SR_storage_SOP_class", model.getResource(racineURI+"enhanced_SR_storage_SOP_class"));
+		i = createIndiv("enhanced_SR_storage_SOP_class", model.getResource(racineURI+"DICOM_enhanced_SR_storage_SOP_class"));
 		addObjectProperty(SRImagingStudy, racineURI+"has_format", i);
 
 		Sequence conceptNameCodeSeq = root.getSequence(Tag.ConceptNameCodeSequence);
 		Iterator<Attributes> conceptNameCodeSeqIter = conceptNameCodeSeq.iterator();
 		while (conceptNameCodeSeqIter.hasNext()) {
 			Attributes t = conceptNameCodeSeqIter.next();
-			if (t.getString(Tag.CodeValue)!=null) {
+			if ((t.getString(Tag.CodeValue)!=null) || (t.getString(Tag.CodeMeaning)!=null)) {
 				String codeValue = t.getString(Tag.CodeValue);
-				if (codeValue.contains("IUCT")) {
+				logger.debug("Code value : "+codeValue);
+				String codeMeaning = t.getString(Tag.CodeMeaning);
+				logger.debug("Code meaning : "+codeMeaning);
+				if (codeValue.contains("IUCT") || codeMeaning.contains("IUCT")) {
 					SRImagingStudy.addOntClass(model.getResource(racineURI+"CRF_WP3_IUCT_version"));
-				} else if (codeValue.contains("RMH")) {
+				} else if (codeValue.contains("RMH") || codeMeaning.contains("RMH")) {
 					SRImagingStudy.addOntClass(model.getResource(racineURI+"CRF_WP3_RMH_version"));
-				} else if (codeValue.contains("UMR")) {
+				} else if (codeValue.contains("UMR") || codeMeaning.contains("UMR")) {
 					SRImagingStudy.addOntClass(model.getResource(racineURI+"CRF_WP3_UMR_version"));
-				} else if (codeValue.contains("UKW")) {
+				} else if (codeValue.contains("UKW") || codeMeaning.contains("UKW")) {
 					SRImagingStudy.addOntClass(model.getResource(racineURI+"CRF_WP3_UKW_version"));
 				} 
 			}
 		}
 
-		String PatientName = root.getString(Tag.PatientName);
-		logger.debug("PatientName : "+PatientName);
-		patient = memory.getPatientByName(PatientName);
-		addObjectProperty(SRImagingStudy, racineURI+"has_patient", patient);
+		//String PatientName = root.getString(Tag.PatientName);
+		//logger.debug("PatientName : "+PatientName);
+		//patient = memory.getPatientByName(PatientName);
+		//addObjectProperty(SRImagingStudy, racineURI+"has_patient", patient);
 
 		String PatientID = root.getString(Tag.PatientID);
 		logger.debug("PatientID : "+PatientID);
 		Individual human = memory.getHuman(PatientID);	
+		addObjectProperty(SRImagingStudy, racineURI+"has_patient", human);
 
 		String StudyInstanceUID = root.getString(Tag.StudyInstanceUID);
 		logger.debug("StudyInstanceUID : "+StudyInstanceUID);
+		// in principle any case report form SR should refer to an existing imaging study
 		Individual studyInstance = memory.getStudyInstanceByUID(StudyInstanceUID);
-		addObjectProperty(studyInstance, racineURI+"is_about_procedure", SRImagingStudy);
-
+		if (studyInstance!=null) {
+			addObjectProperty(SRImagingStudy, racineURI+"is_about_procedure", studyInstance);
+		}
 		String SeriesInstanceUID = root.getString(Tag.SeriesInstanceUID);
 		logger.debug("SeriesInstanceUID : "+SeriesInstanceUID);
 		
 		String handle = "/pacs/studies/"+StudyInstanceUID+"/series/"+SeriesInstanceUID;	
-		addDataProperty(SRImagingStudy, racineURI+"has_irdbb_fhir_handle", handle);
+		addDataProperty(SRImagingStudy, racineURI+"has_IRDBB_WADO_handle", handle);
 
-		addObjectProperty(SRImagingStudy, racineURI+"has_patient", patient);
+		// addObjectProperty(SRImagingStudy, racineURI+"has_patient", patient);
 
 		if (root.getSequence(Tag.AuthorObserverSequence)!=null) {
 			Sequence AuthorObserverSequenceSeq = root.getSequence(Tag.AuthorObserverSequence);
@@ -2100,13 +2125,13 @@ public class TranslateDicomMetadatas extends OntologyPopulator {
 
 		String ProtocolName = root.getString(Tag.ProtocolName);
 		logger.debug("ProtocolName : "+ProtocolName);
-		Individual template = memory.getTemplateOfSR(ProtocolName);
-		addObjectProperty(SRImagingStudy, racineURI+"has_protocol", template);
+		// ProtocolName is used an an ID for the template
 
 		String SeriesDescription = root.getString(Tag.SeriesDescription);
+		// because SeriesDescription contains the name of the template
 		logger.debug("SeriesDescription : "+SeriesDescription);
-		addDataProperty(template, racineURI+"has_name", SeriesDescription);
-
+		Individual template = memory.getTemplateOfSR(SeriesDescription, ProtocolName);
+		addObjectProperty(creatingStructuredReport, racineURI+"has_protocol", template);
 	}
 
 }

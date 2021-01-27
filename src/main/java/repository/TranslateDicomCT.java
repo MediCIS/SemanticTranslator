@@ -37,7 +37,7 @@ public class TranslateDicomCT extends OntologyPopulator {
 
 			handle = "/pacs/studies/"+studyInstanceUID+"/series/"+seriesInstanceUID; 
 
-			memory.setPatient(seriesInstanceUID, studyInstanceUID, patient);
+			memory.setHuman(seriesInstanceUID, studyInstanceUID, patient);
 			addObjectProperty(clinicalResearchStudy, racineURI+"has_patient", patient);
 
 			imagingStudy = createIndiv(generateName("imaging_Study"), model.getResource(racineURI+"imaging_study")); 
@@ -64,7 +64,7 @@ public class TranslateDicomCT extends OntologyPopulator {
 				imageDataSet = createIndiv(generateName("CT_image_dataset"), model.getResource(racineURI+"CT_image_dataset"));
 				addDataProperty(imageDataSet, racineURI+"has_IRDBB_WADO_handle", handle);
 				if (memory==null) {logger.debug("memory : NULL");}
-				memory.setCtDataSet(seriesInstanceUID, studyInstanceUID, imageDataSet);
+				memory.setDataset(seriesInstanceUID, studyInstanceUID, imageDataSet);
 
 				addObjectProperty(clinicalResearchStudy, racineURI+"has_patient",patientRole);
 

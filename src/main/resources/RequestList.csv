@@ -1,130 +1,9 @@
-Request1;CT datasets and handles;List CT datasets and IRDBB WADO handles;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?PatientId ?Dataset  ?Handle 
- WHERE { 
-  ?Dataset rdf:type ontomedirad:CT_image_dataset .
-  ?Dataset ontomedirad:is_specified_output_of ?Acq .
-  ?Human rdf:type ontomedirad:human .
-  ?Human ontomedirad:has_name ?PatientName .
-  ?Human ontomedirad:has_id ?PatientId .
-  ?Human purl:BFO_0000087 ?RolePat .
-  ?RolePat purl:BFO_0000054 ?Exam .
-  ?Acq purl:BFO_0000132 ?Exam .
-  ?Exam ontomedirad:part_of_study ?ClinResearchStudy .
-  ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId .
-  OPTIONAL { ?Dataset ontomedirad:has_IRDBB_WADO_handle ?Handle .}
- } ORDER BY ?ClinResearchStudyId ?PatientName"
-Request2;Patients and demographic data;List patients with demographic characteristics;FALSE;"SELECT DISTINCT ?Human ?PatientName ?PatientId ?LabelSex ?PatientBirthDate 
- WHERE {
-   ?Human rdf:type ontomedirad:human .
-   ?Human ontomedirad:has_id ?PatientId .
-   ?Human ontomedirad:has_name ?PatientName .
-   OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .
-              ?PatientSex rdfs:label ?LabelSex . }
-   OPTIONAL { ?Human ontomedirad:has_birthdate ?PatientBirthDate . }
-} ORDER BY ?PatientName"
-Request3;3D Dose Maps and provenance data;List 3D_dose_maps, from which CT data it was obtained, with what method and what main settings;FALSE;"SELECT DISTINCT  ?ClinResearchStudyId ?PatientName ?DoseMap ?DoseMapClassLabel ?Description ?DoseUnitClassLabel ?Process ?Date ?Time ?ValueKVP ?XRayModulationType 
-WHERE { 
- ?DoseMap rdf:type ?DoseMapClass . 
- ?DoseMapClass rdfs:subClassOf* dcm:128487 . 
- ?DoseMapClass skos:prefLabel ?DoseMapClassLabel .
- ?Process ontomedirad:has_specified_output ?DoseMap .
- ?DoseMap ontomedirad:has_patient ?Human .
- ?Human ontomedirad:has_name ?PatientName .
- ?DoseMap ontomedirad:has_description ?Description . 
- ?DoseMap purl:IAO_0000039 ?DoseUnit .
- ?DoseUnit rdf:type ?DoseUnitClass . 
- ?DoseUnitClass rdfs:label ?DoseUnitClassLabel .
- OPTIONAL {?Process ontomedirad:part_of_study ?ClinResearchStudy .
-           ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId } .
- OPTIONAL {?Process ontomedirad:has_beginning ?DateTime .
-           BIND (substr(?DateTime,1,8) AS ?Date) .
-           BIND (substr(?DateTime,10,4) AS ?Time) .}
- OPTIONAL {?Process ontomedirad:has_setting ?KVP .
-           ?KVP rdf:type dcm:113733 .
-           ?KVP purl:IAO_0000004 ?ValueKVP }
- OPTIONAL {?Process ontomedirad:has_setting ?XRayModulation .
-           ?XRayModulation rdf:type ?XRayModulationType .
-           ?XRayModulationType rdfs:subClassOf* dcm:113842 .
-           ?XRayModulationType skos:prefLabel ?LabelXRayModulationType .}
-} ORDER BY ?ClinResearchStudyId ?PatientName"
-Request4;Processing steps;List data processing steps, date and time, class of processing and responsible institution;FALSE;"SELECT DISTINCT ?ClinResearchStudy ?Process ?Date ?Time ?ProcessClass ?InstituteRoleClassLabel ?InstituteName
-WHERE { 
- ?Process rdf:type ?ProcessClass .
-  OPTIONAL {?Process ontomedirad:part_of_study ?ClinResearchStudy }.
- OPTIONAL {?Process ontomedirad:has_beginning ?DateTime .
-   BIND (substr(?DateTime,1,8) AS ?Date) .
-   BIND (substr(?DateTime,10,4) AS ?Time)} .
- ?ProcessClass rdfs:subClassOf* purl:BFO_0000015 .
- ?InstituteRole purl:BFO_0000054 ?Process . 
- OPTIONAL {?Institute purl:BFO_0000161 ?InstituteRole .
-  ?InstituteRole rdf:type ?InstituteRoleClass .
-  ?InstituteRoleClass skos:prefLabel ?InstituteRoleClassLabel .
-  ?Institute ontomedirad:has_name ?InstituteName } .
- } ORDER BY ?Process"
-Request5;Volumes Of Interest and organs;List Volumes of Interest (VOI), related segmented entity (e.g. organ);FALSE;"SELECT ?ClinResearchStudyId ?PatientName ?Filename ?MaterialEntityClassLabel ?VOIClass ?Format  ?ProcessClass ?MethodClassLabel ?Date ?Time 
-WHERE { 
- ?Dataset rdf:type ?VOIClass .
- ?Dataset ontomedirad:has_patient ?Human .
- ?Human ontomedirad:has_name ?PatientName .
- ?VOIClass rdfs:subClassOf* ontomedirad:VOI .
- ?Dataset ontomedirad:represents ?MaterialEntity .
- ?MaterialEntity rdf:type ?MaterialEntityClass .
- ?MaterialEntityClass rdfs:label ?MaterialEntityClassLabel .
- ?Dataset ontomedirad:is_specified_output_of ?Process .
- ?Process rdf:type ?ProcessClass .
- ?ProcessClass rdfs:subClassOf* purl:BFO_0000015 .
- OPTIONAL { ?Dataset ontomedirad:has_name ?Filename } .
- OPTIONAL { ?Dataset ontomedirad:has_format ?Format } .
- OPTIONAL {?Process ontomedirad:part_of_study ?ClinResearchStudy .
-           ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId }.
- OPTIONAL {?Process ontomedirad:has_beginning ?DateTime .
-           BIND (substr(?DateTime,1,8) AS ?Date) .
-           BIND (substr(?DateTime,10,4) AS ?Time) .}
- OPTIONAL { ?Process ontomedirad:has_protocol ?Method .
-            ?Method rdf:type ?MethodClass .
-            ?MethodClass skos:prefLabel ?MethodClassLabel } .
- } ORDER BY ?ClinResearchStudy ?PatientName ?MaterialEntity"
-Request6;Mean absorbed doses in organs;List Mean absorbed doses (value and unit of measurement), and concerned organ;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?MaterialEntityClassLabel ?DoseClassLabel ?ProcessClass ?Date ?Time ?DoseValue ?DoseUnitClassLabel ?DoseMap 
-WHERE { 
- ?Dose rdf:type ?DoseClass . 
- ?DoseClass rdfs:subClassOf* dcm:128533 . 
- ?DoseClass skos:prefLabel ?DoseClassLabel .
- ?Dose purl:IAO_0000004 ?DoseValue . 
- ?Dose purl:IAO_0000039 ?DoseUnit .
- ?DoseUnit rdf:type ?DoseUnitClass . 
- ?DoseUnitClass rdfs:label ?DoseUnitClassLabel . 
- ?Dose ontomedirad:is_dose_absorbed_by ?MaterialEntity .
- ?MaterialEntity rdf:type ?MaterialEntityClass . 
- ?MaterialEntityClass rdfs:label ?MaterialEntityClassLabel .
- OPTIONAL {?Process ontomedirad:has_specified_output ?Dose .
-           ?Process rdf:type ?ProcessClass . 
-           ?ProcessClass rdfs:subClassOf* purl:BFO_0000015 .
-           OPTIONAL {?Process ontomedirad:part_of_study ?ClinResearchStudy .
-                     ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId }
- 	   OPTIONAL {?Process ontomedirad:has_beginning ?DateTime .
-                 BIND (substr(?DateTime,1,8) AS ?Date) .
-                 BIND (substr(?DateTime,10,4) AS ?Time) .}} .
- OPTIONAL { ?Dose ontomedirad:has_patient ?Human .
-             ?Human ontomedirad:has_name ?PatientName } . 
- OPTIONAL {?Process ontomedirad:has_specified_input ?DoseMap .
-           ?DoseMap rdf:type ?DoseMapClass . 
-           ?DoseMapClass rdfs:subClassOf* dcm:128487 . 
-           ?DoseMapClass skos:prefLabel ?DoseMapClassLabel }.
-} ORDER BY ?ClinResearchStudyId ?PatientName ?MaterialEntity"
-Request7;Clinical research studies;List Clinical research studies;FALSE;"SELECT DISTINCT ?ClinResearchStudy ?StudyId ?StudyName ?StudyDescription 
+Request1;Clinical research studies;List Clinical research studies;FALSE;"SELECT DISTINCT ?ClinResearchStudy ?StudyId ?StudyName ?StudyDescription 
 WHERE { ?ClinResearchStudy rdf:type ontomedirad:clinical_research_study .
  ?ClinResearchStudy ontomedirad:has_id ?StudyId .
  ?ClinResearchStudy ontomedirad:has_name ?StudyName .
  ?ClinResearchStudy ontomedirad:has_description ?StudyDescription  }"
-Request8;Non DICOM datasets and handles;List Non-DICOM Files and handles ;FALSE;"SELECT DISTINCT ?PatientName ?Dataset ?DatasetClassLabel ?FHIRHandle 
-WHERE { 
- ?Dataset ontomedirad:has_IRDBB_FHIR_handle ?FHIRHandle .
- ?Dataset rdf:type ?DatasetClass .
- ?DatasetClass rdfs:subClassOf* purl:IAO_0000100 .
- OPTIONAL {?DatasetClass skos:prefLabel ?DatasetClassLabel } .
- OPTIONAL { ?Dataset ontomedirad:has_patient ?Human .
-  ?Human ontomedirad:has_name ?PatientName }.
- } ORDER BY ?Dataset"
-Requestx1;CT Datasets and main acquisition parameters;Lists CT Datasets and main acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?StudyDescr ?ProtocolName ?ProtocolDescr ?ExamDate ?ExamTime ?ValueWeight ?LabelUnitWeight ?CTAcqClass ?ValueKVP ?LabelUnitKVP ?ValueTubeCur ?LabelUnitTubeCur ?LabelXRayModulationType ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?Model ?Manufacturer
+Request2;CT Datasets and main acquisition parameters;Lists CT Datasets and main acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?StudyDescr ?ProtocolName ?ProtocolDescr ?ExamDate ?ExamTime ?ValueWeight ?LabelUnitWeight ?CTAcqClass ?ValueKVP ?LabelUnitKVP ?ValueTubeCur ?LabelUnitTubeCur ?LabelXRayModulationType ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?Model ?Manufacturer
  WHERE {
  ?RolePat purl:BFO_0000054 ?Exam .
  ?Human purl:BFO_0000087 ?RolePat .
@@ -178,24 +57,99 @@ Requestx1;CT Datasets and main acquisition parameters;Lists CT Datasets and main
             ?UnitTubeCur rdfs:label ?LabelUnitTubeCur .}
  OPTIONAL { ?Dataset ontomedirad:has_IRDBB_WADO_handle ?DatasetHandle .}
 } ORDER BY ?ClinResearchStudyId ?PatientName"
-Requestx2;CT Datasets and all acquisition parameters;Lists CT Datasets and all acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?ValueHeight ?LabelUnitHeight ?StudyDescr ?LabelOrgan ?ProtocolName ?ProtocolDescr ?ExamDate ?ExamTime ?CTAcqClass ?NameRespInstitution ?ValueKVP ?LabelUnitKVP ?ValueTubeCur ?LabelUnitTubeCur ?LabelXRayModulationType ?ValueFocalSpot ?LabelUnitFocalSpot ?ValueNominalTotalCollimWidth ?LabelUnitNominalTotalCollimWidth ?XRayFilterClassLabel ?ValueExposureTime ?LabelUnitExposureTime ?ValueExposureInmAsec ?LabelUnitExposureInmAsec ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?ImageFormat ?Model ?Manufacturer WHERE {  ?RolePat purl:BFO_0000054 ?Exam . ?Human purl:BFO_0000087 ?RolePat .
- ?Human ontomedirad:has_name ?PatientName . ?CTAcq purl:BFO_0000132 ?Exam .
+Request3;CT Datasets and all acquisition parameters;Lists CT Datasets and all acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?ValueHeight ?LabelUnitHeight ?StudyDescr ?LabelOrgan ?ProtocolName ?ProtocolDescr ?ExamDate ?ExamTime ?CTAcqClass ?NameRespInstitution ?ValueKVP ?LabelUnitKVP ?ValueTubeCur ?LabelUnitTubeCur ?LabelXRayModulationType ?ValueFocalSpot ?LabelUnitFocalSpot ?ValueNominalTotalCollimWidth ?LabelUnitNominalTotalCollimWidth ?XRayFilterClassLabel ?ValueExposureTime ?LabelUnitExposureTime ?ValueExposureInmAsec ?LabelUnitExposureInmAsec ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?ImageFormat ?Model ?Manufacturer
+ WHERE { 
+ ?RolePat purl:BFO_0000054 ?Exam .
+ ?Human purl:BFO_0000087 ?RolePat .
+ ?Human ontomedirad:has_name ?PatientName .
+ ?CTAcq purl:BFO_0000132 ?Exam .
  ?Exam ontomedirad:part_of_study ?ClinResearchStudy .
- ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId . ?CTAcq rdf:type ?CTAcqClass . ?CTAcqClass rdfs:subClassOf* ontomedirad:CT_acquisition . ?Dataset ontomedirad:is_specified_output_of ?CTAcq . ?Dataset ontomedirad:has_DICOM_image_type_description ?ImageTypeDescription . ?Dataset rdf:type ?Datasetclass .  ?Datasetclass skos:prefLabel ?DatasetClassLabel . ?CTAcq ontomedirad:has_protocol ?Protocol .
+ ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId .
+ ?CTAcq rdf:type ?CTAcqClass .
+ ?CTAcqClass rdfs:subClassOf* ontomedirad:CT_acquisition .
+ ?Dataset ontomedirad:is_specified_output_of ?CTAcq .
+ ?Dataset ontomedirad:has_DICOM_image_type_description ?ImageTypeDescription .
+ ?Dataset rdf:type ?Datasetclass . 
+ ?Datasetclass skos:prefLabel ?DatasetClassLabel .
+ ?CTAcq ontomedirad:has_protocol ?Protocol .
  ?Scanner rdf:type ontomedirad:CT_scanner .
  ?AcqRole rdf:type ontomedirad:image_acquisition_role .
  ?Scanner purl:BFO_0000087 ?AcqRole.     
  ?AcqRole purl:BFO_0000054 ?CTAcq .
  OPTIONAL { ?Scanner ontomedirad:has_manufacturer_name ?Manufacturer .
             ?Scanner ontomedirad:has_model_name ?Model .}
- OPTIONAL { ?Protocol ontomedirad:has_name ?ProtocolName .	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }
- OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .            ?Exam ontomedirad:has_beginning_time ?ExamTime . } OPTIONAL { ?Exam ontomedirad:has_description ?StudyDescr } OPTIONAL { ?Exam ontomedirad:has_target_region ?targetregion .            ?targetregion rdf:type ?OrganClass .            ?OrganClass rdfs:label ?LabelOrgan . } OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .            ?PatientSex rdfs:label ?LabelSex . } OPTIONAL { ?PatientAge rdf:type ontomedirad:age_of_patient_undergoing_medical_procedure .            ?PatientAge ontomedirad:is_about_procedure ?Exam .            ?PatientAge ontomedirad:is_about ?Human .            ?PatientAge ontomedirad:years ?AgeInYears . } OPTIONAL { ?XRayModulationType purl:BFO_0000177 ?Protocol .            ?XRayModulationType rdfs:subClassOf dcm:113842 .            ?XRayModulationType skos:prefLabel ?LabelXRayModulationType . }                               OPTIONAL { ?CTAcq ontomedirad:has_setting ?KVP .            ?KVP rdf:type dcm:113733 .            ?KVP purl:IAO_0000004 ?ValueKVP .            ?KVP purl:IAO_0000039 ?UnitKVP .            ?UnitKVP rdfs:label ?LabelUnitKVP.} OPTIONAL { ?CTAcq ontomedirad:has_setting ?TubeCur .            ?TubeCur rdf:type dcm:113734 .            ?TubeCur purl:IAO_0000004 ?ValueTubeCur .            ?TubeCur purl:IAO_0000039 ?UnitTubeCur.            ?UnitTubeCur rdfs:label ?LabelUnitTubeCur .} OPTIONAL { ?CTAcq ontomedirad:has_setting ?FocalSpot .            ?FocalSpot rdf:type ontomedirad:focal_spot .            ?FocalSpot purl:IAO_0000004 ?ValueFocalSpot .            ?FocalSpot purl:IAO_0000039 ?UnitFocalSpot .            ?UnitFocalSpot rdfs:label ?LabelUnitFocalSpot .} OPTIONAL { ?CTAcq ontomedirad:has_setting ?NominalTotalCollimWidth .            ?NominalTotalCollimWidth rdf:type dcm:113827 .            ?NominalTotalCollimWidth purl:IAO_0000004 ?ValueNominalTotalCollimWidth .            ?NominalTotalCollimWidth purl:IAO_0000039 ?UnitNominalTotalCollimWidth .            ?UnitNominalTotalCollimWidth rdfs:label ?LabelUnitNominalTotalCollimWidth .} OPTIONAL { ?CTAcq ontomedirad:has_setting ?ExposureTime .            ?ExposureTime rdf:type dcm:113824 .            ?ExposureTime purl:IAO_0000004 ?ValueExposureTime .            ?ExposureTime purl:IAO_0000039 ?UnitExposureTime .            ?UnitExposureTime rdfs:label ?LabelUnitExposureTime .} OPTIONAL { ?CTAcq ontomedirad:has_setting ?ExposureInmAsec .            ?ExposureInmAsec rdf:type ontomedirad:exposure .            ?ExposureInmAsec purl:IAO_0000004 ?ValueExposureInmAsec .            ?ExposureInmAsec purl:IAO_0000039 ?UnitExposureInmAsec .            ?UnitExposureInmAsec rdfs:label ?LabelUnitExposureInmAsec .} OPTIONAL { ?Dataset ontomedirad:has_IRDBB_WADO_handle ?DatasetHandle .} OPTIONAL { ?Dataset ontomedirad:has_format ?ImageFormat .} OPTIONAL { ?XRayFilter purl:BFO_0000177  ?Scanner .
+ OPTIONAL { ?Protocol ontomedirad:has_name ?ProtocolName .
+	    ?Protocol ontomedirad:has_description ?ProtocolDescr . }
+ OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .
+            ?Exam ontomedirad:has_beginning_time ?ExamTime . }
+ OPTIONAL { ?Exam ontomedirad:has_description ?StudyDescr }
+ OPTIONAL { ?Exam ontomedirad:has_target_region ?TargetRegion .
+            ?TargetRegion rdf:type ?OrganClass .
+            ?OrganClass rdfs:label ?LabelOrgan . }
+ OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .
+            ?PatientSex rdfs:label ?LabelSex . }
+ OPTIONAL { ?PatientAge rdf:type ontomedirad:age_of_patient_undergoing_medical_procedure .
+            ?PatientAge ontomedirad:is_about_procedure ?Exam .
+            ?PatientAge ontomedirad:is_about ?Human .
+            ?PatientAge ontomedirad:years ?AgeInYears . }
+ OPTIONAL { ?XRayModulationType purl:BFO_0000177 ?Protocol .
+            ?XRayModulationType rdfs:subClassOf dcm:113842 .
+            ?XRayModulationType skos:prefLabel ?LabelXRayModulationType . }                              
+ OPTIONAL { ?CTAcq ontomedirad:has_setting ?KVP .
+            ?KVP rdf:type dcm:113733 .
+            ?KVP purl:IAO_0000004 ?ValueKVP .
+            ?KVP purl:IAO_0000039 ?UnitKVP .
+            ?UnitKVP rdfs:label ?LabelUnitKVP.}
+ OPTIONAL { ?CTAcq ontomedirad:has_setting ?TubeCur .
+            ?TubeCur rdf:type dcm:113734 .
+            ?TubeCur purl:IAO_0000004 ?ValueTubeCur .
+            ?TubeCur purl:IAO_0000039 ?UnitTubeCur.
+            ?UnitTubeCur rdfs:label ?LabelUnitTubeCur .}
+ OPTIONAL { ?CTAcq ontomedirad:has_setting ?FocalSpot .
+            ?FocalSpot rdf:type ontomedirad:focal_spot .
+            ?FocalSpot purl:IAO_0000004 ?ValueFocalSpot .
+            ?FocalSpot purl:IAO_0000039 ?UnitFocalSpot .
+            ?UnitFocalSpot rdfs:label ?LabelUnitFocalSpot .}
+ OPTIONAL { ?CTAcq ontomedirad:has_setting ?NominalTotalCollimWidth .
+            ?NominalTotalCollimWidth rdf:type dcm:113827 .
+            ?NominalTotalCollimWidth purl:IAO_0000004 ?ValueNominalTotalCollimWidth .
+            ?NominalTotalCollimWidth purl:IAO_0000039 ?UnitNominalTotalCollimWidth .
+            ?UnitNominalTotalCollimWidth rdfs:label ?LabelUnitNominalTotalCollimWidth .}
+ OPTIONAL { ?CTAcq ontomedirad:has_setting ?ExposureTime .
+            ?ExposureTime rdf:type dcm:113824 .
+            ?ExposureTime purl:IAO_0000004 ?ValueExposureTime .
+            ?ExposureTime purl:IAO_0000039 ?UnitExposureTime .
+            ?UnitExposureTime rdfs:label ?LabelUnitExposureTime .}
+ OPTIONAL { ?CTAcq ontomedirad:has_setting ?ExposureInmAsec .
+            ?ExposureInmAsec rdf:type ontomedirad:exposure .
+            ?ExposureInmAsec purl:IAO_0000004 ?ValueExposureInmAsec .
+            ?ExposureInmAsec purl:IAO_0000039 ?UnitExposureInmAsec .
+            ?UnitExposureInmAsec rdfs:label ?LabelUnitExposureInmAsec .}
+ OPTIONAL { ?Dataset ontomedirad:has_IRDBB_WADO_handle ?DatasetHandle .}
+ OPTIONAL { ?Dataset ontomedirad:has_format ?ImageFormat .}
+ OPTIONAL { ?XRayFilter purl:BFO_0000177  ?Scanner .
             ?XRayFilter rdf:type ?XRayFilterClass .
 	    ?XRayFilterClass rdfs:subClassOf* dcm:113771 .
- 	    ?XRayFilterClass skos:prefLabel ?XRayFilterClassLabel . }  OPTIONAL { ?RespInstitution rdf:type ontomedirad:institution .            ?RespInstitution ontomedirad:has_name ?NameRespInstitution .            ?RespInstitutionrole rdf:type ontomedirad:role_of_responsible_organization .            ?RespInstitutionrole purl:BFO_0000054 ?CTAcq .               ?RespInstitutionrole purl:BFO_0000052 ?RespInstitution .}
- OPTIONAL { ?PatientWeight rdf:type ontomedirad:patient_weight .            ?PatientWeight ontomedirad:is_about_procedure ?Exam .            ?PatientWeight ontomedirad:is_about ?Human .            ?PatientWeight purl:IAO_0000004 ?ValueWeight .            ?PatientWeight purl:IAO_0000039 ?UnitWeight .            ?UnitWeight rdfs:label ?LabelUnitWeight . } OPTIONAL { ?PatientHeight rdf:type ontomedirad:patient_height .            ?PatientHeight ontomedirad:is_about_procedure ?Exam .            ?PatientHeight ontomedirad:is_about ?Human .            ?PatientHeight purl:IAO_0000004 ?ValueHeight .            ?PatientHeight purl:IAO_0000039 ?UnitHeight .            ?UnitHeight rdfs:label ?LabelUnitHeight . }
+ 	    ?XRayFilterClass skos:prefLabel ?XRayFilterClassLabel . } 
+ OPTIONAL { ?RespInstitution rdf:type ontomedirad:institution .
+            ?RespInstitution ontomedirad:has_name ?NameRespInstitution .
+            ?RespInstitutionrole rdf:type ontomedirad:role_of_responsible_organization .
+            ?RespInstitutionrole purl:BFO_0000054 ?CTAcq .   
+            ?RespInstitutionrole purl:BFO_0000052 ?RespInstitution .}
+ OPTIONAL { ?PatientWeight rdf:type ontomedirad:patient_weight .
+            ?PatientWeight ontomedirad:is_about_procedure ?Exam .
+            ?PatientWeight ontomedirad:is_about ?Human .
+            ?PatientWeight purl:IAO_0000004 ?ValueWeight .
+            ?PatientWeight purl:IAO_0000039 ?UnitWeight .
+            ?UnitWeight rdfs:label ?LabelUnitWeight . }
+ OPTIONAL { ?PatientHeight rdf:type ontomedirad:patient_height .
+            ?PatientHeight ontomedirad:is_about_procedure ?Exam .
+            ?PatientHeight ontomedirad:is_about ?Human .
+            ?PatientHeight purl:IAO_0000004 ?ValueHeight .
+            ?PatientHeight purl:IAO_0000039 ?UnitHeight .
+            ?UnitHeight rdfs:label ?LabelUnitHeight . }
 } ORDER BY ?ClinResearchStudyId ?PatientName"
-Requestx3;PET Datasets and main acquisition parameters;Lists PET Datasets and main acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?StudyDescr ?ProtocolName ?ProtocolDescr ?ExamDate ?ExamTime ?RadioNuclLabel ?LowerLimit ?UpperLimit ?LabelUnitEnergyWindow ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?Model ?Manufacturer
+Request4;PET Datasets and main acquisition parameters;Lists PET Datasets and main acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?StudyDescr ?ProtocolName ?ProtocolDescr ?ExamDate ?ExamTime ?RadioNuclLabel ?LowerLimit ?UpperLimit ?LabelUnitEnergyWindow ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?Model ?Manufacturer
  WHERE {
  ?PETAcq rdf:type* ontomedirad:PET_data_acquisition .
  ?PETAcq purl:BFO_0000132 ?Exam .
@@ -244,7 +198,7 @@ Requestx3;PET Datasets and main acquisition parameters;Lists PET Datasets and ma
             ?UnitEnergyWindow rdfs:label ?LabelUnitEnergyWindow }
  OPTIONAL { ?Dataset ontomedirad:has_IRDBB_WADO_handle ?DatasetHandle .}
 } ORDER BY ?ClinResearchStudyId ?PatientName"
-Requestx4;PET Datasets and all  acquisition parameters;Lists PET Datasets and all acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?ValueHeight ?LabelUnitHeight ?StudyDescr ?LabelOrgan ?ProtocolName ?ProtocolDescr ?ExamDate ?ExamTime ?NameRespInstitution ?RadioNuclLabel ?LowerLimit ?UpperLimit ?LabelUnitEnergyWindow ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?ImageFormat ?Model ?Manufacturer
+Request5;PET Datasets and all  acquisition parameters;Lists PET Datasets and all acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?ValueHeight ?LabelUnitHeight ?StudyDescr ?LabelOrgan ?ProtocolName ?ProtocolDescr ?ExamDate ?ExamTime ?NameRespInstitution ?RadioNuclLabel ?LowerLimit ?UpperLimit ?LabelUnitEnergyWindow ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?ImageFormat ?Model ?Manufacturer
  WHERE {
  ?PETAcq rdf:type* ontomedirad:PET_data_acquisition .
  ?PETAcq purl:BFO_0000132 ?Exam .
@@ -270,8 +224,8 @@ Requestx4;PET Datasets and all  acquisition parameters;Lists PET Datasets and al
  OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .
             ?Exam ontomedirad:has_beginning_time ?ExamTime . }
  OPTIONAL { ?Exam ontomedirad:has_description ?StudyDescr }
- OPTIONAL { ?Exam ontomedirad:has_target_region ?targetregion .
-            ?targetregion rdf:type ?OrganClass .
+ OPTIONAL { ?Exam ontomedirad:has_target_region ?TargetRegion .
+            ?TargetRegion rdf:type ?OrganClass .
             ?OrganClass rdfs:label ?LabelOrgan . }
  OPTIONAL { ?PETAcq rdfs:subClassOf* ontomedirad:PET_data_acquisition}
  OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .
@@ -307,7 +261,7 @@ Requestx4;PET Datasets and all  acquisition parameters;Lists PET Datasets and al
             ?PatientHeight purl:IAO_0000039 ?UnitHeight .
             ?UnitHeight rdfs:label ?LabelUnitHeight . }
 } ORDER BY ?ClinResearchStudyId ?PatientName"
-Requestx5;NM Datasets and main acquisition parameters;Lists NM Datasets and main acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?StudyDescr ?ExamDate ?ExamTime ?StudyDescr ?RadioNuclLabel ?ProtocolName ?ProtocolDescr ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?Model ?Manufacturer
+Request6;NM Datasets and main acquisition parameters;Lists NM Datasets and main acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?StudyDescr ?ExamDate ?ExamTime ?StudyDescr ?RadioNuclLabel ?ProtocolName ?ProtocolDescr ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?Model ?Manufacturer
  WHERE {
  ?SPECTAcq purl:BFO_0000132 ?Exam .
  ?SPECTAcq rdf:type ?SPECTAcqClass .
@@ -349,7 +303,7 @@ Requestx5;NM Datasets and main acquisition parameters;Lists NM Datasets and main
             ?RadioNucl rdfs:label ?RadioNuclLabel .}
  OPTIONAL { ?Dataset ontomedirad:has_IRDBB_WADO_handle ?DatasetHandle .}
 } ORDER BY ?ClinResearchStudyId ?PatientName"
-Requestx6;NM Datasets and all acquisition parameters;Lists NM Datasets and all acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?ValueHeight ?LabelUnitHeight ?StudyDescr ?LabelOrgan ?ExamDate ?ExamTime ?SPECTAcqClass ?NameRespInstitution ?RadioNuclLabel ?ProtocolName ?ProtocolDescr ?CollimatorClassLabel ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?ImageFormat ?Model ?Manufacturer
+Request7;NM Datasets and all acquisition parameters;Lists NM Datasets and all acquisition parameters, the imaging studies, the patients and the MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?LabelSex ?AgeInYears ?ValueWeight ?LabelUnitWeight ?ValueHeight ?LabelUnitHeight ?StudyDescr ?LabelOrgan ?ExamDate ?ExamTime ?SPECTAcqClass ?NameRespInstitution ?RadioNuclLabel ?ProtocolName ?ProtocolDescr ?CollimatorClassLabel ?Dataset ?DatasetClassLabel ?ImageTypeDescription ?DatasetHandle ?ImageFormat ?Model ?Manufacturer
  WHERE {
  ?SPECTAcq purl:BFO_0000132 ?Exam .
  ?SPECTAcq rdf:type ?SPECTAcqClass .
@@ -375,8 +329,8 @@ Requestx6;NM Datasets and all acquisition parameters;Lists NM Datasets and all a
  OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .
             ?Exam ontomedirad:has_beginning_time ?ExamTime . }
  OPTIONAL { ?Exam ontomedirad:has_description ?StudyDescr .}
- OPTIONAL { ?Exam ontomedirad:has_target_region ?targetregion .
-            ?targetregion rdf:type ?OrganClass .
+ OPTIONAL { ?Exam ontomedirad:has_target_region ?TargetRegion .
+            ?TargetRegion rdf:type ?OrganClass .
             ?OrganClass rdfs:label ?LabelOrgan . }
  OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .
             ?PatientSex rdfs:label ?LabelSex . }
@@ -391,7 +345,8 @@ Requestx6;NM Datasets and all acquisition parameters;Lists NM Datasets and all a
  OPTIONAL { ?Collimator purl:BFO_0000177  ?Scanner .
             ?Collimator rdf:type ?CollimatorClass .
 	    ?CollimatorClass rdfs:subClassOf* ontomedirad:collimator .
- 	    ?CollimatorClass skos:prefLabel ?CollimatorClassLabel . }      
+ 	    ?CollimatorClass skos:prefLabel ?CollimatorClassLabel . 
+            ?Collimator purl:BFO_0000177  ?Scanner .}      
  OPTIONAL { ?RespInstitution rdf:type ontomedirad:institution .
             ?RespInstitution ontomedirad:has_name ?NameRespInstitution .
             ?RespInstitutionrole rdf:type ontomedirad:role_of_responsible_organization .
@@ -410,7 +365,7 @@ Requestx6;NM Datasets and all acquisition parameters;Lists NM Datasets and all a
             ?PatientHeight purl:IAO_0000039 ?UnitHeight .
             ?UnitHeight rdfs:label ?LabelUnitHeight . }
 } ORDER BY ?ClinResearchStudyId ?PatientName"
-Requestx7;Relations image datasets with Clinical research studies;Lists all datasets and related patients, ordered by MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?ExamDate ?ExamTime ?Dataset ?ImageTypeDescription ?DatasetClassLabel ?LabelSex ?AgeInYears
+Request8;Relations image datasets with Clinical research studies;Lists all datasets and related patients, ordered by MEDIRAD Clinical Research Studies;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?ExamDate ?ExamTime ?Dataset ?ImageTypeDescription ?DatasetClassLabel ?LabelSex ?AgeInYears
  WHERE {
  ?Human rdf:type ontomedirad:human .
  ?Human purl:BFO_0000087 ?RolePat .
@@ -433,7 +388,269 @@ Requestx7;Relations image datasets with Clinical research studies;Lists all data
             ?PatientAge ontomedirad:is_about ?Human .
             ?PatientAge ontomedirad:years ?AgeInYears . }
 } ORDER BY ?ClinResearchStudyId ?PatientName"
-Requestx8;DICOM SR Dose reports:doses of  individual acquisitions;List of doses related to individual CT acquisitions recorded in DICOM CT Radiation Dose reports;FALSE;"SELECT DISTINCT ?StructuredReport ?StructuredReportClassLabel ?Exam ?StudyDescr ?ExamDate ?ExamTime ?Human ?PatientName ?LabelSex ?IrradEvent ?Dose ?DoseClassLabel ?ValueDose ?UnitDoseLabel ?ValueKVP ?LabelUnitKVP ?ValueTubeCur ?LabelUnitTubeCur
+Request9;3D Dose Maps and provenance data;List 3D_dose_maps, from which CT data it was obtained, with what method and what main settings;FALSE;"SELECT DISTINCT  ?ClinResearchStudyId ?PatientName ?PatientId ?DoseMap ?DoseMapClassLabel ?DoseMapFormatTypeLabel ?DoseInVoxelClassLabel ?DoseUnitClassLabel ?Process ?Date ?Time ?ValueKVP ?LabelXRayModulationType ?FHIRHandle ?InputCTDataset
+WHERE { 
+ ?DoseMap rdf:type ?DoseMapClass . 
+ ?DoseMapClass rdfs:subClassOf* dcm:128487 . 
+ ?DoseMapClass skos:prefLabel ?DoseMapClassLabel .
+ ?Process ontomedirad:has_specified_output ?DoseMap .
+ ?DoseMap ontomedirad:has_patient ?Human .
+ ?Human ontomedirad:has_id ?PatientId .
+ OPTIONAL { ?Human ontomedirad:has_name ?PatientName . }
+ ?DoseMap purl:BFO_0000172 ?DoseInVoxelClass .
+ ?DoseInVoxelClass skos:prefLabel ?DoseInVoxelClassLabel .
+ ?DoseMap purl:IAO_0000039 ?DoseUnit .
+ ?DoseUnit rdf:type ?DoseUnitClass . 
+ ?DoseUnitClass rdfs:label ?DoseUnitClassLabel .
+ ?DoseMap ontomedirad:has_format ?DoseMapFormat .
+ ?DoseMapFormat rdf:type ?DoseMapFormatType .
+ ?DoseMapFormatType skos:prefLabel ?DoseMapFormatTypeLabel .
+ OPTIONAL {?Process ontomedirad:part_of_study ?ClinResearchStudy .
+           ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId } .
+ OPTIONAL {?Process ontomedirad:has_beginning ?DateTime .
+           BIND (substr(?DateTime,1,8) AS ?Date) .
+           BIND (substr(?DateTime,10,4) AS ?Time) .}
+ OPTIONAL {?Process ontomedirad:has_setting ?KVP .
+           ?KVP rdf:type dcm:113733 .
+           ?KVP purl:IAO_0000004 ?ValueKVP }
+ OPTIONAL {?Process ontomedirad:has_setting ?XRayModulation .
+           ?XRayModulation rdf:type ?XRayModulationType .
+           ?XRayModulationType rdfs:subClassOf* dcm:113842 .
+           ?XRayModulationType skos:prefLabel ?LabelXRayModulationType . }
+ OPTIONAL  { ?DoseMap ontomedirad:has_IRDBB_FHIR_handle ?FHIRHandle . }
+ OPTIONAL  { ?Process ontomedirad:has_specified_input ?InputCTDataset .
+             ?InputCTDataset rdf:type ontomedirad:CT_image_dataset . }
+} ORDER BY ?ClinResearchStudyId ?PatientName"
+Request10;Volumes Of Interest and organs;List Volumes of Interest (VOI), related segmented entity (e.g. organ);FALSE;"SELECT ?ClinResearchStudyId ?PatientName ?Filename ?MaterialEntityClassLabel ?VOIClass ?Format  ?ProcessClass ?MethodClassLabel ?Date ?Time ?FHIRHandle ?InputDataset ?DatasetClass
+WHERE { 
+ ?Dataset rdf:type ?VOIClass .
+ ?Dataset ontomedirad:has_patient ?Human .
+ OPTIONAL { ?Human ontomedirad:has_name ?PatientName .}
+ ?VOIClass rdfs:subClassOf* ontomedirad:VOI .
+ ?Dataset ontomedirad:represents ?MaterialEntity .
+ ?MaterialEntity rdf:type ?MaterialEntityClass .
+ ?MaterialEntityClass rdfs:label ?MaterialEntityClassLabel .
+ ?Dataset ontomedirad:is_specified_output_of ?Process .
+ ?Process rdf:type ?ProcessClass .
+ ?ProcessClass rdfs:subClassOf* purl:BFO_0000015 .
+ OPTIONAL { ?Dataset ontomedirad:has_name ?Filename } .
+ OPTIONAL { ?Dataset ontomedirad:has_format ?Format } .
+ OPTIONAL {?Process ontomedirad:part_of_study ?ClinResearchStudy .
+           ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId }.
+ OPTIONAL {?Process ontomedirad:has_beginning ?DateTime .
+           BIND (substr(?DateTime,1,8) AS ?Date) .
+           BIND (substr(?DateTime,10,4) AS ?Time) .}
+ OPTIONAL { ?Process ontomedirad:has_protocol ?Method .
+            ?Method rdf:type ?MethodClass .
+            ?MethodClass skos:prefLabel ?MethodClassLabel } .
+ OPTIONAL  { ?Dataset ontomedirad:has_IRDBB_FHIR_handle ?FHIRHandle . }
+ OPTIONAL  { ?Process ontomedirad:has_specified_input ?InputDataset .
+             ?InputDataset rdf:type ?DatasetClass .
+             ?DatasetClass rdfs:subClassOf* purl:IAO_0000100 . }
+ } ORDER BY ?ClinResearchStudy ?PatientName ?MaterialEntity"
+Request11;Mean absorbed doses in organs;List Mean absorbed doses (value and unit of measurement), and concerned organ;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?PatientName ?PatientId ?MaterialEntityClassLabel ?DoseClassLabel ?ProcessClass ?Date ?Time ?DoseValue ?DoseUnitClassLabel ?DoseMap ?FHIRHandle ?ValueKVP ?LabelUnitKVP ?LabelXRayModulationType ?ModeledDeviceName
+WHERE { 
+ ?Dose rdf:type ?DoseClass . 
+ ?DoseClass rdfs:subClassOf* dcm:128533 . 
+ ?DoseClass skos:prefLabel ?DoseClassLabel .
+ ?Dose purl:IAO_0000004 ?DoseValue . 
+ ?Dose purl:IAO_0000039 ?DoseUnit .
+ ?DoseUnit rdf:type ?DoseUnitClass . 
+ ?DoseUnitClass rdfs:label ?DoseUnitClassLabel . 
+ ?Dose ontomedirad:is_dose_absorbed_by ?MaterialEntity .
+ ?MaterialEntity rdf:type ?MaterialEntityClass . 
+ ?MaterialEntityClass rdfs:label ?MaterialEntityClassLabel .
+ ?Dose ontomedirad:has_patient ?Human .
+ ?Human ontomedirad:has_id ?PatientId .
+ ?Process ontomedirad:has_specified_output ?Dose .
+ ?Process rdf:type ?ProcessClass . 
+ ?ProcessClass rdfs:subClassOf* purl:BFO_0000015 .
+ ?Process ontomedirad:has_specified_input ?DoseMap .
+ OPTIONAL  { ?DoseMap ontomedirad:has_IRDBB_FHIR_handle ?FHIRHandle . }
+ OPTIONAL { ?ModelOfImagingDevice ontomedirad:used_as_instrument_in ?ProcessCalcDoseMap .
+ ?ModelOfImagingDevice ontomedirad:refers_to_device ?ImagingDevice .
+ ?ImagingDevice ontomedirad:has_name ?ModeledDeviceName .
+ ?ProcessCalcDoseMap ontomedirad:has_specified_output ?DoseMap }
+ OPTIONAL { ?ProcessCalcDoseMap ontomedirad:has_setting ?KVP .
+ ?KVP rdf:type dcm:113733 .
+ ?KVP purl:IAO_0000004 ?ValueKVP .
+ ?KVP purl:IAO_0000039 ?UnitKVP .
+ ?UnitKVP rdfs:label ?LabelUnitKVP }
+ OPTIONAL { ?ProcessCalcDoseMap ontomedirad:has_setting ?XRayModulationType .
+ ?XRayModulationType rdfs:subClassOf* dcm:113842 .
+ ?XRayModulationType skos:prefLabel ?LabelXRayModulationType .  } 
+ OPTIONAL {?Process ontomedirad:part_of_study ?ClinResearchStudy .
+          ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId }
+ OPTIONAL {?Process ontomedirad:has_beginning ?DateTime .
+                 BIND (substr(?DateTime,1,8) AS ?Date) .
+                 BIND (substr(?DateTime,10,4) AS ?Time) } .
+ OPTIONAL { ?Human ontomedirad:has_name ?PatientName } . 
+ OPTIONAL {?Process ontomedirad:has_specified_input ?DoseMap .
+           ?DoseMap rdf:type ?DoseMapClass . 
+           ?DoseMapClass rdfs:subClassOf* dcm:128487 . 
+           ?DoseMapClass skos:prefLabel ?DoseMapClassLabel }.
+} ORDER BY ?ClinResearchStudyId ?PatientId ?MaterialEntity"
+Request12;Non DICOM datasets and handles;List Non-DICOM Files and handles ;FALSE;"SELECT DISTINCT ?PatientName ?Dataset ?DatasetClassLabel ?FHIRHandle 
+WHERE { 
+ ?Dataset ontomedirad:has_IRDBB_FHIR_handle ?FHIRHandle .
+ ?Dataset rdf:type ?DatasetClass .
+ ?DatasetClass rdfs:subClassOf* purl:IAO_0000100 .
+ OPTIONAL {?DatasetClass skos:prefLabel ?DatasetClassLabel } .
+ OPTIONAL { ?Dataset ontomedirad:has_patient ?Human .
+  ?Human ontomedirad:has_name ?PatientName }.
+ } ORDER BY ?Dataset"
+Request13;Internal radiotherapy radiopharmaceutical administration;List characteristics of radiopharmaceutical administration;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?InternalRadiotherapy ?PatientName ?NameRespInstitution
+ ?RadiopharmaceuticalClassLabel ?RadionuclideClassLabel 
+ ?PreAValuedministeredActivityValue ?PostAValuedministeredActivityValue ?AdministeredActivityUnitLabel
+ WHERE { 
+  ?InternalRadiotherapy rdf:type ontomedirad:internal_radiotherapy .
+  ?InternalRadiotherapy ontomedirad:part_of_study ?ClinResearchStudy .
+  ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId .
+  ?InternalRadiotherapy ontomedirad:treats ?Human .
+  ?Human ontomedirad:has_name ?PatientName .
+  ?RespInstitution rdf:type ontomedirad:institution .
+  ?RespInstitution ontomedirad:has_name ?NameRespInstitution .
+  ?RespInstitutionRole purl:BFO_0000054 ?InternalRadiotherapy .
+  ?RespInstitution purl:BFO_0000161 ?RespInstitutionRole .
+  ?RadiopharmaceuticalAdmin rdf:type ontomedirad:radiopharmaceutical_administration .
+  ?RadiopharmaceuticalAdmin purl:BFO_0000132 ?InternalRadiotherapy .
+  ?RadiopharmaceuticalAdmin ontomedirad:has_beginning_date ?RadiopharmaceuticalAdminDate .
+  ?RadiopharmaceuticalAdmin ontomedirad:has_beginning_time ?RadiopharmaceuticalAdminTime .
+  ?RadiopharmaceuticalAdmin ontomedirad:has_specified_input ?Radiopharmaceutical .
+  ?Radiopharmaceutical rdf:type ?RadiopharmaceuticalClass .
+  ?RadiopharmaceuticalClass rdfs:subClassOf snmi:radiopharmaceutical .
+  ?RadiopharmaceuticalClass skos:prefLabel ?RadiopharmaceuticalClassLabel .
+  ?RadiopharmaceuticalAdmin ontomedirad:has_specified_input ?Radionuclide .
+  ?Radionuclide rdf:type ?RadionuclideClass .
+  ?RadionuclideClass rdfs:subClassOf radionuclides:radionuclide .
+  ?RadionuclideClass skos:prefLabel ?RadionuclideClassLabel .
+  ?PreAdministeredActivity ontomedirad:is_about ?RadiopharmaceuticalAdmin .
+  ?PreAdministeredActivity rdf:type dcm:113508 .
+  ?PreAdministeredActivity ontomedirad:has_measurement_date_and_time ?PreAdministeredActivityDateAndTime .
+  ?PreAdministeredActivity purl:IAO_0000004 ?PreAValuedministeredActivityValue .
+  ?PreAdministeredActivity purl:IAO_0000039 ?AdministeredActivityUnit .
+  ?AdministeredActivityUnit skos:prefLabel ?AdministeredActivityUnitLabel .
+  ?PostAdministeredActivity ontomedirad:is_about ?RadiopharmaceuticalAdmin .
+  ?PostAdministeredActivity rdf:type dcm:113509 .
+  ?PostAdministeredActivity ontomedirad:has_measurement_date_and_time ?PostAdministeredActivityDateAndTime .
+  ?PostAdministeredActivity purl:IAO_0000004 ?PostAValuedministeredActivityValue .
+  ?PostAdministeredActivity purl:IAO_0000039 ?AdministeredActivityUnit .
+ } ORDER BY ?ClinResearchStudyId ?PatientName"
+Request14;Internal radiotherapy total absorbed doses;List characteristics of total absorbed dose;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?InternalRadiotherapy ?PatientName ?3DDosimetryOfTRTClassLabel ?AbsorbedDoseInVOIValue ?AbsorbedDoseInVOIUnitLabel ?OrganOrTissueClassLabel
+ WHERE { 
+  ?InternalRadiotherapy rdf:type ontomedirad:internal_radiotherapy .
+  ?InternalRadiotherapy ontomedirad:part_of_study ?ClinResearchStudy .
+  ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId .
+  ?InternalRadiotherapy ontomedirad:treats ?Human .
+  ?Human ontomedirad:has_name ?PatientName .
+  ?AbsorbedDoseInVOI ontomedirad:has_patient ?Human .
+  ?AbsorbedDoseInVOI rdf:type ontomedirad:total_absorbed_dose_per_VOI .
+  ?AbsorbedDoseInVOI ontomedirad:is_quantity_measured_in ?VOI.
+  ?VOI ontomedirad:represents ?OrganOrTissue .
+  ?OrganOrTissue rdf:type ?OrganOrTissueClass .
+  ?OrganOrTissueClass rdfs:label ?OrganOrTissueClassLabel .
+  ?AbsorbedDoseCalculationInVOI ontomedirad:has_specified_output ?AbsorbedDoseInVOI .
+  ?AbsorbedDoseCalculationInVOI rdf:type ontomedirad:calculation_of_mean_absorbed_doses_in_VOIs .
+  ?AbsorbedDoseCalculationInVOI purl:BFO_0000132 ?3DDosimetryOfTRT .
+  ?3DDosimetryOfTRT rdf:type ?3DDosimetryOfTRTClass .
+  ?3DDosimetryOfTRTClass skos:prefLabel ?3DDosimetryOfTRTClassLabel .
+  ?3DDosimetryOfTRTClass rdfs:subClassOf* ontomedirad:dosimetry_of_TRT .
+  ?3DDosimetryOfTRT purl:BFO_0000132 ?InternalRadiotherapy .
+  ?AbsorbedDoseCalculationInVOI purl:BFO_0000132 ?InternalRadiotherapy .
+  ?AbsorbedDoseInVOI purl:IAO_0000004 ?AbsorbedDoseInVOIValue .
+  ?AbsorbedDoseInVOI purl:IAO_0000039 ?AbsorbedDoseInVOIUnit .
+  ?AbsorbedDoseInVOIUnit rdfs:label ?AbsorbedDoseInVOIUnitLabel .
+ } ORDER BY ?ClinResearchStudyId ?PatientName ?OrganOrTissue ?3DDosimetryOfTRTClassLabel"
+Request15;Internal radiotherapy CT images used;List CT images used;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?InternalRadiotherapy ?PatientName ?RadiopharmaceuticalAdminDate ?RadiopharmaceuticalAdminTime ?CTDataset ?TimepointClassLabel
+ WHERE { 
+  ?InternalRadiotherapy rdf:type ontomedirad:internal_radiotherapy .
+  ?InternalRadiotherapy ontomedirad:part_of_study ?ClinResearchStudy .
+  ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId .
+  ?InternalRadiotherapy ontomedirad:treats ?Human .
+  ?Human ontomedirad:has_name ?PatientName .
+  ?RadiopharmaceuticalAdmin rdf:type ontomedirad:radiopharmaceutical_administration .
+  ?RadiopharmaceuticalAdmin purl:BFO_0000132 ?InternalRadiotherapy .
+  ?RadiopharmaceuticalAdmin ontomedirad:has_beginning_date ?RadiopharmaceuticalAdminDate .
+  ?RadiopharmaceuticalAdmin ontomedirad:has_beginning_time ?RadiopharmaceuticalAdminTime .
+  { ?RegistrationVOISegmentationAndPropagation purl:BFO_0000132 ?InternalRadiotherapy .
+    ?RegistrationVOISegmentationAndPropagation ontomedirad:has_specified_input ?CTDataset .
+    ?RegistrationVOISegmentationAndPropagation rdf:type ontomedirad:registration_VOI_segmentation_and_propagation .
+    ?CTDataset rdf:type ontomedirad:CT_image_dataset .
+    ?CTDataset ontomedirad:is_about ?Timepoint .
+    ?Timepoint rdf:type ?TimepointClass .
+    ?TimepointClass rdfs:subClassOf* ontomedirad:timepoint_description .
+    ?TimepointClass skos:prefLabel ?TimepointClassLabel .
+  } 
+   UNION
+  {
+    ?VOISegmentationVOIMassDetermination purl:BFO_0000132 ?InternalRadiotherapy .
+    ?VOISegmentationVOIMassDetermination ontomedirad:has_specified_input ?CTDataset.
+    ?VOISegmentationVOIMassDetermination rdf:type ontomedirad:VOI_segmentation_VOI_mass_determination .
+    ?CTDataset rdf:type ontomedirad:CT_image_dataset .
+    ?CTDataset ontomedirad:is_about ?Timepoint .
+    ?Timepoint rdf:type ?TimepointClass .
+    ?TimepointClass rdfs:subClassOf* ontomedirad:timepoint_description .
+    ?TimepointClass skos:prefLabel ?TimepointClassLabel .
+  }
+ } ORDER BY ?ClinResearchStudyId ?PatientName"
+Request16;Internal radiotherapy NM tomo image used;List NM tomo images used;FALSE;"SELECT DISTINCT ?ClinResearchStudyId ?InternalRadiotherapy ?PatientName ?RadiopharmaceuticalAdminDate ?RadiopharmaceuticalAdminTime ?DosimetryOfTRTClassLabel ?SPECTDataset ?TimepointClassLabel
+ WHERE { 
+  ?InternalRadiotherapy rdf:type ontomedirad:internal_radiotherapy .
+  ?InternalRadiotherapy ontomedirad:part_of_study ?ClinResearchStudy .
+  ?ClinResearchStudy ontomedirad:has_id ?ClinResearchStudyId .
+  ?InternalRadiotherapy ontomedirad:treats ?Human .
+  ?Human ontomedirad:has_name ?PatientName .
+  ?RadiopharmaceuticalAdmin rdf:type ontomedirad:radiopharmaceutical_administration .
+  ?RadiopharmaceuticalAdmin purl:BFO_0000132 ?InternalRadiotherapy .
+  ?RadiopharmaceuticalAdmin ontomedirad:has_beginning_date ?RadiopharmaceuticalAdminDate .
+  ?RadiopharmaceuticalAdmin ontomedirad:has_beginning_time ?RadiopharmaceuticalAdminTime .
+  ?RegistrationVOISegmentationAndPropagation purl:BFO_0000132 ?InternalRadiotherapy .
+  ?RegistrationVOISegmentationAndPropagation ontomedirad:has_specified_input ?SPECTDataset .
+  ?SPECTDataset rdf:type ontomedirad:NM_tomo_dataset .
+  ?SPECTDataset ontomedirad:is_about ?Timepoint .
+  ?Timepoint rdf:type ?TimepointClass .
+  ?TimepointClass rdfs:subClassOf* ontomedirad:timepoint_description .
+  ?TimepointClass skos:prefLabel ?TimepointClassLabel .
+  OPTIONAL {?RegistrationVOISegmentationAndPropagation purl:BFO_0000132 ?DosimetryOfTRT .
+  ?DosimetryOfTRT purl:BFO_0000132 ?InternalRadiotherapy .
+  ?DosimetryOfTRT rdf:type ?DosimetryOfTRTClass .
+  ?DosimetryOfTRTClass skos:prefLabel ?DosimetryOfTRTClassLabel .
+  ?DosimetryOfTRTClass rdfs:subClassOf ontomedirad:dosimetry_of_TRT .
+  }
+ } ORDER BY ?ClinResearchStudyId ?PatientName ?DosimetryOfTRTClassLabel"
+Request17;Case Report Forms for WP3 T3.3 ; List Case Report Forms, characteristics of reported imaging study, related patient, author, responsible institution and handle ;FALSE;"SELECT DISTINCT ?CRFReport ?Exam  ?ExamDate ?ExamTime ?StudyDescr ?TargetRegion  ?LabelOrgan ?CRFReportClassLabel ?SRTemplateName ?SRTemplateId ?PatientName ?AuthorName ?AuthorHumanId ?InstituteName ?InstituteRoleClassLabel ?ReportingDate ?ReportingTime ?SRHandle
+WHERE { 
+?CRFReport rdf:type ?CRFReportClass .
+?CRFReportClass rdfs:subClassOf* ontomedirad:case_report_form .
+?CRFReportClass skos:prefLabel ?CRFReportClassLabel .
+?CRFReport ontomedirad:has_patient ?Human .
+OPTIONAL { ?Human ontomedirad:has_name ?PatientName . }
+?CRFReport ontomedirad:is_specified_output_of ?ReportCreatingProcess .
+FILTER (STRENDS(?CRFReportClassLabel,'version')) .
+OPTIONAL { ?CRFReport ontomedirad:is_about_procedure ?Exam .
+           OPTIONAL { ?Exam ontomedirad:has_beginning_date ?ExamDate .
+                      ?Exam ontomedirad:has_beginning_time ?ExamTime . }
+           OPTIONAL { ?Exam ontomedirad:has_description ?StudyDescr }
+           OPTIONAL { ?Exam ontomedirad:has_target_region ?TargetRegion .
+                      ?TargetRegion rdf:type ?OrganClass .
+                      ?OrganClass rdfs:label ?LabelOrgan . } }
+OPTIONAL { ?CRFReport ontomedirad:has_IRDBB_WADO_handle ?SRHandle .}
+OPTIONAL { ?AuthorRole rdf:type ontomedirad:author .
+           ?AuthorRole purl:BFO_0000052 ?Author .
+           ?Author ontomedirad:has_id ?AuthorHumanId .
+           ?AuthorRole purl:BFO_0000054 ?ReportCreatingProcess .
+           ?AuthorRole ontomedirad:has_name ?AuthorName .
+           OPTIONAL {?ReportCreatingProcess ontomedirad:has_end_date ?ReportingDate .
+                     ?ReportCreatingProcess ontomedirad:has_end_time ?ReportingTime .}
+           OPTIONAL {?InstituteRole purl:BFO_0000052 ?Institute .
+                     ?InstituteRole purl:BFO_0000054 ?ReportCreatingProcess .
+                     ?InstituteRole rdf:type ?InstituteRoleClass .
+                     ?InstituteRoleClass skos:prefLabel ?InstituteRoleClassLabel .
+                     ?Institute ontomedirad:has_name ?InstituteName .}
+           OPTIONAL { ?ReportCreatingProcess ontomedirad:has_protocol ?SRTemplate .
+                      ?SRTemplate ontomedirad:has_name ?SRTemplateName  .
+                      ?SRTemplate ontomedirad:has_id ?SRTemplateId } } }"
+Request18;DICOM SR Dose reports:doses of  individual acquisitions;List of doses related to individual CT acquisitions recorded in DICOM CT Radiation Dose reports;FALSE;"SELECT DISTINCT ?StructuredReport ?StructuredReportClassLabel ?Exam ?StudyDescr ?ExamDate ?ExamTime ?Human ?PatientName ?LabelSex ?IrradEvent ?Dose ?DoseClassLabel ?ValueDose ?UnitDoseLabel ?ValueKVP ?LabelUnitKVP ?ValueTubeCur ?LabelUnitTubeCur
 	WHERE {
  ?StructuredReport ontomedirad:has_dose ?Dose .
  ?StructuredReport rdf:type ?StructuredReportClass .
@@ -468,7 +685,7 @@ Requestx8;DICOM SR Dose reports:doses of  individual acquisitions;List of doses 
             ?PatientSex rdfs:label ?LabelSex . }
  OPTIONAL { ?Human ontomedirad:has_name ?PatientName }
 } ORDER BY ?Human ?Exam ?IrradEvent"
-Requestx9;DICOM SR Dose reports: Cumulated doses;List of cumulated doses recorded in DICOM CT Radiation Dose reports ;FALSE;"SELECT DISTINCT ?StructuredReport ?StructuredReportClassLabel ?ScopeOfAccumul ?ScopeOfAccumul ?StudyDescr ?ExamDate ?ExamTime ?Human ?PatientName ?LabelSex ?Dose ?DoseClassLabel ?ValueDose ?UnitDoseLabel 
+Request19;DICOM SR Dose reports: Cumulated doses;List of cumulated doses recorded in DICOM CT Radiation Dose reports ;FALSE;"SELECT DISTINCT ?StructuredReport ?StructuredReportClassLabel ?ScopeOfAccumul ?StudyDescr ?ExamDate ?ExamTime ?Human ?PatientName ?LabelSex ?Dose ?DoseClassLabel ?ValueDose ?UnitDoseLabel 
 	WHERE {
  ?StructuredReport ontomedirad:has_dose ?Dose .
  ?Dose purl:IAO_0000004 ?ValueDose .
@@ -490,4 +707,187 @@ Requestx9;DICOM SR Dose reports: Cumulated doses;List of cumulated doses recorde
  OPTIONAL { ?Human ontomedirad:has_sex ?PatientSex .
             ?PatientSex rdfs:label ?LabelSex . 
 	    ?Human ontomedirad:has_name ?PatientName .}
-} ORDER BY ?Human ?Exam ?IrradEvent"
+} ORDER BY ?Human ?ScopeOfAccumul"
+Request20;Calibration coefficients ;List of calibration coefficients, institution, radionuclide, reference calibration date, value;FALSE;"SELECT DISTINCT ?CalibrationCoefficient ?RadionuclideLabel ?ReferenceCalibrationDate ?InstitutionName ?CalibrationCoefficientValue ?CalibrationCoefficientUnitLabel ?CalibrationCoefficientCalculation 
+	WHERE {
+ ?CalibrationCoefficient rdf:type ontomedirad:SPECT_calibration_coefficient .
+ ?CalibrationCoefficient ontomedirad:is_specified_output_of ?CalibrationCoefficientCalculation .
+ ?RoleOfRespInstitution purl:BFO_0000054 ?CalibrationCoefficientCalculation .
+ ?Institution purl:BFO_0000161 ?RoleOfRespInstitution .
+ ?Institution ontomedirad:has_name ?InstitutionName .
+ ?CalibrationCoefficient purl:IAO_0000004 ?CalibrationCoefficientValue .
+ ?CalibrationCoefficient purl:IAO_0000039 ?CalibrationCoefficientUnit .
+ ?CalibrationCoefficientUnit rdfs:label ?CalibrationCoefficientUnitLabel .
+ ?CalibrationCoefficient ontomedirad:is_about ?Radionuclide .
+ ?Radionuclide rdf:type ?RadionuclideClass .
+ ?RadionuclideClass rdfs:subClassOf* radionuclides:radionuclide .
+ ?RadionuclideClass rdfs:label ?RadionuclideLabel .
+ ?CalibrationCoefficient ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .
+} ORDER BY ?InstitutionName ?RadionuclideLabel"
+Request21;Recovery coefficient curves ;List of recovery coefficient curves, institution, radionuclide, reference calibration date;FALSE;"SELECT DISTINCT ?RecoveryCoefficientCurve ?RadionuclideLabel ?ReferenceCalibrationDate ?InstitutionName ?RecoveryCoefficientCurveCalculation 
+	WHERE {
+ ?RecoveryCoefficientCurve rdf:type ontomedirad:SPECT_recovery_coefficient_curve .
+ ?RecoveryCoefficientCurve ontomedirad:is_specified_output_of ?RecoveryCoefficientCurveCalculation .
+ ?RoleOfRespInstitution purl:BFO_0000054 ?RecoveryCoefficientCurveCalculation .
+ ?Institution purl:BFO_0000161 ?RoleOfRespInstitution .
+ ?Institution ontomedirad:has_name ?InstitutionName .
+ ?RecoveryCoefficientCurve ontomedirad:is_about ?Radionuclide .
+ ?Radionuclide rdf:type ?RadionuclideClass .
+ ?RadionuclideClass rdfs:subClassOf* radionuclides:radionuclide .
+ ?RadionuclideClass rdfs:label ?RadionuclideLabel .
+ ?RecoveryCoefficientCurve ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .
+} ORDER BY ?InstitutionName ?RadionuclideLabel"
+Request22;Elements of recovery coefficient curves ;List of recovery coefficient curves, institution, radionuclide, reference calibration date, ratio, volume hot insert hot inser identifier;FALSE;"SELECT DISTINCT ?RecoveryCoefficientCurve ?RadionuclideLabel ?ReferenceCalibrationDate ?InstitutionName ?ElementOfRecoveryCoefficientCurve ?RatioMeasuredActivityToTrueActivityValue ?VolumeHotInsertValue ?VolumeHotInsertUnitLabel ?HotInsertId
+	WHERE {
+ ?RecoveryCoefficientCurve rdf:type ontomedirad:SPECT_recovery_coefficient_curve .
+ ?RecoveryCoefficientCurve ontomedirad:is_specified_output_of ?RecoveryCoefficientCurveCalculation .
+ ?RoleOfRespInstitution purl:BFO_0000054 ?RecoveryCoefficientCurveCalculation .
+ ?Institution purl:BFO_0000161 ?RoleOfRespInstitution .
+ ?Institution ontomedirad:has_name ?InstitutionName .
+ ?RecoveryCoefficientCurve ontomedirad:is_about ?Radionuclide .
+ ?Radionuclide rdf:type ?RadionuclideClass .
+ ?RadionuclideClass rdfs:subClassOf* radionuclides:radionuclide .
+ ?RadionuclideClass rdfs:label ?RadionuclideLabel .
+ ?RecoveryCoefficientCurve ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .
+ ?RecoveryCoefficientCurve purl:BFO_0000110 ?ElementOfRecoveryCoefficientCurve .
+ ?ElementOfRecoveryCoefficientCurve rdf:type ontomedirad:element_of_recovery_coefficient_curve .
+ ?ElementOfRecoveryCoefficientCurve purl:BFO_0000110 ?RatioMeasuredActivityToTrueActivity .
+ ?RatioMeasuredActivityToTrueActivity  rdf:type ontomedirad:ratio_measured_activity_to_true_activity .
+ ?RatioMeasuredActivityToTrueActivity purl:IAO_0000004 ?RatioMeasuredActivityToTrueActivityValue .
+ ?ElementOfRecoveryCoefficientCurve purl:BFO_0000110 ?VolumeHotInsert .
+ ?VolumeHotInsert rdf:type ontomedirad:nominal_volume_measurement_datum .
+ ?VolumeHotInsert purl:IAO_0000004 ?VolumeHotInsertValue .
+ ?VolumeHotInsert purl:IAO_0000039 ?VolumeHotInsertUnit .
+ ?VolumeHotInsertUnit rdfs:label ?VolumeHotInsertUnitLabel .
+ ?VolumeHotInsert ontomedirad:is_about ?HotInsert .
+ ?HotInsert rdf:type ontomedirad:hot_insert_of_NM_phantom .
+ ?HotInsert ontomedirad:has_id ?HotInsertId .
+} ORDER BY ?InstitutionName ?RadionuclideLabel"
+Request23;CT number calibration curves ;List of CT number calibration curves, reference calibration date;FALSE;"SELECT DISTINCT ?CTNumberCalibrationCurve ?ReferenceCalibrationDate 
+	WHERE {
+ ?CTNumberCalibrationCurve rdf:type ontomedirad:CT_number_calibration_curve .
+ ?CTNumberCalibrationCurve ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .
+ }"
+Request24;Elements of CT number calibration curves ;List of CT number calibration curves, reference calibration date, Hounsfield measured value, real density of material, material identifier;FALSE;"SELECT DISTINCT ?CTNumberCalibrationCurve ?ReferenceCalibrationDate ?ElementOfCTNumberCalibrationCurve ?HounsfieldMeasuredValue ?HounsfieldMeasuredUnitLabel ?RealDensityOfMaterialValue ?RealDensityOfMaterialUnitLabel ?MaterialId
+	WHERE {
+ ?CTNumberCalibrationCurve rdf:type ontomedirad:CT_number_calibration_curve .
+ ?CTNumberCalibrationCurve ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate . 
+ ?CTNumberCalibrationCurve purl:BFO_0000110 ?ElementOfCTNumberCalibrationCurve .
+ ?ElementOfCTNumberCalibrationCurve rdf:type ontomedirad:element_of_CT_number_calibration_curve .
+ ?ElementOfCTNumberCalibrationCurve purl:BFO_0000110 ?ImageDerivedRadiodensityMeasurement .
+ ?ImageDerivedRadiodensityMeasurement  rdf:type ontomedirad:image_derived_radiodensity_measurement_datum .
+ ?ImageDerivedRadiodensityMeasurement purl:IAO_0000004 ?HounsfieldMeasuredValue .
+ ?ImageDerivedRadiodensityMeasurement purl:IAO_0000039 ?HounsfieldMeasuredUnit .
+ ?HounsfieldMeasuredUnit rdfs:label ?HounsfieldMeasuredUnitLabel .
+ ?ElementOfCTNumberCalibrationCurve purl:BFO_0000110 ?NominalRadiodensityMeasurement .
+ ?NominalRadiodensityMeasurement rdf:type ontomedirad:nominal_radiodensity_measurement_datum .
+ ?NominalRadiodensityMeasurement purl:IAO_0000004 ?RealDensityOfMaterialValue .
+ ?NominalRadiodensityMeasurement purl:IAO_0000039 ?RealDensityOfMaterialUnit .
+ ?RealDensityOfMaterialUnit rdfs:label ?RealDensityOfMaterialUnitLabel .
+ ?ElementOfCTNumberCalibrationCurve ontomedirad:has_id ?MaterialId .
+}"
+Request25;NM phantom ;List of NM phantoms, volumes of inserts and tank, pre and post-admin activities of hot inserts and tank;FALSE;"SELECT DISTINCT ?Phantom ?PhantomId ?PhantomName
+?HotInsertId ?VolumeHotInsertValue ?VolumeHotInsertUnitLabel ?RadionuclideHotInsertClassLabel ?PreAdminActivityHotInsertValue ?PreAdminActivityHotInsertUnitLabel ?PreAdminActivityHotInsertTimestamp ?PostAdminActivityHotInsertValue ?PostAdminActivityHotInsertUnitLabel ?PostAdminActivityHotInsertTimestamp
+?ColdInsertId ?VolumeColdInsertValue ?VolumeColdInsertUnitLabel 
+?TankId ?VolumeTankValue ?VolumeTankUnitLabel ?RadionuclideTankClassLabel ?PreAdminActivityTankValue ?PreAdminActivityTankUnitLabel ?PreAdminActivityTankTimestamp ?PostAdminActivityTankValue ?PostAdminActivityTankUnitLabel ?PostAdminActivityTankTimestamp
+	WHERE {
+ ?Phantom rdf:type ontomedirad:NM_phantom_device .
+ ?Phantom ontomedirad:has_id ?PhantomId .
+ ?Phantom ontomedirad:has_name ?PhantomName .
+ {
+    ?Phantom purl:BFO_0000110 ?HotInsert .
+    ?HotInsert rdf:type ontomedirad:hot_insert_of_NM_phantom .
+    ?HotInsert ontomedirad:has_id ?HotInsertId .
+    ?VolumeHotInsert rdf:type ontomedirad:nominal_volume_measurement_datum .
+    ?VolumeHotInsert purl:IAO_0000004 ?VolumeHotInsertValue .
+    ?VolumeHotInsert purl:IAO_0000039 ?VolumeHotInsertUnit .
+    ?VolumeHotInsertUnit rdfs:label ?VolumeHotInsertUnitLabel .
+    ?VolumeHotInsert ontomedirad:is_about ?HotInsert .
+    ?HotInsert purl:BFO_0000110 ?RadiopharmaceuticalHotInsert .
+    ?RadiopharmaceuticalHotInsert rdf:type snmi:radiopharmaceutical .
+    ?RadiopharmaceuticalHotInsert purl:BFO_0000110 ?RadionuclideHotInsert .
+    ?RadionuclideHotInsert rdf:type ?RadionuclideHotInsertClass .
+    ?RadionuclideHotInsertClass rdfs:subClassOf* radionuclides:radionuclide .
+    ?RadionuclideHotInsertClass rdfs:label ?RadionuclideHotInsertClassLabel .
+    ?PreAdminActivityHotInsert ontomedirad:is_about ?RadiopharmaceuticalHotInsert .
+    ?PreAdminActivityHotInsert rdf:type dcm:113508 .
+    ?PreAdminActivityHotInsert purl:IAO_0000004 ?PreAdminActivityHotInsertValue .
+    ?PreAdminActivityHotInsert purl:IAO_0000039 ?PreAdminActivityHotInsertUnit .
+    ?PreAdminActivityHotInsertUnit rdfs:label ?PreAdminActivityHotInsertUnitLabel .
+    ?PreAdminActivityHotInsert ontomedirad:has_measurement_date_and_time ?PreAdminActivityHotInsertTimestamp .
+    ?PostAdminActivityHotInsert ontomedirad:is_about ?RadiopharmaceuticalHotInsert .
+    ?PostAdminActivityHotInsert rdf:type dcm:113509 .
+    ?PostAdminActivityHotInsert purl:IAO_0000004 ?PostAdminActivityHotInsertValue .
+    ?PostAdminActivityHotInsert purl:IAO_0000039 ?PostAdminActivityHotInsertUnit .
+    ?PostAdminActivityHotInsertUnit rdfs:label ?PostAdminActivityHotInsertUnitLabel .
+    ?PostAdminActivityHotInsert ontomedirad:has_measurement_date_and_time ?PostAdminActivityHotInsertTimestamp .
+ }
+  UNION {
+    ?Phantom purl:BFO_0000110 ?ColdInsert .
+    ?ColdInsert rdf:type ontomedirad:cold_insert_of_NM_phantom .
+    ?ColdInsert ontomedirad:has_id ?ColdInsertId .
+    ?VolumeColdInsert rdf:type ontomedirad:nominal_volume_measurement_datum .
+    ?VolumeColdInsert purl:IAO_0000004 ?VolumeColdInsertValue .
+    ?VolumeColdInsert purl:IAO_0000039 ?VolumeColdInsertUnit .
+    ?VolumeColdInsertUnit rdfs:label ?VolumeColdInsertUnitLabel .
+    ?VolumeColdInsert ontomedirad:is_about ?ColdInsert .
+ }
+  UNION {
+    ?Phantom purl:BFO_0000110 ?Tank .
+    ?Tank rdf:type ontomedirad:tank_of_NM_phantom .
+    ?Tank ontomedirad:has_id ?TankId .
+    ?VolumeTank rdf:type ontomedirad:nominal_volume_measurement_datum .
+    ?VolumeTank purl:IAO_0000004 ?VolumeTankValue .
+    ?VolumeTank purl:IAO_0000039 ?VolumeTankUnit .
+    ?VolumeTankUnit rdfs:label ?VolumeTankUnitLabel .
+    ?VolumeTank ontomedirad:is_about ?Tank .
+    ?Tank purl:BFO_0000110 ?RadiopharmaceuticalTank .
+    ?RadiopharmaceuticalTank rdf:type snmi:radiopharmaceutical .
+    ?RadiopharmaceuticalTank purl:BFO_0000110 ?RadionuclideTank .
+    ?RadionuclideTank rdf:type ?RadionuclideTankClass .
+    ?RadionuclideTankClass rdfs:subClassOf* radionuclides:radionuclide .
+    ?RadionuclideTankClass rdfs:label ?RadionuclideTankClassLabel .
+    ?RadiopharmaceuticalTank rdf:type snmi:radiopharmaceutical .
+    ?PreAdminActivityTank ontomedirad:is_about ?RadiopharmaceuticalTank.
+    ?PreAdminActivityTank rdf:type dcm:113508 .
+    ?PreAdminActivityTank purl:IAO_0000004 ?PreAdminActivityTankValue .
+    ?PreAdminActivityTank purl:IAO_0000039 ?PreAdminActivityTankUnit .
+    ?PreAdminActivityTankUnit rdfs:label ?PreAdminActivityTankUnitLabel .
+    ?PreAdminActivityTank ontomedirad:has_measurement_date_and_time ?PreAdminActivityTankTimestamp .
+    ?PostAdminActivityTank ontomedirad:is_about ?RadiopharmaceuticalTank.
+    ?PostAdminActivityTank rdf:type dcm:113509 .
+    ?PostAdminActivityTank purl:IAO_0000004 ?PostAdminActivityTankValue .
+    ?PostAdminActivityTank purl:IAO_0000039 ?PostAdminActivityTankUnit .
+    ?PostAdminActivityTankUnit rdfs:label ?PostAdminActivityTankUnitLabel .
+    ?PostAdminActivityTank ontomedirad:has_measurement_date_and_time ?PostAdminActivityTankTimestamp .
+ }
+} ORDER BY ?Phantom ?HotInsert ?ColdInsert ?Tank"
+Request26;CT Calibration ;List of Reference calibration date, CT number calibration curve;FALSE;"SELECT DISTINCT ?CTCalibration ?ReferenceCalibrationDate ?CTNumberCalibrationCurve
+  WHERE {
+	?CTCalibration rdf:type ontomedirad:CT_calibration .
+	?CTNumberCalibrationCurve rdf:type ontomedirad:CT_number_calibration_curve .
+	?CTNumberCalibrationCurve ontomedirad:is_specified_output_of ?CTNumberCalibrationCurveCalculation .
+	?CTNumberCalibrationCurveCalculation rdf:type ontomedirad:calculation_of_CT_number_calibration_curve .
+	?CTNumberCalibrationCurveCalculation purl:BFO_0000132 ?CTCalibration .
+	?CTNumberCalibrationCurve ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .		
+	}"
+Request27;SPECT Calibration ;List of Reference calibration date, radionuclide, calibration coefficient, recovery coefficient curve, id of SPECT calibration;FALSE;"SELECT DISTINCT ?SPECTCalibration ?ReferenceCalibrationDate ?Radionuclide ?RadionuclideLabel ?CalibrationCoefficient ?RecoveryCoefficientCurve ?IdOfSPECTCalibration
+  WHERE {
+	?SPECTCalibration rdf:type ontomedirad:SPECT_CT_calibration .
+	?CalibrationCoefficient rdf:type ontomedirad:SPECT_calibration_coefficient .
+	?CalibrationCoefficient ontomedirad:is_specified_output_of ?CalibrationCoefficientCalculation .
+	?CalibrationCoefficientCalculation rdf:type ontomedirad:SPECT_calibration_coefficient_calculation .
+	?CalibrationCoefficientCalculation purl:BFO_0000132 ?SPECTCalibration .
+	?CalibrationCoefficient ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .
+	?CalibrationCoefficient ontomedirad:is_about ?Radionuclide .
+	?RecoveryCoefficientCurve rdf:type ontomedirad:SPECT_recovery_coefficient_curve .
+	?RecoveryCoefficientCurve ontomedirad:is_specified_output_of ?RecoveryCoefficientCurveCalculation .
+	?RecoveryCoefficientCurveCalculation rdf:type ontomedirad:SPECT_recovery_coefficient_curve_calculation .
+	?RecoveryCoefficientCurveCalculation purl:BFO_0000132 ?SPECTCalibration .
+	?RecoveryCoefficientCurve ontomedirad:has_reference_calibration_date ?ReferenceCalibrationDate .
+	?RecoveryCoefficientCurve ontomedirad:is_about ?Radionuclide .
+        ?Radionuclide rdf:type ?RadionuclideClass .
+ 	?RadionuclideClass rdfs:subClassOf* radionuclides:radionuclide .
+ 	?RadionuclideClass rdfs:label ?RadionuclideLabel .
+	?SPECTCalibration ontomedirad:has_id ?IdOfSPECTCalibration
+}"

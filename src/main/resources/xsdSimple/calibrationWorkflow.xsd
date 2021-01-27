@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!--VersionSchemas : 105-->
+<!--VersionSchemas : 108-->
 <xs:schema
 targetNamespace="https://www.irdbb-medirad.com"
 elementFormDefault="qualified"
@@ -26,11 +26,20 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 
 			<xs:complexType name="CalibrationWorkflow">
 				<xs:sequence>
-					<xs:element name="SPECTCTCalibrationWorkflow" type="irdbb:SPECTCTCalibrationWorkflow"/>
-					<xs:element name="PlanarCalibrationWorkflow" type="irdbb:PlanarCalibrationWorkflow"/>
-					<xs:element name="CTCalibrationWorkflow" type="irdbb:CTCalibrationWorkflow"/>
+					<xs:element name="SPECTCTCalibrationWorkflow" type="irdbb:SPECTCTCalibrationWorkflow" minOccurs="0" />
+					<xs:element name="PlanarCalibrationWorkflow" type="irdbb:PlanarCalibrationWorkflow" minOccurs="0" />
+					<xs:element name="CTCalibrationWorkflow" type="irdbb:CTCalibrationWorkflow" minOccurs="0" />
 						</xs:sequence>
 				</xs:complexType>
+
+	<xs:element name="CTNumberCalibrationWorkfow" >
+		<xs:complexType>
+			<xs:sequence>
+			<xs:element name="CTAcqForCTNumberCalibrationCurve" type="irdbb:CTAcqForCTNumberCalibrationCurve"/>
+			<xs:element name="CalculationOfCTNumberCalibrationCurve" type="irdbb:CalculationOfCTNumberCalibrationCurve"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
 
 	<xs:simpleType name="Radiopharmaceutical">
 		<xs:restriction base="xs:string">
@@ -64,11 +73,8 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 
 	<xs:complexType name="CTCalibrationWorkflow">
 		<xs:sequence>
-			<xs:element name="CTNumberCalibrationWorkfow" type="irdbb:CTNumberCalibrationWorkfow"/>
-			<xs:element name="SPECTReconstructionInCalibration" type="irdbb:SPECTReconstructionInCalibration"/>
-			<xs:element name="CTSegmentationInCalibration" type="irdbb:CTSegmentationInCalibration"/>
-			<xs:element name="SPECTSensitivityCalculation" type="irdbb:SPECTSensitivityCalculation"/>
-			<xs:element name="SPECTRecoveryCoefficientCurveCalculation" type="irdbb:SPECTRecoveryCoefficientCurveCalculation" minOccurs="0" />
+			<xs:element name="CTAcqForCTNumberCalibrationCurve" type="irdbb:CTAcqForCTNumberCalibrationCurve"/>
+			<xs:element name="CalculationOfCTNumberCalibrationCurve" type="irdbb:CalculationOfCTNumberCalibrationCurve"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -88,13 +94,6 @@ xmlns:irdbb="https://www.irdbb-medirad.com">
 			<xs:element name="PlanarImageCorrections" type="irdbb:PlanarImageCorrections"/>
 			<xs:element name="PlanarImageSegmentation" type="irdbb:PlanarImageSegmentation"/>
 			<xs:element name="PlanarSensitivityCalculation" type="irdbb:PlanarSensitivityCalculation"/>
-		</xs:sequence>
-	</xs:complexType>
-
-	<xs:complexType name="CTNumberCalibrationWorkfow">
-		<xs:sequence>
-			<xs:element name="CTAcqForCTNumberCalibrationCurve" type="irdbb:CTAcqForCTNumberCalibrationCurve"/>
-			<xs:element name="CalculationOfCTNumberCalibrationCurve" type="irdbb:CalculationOfCTNumberCalibrationCurve"/>
 		</xs:sequence>
 	</xs:complexType>
 

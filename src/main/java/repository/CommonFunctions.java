@@ -101,7 +101,8 @@ public abstract class CommonFunctions {
 				.credentials(username, password)															// Login and Pasword of Stardog
 				.reasoning(paramreasoner);																	// Will it use reasoning (boollean)
 
-		logger.debug("StarDog connection (reasoning : "+ConnectionConfiguration.REASONING_ENABLED.toString()+")"); 
+		logger.debug("StarDog connection (reasoning : "+paramreasoner+")"); 
+		//logger.debug("StarDog connection (reasoning : "+ConnectionConfiguration.REASONING_ENABLED.toString()+")"); 
 		
 		if (connectionPool != null) {connectionPool.shutdown();}
 		
@@ -133,8 +134,10 @@ public abstract class CommonFunctions {
 	}
 	
 	public void closeAdminConnection() {
-		starDogConnection.close();
-		connectionPool.release(starDogConnection);
+		if (starDogConnection != null) {
+			starDogConnection.close();
+			connectionPool.release(starDogConnection);
+		}
 	}
 
 	private ConnectionPool createConnectionPool (ConnectionConfiguration connectionConfig) {				// Create the connection pool

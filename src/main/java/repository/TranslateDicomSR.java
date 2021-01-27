@@ -61,6 +61,7 @@ public class TranslateDicomSR extends OntologyPopulator {
 		case "Scope_of_Accumulation":
 			switch (value) {
 			case "Study":
+				if (memory==null) {memory=Application.memory;}
 				imagingStudy = memory.getImagingStudy(ServiceController.studyInstanceUID);
 				//imagingStudy=null;
 				System.out.println(imagingStudy);
@@ -70,9 +71,12 @@ public class TranslateDicomSR extends OntologyPopulator {
 				}
 				addObjectProperty(CTradSR, racineURI+"has_scope_of_accumulation", imagingStudy);
 				addObjectProperty(CTradSR, racineURI+"is_about", imagingStudy);  
-				addDataProperty(study, racineURI+"has_dicom_UID", ServiceController.studyInstanceUID);
+				//addDataProperty(study, racineURI+"has_dicom_UID", ServiceController.studyInstanceUID);
+				addDataProperty(imagingStudy, racineURI+"has_DICOM_study_instance_UID", ServiceController.studyInstanceUID);
 				if (memory==null) {memory=Application.memory;}
-				patient = memory.getHuman(patientId);														// create human
+				patient = memory.getHuman(patientId);	
+				addObjectProperty(CTradSR, racineURI+"has_patient", patient);
+												// create human
 				addDataProperty(patient, racineURI+"has_name", patientId);
 				patientRole = createIndiv(generateName("Patient"), model.getResource(racineURI+"patient")); // create patient role
 				addObjectProperty(patient, racineObo+"BFO_0000087", patientRole);							// link both of them
@@ -154,7 +158,8 @@ public class TranslateDicomSR extends OntologyPopulator {
 
 		// Table 10012 CT Accumulated Dose data (part 16, p424)
 		case "Total_Number_of_Irradiation_Events":
-			addDataProperty(study, racineURI+"has_number_of_irradiation_events", value.split("_")[0]);
+			//addDataProperty(study, racineURI+"has_number_of_irradiation_events", value.split("_")[0]);
+			addDataProperty(imagingStudy, racineURI+"has_number_of_irradiation_events", value.split("_")[0]);
 			break;	
 		case "CT_Dose_Length_Product_Total":break;
 			
@@ -168,7 +173,8 @@ public class TranslateDicomSR extends OntologyPopulator {
 			addDataProperty(i, racineURI+"has_name", value);
 			break;
 		case "Target_Region":
-			ArrayList<Individual> listOrgan = createIndividualOrgan(value, e, null);
+			//ArrayList<Individual> listOrgan = createIndividualOrgan(value, e, null);
+			ArrayList<Individual> listOrgan = createIndividualOrgan(value, e, patientId);
 			for (int i = 0; i<listOrgan.size(); i++) {
 				if (listOrgan.get(i).getURI().contains("phantom_device")) {
 					addObjectProperty(irradEvent, racineURI+"scans", listOrgan.get(i));
@@ -218,7 +224,7 @@ public class TranslateDicomSR extends OntologyPopulator {
 			createIndivWithUnit(value, "Nominal_Single_Collimation_Width", "http://dicom.nema.org/resources/ontology/DCM/113826", irradEvent, racineURI+"has_setting");
 			break;
 		case "Nominal_Total_Collimation_Width":
-			createIndivWithUnit(value, "Nominal_Total_Collimation_Width", "http://dicom.nema.org/resources/ontology/DCM/113826", irradEvent, racineURI+"has_setting");
+			createIndivWithUnit(value, "Nominal_Total_Collimation_Width", "http://dicom.nema.org/resources/ontology/DCM/113827", irradEvent, racineURI+"has_setting");
 			break;	
 		case "Pitch_Factor":
 			createIndivWithUnit(value, "Pitch_Factor", "http://dicom.nema.org/resources/ontology/DCM/113828", irradEvent, racineURI+"has_setting");

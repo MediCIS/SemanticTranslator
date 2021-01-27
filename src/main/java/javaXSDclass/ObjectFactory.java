@@ -2,7 +2,7 @@
 // Ce fichier a été généré par l'implémentation de référence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802 
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a> 
 // Toute modification apportée à ce fichier sera perdue lors de la recompilation du schéma source. 
-// Généré le : 2020.03.03 à 04:03:33 PM CET 
+// Généré le : 2020.07.30 à 02:06:37 PM CEST 
 //
 
 
@@ -38,6 +38,30 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link CTNumberCalibrationWorkfow }
+     * 
+     */
+    public CTNumberCalibrationWorkfow createCTNumberCalibrationWorkfow() {
+        return new CTNumberCalibrationWorkfow();
+    }
+
+    /**
+     * Create an instance of {@link CTAcqForCTNumberCalibrationCurve }
+     * 
+     */
+    public CTAcqForCTNumberCalibrationCurve createCTAcqForCTNumberCalibrationCurve() {
+        return new CTAcqForCTNumberCalibrationCurve();
+    }
+
+    /**
+     * Create an instance of {@link CalculationOfCTNumberCalibrationCurve }
+     * 
+     */
+    public CalculationOfCTNumberCalibrationCurve createCalculationOfCTNumberCalibrationCurve() {
+        return new CalculationOfCTNumberCalibrationCurve();
     }
 
     /**
@@ -729,14 +753,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CalculationOfCTNumberCalibrationCurve }
-     * 
-     */
-    public CalculationOfCTNumberCalibrationCurve createCalculationOfCTNumberCalibrationCurve() {
-        return new CalculationOfCTNumberCalibrationCurve();
-    }
-
-    /**
      * Create an instance of {@link PatientOrganMassInHybridDosimetryContainer }
      * 
      */
@@ -953,14 +969,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link CTAcqForCTNumberCalibrationCurve }
-     * 
-     */
-    public CTAcqForCTNumberCalibrationCurve createCTAcqForCTNumberCalibrationCurve() {
-        return new CTAcqForCTNumberCalibrationCurve();
-    }
-
-    /**
      * Create an instance of {@link ROIInSPECT }
      * 
      */
@@ -1134,14 +1142,6 @@ public class ObjectFactory {
      */
     public VoxelAbsorbedDoseMapIdentifierUsedContainer createVoxelAbsorbedDoseMapIdentifierUsedContainer() {
         return new VoxelAbsorbedDoseMapIdentifierUsedContainer();
-    }
-
-    /**
-     * Create an instance of {@link CTNumberCalibrationWorkfow }
-     * 
-     */
-    public CTNumberCalibrationWorkfow createCTNumberCalibrationWorkfow() {
-        return new CTNumberCalibrationWorkfow();
     }
 
     /**
