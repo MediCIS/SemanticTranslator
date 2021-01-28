@@ -1,0 +1,27 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	CalibrationCoefficient [label="ontomedirad:SPECT_calibration_coefficient"] [color = "blue"];
+	CalibrationCoefficientCalculation [label="ontomedirad:SPECT_calibration_coefficient_calculation"] [color = "blue"];
+	RoleOfRespInstitution [label="ontomedirad:role_of_responsible_organization"] [color = "blue"];
+	Institution [label="ontomedirad:institution"] [color = "blue"];
+	InstitutionName  [color = "green"];
+	CalibrationCoefficientValue [color = "green"];
+	CalibrationCoefficientUnit [label="purl:UO_0000129 \l('absorbed dose unit')"][color = "red"][shape = hexagon];
+	Radionuclide [label="radionuclides:radionuclide"] [color = "red"][shape = hexagon];
+	ReferenceCalibrationDate [color = "green"];
+
+// DEFINITION of EDGES
+
+	CalibrationCoefficient -> CalibrationCoefficientCalculation [label="ontomedirad:is_specified_output_of"];
+	RoleOfRespInstitution -> CalibrationCoefficientCalculation [label="purl:BFO_0000054 \l('realized in')"]; 
+	Institution -> RoleOfRespInstitution [label="purl:BFO_0000161 \l('has role at all times')"]; 
+	Institution -> InstitutionName  [label="ontomedirad:has_name"] [color="limegreen"];
+	CalibrationCoefficient -> CalibrationCoefficientValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	CalibrationCoefficient -> CalibrationCoefficientUnit [label="ontomedirad:counts_per_second_per_megabecquerel"];
+	CalibrationCoefficient -> Radionuclide [label="ontomedirad:is_about"];
+	CalibrationCoefficient -> ReferenceCalibrationDate [label="ontomedirad:has_reference_calibration_date"];
+
+
+}

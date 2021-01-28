@@ -1,0 +1,53 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	CRFReport [label="ontomedirad:case_report_form"] [color = "blue"] [shape = hexagon];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	PatientName [color = "green"];
+	ReportCreatingProcess [label="ontomedirad:creating_structured_report"] [color = "blue"];
+	Exam [label="ontomedirad:imaging_study"] [color = "blue"];
+	ExamDate [color = "green"];
+	ExamTime [color = "green"];
+	StudyDescr [color = "green"];
+	TargetRegion [label="purl:BFO_0000040 \l('material entity')"][shape = hexagon];
+	SRHandle [color = "green"];
+	AuthorRole [label="ontomedirad:author"] [color = "blue"];
+	Author [label="ontomedirad:human"] [color = "blue"];
+	AuthorHumanId [color = "green"];
+	AuthorName [color = "green"];
+	ReportingDate [color = "green"];
+	ReportingTime [color = "green"];
+	InstituteRole [label="ontomedirad:role_of_responsible_organization"] [color = "blue"];
+	Institute [label="ontomedirad:institution"] [color = "blue"];
+	InstituteName [color = "green"];
+	SRTemplate [label="ontomedirad:template_of_structured_report"] [color = "blue"];
+	SRTemplateName [color = "green"];
+	SRTemplateId [color = "green"];
+
+
+// DEFINITION of EDGES
+
+	CRFReport -> Human [label="ontomedirad:has_patient"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+	CRFReport -> ReportCreatingProcess  [label="ontomedirad:is_specified_ouput_of"];
+	CRFReport -> Exam [label="ontomedirad:is_about_procedure"];
+	Exam -> ExamDate [label="ontomedirad:has_beginning_date"] [color="limegreen"];
+	Exam -> ExamTime [label="ontomedirad:has_beginning_time"] [color="limegreen"];
+	Exam -> StudyDescr [label="ontomedirad:has_description"] [color="limegreen"];
+	Exam -> TargetRegion [label="ontomedirad:has_target_region"];
+	CRFReport -> SRHandle [label="ontomedirad: has_IRDBB_WADO_handle"] [color="limegreen"];
+	AuthorRole -> Author [label="purl:BFO_0000052 \l('inheres in ...')"];
+	AuthorRole -> AuthorHumanId [label="ontomedirad:has_id"] [color="limegreen"];
+	AuthorRole -> AuthorName [label="ontomedirad:has_name"] [color="limegreen"];
+	AuthorRole -> ReportCreatingProcess [label="purl:BFO_0000054 \l('realized in')"]; 
+	ReportCreatingProcess -> ReportingDate [label="ontomedirad:has_end_date"] [color="limegreen"];
+	ReportCreatingProcess -> ReportingTime [label="ontomedirad:has_end_time"] [color="limegreen"];
+	InstituteRole -> Institute [label="purl:BFO_0000052 \l('inheres in ...')"];
+	InstituteRole -> ReportCreatingProcess [label="purl:BFO_0000054 \l('realized in')"]; 
+	Institute -> InstituteName [label="ontomedirad:has_name"] [color="limegreen"];
+	ReportCreatingProcess -> SRTemplate  [label="ontomedirad:has_protocol"]
+	SRTemplate -> SRTemplateName [label="ontomedirad:has_name"] [color="limegreen"];
+	SRTemplate -> SRTemplateId [label="ontomedirad:has_id"] [color="limegreen"];
+
+}

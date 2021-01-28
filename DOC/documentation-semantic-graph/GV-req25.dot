@@ -1,0 +1,83 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	Phantom [label="ontomedirad:NM_phantom_device"] [color = "blue"];
+	PhantomId [color = "green"];
+	PhantomName [color = "green"];
+	HotInsert [label="ontomedirad:hot_insert_of_NM_phantom"] [color = "blue"];
+	HotInsertId [color = "green"];
+	VolumeHotInsert [label="ontomedirad:nominal_volume_measurement_datum"] [color = "blue"];
+	VolumeHotInsertValue  [color = "green"];
+	VolumeHotInsertUnit [label="purl:UO_0000095 \l('volume unit')"][color = "red"][shape = hexagon];
+	RadiopharmaceuticalHotInsert [label="snmi:radiopharmaceutical"][color = "red"][shape = hexagon];
+	RadionuclideHotInsert [label="radionuclides:radionuclide"] [color = "red"][shape = hexagon];
+	PreAdminActivityHotInsert [label="dcm:113508 \l('pre-administration measured activity')"][color = "blue"];
+	PreAdminActivityHotInsertValue [color = "green"];
+	PreAdminActivityHotInsertUnit [label="purl:UO_0000128 \l('activity (of a radionuclide) unit')"][color = "red"][shape = hexagon];
+	PreAdminActivityHotInsertTimestamp [color = "green"];
+	PostAdminActivityHotInsert [label="dcm:113509 \l('post-administration measured activity')"][color = "blue"];
+	PostAdminActivityHotInsertValue  [color = "green"];
+	PostAdminActivityHotInsertUnit  [label="purl:UO_0000128 \l('activity (of a radionuclide) unit')"][color = "red"][shape = hexagon];
+	PostAdminActivityHotInsertTimestamp [color = "green"];
+	ColdInsert  [label="ontomedirad:cold_insert_of_NM_phantom"] [color = "blue"];
+	ColdInsertId [color = "green"];
+	VolumeColdInsert [label="ontomedirad:nominal_volume_measurement_datum"] [color = "blue"];
+	VolumeColdInsertValue [color = "green"];
+	VolumeColdInsertUnit [label="purl:UO_0000095 \l('volume unit')"][color = "red"][shape = hexagon];
+	Tank [label="ontomedirad:tank_of_NM_phantom"] [color = "blue"];
+	TankId [color = "green"];
+	VolumeTank [label="ontomedirad:nominal_volume_measurement_datum"] [color = "blue"];
+	VolumeTankValue [color = "green"];
+	VolumeTankUnit [label="purl:UO_0000095 \l('volume unit')"][color = "red"][shape = hexagon];
+	RadiopharmaceuticalTank [label="snmi:radiopharmaceutical"][color = "red"][shape = hexagon];
+	RadionuclideTank [label="radionuclides:radionuclide"] [color = "red"][shape = hexagon];
+	PreAdminActivityTank [label="dcm:113508 \l('pre-administration measured activity')"][color = "blue"];
+	PreAdminActivityTankValue [color = "green"];
+	PreAdminActivityTankUnit [label="purl:UO_0000128 \l('activity (of a radionuclide) unit')"][color = "red"][shape = hexagon];
+	PreAdminActivityTankTimestamp [color = "green"];
+	PostAdminActivityTank [label="dcm:113509 \l('post-administration measured activity')"][color = "blue"];
+	PostAdminActivityTankValue [color = "green"];
+	PostAdminActivityTankUnit [label="purl:UO_0000128 \l('activity (of a radionuclide) unit')"][color = "red"][shape = hexagon];
+	PostAdminActivityTankTimestamp [color = "green"];
+
+// DEFINITION of EDGES
+
+	Phantom -> PhantomId [label="ontomedirad:has_id"] [color="limegreen"];
+	Phantom -> PhantomName [label="ontomedirad:has_name"] [color="limegreen"];
+	Phantom -> HotInsert [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	HotInsert -> HotInsertId [label="ontomedirad:has_id"] [color="limegreen"];
+	VolumeHotInsert -> VolumeHotInsertValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	VolumeHotInsert -> VolumeHotInsertUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	VolumeHotInsert -> HotInsert  [label="ontomedirad:is_about"];
+	HotInsert -> RadiopharmaceuticalHotInsert [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	RadiopharmaceuticalHotInsert -> RadionuclideHotInsert [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	PreAdminActivityHotInsert -> RadiopharmaceuticalHotInsert [label="ontomedirad:is_about"];
+	PreAdminActivityHotInsert -> PreAdminActivityHotInsertValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	PreAdminActivityHotInsert -> PreAdminActivityHotInsertUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	PreAdminActivityHotInsert -> PreAdminActivityHotInsertTimestamp  [label="ontomedirad:has_measurement_date_and_time"];
+	PostAdminActivityHotInsert -> RadiopharmaceuticalHotInsert [label="ontomedirad:is_about"];
+	PostAdminActivityHotInsert -> PostAdminActivityHotInsertValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	PostAdminActivityHotInsert -> PostAdminActivityHotInsertUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	PostAdminActivityHotInsert -> PostAdminActivityHotInsertTimestamp  [label="ontomedirad:has_measurement_date_and_time"];
+	Phantom -> ColdInsert [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	ColdInsert -> ColdInsertId [label="ontomedirad:has_id"] [color="limegreen"];
+	VolumeColdInsert -> VolumeColdInsertValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	VolumeColdInsert -> VolumeColdInsertUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	VolumeColdInsert -> ColdInsert  [label="ontomedirad:is_about"];
+	Phantom -> Tank [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	Tank -> TankId [label="ontomedirad:has_id"] [color="limegreen"];
+	VolumeTank -> VolumeTankValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	VolumeTank -> VolumeTankUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	VolumeTank -> Tank  [label="ontomedirad:is_about"];
+	Tank -> RadiopharmaceuticalTank [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	RadiopharmaceuticalTank -> RadionuclideTank [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	PreAdminActivityTank -> RadiopharmaceuticalTank [label="ontomedirad:is_about"];
+	PreAdminActivityTank -> PreAdminActivityTankValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	PreAdminActivityTank -> PreAdminActivityTankUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	PreAdminActivityTank -> PreAdminActivityTankTimestamp  [label="ontomedirad:has_measurement_date_and_time"];
+	PostAdminActivityTank -> RadiopharmaceuticalTank [label="ontomedirad:is_about"];
+	PostAdminActivityTank -> PostAdminActivityTankValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	PostAdminActivityTank -> PostAdminActivityTankUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	PostAdminActivityTank -> PostAdminActivityTankTimestamp  [label="ontomedirad:has_measurement_date_and_time"];
+}

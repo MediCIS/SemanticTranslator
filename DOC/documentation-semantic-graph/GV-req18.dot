@@ -1,0 +1,46 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	StructuredReport [label="ontomedirad:ontomedirad:CT_Radiation_dose_SR"] [color = "blue"];
+	Dose  [label="purl:IAO_0000109 \l('measurement datum')"][shape = hexagon];		
+	IrradEvent [label="ontomedirad:CT_irradiation_event"][shape = hexagon];
+	Exam [label="ontomedirad:imaging_study"][color = "blue"];
+	ValueDose [color = "green"];
+	UnitDose [label="purl:UO_0000127 \l('radiation unit')"][color = "red"][shape = hexagon];
+	KVP [label="dcm:113733 \l('kvp')"] [color = "blue"];
+	ValueKVP [color = "green"];
+	UnitKVP [label="purl:UO_0000248 \l('kilovolt')"][color = "red"];
+	TubeCur [label="dcm:113734 \l('x-ray tube current')"] [color = "blue"];
+	ValueTubeCur [color = "green"];
+	UnitTubeCur [label="purl:UO_0000037 \l('milliampere')"] [color = "red"];
+	RolePat [label="ontomedirad:ontomedirad:patient"] [color = "blue"];
+	Human [label="ontomedirad:ontomedirad:human"] [color = "blue"];
+	ExamDate [color = "green"];
+	ExamTime [color = "green"];
+	StudyDescr [color = "green"];
+	PatientSex [color = "green"];
+	PatientName [color = "green"];
+
+// DEFINITION of EDGES
+
+	StructuredReport -> Dose [label="ontomedirad:ontomedirad:has_dose"];
+	Dose -> IrradEvent [label="ontomedirad:is_about"];
+	IrradEvent -> Exam [label="purl:BFO_0000132 \l('part of occurrent')"];
+	Dose -> ValueDose [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	Dose -> UnitDose [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	IrradEvent -> KVP  [label="ontomedirad:ontomedirad:has_setting"];
+	KVP -> ValueKVP [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	KVP -> UnitKVP [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	IrradEvent -> TubeCur  [label="ontomedirad:ontomedirad:has_setting"];
+	TubeCur -> ValueTubeCur [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	TubeCur -> UnitTubeCur [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	RolePat -> Exam [label="purl:BFO_0000054 \l('realized in')"];
+	Human -> RolePat [label="purl:BFO_0000087 \l('has role ...')"];
+	Exam -> ExamDate [label="ontomedirad:has_beginning_date"] [color="limegreen"];
+	Exam -> ExamTime [label="ontomedirad:has_beginning_time"] [color="limegreen"];
+	Exam -> StudyDescr [label="ontomedirad:has_description"] [color="limegreen"];
+	Human -> PatientSex [label="ontomedirad:has_sex"] [color="red"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+
+}

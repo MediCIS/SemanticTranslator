@@ -1,0 +1,32 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	StructuredReport [label="ontomedirad:ontomedirad:CT_Radiation_dose_SR"] [color = "blue"];
+	Dose [label="ontomedirad:accumulated_dose"] [shape = hexagon];	
+	ValueDose [color = "green"];
+	UnitDose [label="purl:UO_0000127 \l('radiation unit')"][color = "red"][shape = hexagon];
+	ScopeOfAccumul [label="ontomedirad:planned_process"] [shape = hexagon];
+	RolePat [label="ontomedirad:ontomedirad:patient"] [color = "blue"];
+	Human [label="ontomedirad:ontomedirad:human"] [color = "blue"];
+	ExamDate [color = "green"];
+	ExamTime [color = "green"];
+	StudyDescr [color = "green"];
+	PatientSex [color = "green"];
+	PatientName [color = "green"];
+
+// DEFINITION of EDGES
+
+	StructuredReport -> Dose [label="ontomedirad:has_dose"];
+	Dose -> ValueDose [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	Dose -> UnitDose [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	StructuredReport -> ScopeOfAccumul [label="ontomedirad:has_scope_of_accumulation"];
+	RolePat -> ScopeOfAccumul [label="purl:BFO_0000054 \l('realized in')"];
+	Human -> RolePat [label="purl:BFO_0000087 \l('has role ...')"];
+	ScopeOfAccumul -> ExamDate [label="ontomedirad:has_beginning_date"] [color="limegreen"];
+	ScopeOfAccumul -> ExamTime [label="ontomedirad:has_beginning_time"] [color="limegreen"];
+	ScopeOfAccumul -> StudyDescr [label="ontomedirad:has_description"] [color="limegreen"];
+	Human -> PatientSex [label="ontomedirad:has_sex"] [color="red"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+
+}

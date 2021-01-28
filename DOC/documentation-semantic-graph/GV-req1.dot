@@ -1,0 +1,16 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	StudyId [color = "green"];
+	StudyName [color = "green"];
+	StudyDescription [color = "green"];
+
+// DEFINITION of EDGES
+
+	ClinResearchStudy -> StudyId [label="ontomedirad:has_id"][color="limegreen"];
+	ClinResearchStudy -> StudyName [label="ontomedirad:has_name"][color="limegreen"];
+	ClinResearchStudy -> StudyDescription [label="ontomedirad:has_description"][color="limegreen"];
+}
+

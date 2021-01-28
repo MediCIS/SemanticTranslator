@@ -1,0 +1,85 @@
+digraph G {
+// DEFINITION of NODES
+	RolePat [label="ontomedirad:patient"] [color = "blue"];
+	Exam [label="ontomedirad:imaging_study"] [color = "blue"];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	CTAcq [label="ontomedirad:CT_acquisition"] [color = "blue"][shape = hexagon];
+	Dataset [label="purl:IAO_0000100 \l('data set')"] [color = "blue"][shape = hexagon];
+	ImageTypeDescription [color = "green"];
+	ExamDate [color = "green"];
+	ExamTime [color = "green"];
+	StudyDescr [color = "green"];
+	DICOMStudyInstanceUID [color = "green"];
+	PatientSex [label="purl:PATO_0001894 \l('phenotypic sex')"] [color = "red"][shape = hexagon];
+	PatientName [color = "green"];
+	PatientId [color = "green"];
+	PatientAge  [label="ontomedirad:age_of_patient_undergoing_medical_procedure"] [color = "blue"];
+	AgeInYears [color = "green"];
+	PatientWeight  [label="ontomedirad:patient_weight"] [color = "blue"];
+	ValueWeight [color = "green"];
+	UnitWeight [label="purl:UO_0000009 \l('kilogram')"] [color = "red"];
+	PatientHeight  [label="ontomedirad:patient_height"] [color = "blue"];
+	ValueHeight [color = "green"];
+	UnitHeight [label="purl:UO_0000008 \l('meter')"] [color = "red"];
+	Protocol [label="ontomedirad:CT_acquisition_protocol"] [color = "blue"];
+	XRayModulationType [label="dcm:113842 \l('X-ray modulation type')"] [color = "red"][shape = hexagon];
+	KVP [label="dcm:113733 \l('kvp')"] [color = "blue"];
+	ValueKVP [color = "green"];
+	UnitKVP [label="purl:UO_0000248 \l('kilovolt')"][color = "red"];
+	TubeCur [label="dcm:113734 \l('x-ray tube current')"] [color = "blue"];
+	ValueTubeCur [color = "green"];
+	UnitTubeCur [label="purl:UO_0000037 \l('milliampere')"] [color = "red"];
+	DatasetHandle [color = "green"];
+	Scanner [label="ontomedirad:CT_scanner"] [color = "blue"];
+	AcqRole [label="ontomedirad:image_acquisition_role"] [color = "blue"];
+	Manufacturer [color = "green"];
+	Model [color = "green"];
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	ClinResearchStudyId [color = "green"];
+	ProtocolName [color = "green"];
+	ProtocolDescr [color = "green"];
+
+// DEFINITION of EDGES
+	RolePat -> Exam [label="purl:BFO_0000054 \l('realized in')"];
+	Human -> RolePat [label="purl:BFO_0000087 \l('has role ...')"];
+	CTAcq -> Exam [label="purl:BFO_0000132 \l('part of occurrent')"];
+	Dataset -> CTAcq [label="ontomedirad:is_specified_output_of"];
+	Dataset -> ImageTypeDescription [label="ontomedirad:has_DICOM_image_type_description"] [color="limegreen"];
+	Exam -> ExamDate [label="ontomedirad:has_beginning_date"] [color="limegreen"];
+	Exam -> ExamTime [label="ontomedirad:has_beginning_time"] [color="limegreen"];
+	Exam -> StudyDescr [label="ontomedirad:has_description"] [color="limegreen"];
+	Exam -> DICOMStudyInstanceUID [label="ontomedirad:has_DICOM_study_instance_UID"] [color="limegreen"];
+	Exam -> ClinResearchStudy [label="ontomedirad:part_of_study"];
+	Human -> PatientSex [label="ontomedirad:has_sex"] [color="red"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+	Human -> PatientId [label="ontomedirad:has_id"] [color="limegreen"];
+	PatientAge -> Exam [label="ontomedirad:is_about_procedure"];
+	PatientAge -> Human [label="ontomedirad:is_about"];
+	PatientAge -> AgeInYears [label="ontomedirad:years"] [color="limegreen"];
+	PatientWeight -> Exam [label="ontomedirad:is_about_procedure"];
+	PatientWeight -> Human [label="ontomedirad:is_about"];
+	PatientWeight -> ValueWeight [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	PatientWeight -> UnitWeight [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	PatientHeight -> Exam [label="ontomedirad:is_about_procedure"];
+	PatientHeight -> Human [label="ontomedirad:is_about"];
+	PatientHeight -> ValueHeight [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	PatientHeight -> UnitHeight [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	CTAcq -> Protocol [label="ontomedirad:has_protocol"]
+	Protocol -> ProtocolName [label="ontomedirad:has_name"][color="limegreen"];
+	Protocol -> ProtocolDescr [label="ontomedirad:has_description"][color="limegreen"];
+	CTAcq -> XRayModulationType [label="ontomedirad:has_setting"]
+	XRayModulationType -> Protocol [label="purl:BFO_0000177 \l('part of continuant...')"];
+	CTAcq -> KVP [label="ontomedirad:has_setting"]
+	KVP -> ValueKVP [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	KVP -> UnitKVP [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	CTAcq -> TubeCur [label="ontomedirad:has_setting"]
+	TubeCur -> ValueTubeCur [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	TubeCur -> UnitTubeCur [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	Dataset -> DatasetHandle [label="ontomedirad:has_IRDBB_WADO_handle"] [color="limegreen"];
+	Scanner -> AcqRole [label="purl:BFO_0000087 \l('has role ...')"];
+	AcqRole -> CTAcq [label="purl:BFO_0000054 \l('realized in')"];
+	Scanner -> Manufacturer [label="ontomedirad:has_manufacturer_name"] [color="limegreen"];
+	Scanner -> Model [label="ontomedirad:has_model_name"] [color="limegreen"];
+	ClinResearchStudy -> ClinResearchStudyId  [label="ontomedirad:has_id"][color="limegreen"];
+}
+

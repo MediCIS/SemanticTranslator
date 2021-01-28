@@ -1,0 +1,29 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	CTNumberCalibrationCurve [label="ontomedirad:CT_number_calibration_curve"] [color = "blue"];
+	ReferenceCalibrationDate [color = "green"];
+	ElementOfCTNumberCalibrationCurve [label="ontomedirad:element_of_CT_number_calibration_curve"] [color = "blue"];
+	ImageDerivedRadiodensityMeasurement [label="ontomedirad:image_derived_radiodensity_measurement_datum"] [color = "blue"];
+	HounsfieldMeasuredValue [color = "green"];
+	HounsfieldMeasuredUnit [label="ontomedirad:Hounsfield"] [color = "red"];
+	NominalRadiodensityMeasurement [label="ontomedirad:nominal_radiodensity_measurement_datum"] [color = "blue"];
+	RealDensityOfMaterialValue [color = "green"];
+	RealDensityOfMaterialUnit [label="ontomedirad:Hounsfield"] [color = "red"];
+	MaterialId [color = "green"];
+
+// DEFINITION of EDGES
+
+	CTNumberCalibrationCurve -> ReferenceCalibrationDate [label="ontomedirad:has_reference_calibration_date"];
+	CTNumberCalibrationCurve -> ElementOfCTNumberCalibrationCurve [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	ElementOfCTNumberCalibrationCurve -> ImageDerivedRadiodensityMeasurement [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	ImageDerivedRadiodensityMeasurement -> HounsfieldMeasuredValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	ImageDerivedRadiodensityMeasurement -> HounsfieldMeasuredUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	ElementOfCTNumberCalibrationCurve -> NominalRadiodensityMeasurement [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	NominalRadiodensityMeasurement -> RealDensityOfMaterialValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	NominalRadiodensityMeasurement -> RealDensityOfMaterialUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	ElementOfCTNumberCalibrationCurve -> MaterialId [label="ontomedirad:has_id"] [color="limegreen"];
+
+}
+

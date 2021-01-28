@@ -1,0 +1,39 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	RecoveryCoefficientCurve [label="ontomedirad:SPECT_recovery_coefficient_curve"] [color = "blue"];
+	RecoveryCoefficientCurveCalculation [label="ontomedirad: SPECT_recovery_coefficient_curve_calculation"] [color = "blue"];
+	RoleOfRespInstitution [label="ontomedirad:role_of_responsible_organization"] [color = "blue"];
+	Institution [label="ontomedirad:institution"] [color = "blue"];
+	InstitutionName  [color = "green"];
+	Radionuclide [label="radionuclides:radionuclide"] [color = "red"][shape = hexagon];
+	ReferenceCalibrationDate [color = "green"];
+	ElementOfRecoveryCoefficientCurve [label="ontomedirad:element_of_recovery_coefficient_curve"] [color = "blue"];
+	RatioMeasuredActivityToTrueActivity [label="ontomedirad:ratio_measured_activity_to_true_activity"] [color = "blue"];
+	RatioMeasuredActivityToTrueActivityValue  [color = "green"];
+	VolumeHotInsert [label="ontomedirad:nominal_volume_measurement_datum"] [color = "blue"];
+	VolumeHotInsertValue  [color = "green"];
+	VolumeHotInsertUnit [label="purl:UO_0000095 \l('volume unit')"][color = "red"][shape = hexagon];
+	HotInsert [label="ontomedirad:hot_insert_of_NM_phantom"] [color = "blue"];
+	HotInsertId [color = "green"];
+
+
+// DEFINITION of EDGES
+
+	RecoveryCoefficientCurve -> RecoveryCoefficientCurveCalculation [label="ontomedirad:is_specified_output_of"];
+	RoleOfRespInstitution -> RecoveryCoefficientCurveCalculation [label="purl:BFO_0000054 \l('realized in')"]; 
+	Institution -> RoleOfRespInstitution [label="purl:BFO_0000161 \l('has role at all times')"]; 
+	Institution -> InstitutionName  [label="ontomedirad:has_name"] [color="limegreen"];
+	RecoveryCoefficientCurve -> Radionuclide [label="ontomedirad:is_about"];
+	RecoveryCoefficientCurve -> ReferenceCalibrationDate [label="ontomedirad:has_reference_calibration_date"];
+	RecoveryCoefficientCurve -> ElementOfRecoveryCoefficientCurve [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	ElementOfRecoveryCoefficientCurve -> RatioMeasuredActivityToTrueActivity [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	RatioMeasuredActivityToTrueActivity -> RatioMeasuredActivityToTrueActivityValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	ElementOfRecoveryCoefficientCurve -> VolumeHotInsert [label="purl:BFO_0000110 \l('has continuant part at ...')"]; 
+	VolumeHotInsert -> VolumeHotInsertValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	VolumeHotInsert -> VolumeHotInsertUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	VolumeHotInsert -> HotInsert  [label="ontomedirad:is_about"];
+	HotInsert -> HotInsertId [label="ontomedirad:has_id"] [color="limegreen"];
+
+}

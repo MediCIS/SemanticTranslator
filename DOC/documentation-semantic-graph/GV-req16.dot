@@ -1,0 +1,35 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	ClinResearchStudyId [color = "green"];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	PatientName [color = "green"];
+	RadiopharmaceuticalAdmin [label="ontomedirad:radiopharmaceutical_administration"] [color = "blue"];
+	RadiopharmaceuticalAdminDate [color = "green"];
+	RadiopharmaceuticalAdminTime [color = "green"];
+	RegistrationVOISegmentationAndPropagation [label="ontomedirad:registration_VOI_segmentation_and_propagation"] [color = "blue"];
+	TimePoint [label="ontomedirad:timepoint_description"] [color = "blue"] [shape = hexagon];
+	SPECTDataset [label="ontomedirad:NM_tomo_dataset"] [color = "blue"];
+	DosimetryOfTRT [label="ontomedirad:dosimetry_of_TRT"] [color = "blue"][shape = hexagon];
+
+
+
+// DEFINITION of EDGES
+
+	InternalRadiotherapy -> ClinResearchStudy [label="ontomedirad:part_of_study"];
+	ClinResearchStudy -> ClinResearchStudyId [label="ontomedirad:has_id"][color="limegreen"];
+	InternalRadiotherapy -> Human [label="ontomedirad:treats"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+	RadiopharmaceuticalAdmin -> InternalRadiotherapy [label="purl:BFO_0000132 \l('part of occurrent')"];
+	RadiopharmaceuticalAdmin -> RadiopharmaceuticalAdminDate [label="ontomedirad:has_beginning_date"] [color="limegreen"];
+	RadiopharmaceuticalAdmin -> RadiopharmaceuticalAdminTime [label="ontomedirad:has_beginning_time"] [color="limegreen"];
+	RegistrationVOISegmentationAndPropagation -> InternalRadiotherapy [label="purl:BFO_0000132 \l('part of occurrent')"];
+	RegistrationVOISegmentationAndPropagation -> SPECTDataset [label="ontomedirad:has_specified_input"];
+	SPECTDataset -> TimePoint [label="ontomedirad:is_about"];
+	RegistrationVOISegmentationAndPropagation -> DosimetryOfTRT [label="purl:BFO_0000132 \l('part of occurrent')"];
+	DosimetryOfTRT -> InternalRadiotherapy [label="purl:BFO_0000132 \l('part of occurrent')"];
+
+}
+

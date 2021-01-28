@@ -1,0 +1,45 @@
+1. Préparation new version of ontology
+
+- cd /Users/bgibaud/Documents/Proj-europeen/2020/MEDIRAD/travail/OntoMedirad/ontomediradWorkingVersion
+
+- check that all files in /Users/bgibaud/Documents/Proj-europeen/2020/MEDIRAD/travail/OntoMedirad/ontomediradWorkingVersion are correct
+
+- classify ontology 
+
+- Using Protégé, assign a new version number in OntoMEDIRAD file : ontology Version IRI in Ontology header (Tab Active ontology)
+Changes of XX.XX toward XX.XX+1 (cf file changes-ontomedirad)
+
+2. Generation OwlDoc 
+
+- cd doc
+
+- remove all files of this directory
+
+- Generate OwlDoc using Protégé into this 'doc' directory
+
+3. (optional) Commit of ontology in the MEDICIS GitHub
+
+- Use GitHub Desktop
+- go to workingversion directory
+- commit
+  . give a title 
+  . enter a detailed description (content of the changes-ontomedirad file)
+- PUSH (en haut à droite)
+
+4. Commit of ontology in the OSIRIX GitHub
+
+- remove of import commands from the modules:
+- create the compressed version of the ontology with the _compressOntology.command
+
+- storage into the Geneva GitHub
+https://github.com/OsiriX-Foundation/MediradOnto/tree/master/ontology
+
+	use Add files via Upload
+	enter a name
+	enter a description
+
+	upload 
+
+	
+
+

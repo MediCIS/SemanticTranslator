@@ -1,0 +1,2370 @@
+%!PS-Adobe-3.0 EPSF-3.0
+%%Creator: graphviz version 2.28.0 (20110509.1545)
+%%Title: G
+%%Pages: 1
+%%BoundingBox: 36 36 4922 828
+%%EndComments
+save
+%%BeginProlog
+/DotDict 200 dict def
+DotDict begin
+
+/setupLatin1 {
+mark
+/EncodingVector 256 array def
+ EncodingVector 0
+
+ISOLatin1Encoding 0 255 getinterval putinterval
+EncodingVector 45 /hyphen put
+
+% Set up ISO Latin 1 character encoding
+/starnetISO {
+        dup dup findfont dup length dict begin
+        { 1 index /FID ne { def }{ pop pop } ifelse
+        } forall
+        /Encoding EncodingVector def
+        currentdict end definefont
+} def
+/Times-Roman starnetISO def
+/Times-Italic starnetISO def
+/Times-Bold starnetISO def
+/Times-BoldItalic starnetISO def
+/Helvetica starnetISO def
+/Helvetica-Oblique starnetISO def
+/Helvetica-Bold starnetISO def
+/Helvetica-BoldOblique starnetISO def
+/Courier starnetISO def
+/Courier-Oblique starnetISO def
+/Courier-Bold starnetISO def
+/Courier-BoldOblique starnetISO def
+cleartomark
+} bind def
+
+%%BeginResource: procset graphviz 0 0
+/coord-font-family /Times-Roman def
+/default-font-family /Times-Roman def
+/coordfont coord-font-family findfont 8 scalefont def
+
+/InvScaleFactor 1.0 def
+/set_scale {
+       dup 1 exch div /InvScaleFactor exch def
+       scale
+} bind def
+
+% styles
+/solid { [] 0 setdash } bind def
+/dashed { [9 InvScaleFactor mul dup ] 0 setdash } bind def
+/dotted { [1 InvScaleFactor mul 6 InvScaleFactor mul] 0 setdash } bind def
+/invis {/fill {newpath} def /stroke {newpath} def /show {pop newpath} def} bind def
+/bold { 2 setlinewidth } bind def
+/filled { } bind def
+/unfilled { } bind def
+/rounded { } bind def
+/diagonals { } bind def
+
+% hooks for setting color 
+/nodecolor { sethsbcolor } bind def
+/edgecolor { sethsbcolor } bind def
+/graphcolor { sethsbcolor } bind def
+/nopcolor {pop pop pop} bind def
+
+/beginpage {	% i j npages
+	/npages exch def
+	/j exch def
+	/i exch def
+	/str 10 string def
+	npages 1 gt {
+		gsave
+			coordfont setfont
+			0 0 moveto
+			(\() show i str cvs show (,) show j str cvs show (\)) show
+		grestore
+	} if
+} bind def
+
+/set_font {
+	findfont exch
+	scalefont setfont
+} def
+
+% draw text fitted to its expected width
+/alignedtext {			% width text
+	/text exch def
+	/width exch def
+	gsave
+		width 0 gt {
+			[] 0 setdash
+			text stringwidth pop width exch sub text length div 0 text ashow
+		} if
+	grestore
+} def
+
+/boxprim {				% xcorner ycorner xsize ysize
+		4 2 roll
+		moveto
+		2 copy
+		exch 0 rlineto
+		0 exch rlineto
+		pop neg 0 rlineto
+		closepath
+} bind def
+
+/ellipse_path {
+	/ry exch def
+	/rx exch def
+	/y exch def
+	/x exch def
+	matrix currentmatrix
+	newpath
+	x y translate
+	rx ry scale
+	0 0 1 0 360 arc
+	setmatrix
+} bind def
+
+/endpage { showpage } bind def
+/showpage { } def
+
+/layercolorseq
+	[	% layer color sequence - darkest to lightest
+		[0 0 0]
+		[.2 .8 .8]
+		[.4 .8 .8]
+		[.6 .8 .8]
+		[.8 .8 .8]
+	]
+def
+
+/layerlen layercolorseq length def
+
+/setlayer {/maxlayer exch def /curlayer exch def
+	layercolorseq curlayer 1 sub layerlen mod get
+	aload pop sethsbcolor
+	/nodecolor {nopcolor} def
+	/edgecolor {nopcolor} def
+	/graphcolor {nopcolor} def
+} bind def
+
+/onlayer { curlayer ne {invis} if } def
+
+/onlayers {
+	/myupper exch def
+	/mylower exch def
+	curlayer mylower lt
+	curlayer myupper gt
+	or
+	{invis} if
+} def
+
+/curlayer 0 def
+
+%%EndResource
+%%EndProlog
+%%BeginSetup
+14 default-font-family set_font
+1 setmiterlimit
+% /arrowlength 10 def
+% /arrowwidth 5 def
+
+% make sure pdfmark is harmless for PS-interpreters other than Distiller
+/pdfmark where {pop} {userdict /pdfmark /cleartomark load put} ifelse
+% make '<<' and '>>' safe on PS Level 1 devices
+/languagelevel where {pop languagelevel}{1} ifelse
+2 lt {
+    userdict (<<) cvn ([) cvn load put
+    userdict (>>) cvn ([) cvn load put
+} if
+
+%%EndSetup
+setupLatin1
+%%Page: 1 1
+%%PageBoundingBox: 36 36 4922 828
+%%PageOrientation: Portrait
+0 0 1 beginpage
+gsave
+36 36 4886 792 boxprim clip newpath
+1 1 set_scale 0 rotate 40 41 translate
+% RolePat
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+702 522 88.21 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+645.63 516.4 moveto 112.75 (ontomedirad:patient) alignedtext
+grestore
+% Exam
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+1165 400 119.4 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1086.07 394.4 moveto 157.87 (ontomedirad:imaging_study) alignedtext
+grestore
+% RolePat->Exam
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 723.37 504.34 moveto
+730.39 498.67 738.15 492.2 745 486 curveto
+760.8 471.7 759.49 460.98 778.82 452 curveto
+823.14 431.41 949.6 440.75 998 434 curveto
+1028.77 429.71 1062.42 423.38 1091.4 417.41 curveto
+stroke
+0 0 0 edgecolor
+newpath 1092.37 420.78 moveto
+1101.45 415.32 lineto
+1090.95 413.93 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1092.37 420.78 moveto
+1101.45 415.32 lineto
+1090.95 413.93 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+779 471.8 moveto 113.18 (purl:BFO_0000054 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+799.06 455 moveto 73.06 (\('realized in'\)) alignedtext
+grestore
+% ExamDate
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+1601 262 51.19 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1571.46 256.4 moveto 59.08 (ExamDate) alignedtext
+grestore
+% Exam->ExamDate
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 1284.32 398.67 moveto
+1390.46 395.86 1535.3 385.05 1578 348 curveto
+1594.29 333.86 1599.61 309.49 1601.11 290.46 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 1604.61 290.42 moveto
+1601.59 280.26 lineto
+1597.62 290.08 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 1604.61 290.42 moveto
+1601.59 280.26 lineto
+1597.62 290.08 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1597 325.4 moveto 186.62 (ontomedirad:has_beginning_date) alignedtext
+grestore
+% ExamTime
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+912 262 53.41 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+881.14 256.4 moveto 61.71 (ExamTime) alignedtext
+grestore
+% Exam->ExamTime
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 1108.48 384.12 moveto
+1084.65 378.1 1056.57 371.33 1031 366 curveto
+1007.78 361.16 942.51 364.84 925.81 348 curveto
+911.05 333.11 908.32 309.02 908.86 290.28 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 912.36 290.44 moveto
+909.47 280.25 lineto
+905.37 290.02 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 912.36 290.44 moveto
+909.47 280.25 lineto
+905.37 290.02 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+926 325.4 moveto 188.19 (ontomedirad:has_beginning_time) alignedtext
+grestore
+% StudyDescr
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+1121 262 56.14 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1088.34 256.4 moveto 65.32 (StudyDescr) alignedtext
+grestore
+% Exam->StudyDescr
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 1146.85 381.88 moveto
+1138.41 372.72 1129.21 360.72 1124.48 348 curveto
+1117.68 329.72 1116.97 307.68 1117.88 290.62 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 1121.4 290.46 moveto
+1118.66 280.22 lineto
+1114.42 289.93 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 1121.4 290.46 moveto
+1118.66 280.22 lineto
+1114.42 289.93 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1125 325.4 moveto 162.52 (ontomedirad:has_description) alignedtext
+grestore
+% DICOMStudyInstanceUID
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+1310 262 115.15 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1234.57 256.4 moveto 150.87 (DICOMStudyInstanceUID) alignedtext
+grestore
+% Exam->DICOMStudyInstanceUID
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 1228.53 384.62 moveto
+1249.73 376.94 1271.79 365.35 1287 348 curveto
+1300.98 332.04 1306.56 308.41 1308.74 290.11 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 1312.24 290.33 moveto
+1309.67 280.05 lineto
+1305.27 289.69 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 1312.24 290.33 moveto
+1309.67 280.05 lineto
+1305.27 289.69 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1305 325.4 moveto 269.07 (ontomedirad:has_DICOM_study_instance_UID) alignedtext
+grestore
+% ClinResearchStudy
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+1993 262 153.54 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1889.59 256.4 moveto 206.81 (ontomedirad:clinical_research_study) alignedtext
+grestore
+% Exam->ClinResearchStudy
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1278.37 394.16 moveto
+1486.08 384.93 1909.05 364.27 1937 348 curveto
+1959.21 335.07 1974.26 309.4 1983.11 289.64 curveto
+stroke
+0 0 0 edgecolor
+newpath 1986.43 290.79 moveto
+1987.08 280.22 lineto
+1979.97 288.08 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1986.43 290.79 moveto
+1987.08 280.22 lineto
+1979.97 288.08 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1970 325.4 moveto 152.41 (ontomedirad:part_of_study) alignedtext
+grestore
+% TargetRegion
+gsave
+1 setlinewidth
+0 0 0 nodecolor
+newpath 813.21 262 moveto
+760.6 295.93 lineto
+655.4 295.93 lineto
+602.79 262 lineto
+655.4 228.07 lineto
+760.6 228.07 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+632.62 264.8 moveto 113.18 (purl:BFO_0000040 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+660.19 248 moveto 95.61 (\('material entity'\)) alignedtext
+grestore
+% Exam->TargetRegion
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1112.62 383.76 moveto
+1088.05 377.22 1058.24 370.14 1031 366 curveto
+998.13 361 758.23 368.81 732.3 348 curveto
+719.73 337.91 713.39 321.8 710.27 306.3 curveto
+stroke
+0 0 0 edgecolor
+newpath 713.7 305.6 moveto
+708.66 296.28 lineto
+706.79 306.71 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 713.7 305.6 moveto
+708.66 296.28 lineto
+706.79 306.71 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+733 325.4 moveto 174.7 (ontomedirad:has_target_region) alignedtext
+grestore
+% Human
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+569 140 88.22 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+512.62 134.4 moveto 112.75 (ontomedirad:human) alignedtext
+grestore
+% Human->RolePat
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 550.09 157.7 moveto
+490.81 211.97 318.15 385.58 416 486 curveto
+422.94 493.12 531.52 504.89 612.85 512.79 curveto
+stroke
+0 0 0 edgecolor
+newpath 612.83 516.31 moveto
+623.12 513.78 lineto
+613.51 509.34 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 612.83 516.31 moveto
+623.12 513.78 lineto
+613.51 509.34 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+418 333.8 moveto 113.18 (purl:BFO_0000087 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+438.44 317 moveto 72.3 (\('has role ...'\)) alignedtext
+grestore
+% PatientSex
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+newpath 490.35 34 moveto
+435.18 67.93 lineto
+324.82 67.93 lineto
+269.65 34 lineto
+324.82 .07 lineto
+435.18 .07 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+300.59 36.8 moveto 119.42 (purl:PATO_0001894 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+330.63 20 moveto 98.74 (\('phenotypic sex'\)) alignedtext
+grestore
+% Human->PatientSex
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 504.74 127.55 moveto
+485 122.27 463.8 114.71 446.03 104 curveto
+433.69 96.56 422.11 86.22 412.21 75.81 curveto
+stroke
+0 1 1 edgecolor
+newpath 414.64 73.28 moveto
+405.31 68.25 lineto
+409.47 78 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 414.64 73.28 moveto
+405.31 68.25 lineto
+409.47 78 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+447 89.4 moveto 118.97 (ontomedirad:has_sex) alignedtext
+grestore
+% PatientName
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+569 34 60.37 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+532.84 28.4 moveto 72.31 (PatientName) alignedtext
+grestore
+% Human->PatientName
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 569 121.83 moveto
+569 105.64 569 81.13 569 62.27 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 572.5 62.2 moveto
+569 52.2 lineto
+565.5 62.2 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 572.5 62.2 moveto
+569 52.2 lineto
+565.5 62.2 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+569 89.4 moveto 130.63 (ontomedirad:has_name) alignedtext
+grestore
+% PatientId
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+723 34 45.35 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+697.73 28.4 moveto 50.54 (PatientId) alignedtext
+grestore
+% Human->PatientId
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 647.47 131.61 moveto
+666.95 126.42 686.4 117.89 701 104 curveto
+712.32 93.22 717.84 76.64 720.51 62.44 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 724.03 62.58 moveto
+722.06 52.17 lineto
+717.11 61.54 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 724.03 62.58 moveto
+722.06 52.17 lineto
+717.11 61.54 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+714 89.4 moveto 111.2 (ontomedirad:has_id) alignedtext
+grestore
+% CTAcq
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+newpath 3842.44 522 moveto
+3772.22 540 lineto
+3631.78 540 lineto
+3561.56 522 lineto
+3631.78 504 lineto
+3772.22 504 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3621.51 516.4 moveto 160.97 (ontomedirad:CT_acquisition) alignedtext
+grestore
+% CTAcq->Exam
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3595.46 513.27 moveto
+3543.73 509.83 3480.66 506.09 3424 504 curveto
+3384.66 502.55 2040.61 506.2 2006.82 486 curveto
+1992 477.14 2002.6 461.23 1988 452 curveto
+1973.39 442.77 1512.3 418.43 1286.8 407.04 curveto
+stroke
+0 0 0 edgecolor
+newpath 1286.73 403.53 moveto
+1276.57 406.53 lineto
+1286.38 410.53 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1286.73 403.53 moveto
+1276.57 406.53 lineto
+1286.38 410.53 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2007 471.8 moveto 113.18 (purl:BFO_0000132 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2009.76 455 moveto 107.65 (\('part of occurrent'\)) alignedtext
+grestore
+% Protocol
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+4063 262 159.12 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3955.69 256.4 moveto 214.63 (ontomedirad:CT_acquisition_protocol) alignedtext
+grestore
+% CTAcq->Protocol
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3744.99 503.86 moveto
+3752.62 499.09 3759.79 493.2 3765 486 curveto
+3796.85 442.01 3753.01 407.5 3788.03 366 curveto
+3814.84 334.24 3919.08 301.14 3991.22 281.3 curveto
+stroke
+0 0 0 edgecolor
+newpath 3992.44 284.6 moveto
+4001.17 278.59 lineto
+3990.6 277.84 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3992.44 284.6 moveto
+4001.17 278.59 lineto
+3990.6 277.84 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3789 394.4 moveto 146.97 (ontomedirad:has_protocol) alignedtext
+grestore
+% XRayModulationType
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+newpath 4201.38 400 moveto
+4137.19 433.93 lineto
+4008.81 433.93 lineto
+3944.62 400 lineto
+4008.81 366.07 lineto
+4137.19 366.07 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3979.08 402.8 moveto 72.98 (dcm:113842 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4002.05 386 moveto 141.89 (\('X-ray modulation type'\)) alignedtext
+grestore
+% CTAcq->XRayModulationType
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3754.76 503.93 moveto
+3814.56 484.59 3913.02 452.75 3984.61 429.59 curveto
+stroke
+0 0 0 edgecolor
+newpath 3986.09 432.79 moveto
+3994.52 426.38 lineto
+3983.93 426.13 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3986.09 432.79 moveto
+3994.52 426.38 lineto
+3983.93 426.13 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3910 463.4 moveto 137.64 (ontomedirad:has_setting) alignedtext
+grestore
+% KVP
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+4292 400 62.38 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4255.51 402.8 moveto 72.98 (dcm:113733 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4274.32 386 moveto 35.37 (\('kvp'\)) alignedtext
+grestore
+% CTAcq->KVP
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3818.11 515.66 moveto
+3886.46 510.95 3974.29 502.19 4051 486 curveto
+4123.75 470.65 4140.14 459.45 4210 434 curveto
+4218.68 430.84 4227.82 427.34 4236.71 423.83 curveto
+stroke
+0 0 0 edgecolor
+newpath 4238.24 426.99 moveto
+4246.24 420.04 lineto
+4235.65 420.49 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4238.24 426.99 moveto
+4246.24 420.04 lineto
+4235.65 420.49 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4162 463.4 moveto 137.64 (ontomedirad:has_setting) alignedtext
+grestore
+% TubeCur
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+4542 400 92.08 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4484.67 402.8 moveto 72.98 (dcm:113734 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4484.67 386 moveto 114.65 (\('x-ray tube current'\)) alignedtext
+grestore
+% CTAcq->TubeCur
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3826.5 517.9 moveto
+3975.29 513.46 4215.16 503.8 4303 486 curveto
+4365.19 473.4 4433.07 448.06 4480.55 428.31 curveto
+stroke
+0 0 0 edgecolor
+newpath 4482.2 431.41 moveto
+4490.07 424.31 lineto
+4479.49 424.96 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4482.2 431.41 moveto
+4490.07 424.31 lineto
+4479.49 424.96 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4417 463.4 moveto 137.64 (ontomedirad:has_setting) alignedtext
+grestore
+% FocalSpot
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+2414 400 102.13 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2347.52 394.4 moveto 132.97 (ontomedirad:focal_spot) alignedtext
+grestore
+% CTAcq->FocalSpot
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3593.44 513.76 moveto
+3542.09 510.49 3479.9 506.75 3424 504 curveto
+3210.05 493.46 3155.53 507.05 2942.36 486 curveto
+2779.51 469.92 2590.63 435.73 2488.64 415.96 curveto
+stroke
+0 0 0 edgecolor
+newpath 2489.22 412.51 moveto
+2478.74 414.04 lineto
+2487.89 419.38 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2489.22 412.51 moveto
+2478.74 414.04 lineto
+2487.89 419.38 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2943 463.4 moveto 137.64 (ontomedirad:has_setting) alignedtext
+grestore
+% NominalTotalCollimWidth
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+2896 400 146.36 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2800.35 402.8 moveto 72.98 (dcm:113827 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2800.35 386 moveto 191.29 (\('nominal total collimation width'\)) alignedtext
+grestore
+% CTAcq->NominalTotalCollimWidth
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3590.8 514.43 moveto
+3478.46 507.43 3312.71 496 3249.36 486 curveto
+3159.18 471.76 3058.05 446.46 2987.17 427.16 curveto
+stroke
+0 0 0 edgecolor
+newpath 2987.94 423.74 moveto
+2977.37 424.47 lineto
+2986.09 430.49 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 2987.94 423.74 moveto
+2977.37 424.47 lineto
+2986.09 430.49 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3250 463.4 moveto 137.64 (ontomedirad:has_setting) alignedtext
+grestore
+% ExposureTime
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+3284 400 76.92 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3237.35 402.8 moveto 72.98 (dcm:113824 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3237.35 386 moveto 93.29 (\('exposure time'\)) alignedtext
+grestore
+% CTAcq->ExposureTime
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3603.21 511.24 moveto
+3563.58 505.87 3517.8 497.82 3477.36 486 curveto
+3428.36 471.68 3375.48 447.8 3337.42 428.99 curveto
+stroke
+0 0 0 edgecolor
+newpath 3338.59 425.66 moveto
+3328.08 424.33 lineto
+3335.46 431.93 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3338.59 425.66 moveto
+3328.08 424.33 lineto
+3335.46 431.93 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3478 463.4 moveto 137.64 (ontomedirad:has_setting) alignedtext
+grestore
+% ExposureInmAsec
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+3626 400 97.08 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3563.41 394.4 moveto 125.19 (ontomedirad:exposure) alignedtext
+grestore
+% CTAcq->ExposureInmAsec
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3646.31 503.77 moveto
+3638.82 499.16 3632.1 493.33 3627.36 486 curveto
+3616.42 469.09 3616.76 446.06 3619.46 428.23 curveto
+stroke
+0 0 0 edgecolor
+newpath 3622.94 428.64 moveto
+3621.31 418.17 lineto
+3616.06 427.37 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3622.94 428.64 moveto
+3621.31 418.17 lineto
+3616.06 427.37 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3628 463.4 moveto 137.64 (ontomedirad:has_setting) alignedtext
+grestore
+% Dataset
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+newpath 3237.33 644 moveto
+3185.66 677.93 lineto
+3082.34 677.93 lineto
+3030.67 644 lineto
+3082.34 610.07 lineto
+3185.66 610.07 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3060.14 646.8 moveto 110.82 (purl:IAO_0000100 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3105.63 630 moveto 56.74 (\('data set'\)) alignedtext
+grestore
+% Dataset->CTAcq
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3229.13 638.6 moveto
+3334.54 632.47 3496.91 618.94 3552 592 curveto
+3571.14 582.64 3567.53 568.96 3585.81 558 curveto
+3595.97 551.9 3607.27 546.8 3618.73 542.54 curveto
+stroke
+0 0 0 edgecolor
+newpath 3620.09 545.77 moveto
+3628.37 539.16 lineto
+3617.77 539.16 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3620.09 545.77 moveto
+3628.37 539.16 lineto
+3617.77 539.16 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3586 569.4 moveto 202.19 (ontomedirad:is_specified_output_of) alignedtext
+grestore
+% ImageTypeDescription
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+2823 522 99.08 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2758.96 516.4 moveto 128.08 (ImageTypeDescription) alignedtext
+grestore
+% Dataset->ImageTypeDescription
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 3037.84 639.19 moveto
+2959.8 633.94 2858.32 621.49 2830.5 592 curveto
+2820.22 581.1 2818.16 564.52 2818.75 550.34 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 2822.26 550.36 moveto
+2819.64 540.1 lineto
+2815.29 549.76 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 2822.26 550.36 moveto
+2819.64 540.1 lineto
+2815.29 549.76 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2831 569.4 moveto 288.5 (ontomedirad:has_DICOM_image_type_description) alignedtext
+grestore
+% ImageFormat
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+newpath 3261.51 522 moveto
+3189.25 540 lineto
+3044.75 540 lineto
+2972.49 522 lineto
+3044.75 504 lineto
+3189.25 504 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3034.18 516.4 moveto 165.63 (ontomedirad:DICOM_format) alignedtext
+grestore
+% Dataset->ImageFormat
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 3129.31 609.89 moveto
+3126.66 591.16 3123.38 568.03 3120.87 550.34 curveto
+stroke
+0 1 1 edgecolor
+newpath 3124.29 549.53 moveto
+3119.42 540.12 lineto
+3117.36 550.51 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 3124.29 549.53 moveto
+3119.42 540.12 lineto
+3117.36 550.51 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3127 569.4 moveto 137.63 (ontomedirad:has_format) alignedtext
+grestore
+% DatasetHandle
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+3348 522 67.32 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3306.8 516.4 moveto 82.41 (DatasetHandle) alignedtext
+grestore
+% Dataset->DatasetHandle
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 3203.61 621.72 moveto
+3225 613.83 3248.12 603.86 3268 592 curveto
+3288.93 579.52 3309.68 561.41 3324.8 546.88 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 3327.48 549.15 moveto
+3332.17 539.65 lineto
+3322.58 544.16 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 3327.48 549.15 moveto
+3332.17 539.65 lineto
+3322.58 544.16 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3312 569.4 moveto 236.41 (ontomedirad:has_IRDBB_WADO_handle) alignedtext
+grestore
+% DICOMSeriesUID
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+2529 522 83.49 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2476.12 516.4 moveto 105.77 (DICOMSeriesUID) alignedtext
+grestore
+% Dataset->DICOMSeriesUID
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 3035.52 640.75 moveto
+2877.29 636.21 2580.47 623.57 2544.39 592 curveto
+2532.72 581.79 2528.82 564.85 2527.86 550.31 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 2531.36 550.19 moveto
+2527.62 540.28 lineto
+2524.37 550.37 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 2531.36 550.19 moveto
+2527.62 540.28 lineto
+2524.37 550.37 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2545 569.4 moveto 270.61 (ontomedirad:has_DICOM_series_instance_UID) alignedtext
+grestore
+% PatientAge
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+247 522 247.07 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+75.68 516.4 moveto 342.63 (ontomedirad:age_of_patient_undergoing_medical_procedure) alignedtext
+grestore
+% PatientAge->Exam
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 441 510.77 moveto
+482.68 505.58 519.47 497.77 537 486 curveto
+551.36 476.36 541.21 461.06 555.94 452 curveto
+597.81 426.24 949.18 439.78 998 434 curveto
+1029.64 430.25 1064.25 423.81 1093.72 417.6 curveto
+stroke
+0 0 0 edgecolor
+newpath 1094.45 421.03 moveto
+1103.5 415.51 lineto
+1092.99 414.18 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1094.45 421.03 moveto
+1103.5 415.51 lineto
+1092.99 414.18 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+556 463.4 moveto 185.06 (ontomedirad:is_about_procedure) alignedtext
+grestore
+% PatientAge->Human
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 244.82 503.8 moveto
+240.96 466.07 236.65 374.61 275.91 314 curveto
+330.25 230.1 440.77 181.54 509.49 158.25 curveto
+stroke
+0 0 0 edgecolor
+newpath 510.92 161.46 moveto
+519.31 154.99 lineto
+508.71 154.82 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 510.92 161.46 moveto
+519.31 154.99 lineto
+508.71 154.82 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+276 325.4 moveto 122.09 (ontomedirad:is_about) alignedtext
+grestore
+% AgeInYears
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+128 400 56.59 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+94.88 394.4 moveto 66.24 (AgeInYears) alignedtext
+grestore
+% PatientAge->AgeInYears
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 151.69 505.32 moveto
+142.85 500.42 134.93 494.12 128.81 486 curveto
+116.56 469.75 117.27 446.34 120.54 428.19 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 124 428.73 moveto
+122.68 418.22 lineto
+117.16 427.26 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 124 428.73 moveto
+122.68 418.22 lineto
+117.16 427.26 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+129 463.4 moveto 104.19 (ontomedirad:years) alignedtext
+grestore
+% PatientWeight
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+966 522 119.38 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+887.08 516.4 moveto 157.85 (ontomedirad:patient_weight) alignedtext
+grestore
+% PatientWeight->Exam
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1005.07 504.9 moveto
+1017.44 499.36 1031 492.83 1043 486 curveto
+1075.91 467.26 1111.17 442.09 1135.27 424.01 curveto
+stroke
+0 0 0 edgecolor
+newpath 1137.44 426.75 moveto
+1143.31 417.93 lineto
+1133.22 421.17 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1137.44 426.75 moveto
+1143.31 417.93 lineto
+1133.22 421.17 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1095 463.4 moveto 185.06 (ontomedirad:is_about_procedure) alignedtext
+grestore
+% PatientWeight->Human
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 998.21 504.66 moveto
+1004.95 499.64 1011.17 493.44 1015 486 curveto
+1030.2 456.46 1011.6 377.68 998 366 curveto
+963.32 336.21 619.92 379.63 586.91 348 curveto
+538.21 301.33 551.1 212.38 561.59 167.83 curveto
+stroke
+0 0 0 edgecolor
+newpath 565.01 168.57 moveto
+564.03 158.02 lineto
+558.22 166.87 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 565.01 168.57 moveto
+564.03 158.02 lineto
+558.22 166.87 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+587 325.4 moveto 122.09 (ontomedirad:is_about) alignedtext
+grestore
+% ValueWeight
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+481 400 60.52 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+445.02 394.4 moveto 71.97 (ValueWeight) alignedtext
+grestore
+% PatientWeight->ValueWeight
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 872.89 510.64 moveto
+848.84 508.2 822.98 505.8 799 504 curveto
+778.32 502.45 440.48 501.01 426.18 486 curveto
+408.24 467.17 429.4 441.69 450.42 423.54 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 452.9 426.04 moveto
+458.39 416.98 lineto
+448.45 420.64 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 452.9 426.04 moveto
+458.39 416.98 lineto
+448.45 420.64 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+427 471.8 moveto 110.82 (purl:IAO_0000004 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+443.74 455 moveto 77.35 (\('has value...'\)) alignedtext
+grestore
+% UnitWeight
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+903 400 86.07 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+849.92 402.8 moveto 106.16 (purl:UO_0000009 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+870.54 386 moveto 64.91 (\('kilogram'\)) alignedtext
+grestore
+% PatientWeight->UnitWeight
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 923.74 504.99 moveto
+915.96 500.09 908.83 493.85 904.18 486 curveto
+896.11 472.38 894.6 455.25 895.56 439.95 curveto
+stroke
+0 1 1 edgecolor
+newpath 899.07 440.01 moveto
+896.57 429.71 lineto
+892.1 439.32 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 899.07 440.01 moveto
+896.57 429.71 lineto
+892.1 439.32 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+905 471.8 moveto 110.82 (purl:IAO_0000039 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+926.01 455 moveto 68.81 (\('has unit...'\)) alignedtext
+grestore
+% PatientHeight
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+1854 522 117.16 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1776.63 516.4 moveto 154.74 (ontomedirad:patient_height) alignedtext
+grestore
+% PatientHeight->Exam
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1768.72 509.61 moveto
+1722.29 503.17 1663.87 494.69 1611.94 486 curveto
+1482.17 464.29 1332.04 434.84 1243 416.92 curveto
+stroke
+0 0 0 edgecolor
+newpath 1243.47 413.45 moveto
+1232.98 414.9 lineto
+1242.09 420.31 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 1243.47 413.45 moveto
+1232.98 414.9 lineto
+1242.09 420.31 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1612 463.4 moveto 185.06 (ontomedirad:is_about_procedure) alignedtext
+grestore
+% PatientHeight->Human
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 1849.15 503.89 moveto
+1835.82 457.16 1798.8 329.76 1787 314 curveto
+1746.38 259.72 1724.94 250.56 1661 228 curveto
+1479.09 163.81 899.78 146.72 667.11 142.39 curveto
+stroke
+0 0 0 edgecolor
+newpath 667.03 138.89 moveto
+656.97 142.21 lineto
+666.9 145.89 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 667.03 138.89 moveto
+656.97 142.21 lineto
+666.9 145.89 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1801 325.4 moveto 122.09 (ontomedirad:is_about) alignedtext
+grestore
+% ValueHeight
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+1898 400 58.96 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1863.01 394.4 moveto 69.98 (ValueHeight) alignedtext
+grestore
+% PatientHeight->ValueHeight
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 1859.42 503.88 moveto
+1863.93 489.85 1870.66 469.53 1877.18 452 curveto
+1880.17 443.93 1883.64 435.23 1886.87 427.34 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 1890.19 428.47 moveto
+1890.79 417.89 lineto
+1883.72 425.79 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 1890.19 428.47 moveto
+1890.79 417.89 lineto
+1883.72 425.79 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1878 471.8 moveto 110.82 (purl:IAO_0000004 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1894.74 455 moveto 77.35 (\('has value...'\)) alignedtext
+grestore
+% UnitHeight
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+2146 400 86.07 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2092.92 402.8 moveto 106.16 (purl:UO_0000008 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2122.88 386 moveto 46.24 (\('meter'\)) alignedtext
+grestore
+% PatientHeight->UnitHeight
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 1969.46 518.67 moveto
+2031.97 515.01 2101.01 506.29 2124 486 curveto
+2137.06 474.47 2142.84 456.3 2145.25 439.71 curveto
+stroke
+0 1 1 edgecolor
+newpath 2148.74 439.98 moveto
+2146.34 429.66 lineto
+2141.78 439.22 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 2148.74 439.98 moveto
+2146.34 429.66 lineto
+2141.78 439.22 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2143 471.8 moveto 110.82 (purl:IAO_0000039 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2164.01 455 moveto 68.81 (\('has unit...'\)) alignedtext
+grestore
+% ProtocolName
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+3986 140 66.23 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3945.57 134.4 moveto 80.87 (ProtocolName) alignedtext
+grestore
+% Protocol->ProtocolName
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 4024.2 244.4 moveto
+4010.02 236.23 3995.48 224.88 3987.37 210 curveto
+3980.5 197.38 3979.77 181.44 3980.93 168.06 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 3984.42 168.35 moveto
+3982.18 157.99 lineto
+3977.47 167.48 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 3984.42 168.35 moveto
+3982.18 157.99 lineto
+3977.47 167.48 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3988 187.4 moveto 130.63 (ontomedirad:has_name) alignedtext
+grestore
+% ProtocolDescr
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+4140 140 65.92 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4099.96 134.4 moveto 80.09 (ProtocolDescr) alignedtext
+grestore
+% Protocol->ProtocolDescr
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 4086.26 244.05 moveto
+4097.22 235.02 4109.69 223.08 4118 210 curveto
+4126.03 197.35 4131.35 181.53 4134.75 168.23 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 4138.22 168.75 moveto
+4137.07 158.21 lineto
+4131.4 167.16 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 4138.22 168.75 moveto
+4137.07 158.21 lineto
+4131.4 167.16 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4133 187.4 moveto 162.52 (ontomedirad:has_description) alignedtext
+grestore
+% XRayModulationType->Protocol
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 4070.55 365.73 moveto
+4068.85 342.59 4066.61 312.11 4065.01 290.38 curveto
+stroke
+0 0 0 edgecolor
+newpath 4068.49 289.9 moveto
+4064.26 280.19 lineto
+4061.51 290.42 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4068.49 289.9 moveto
+4064.26 280.19 lineto
+4061.51 290.42 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4070 333.8 moveto 113.18 (purl:BFO_0000177 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4070 317 moveto 124.39 (\('part of continuant...'\)) alignedtext
+grestore
+% ValueKVP
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+4292 262 52.01 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4262.06 256.4 moveto 59.88 (ValueKVP) alignedtext
+grestore
+% KVP->ValueKVP
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 4292 370.49 moveto
+4292 346.96 4292 313.76 4292 290.51 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 4295.5 290.29 moveto
+4292 280.29 lineto
+4288.5 290.29 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 4295.5 290.29 moveto
+4292 280.29 lineto
+4288.5 290.29 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4292 333.8 moveto 110.82 (purl:IAO_0000004 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4308.74 317 moveto 77.35 (\('has value...'\)) alignedtext
+grestore
+% UnitKVP
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+4449 262 86.07 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4395.92 264.8 moveto 106.16 (purl:UO_0000248 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4420.04 248 moveto 57.93 (\('kilovolt'\)) alignedtext
+grestore
+% KVP->UnitKVP
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 4344.68 384 moveto
+4365.69 375.97 4388.9 364.31 4406 348 curveto
+4419.48 335.15 4429.42 317.15 4436.33 301.03 curveto
+stroke
+0 1 1 edgecolor
+newpath 4439.76 301.87 moveto
+4440.24 291.29 lineto
+4433.27 299.26 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 4439.76 301.87 moveto
+4440.24 291.29 lineto
+4433.27 299.26 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4430 333.8 moveto 110.82 (purl:IAO_0000039 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4451.01 317 moveto 68.81 (\('has unit...'\)) alignedtext
+grestore
+% ValueTubeCur
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+4620 262 67.02 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4579.42 256.4 moveto 81.16 (ValueTubeCur) alignedtext
+grestore
+% TubeCur->ValueTubeCur
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 4558.16 370.82 moveto
+4572.03 346.64 4591.84 312.1 4605.28 288.67 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 4608.32 290.4 moveto
+4610.26 279.98 lineto
+4602.25 286.92 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 4608.32 290.4 moveto
+4610.26 279.98 lineto
+4602.25 286.92 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4591 333.8 moveto 110.82 (purl:IAO_0000004 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4607.74 317 moveto 77.35 (\('has value...'\)) alignedtext
+grestore
+% UnitTubeCur
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+4791 262 86.07 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4737.92 264.8 moveto 106.16 (purl:UO_0000037 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4749.99 248 moveto 82.01 (\('milliampere'\)) alignedtext
+grestore
+% TubeCur->UnitTubeCur
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 4604.39 378.25 moveto
+4617.14 374.12 4630.48 369.86 4643 366 curveto
+4670.42 357.54 4680.26 362.53 4705 348 curveto
+4726.82 335.18 4747.16 315.59 4762.57 298.45 curveto
+stroke
+0 1 1 edgecolor
+newpath 4765.34 300.6 moveto
+4769.3 290.77 lineto
+4760.07 295.99 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 4765.34 300.6 moveto
+4769.3 290.77 lineto
+4760.07 295.99 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4747 333.8 moveto 110.82 (purl:IAO_0000039 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4768.01 317 moveto 68.81 (\('has unit...'\)) alignedtext
+grestore
+% ValueFocalSpot
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+2237 262 72.28 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2192.67 256.4 moveto 88.66 (ValueFocalSpot) alignedtext
+grestore
+% FocalSpot->ValueFocalSpot
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 2365.93 384.07 moveto
+2344.08 375.74 2318.79 363.81 2299.18 348 curveto
+2278.96 331.7 2262.04 307.33 2250.98 288.86 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 2253.93 286.96 moveto
+2245.89 280.07 lineto
+2247.87 290.47 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 2253.93 286.96 moveto
+2245.89 280.07 lineto
+2247.87 290.47 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2300 333.8 moveto 110.82 (purl:IAO_0000004 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2316.74 317 moveto 77.35 (\('has value...'\)) alignedtext
+grestore
+% UnitFocalSpot
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+2414 262 86.07 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2360.92 264.8 moveto 106.16 (purl:UO_0000016 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2377.66 248 moveto 72.69 (\('millimeter'\)) alignedtext
+grestore
+% FocalSpot->UnitFocalSpot
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 2414 381.78 moveto
+2414 361.71 2414 327.94 2414 301.53 curveto
+stroke
+0 1 1 edgecolor
+newpath 2417.5 301.45 moveto
+2414 291.45 lineto
+2410.5 301.45 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 2417.5 301.45 moveto
+2414 291.45 lineto
+2410.5 301.45 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2414 333.8 moveto 110.82 (purl:IAO_0000039 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2435.01 317 moveto 68.81 (\('has unit...'\)) alignedtext
+grestore
+% ValueNominalTotalCollimWidth
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+2655 262 137.16 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2563.61 256.4 moveto 182.77 (ValueNominalTotalCollimWidth) alignedtext
+grestore
+% NominalTotalCollimWidth->ValueNominalTotalCollimWidth
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 2833.06 373.42 moveto
+2815.93 365.82 2797.59 357.08 2781.18 348 curveto
+2747.27 329.24 2710.79 304.07 2685.82 285.99 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 2687.63 282.98 moveto
+2677.49 279.92 lineto
+2683.51 288.64 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 2687.63 282.98 moveto
+2677.49 279.92 lineto
+2683.51 288.64 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2782 333.8 moveto 110.82 (purl:IAO_0000004 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2798.74 317 moveto 77.35 (\('has value...'\)) alignedtext
+grestore
+% UnitNominalTotalCollimWidth
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+2896 262 86.07 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2842.92 264.8 moveto 106.16 (purl:UO_0000016 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2859.66 248 moveto 72.69 (\('millimeter'\)) alignedtext
+grestore
+% NominalTotalCollimWidth->UnitNominalTotalCollimWidth
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 2896 370.49 moveto
+2896 350.54 2896 323.66 2896 301.77 curveto
+stroke
+0 1 1 edgecolor
+newpath 2899.5 301.47 moveto
+2896 291.47 lineto
+2892.5 301.47 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 2899.5 301.47 moveto
+2896 291.47 lineto
+2892.5 301.47 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2896 333.8 moveto 110.82 (purl:IAO_0000039 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2917.01 317 moveto 68.81 (\('has unit...'\)) alignedtext
+grestore
+% ValueExposureTime
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+3090 262 89.31 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3033.09 256.4 moveto 113.81 (ValueExposureTime) alignedtext
+grestore
+% ExposureTime->ValueExposureTime
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 3228.13 379.5 moveto
+3208.56 371.32 3187.02 360.73 3169.18 348 curveto
+3145.54 331.15 3123.45 306.37 3108.64 287.91 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 3111.3 285.63 moveto
+3102.37 279.92 lineto
+3105.79 289.95 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 3111.3 285.63 moveto
+3102.37 279.92 lineto
+3105.79 289.95 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3170 333.8 moveto 110.82 (purl:IAO_0000004 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3186.74 317 moveto 77.35 (\('has value...'\)) alignedtext
+grestore
+% UnitExposureTime
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+3284 262 86.07 29.33 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3230.92 264.8 moveto 106.16 (purl:UO_0000028 ) alignedtext
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3244.15 248 moveto 79.69 (\('millisecond'\)) alignedtext
+grestore
+% ExposureTime->UnitExposureTime
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 3284 370.49 moveto
+3284 350.54 3284 323.66 3284 301.77 curveto
+stroke
+0 1 1 edgecolor
+newpath 3287.5 301.47 moveto
+3284 291.47 lineto
+3280.5 301.47 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 3287.5 301.47 moveto
+3284 291.47 lineto
+3280.5 301.47 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3284 333.8 moveto 110.82 (purl:IAO_0000039 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3305.01 317 moveto 68.81 (\('has unit...'\)) alignedtext
+grestore
+% ValueExposureInmAsec
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+3493 262 104.04 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3425.35 256.4 moveto 135.29 (ValueExposureInmAsec) alignedtext
+grestore
+% ExposureInmAsec->ValueExposureInmAsec
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 3577.46 384.33 moveto
+3558.01 376.32 3536.78 364.57 3522.18 348 curveto
+3507.95 331.86 3500.58 308.43 3496.81 290.26 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 3500.23 289.47 moveto
+3494.99 280.26 lineto
+3493.34 290.73 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 3500.23 289.47 moveto
+3494.99 280.26 lineto
+3493.34 290.73 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3523 333.8 moveto 110.82 (purl:IAO_0000004 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3539.74 317 moveto 77.35 (\('has value...'\)) alignedtext
+grestore
+% UnitExposureInmAsec
+gsave
+1 setlinewidth
+0 1 1 nodecolor
+newpath 3886.06 262 moveto
+3818.53 280 lineto
+3683.47 280 lineto
+3615.94 262 lineto
+3683.47 244 lineto
+3818.53 244 lineto
+closepath stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3674.02 256.4 moveto 153.97 (ontomedirad:exposure_unit) alignedtext
+grestore
+% ExposureInmAsec->UnitExposureInmAsec
+gsave
+1 setlinewidth
+0 1 1 edgecolor
+newpath 3627.86 381.83 moveto
+3630.68 363.22 3637.59 333.57 3654.18 314 curveto
+3664.45 301.87 3678.36 292.22 3692.42 284.73 curveto
+stroke
+0 1 1 edgecolor
+newpath 3694.27 287.72 moveto
+3701.64 280.11 lineto
+3691.13 281.46 lineto
+closepath fill
+1 setlinewidth
+solid
+0 1 1 edgecolor
+newpath 3694.27 287.72 moveto
+3701.64 280.11 lineto
+3691.13 281.46 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3655 333.8 moveto 110.82 (purl:IAO_0000039 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3676.01 317 moveto 68.81 (\('has unit...'\)) alignedtext
+grestore
+% Scanner
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+4451 766 109.28 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4379.85 760.4 moveto 142.29 (ontomedirad:CT_scanner) alignedtext
+grestore
+% AcqRole
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+3814 644 153.26 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+3710.97 638.4 moveto 206.06 (ontomedirad:image_acquisition_role) alignedtext
+grestore
+% Scanner->AcqRole
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 4379.3 752.32 moveto
+4286.22 735.76 4118.81 705.62 3976 678 curveto
+3949.88 672.95 3921.43 667.23 3895.77 661.99 curveto
+stroke
+0 0 0 edgecolor
+newpath 3896.21 658.5 moveto
+3885.71 659.93 lineto
+3894.81 665.36 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3896.21 658.5 moveto
+3885.71 659.93 lineto
+3894.81 665.36 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4247 715.8 moveto 113.18 (purl:BFO_0000087 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4267.44 699 moveto 72.3 (\('has role ...'\)) alignedtext
+grestore
+% Manufacturer
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+4451 644 63.38 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4412.91 638.4 moveto 76.18 (Manufacturer) alignedtext
+grestore
+% Scanner->Manufacturer
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 4451 747.81 moveto
+4451 728.11 4451 695.58 4451 672.39 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 4454.5 672.16 moveto
+4451 662.16 lineto
+4447.5 672.16 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 4454.5 672.16 moveto
+4451 662.16 lineto
+4447.5 672.16 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4451 707.4 moveto 212.25 (ontomedirad:has_manufacturer_name) alignedtext
+grestore
+% Model
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+4686 644 36.37 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4667.72 638.4 moveto 36.55 (Model) alignedtext
+grestore
+% Scanner->Model
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 4551.4 758.91 moveto
+4598.16 754.05 4647.16 745.39 4664 730 curveto
+4679.88 715.49 4684.94 691.16 4686.28 672.23 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 4689.78 672.24 moveto
+4686.69 662.1 lineto
+4682.79 671.95 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 4689.78 672.24 moveto
+4686.69 662.1 lineto
+4682.79 671.95 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4683 707.4 moveto 172.62 (ontomedirad:has_model_name) alignedtext
+grestore
+% AcqRole->CTAcq
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 3813.99 625.88 moveto
+3813.07 607.04 3808.81 576.91 3792 558 curveto
+3787.69 553.15 3782.62 548.96 3777.13 545.35 curveto
+stroke
+0 0 0 edgecolor
+newpath 3778.59 542.16 moveto
+3768.19 540.15 lineto
+3775.07 548.2 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3778.59 542.16 moveto
+3768.19 540.15 lineto
+3775.07 548.2 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3809 577.8 moveto 113.18 (purl:BFO_0000054 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+3829.06 561 moveto 73.06 (\('realized in'\)) alignedtext
+grestore
+% RespInstitution
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+4543 522 101.55 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4477.28 516.4 moveto 131.43 (ontomedirad:institution) alignedtext
+grestore
+% NameRespInstitution
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+4745 400 93.17 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4685.51 394.4 moveto 118.99 (NameRespInstitution) alignedtext
+grestore
+% RespInstitution->NameRespInstitution
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 4570.66 504.57 moveto
+4606.55 483.25 4669.24 446.01 4708.86 422.47 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 4710.86 425.35 moveto
+4717.67 417.24 lineto
+4707.29 419.33 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 4710.86 425.35 moveto
+4717.67 417.24 lineto
+4707.29 419.33 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4657 463.4 moveto 130.63 (ontomedirad:has_name) alignedtext
+grestore
+% RespInstitutionRole
+gsave
+1 setlinewidth
+0.66667 1 1 nodecolor
+4177 644 192.23 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+4045.72 638.4 moveto 262.57 (ontomedirad:role_of_responsible_organization) alignedtext
+grestore
+% RespInstitutionRole->CTAcq
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 4135.02 626.31 moveto
+4085.7 607.28 4001.06 576.43 3926 558 curveto
+3887.23 548.48 3844.01 541.01 3805.96 535.46 curveto
+stroke
+0 0 0 edgecolor
+newpath 3806.29 531.97 moveto
+3795.89 534.02 lineto
+3805.29 538.9 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 3806.29 531.97 moveto
+3795.89 534.02 lineto
+3805.29 538.9 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4038 577.8 moveto 113.18 (purl:BFO_0000054 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4058.06 561 moveto 73.06 (\('realized in'\)) alignedtext
+grestore
+% RespInstitutionRole->RespInstitution
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 4227.12 626.57 moveto
+4295.19 604.25 4416.45 564.49 4487.29 541.27 curveto
+stroke
+0 0 0 edgecolor
+newpath 4488.53 544.54 moveto
+4496.94 538.1 lineto
+4486.35 537.89 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 4488.53 544.54 moveto
+4496.94 538.1 lineto
+4486.35 537.89 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4435 577.8 moveto 113.18 (purl:BFO_0000052 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+4449.99 561 moveto 83.19 (\('inheres in ...'\)) alignedtext
+grestore
+% ClinResearchStudyId
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+1808 140 93.47 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1748.12 134.4 moveto 119.76 (ClinResearchStudyId) alignedtext
+grestore
+% ClinResearchStudy->ClinResearchStudyId
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 1956.2 244.29 moveto
+1937.07 235.06 1913.61 222.87 1893.8 210 curveto
+1872.72 196.31 1850.66 178.48 1834.19 164.37 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 1836.43 161.69 moveto
+1826.58 157.78 lineto
+1831.85 166.98 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 1836.43 161.69 moveto
+1826.58 157.78 lineto
+1831.85 166.98 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+1894 187.4 moveto 111.2 (ontomedirad:has_id) alignedtext
+grestore
+% ClinResearchStudyName
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+2028 140 108.49 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+1957.24 134.4 moveto 141.52 (ClinResearchStudyName) alignedtext
+grestore
+% ClinResearchStudy->ClinResearchStudyName
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 1998.01 243.81 moveto
+2003.81 223.94 2013.42 190.99 2020.19 167.76 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 2023.55 168.74 moveto
+2022.99 158.16 lineto
+2016.83 166.78 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 2023.55 168.74 moveto
+2022.99 158.16 lineto
+2016.83 166.78 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2018 187.4 moveto 130.63 (ontomedirad:has_name) alignedtext
+grestore
+% ClinResearchStudyDescr
+gsave
+1 setlinewidth
+0.33333 1 1 nodecolor
+2263 140 108.18 18 ellipse_path stroke
+0 0 0 nodecolor
+14 /Times-Roman set_font
+2192.63 134.4 moveto 140.75 (ClinResearchStudyDescr) alignedtext
+grestore
+% ClinResearchStudy->ClinResearchStudyDescr
+gsave
+1 setlinewidth
+0.33333 0.75294 0.80392 edgecolor
+newpath 2053.59 245.37 moveto
+2083.82 236.62 2120.56 224.54 2152 210 curveto
+2180.06 197.02 2209.68 178.32 2231.27 163.65 curveto
+stroke
+0.33333 0.75294 0.80392 edgecolor
+newpath 2233.45 166.4 moveto
+2239.71 157.85 lineto
+2229.48 160.63 lineto
+closepath fill
+1 setlinewidth
+solid
+0.33333 0.75294 0.80392 edgecolor
+newpath 2233.45 166.4 moveto
+2239.71 157.85 lineto
+2229.48 160.63 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+2212 187.4 moveto 162.52 (ontomedirad:has_description) alignedtext
+grestore
+% TargetRegion->Human
+gsave
+1 setlinewidth
+0 0 0 edgecolor
+newpath 669.65 227.89 moveto
+646.28 207.71 616.98 182.42 596.03 164.34 curveto
+stroke
+0 0 0 edgecolor
+newpath 598.3 161.67 moveto
+588.44 157.78 lineto
+593.72 166.97 lineto
+closepath fill
+1 setlinewidth
+solid
+0 0 0 edgecolor
+newpath 598.3 161.67 moveto
+588.44 157.78 lineto
+593.72 166.97 lineto
+closepath stroke
+0 0 0 edgecolor
+14 /Times-Roman set_font
+647 195.8 moveto 113.18 (purl:BFO_0000176 ) alignedtext
+0 0 0 edgecolor
+14 /Times-Roman set_font
+647 179 moveto 188.93 (\('part of continuant at some time'\)) alignedtext
+grestore
+endpage
+showpage
+grestore
+%%PageTrailer
+%%EndPage: 1
+%%Trailer
+end
+restore
+%%EOF

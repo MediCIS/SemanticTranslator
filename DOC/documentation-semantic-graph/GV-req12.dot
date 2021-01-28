@@ -1,0 +1,15 @@
+digraph G {
+// DEFINITION of NODES
+
+	Dataset [label="purl:IAO_0000100 \l('data set')"] [color = "blue"][shape = hexagon];
+	FHIRHandle [color = "green"];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	PatientName [color = "green"];
+
+// DEFINITION of EDGES
+
+
+	Dataset -> Human [label="ontomedirad:has_patient"];
+	Dataset -> FHIRHandle [label="ontomedirad:has_IRDBB_FHIR_handle"] [color = "limegreen"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+}

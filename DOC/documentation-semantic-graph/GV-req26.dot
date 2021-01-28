@@ -1,0 +1,14 @@
+digraph G {
+
+// DEFINITION of NODES
+	CTCalibration [label="ontomedirad:CT_calibration"] [color = "blue"];
+	CTNumberCalibrationCurve [label="ontomedirad:CT_number_calibration_curve"] [color = "blue"];
+	CTNumberCalibrationCurveCalculation [label="ontomedirad:calculation_of_CT_number_calibration_curve"] [color = "blue"];
+	ReferenceCalibrationDate [color = "green"];
+
+// DEFINITION of EDGES
+
+	CTNumberCalibrationCurve -> CTNumberCalibrationCurveCalculation [label="ontomedirad:is_specified_output_of"];
+	CTNumberCalibrationCurveCalculation -> CTCalibration [label="purl:BFO_0000132 \l('part of occurrent')"];
+	CTNumberCalibrationCurve -> ReferenceCalibrationDate [label="ontomedirad:has_reference_calibration_date"][color="limegreen"];
+}

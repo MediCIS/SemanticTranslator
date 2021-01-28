@@ -1,0 +1,22 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	RecoveryCoefficientCurve [label="ontomedirad:SPECT_recovery_coefficient_curve"] [color = "blue"];
+	RecoveryCoefficientCurveCalculation [label="ontomedirad: SPECT_recovery_coefficient_curve_calculation"] [color = "blue"];
+	RoleOfRespInstitution [label="ontomedirad:role_of_responsible_organization"] [color = "blue"];
+	Institution [label="ontomedirad:institution"] [color = "blue"];
+	InstitutionName  [color = "green"];
+	Radionuclide [label="radionuclides:radionuclide"] [color = "red"][shape = hexagon];
+	ReferenceCalibrationDate [color = "green"];
+
+
+// DEFINITION of EDGES
+
+	RecoveryCoefficientCurve -> RecoveryCoefficientCurveCalculation [label="ontomedirad:is_specified_output_of"];
+	RoleOfRespInstitution -> RecoveryCoefficientCurveCalculation [label="purl:BFO_0000054 \l('realized in')"]; 
+	Institution -> RoleOfRespInstitution [label="purl:BFO_0000161 \l('has role at all times')"]; 
+	Institution -> InstitutionName  [label="ontomedirad:has_name"] [color="limegreen"];
+	RecoveryCoefficientCurve -> Radionuclide [label="ontomedirad:is_about"];
+	RecoveryCoefficientCurve -> ReferenceCalibrationDate [label="ontomedirad:has_reference_calibration_date"];
+}

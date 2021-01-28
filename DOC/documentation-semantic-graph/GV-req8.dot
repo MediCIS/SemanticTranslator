@@ -1,0 +1,38 @@
+digraph G {
+// DEFINITION of NODES
+	RolePat [label="ontomedirad:patient"] [color = "blue"];
+	Exam [label="ontomedirad:imaging_study"] [color = "blue"];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	Acq [label="ontomedirad:image_acquisition"] [color = "blue"][shape = hexagon];
+	Dataset [label="purl:IAO_0000100 \l('data set')"] [color = "blue"][shape = hexagon];
+	ImageTypeDescription [color = "green"];
+	ExamDate [color = "green"];
+	ExamTime [color = "green"];
+	StudyDescr [color = "green"];
+	PatientSex [label="purl:PATO_0001894 \l('phenotypic sex')"] [color = "red"][shape = hexagon];
+	PatientName [color = "green"];
+	PatientId [color = "green"];
+	PatientAge  [label="ontomedirad:age_of_patient_undergoing_medical_procedure"] [color = "blue"];
+	AgeInYears [color = "green"];
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	ClinResearchStudyId [color = "green"];
+
+
+// DEFINITION of EDGES
+	RolePat -> Exam [label="purl:BFO_0000054 \l('realized in')"];
+	Human -> RolePat [label="purl:BFO_0000087 \l('has role ...')"];
+	Acq -> Exam [label="purl:BFO_0000132 \l('part of occurrent')"];
+	Dataset -> Acq [label="ontomedirad:is_specified_output_of"];
+	Dataset -> ImageTypeDescription [label="ontomedirad:has_DICOM_image_type_description"] [color="limegreen"];
+	Exam -> ExamDate [label="ontomedirad:has_beginning_date"] [color="limegreen"];
+	Exam -> ExamTime [label="ontomedirad:has_beginning_time"] [color="limegreen"];
+	Exam -> StudyDescr [label="ontomedirad:has_description"] [color="limegreen"];
+	Exam -> ClinResearchStudy [label="ontomedirad:part_of_study"];
+	Human -> PatientSex [label="ontomedirad:has_sex"] [color="red"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+	Human -> PatientId [label="ontomedirad:has_id"] [color="limegreen"];
+	PatientAge -> Exam [label="ontomedirad:is_about_procedure"];
+	PatientAge -> Human [label="ontomedirad:is_about"];
+	PatientAge -> AgeInYears [label="ontomedirad:years"] [color="limegreen"];
+	ClinResearchStudy -> ClinResearchStudyId  [label="ontomedirad:has_id"][color="limegreen"];
+}

@@ -1,0 +1,51 @@
+digraph G {
+// DEFINITION of NODES
+
+
+	Dose [label="dcm:128533 \l('mean_absorbed_absorbed_dose')"] [color = "blue"][shape = hexagon];
+	DoseValue [color = "green"];
+	DoseUnit [label="purl:UO_0000129 \l('absorbed dose unit')"][color = "red"][shape = hexagon];
+	MaterialEntity  [label="purl:BFO_0000050 \l('material entity')"][color = "blue"] [shape = hexagon];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	PatientId [color = "green"];
+	PatientName [color = "green"];
+	Process [label="purl:BFO_0000015 \l('process')"][color = "blue"] [shape = hexagon];
+	DoseMap [label="dcm: 128487 \l('3D dose map')"] [color = "blue"];
+	FHIRHandle [color = "green"];
+	ModelOfImagingDevice [label="ontomedirad:model_of_medical_imaging_device"][color = "blue"];
+	ImagingDevice [label="ontomedirad:medical_imaging_device"][color = "blue"];
+	ModeledDeviceName [color = "green"];
+	ProcessCalcDoseMap [label="ontomedirad:calculation_of_a_3D_dose_map"] [color = "blue"];
+	KVP [label="dcm:113733 \l('kvp')"] [color = "blue"];
+	ValueKVP [color = "green"];
+	UnitKVP [label="purl:UO_0000248 \l('kilovolt')"][color = "red"];
+	XRayModulationType [label="dcm:113842 \l('X-ray modulation type')"] [color = "red"][shape = hexagon];
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	ClinResearchStudyId [color = "green"];
+	DateTime [color = "green"];
+
+// DEFINITION of EDGES
+
+	Dose -> DoseValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	Dose -> DoseUnit [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	Dose -> MaterialEntity [label="ontomedirad:is_dose_absorbed_by"];
+	Dose -> Human [label="ontomedirad:has_patient"];
+	Human -> PatientId [label="ontomedirad:has_id"] [color="limegreen"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+	Process -> Dose [label="ontomedirad:has_specified_output"];
+	Process -> DoseMap [label="ontomedirad:has_specified_input"];
+	DoseMap -> FHIRHandle [label="ontomedirad:has_IRDBB_FHIR_handle"] [color = "limegreen"];
+	ModelOfImagingDevice -> ProcessCalcDoseMap  [label="ontomedirad:used_as_instrument_in"];
+	ModelOfImagingDevice -> ImagingDevice [label="ontomedirad:refers_to_imaging_device"]
+	ImagingDevice -> ModeledDeviceName [label="ontomedirad:has_name"][color="limegreen"];
+	ProcessCalcDoseMap -> DoseMap [label="ontomedirad:has_specified_output"];
+	ProcessCalcDoseMap -> KVP [label="ontomedirad:has_setting"];
+	KVP -> ValueKVP [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	KVP -> UnitKVP [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	ProcessCalcDoseMap -> XRayModulationType [label="ontomedirad:has_setting"];
+	Process -> ClinResearchStudy [label="ontomedirad:part_of_study"];
+	ClinResearchStudy -> ClinResearchStudyId [label="ontomedirad:has_id"][color="limegreen"];
+	Process -> DateTime [label="ontomedirad:has_beginning_date"] [color="limegreen"];
+}
+
+ 

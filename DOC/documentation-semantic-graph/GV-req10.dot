@@ -1,0 +1,31 @@
+digraph G {
+// DEFINITION of NODES
+
+	Dataset [label="ontomedirad:VOI"] [color = "blue"][shape = hexagon];
+	Process [label="purl:BFO_0000015 \l('process')"][color = "blue"] [shape = hexagon];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	PatientId [color = "green"];
+	MaterialEntity  [label="purl:BFO_0000050 \l('material entity')"][color = "blue"] [shape = hexagon];
+	Filename [color = "green"];
+	Format [label="ontomedirad:format_specification"] [color = "red"][shape = hexagon];
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	ClinResearchStudyId [color = "green"];
+	DateTime [color = "green"];
+	Method [label="ontomedirad:image_segmentation_method"] [color = "blue"][shape = hexagon];
+	FHIRHandle [color = "green"];
+
+// DEFINITION of EDGES
+
+	Dataset -> Human [label="ontomedirad:has_patient"];
+	Human -> PatientId [label="ontomedirad:has_id"] [color="limegreen"];
+	Dataset -> MaterialEntity [label="ontomedirad:represents"];
+	Dataset -> Process [label="ontomedirad:is_specified_output_of"];
+	Dataset -> Filename [label="ontomedirad:has_name"] [color="limegreen"];
+	Dataset -> Format [label="ontomedirad:has_format"] [color="red"];
+	Process -> ClinResearchStudy [label="ontomedirad:part_of_study"];
+	ClinResearchStudy -> ClinResearchStudyId [label="ontomedirad:has_id"][color="limegreen"];
+	Process -> DateTime [label="ontomedirad:has_beginning"] [color="limegreen"];
+	Process -> Method [label="ontomedirad:has_protocol"] ;
+	Dataset -> FHIRHandle [label="ontomedirad:has_IRDBB_FHIR_handle"] [color = "limegreen"];
+
+}

@@ -1,0 +1,38 @@
+digraph G {
+// DEFINITION of NODES
+
+	DoseMap [label="dcm: 128487 \l('3D dose map')"] [color = "blue"];
+	Process  [label="ontomedirad:calculation_of_a_3D_dose_map"] [color = "blue"];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	PatientId [color = "green"];
+	PatientName [color = "green"];
+	DoseInVoxelClass [label="dcm: 128513 \l('absorbed dose')"][color = "red"][shape = hexagon];
+	DoseUnit [label="purl:UO_0000129 \l('absorbed dose unit')"][color = "red"] [shape = hexagon];
+	DoseMapFormat [label="ontomedirad:format_specification"] [color = "red"][shape = hexagon];
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	ClinResearchStudyId [color = "green"];
+	DateTime [color = "green"];
+	KVP [label="dcm:113733 \l('kvp')"] [color = "blue"];
+	ValueKVP [color = "green"];
+	UnitKVP [label="purl:UO_0000248 \l('kilovolt')"][color = "red"];
+	XRayModulation [label="dcm:113842 \l('X-ray modulation type')"] [color = "red"][shape = hexagon];
+	FHIRHandle [color = "green"];
+
+// DEFINITION of EDGES
+
+	Process -> DoseMap [label="ontomedirad:has_specified_output"];
+	DoseMap -> Human [label="ontomedirad:has_patient"];
+	Human -> PatientId [label="ontomedirad:has_id"] [color="limegreen"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+	DoseMap -> DoseInVoxelClass [label="purl:BFO_0000172 \l('has member part at...')"] [color="red"];
+	DoseMap -> DoseUnit [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	DoseMap -> DoseMapFormat [label="ontomedirad:has_format"] [color="red"];
+	Process -> ClinResearchStudy [label="ontomedirad:part_of_study"];
+	ClinResearchStudy -> ClinResearchStudyId [label="ontomedirad:has_id"][color="limegreen"];
+	Process -> DateTime [label="ontomedirad:has_beginning"] [color="limegreen"];
+	Process -> KVP [label="ontomedirad:has_setting"];
+	Process -> XRayModulation [label="ontomedirad:has_setting"];  [color="red"];
+	KVP -> ValueKVP [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	KVP -> UnitKVP [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	DoseMap -> FHIRHandle [label="ontomedirad:has_IRDBB_FHIR_handle"] [color = "limegreen"];
+}

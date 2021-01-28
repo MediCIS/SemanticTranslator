@@ -1,0 +1,25 @@
+digraph G {
+
+// DEFINITION of NODES
+	SPECTCalibration [label="ontomedirad:ontomedirad:SPECT_CT_calibration"] [color = "blue"];
+	CalibrationCoefficient [label="ontomedirad:SPECT_calibration_coefficient"] [color = "blue"];
+	CalibrationCoefficientCalculation [label="ontomedirad:SPECT_calibration_coefficient_calculation"] [color = "blue"];
+	ReferenceCalibrationDate [color = "green"];
+	Radionuclide [label="radionuclides:radionuclide"] [color = "red"][shape = hexagon];
+	RecoveryCoefficientCurve [label="ontomedirad:SPECT_recovery_coefficient_curve"] [color = "blue"];
+	RecoveryCoefficientCurveCalculation [label="ontomedirad: SPECT_recovery_coefficient_curve_calculation"] [color = "blue"];
+	IdOfSPECTCalibration [color = "green"];
+
+// DEFINITION of EDGES
+
+
+	CalibrationCoefficient -> CalibrationCoefficientCalculation [label="ontomedirad:is_specified_output_of"];
+	CalibrationCoefficientCalculation -> SPECTCalibration [label="purl:BFO_0000132 \l('part of occurrent')"];
+	CalibrationCoefficient -> ReferenceCalibrationDate [label="ontomedirad:has_reference_calibration_date"];
+	CalibrationCoefficient -> Radionuclide [label="ontomedirad:is_about"];
+	RecoveryCoefficientCurve -> RecoveryCoefficientCurveCalculation [label="ontomedirad:is_specified_output_of"];
+	RecoveryCoefficientCurveCalculation -> SPECTCalibration [label="purl:BFO_0000132 \l('part of occurrent')"];
+	RecoveryCoefficientCurve -> ReferenceCalibrationDate [label="ontomedirad:has_reference_calibration_date"];
+	RecoveryCoefficientCurve -> Radionuclide [label="ontomedirad:is_about"];
+	SPECTCalibration -> IdOfSPECTCalibration [label="ontomedirad:has_id"] [color="limegreen"];
+}

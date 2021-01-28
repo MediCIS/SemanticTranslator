@@ -1,0 +1,34 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	ClinResearchStudyId [color = "green"];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	PatientName [color = "green"];
+	AbsorbedDoseInVOI  [label="ontomedirad:total_absorbed_dose_per_VOI"] [color = "blue"] ;
+	VOI [label="ontomedirad:VOI"] [color = "blue"][shape = hexagon];
+	OrganOrTissue [label="purl:BFO_0000040 \l('material entity')"][shape = hexagon];
+	AbsorbedDoseCalculationInVOI  [label="ontomedirad:calculation_of_mean_absorbed_doses_in_VOIs"] [color = "blue"] ;
+	ThreeDDosimetryOfTRT [label="ontomedirad:dosimetry_of_TRT"] [color = "blue"][shape = hexagon];
+	InternalRadiotherapy [label="ontomedirad:internal_radiotherapy"] [color = "blue"];
+	AbsorbedDoseInVOIValue [color = "green"];
+	AbsorbedDoseInVOIUnit  [label="purl:UO_0000129 \l('absorbed dose unit')"][color = "red"][shape = hexagon];
+
+
+// DEFINITION of EDGES
+
+	InternalRadiotherapy -> ClinResearchStudy [label="ontomedirad:part_of_study"];
+	ClinResearchStudy -> ClinResearchStudyId [label="ontomedirad:has_id"][color="limegreen"];
+	InternalRadiotherapy -> Human [label="ontomedirad:treats"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+	AbsorbedDoseInVOI -> Human [label="ontomedirad:has_patient"];
+	AbsorbedDoseInVOI -> VOI [label="ontomedirad:is_quantity_measured_in"];
+	VOI -> OrganOrTissue [label="ontomedirad:represents"];
+	AbsorbedDoseInVOI -> AbsorbedDoseCalculationInVOI [label="ontomedirad:is_specified_output_of"];
+	AbsorbedDoseCalculationInVOI -> ThreeDDosimetryOfTRT [label="purl:BFO_0000132 \l('part of occurrent')"];
+	ThreeDDosimetryOfTRT -> InternalRadiotherapy [label="purl:BFO_0000132 \l('part of occurrent')"];
+	AbsorbedDoseInVOI -> AbsorbedDoseInVOIValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	AbsorbedDoseInVOI -> AbsorbedDoseInVOIUnit [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+}
+

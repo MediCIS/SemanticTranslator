@@ -1,0 +1,51 @@
+digraph G {
+
+// DEFINITION of NODES
+
+	InternalRadiotherapy [label="ontomedirad:internal_radiotherapy"] [color = "blue"];
+	ClinResearchStudy [label="ontomedirad:clinical_research_study"] [color = "blue"];
+	ClinResearchStudyId [color = "green"];
+	Human [label="ontomedirad:human"] [color = "blue"];
+	PatientName [color = "green"];
+	RespInstitution [label="ontomedirad:institution"] [color = "blue"];
+	NameRespInstitution [color = "green"];
+	RespInstitutionRole [label="ontomedirad:role_of_responsible_organization"] [color = "blue"];
+	RadiopharmaceuticalAdmin [label="ontomedirad:radiopharmaceutical_administration"] [color = "blue"];
+	RadiopharmaceuticalAdminDate [color = "green"];
+	RadiopharmaceuticalAdminTime [color = "green"];
+	Radiopharmaceutical [label="snmi:radiopharmaceutical"][color = "red"][shape = hexagon];
+	Radionuclide [label="radionuclides:radionuclide"] [color = "red"][shape = hexagon];
+	PreAdministeredActivity [label="dcm:113508 \l('pre-administration measured activity')"][color = "blue"];
+	PreAdministeredActivityDateAndTime [color = "green"];
+	PreAValuedministeredActivityValue  [color = "green"];
+	AdministeredActivityUnit [label="purl:UO_0000128 \l('activity (of a radionuclide) unit')"][color = "red"][shape = hexagon];
+	PostAdministeredActivity [label="dcm:113509 \l('post-administration measured activity')"][color = "blue"];
+	PostAdministeredActivityDateAndTime [color = "green"];
+	PostAValuedministeredActivityValue [color = "green"];
+
+// DEFINITION of EDGES
+
+	InternalRadiotherapy -> ClinResearchStudy [label="ontomedirad:part_of_study"];
+	ClinResearchStudy -> ClinResearchStudyId [label="ontomedirad:has_id"][color="limegreen"];
+	InternalRadiotherapy -> Human [label="ontomedirad:treats"];
+	Human -> PatientName [label="ontomedirad:has_name"] [color="limegreen"];
+	RespInstitution -> NameRespInstitution [label="ontomedirad:has_name"] [color="limegreen"];
+	RespInstitutionRole -> InternalRadiotherapy [label="purl:BFO_0000054 \l('realized in')"]; 
+	RespInstitution -> RespInstitutionRole [label="purl:BFO_0000161 \l('has role at ...')"];
+	RadiopharmaceuticalAdmin -> InternalRadiotherapy [label="purl:BFO_0000132 \l('part of occurrent')"];
+	RadiopharmaceuticalAdmin -> RadiopharmaceuticalAdminDate [label="ontomedirad:has_beginning_date"] [color="limegreen"];
+	RadiopharmaceuticalAdmin -> RadiopharmaceuticalAdminTime [label="ontomedirad:has_beginning_time"] [color="limegreen"];
+	RadiopharmaceuticalAdmin -> Radiopharmaceutical [label="ontomedirad:has_specified_input"];
+	RadiopharmaceuticalAdmin -> Radionuclide [label="ontomedirad:has_specified_input"];
+	PreAdministeredActivity -> RadiopharmaceuticalAdmin [label="ontomedirad:is_about"];
+	PreAdministeredActivity -> PreAdministeredActivityDateAndTime [label="ontomedirad:has_measurement_date_and_time"][color="limegreen"];
+	PreAdministeredActivity -> PreAValuedministeredActivityValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	PreAdministeredActivity -> AdministeredActivityUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+	PostAdministeredActivity -> RadiopharmaceuticalAdmin [label="ontomedirad:is_about"];
+	PostAdministeredActivity -> PostAdministeredActivityDateAndTime [label="ontomedirad:has_measurement_date_and_time"][color="limegreen"];
+	PostAdministeredActivity -> PostAValuedministeredActivityValue [label="purl:IAO_0000004 \l('has value...')"] [color="limegreen"];
+	PostAdministeredActivity -> AdministeredActivityUnit  [label="purl:IAO_0000039 \l('has unit...')"] [color="red"];
+
+}
+
+
