@@ -15,3 +15,7 @@ A documentation of the Semantic translator is provided in the MEDIRAD_Documentat
 
 The Semantic database is aligned onto the OntoMEDIRAD ontology. A documentation of this ontology is provided in the MEDIRAD_MS8_Documentation_of_ontology_of_IRDBB_semantic_repositoryV1.3.pdf file, also located in the DOC/documentation-semantic-graph/ directory.
 
+The articles to be cited when referring to this work are the following ones: 
+- Spaltenstein J, Roduit N, van Dooren N, Pasquier G, Brenet M, Gibaud B, Pasquier G, Mildenberger P and Ratib O. A multicentric IT platform for storage and sharing of imaging-based radiation dosimetric data. Int J Comput Assist Radiol Surg. 2020 Oct;15(10):1639-1643. doi: 10.1007/s11548-020-02179-y.
+- Gibaud B, Brenet M, Pasquier G, Vergara Gil A, Bardiès M, Stratakis J, Damilakis J, van Dooren N, Spaltenstein J, and Ratib O. A semantic database for integrated management of image and dosimetric data in low radiation dose research in medical imaging. American Medical Informatics Association (AMIA) Conference, November 2020, Chicago (USA).
+(copies are provided in the DOC/papers-for-citation directory)
